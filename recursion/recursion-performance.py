@@ -19,7 +19,7 @@ def fibonacci_for(n):
 t = time.process_time()
 
 # compute the 40th fibonacci number
-f = fibonacci_for(40)
+f = fibonacci_recursion(40)
 
 # print out the time
 print(time.process_time() - t)
