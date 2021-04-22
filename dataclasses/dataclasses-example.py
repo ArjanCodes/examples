@@ -1,6 +1,6 @@
 from dataclasses import dataclass, field
 
-@dataclass(order=True,frozen=False)
+@dataclass(order=True, frozen=True)
 class Person:
     sort_index: int = field(init=False, repr=False)
     name: str
@@ -9,19 +9,17 @@ class Person:
     strength: int = 100
 
     def __post_init__(self):
-        self.sort_index = self.strength
-        # object.__setattr__(self, 'sort_index', self.strength)
-
-    # def __str__(self):
-    #     return f'{self.name}, {self.job} ({self.age})'
-
+        object.__setattr__(self, 'sort_index', self.strength)
+    
+    def __str__(self):
+        return f'{self.name}, {self.job} ({self.age})'
 
 person1 = Person("Geralt", "Witcher", 30, 99)
 person2 = Person("Yennefer", "Sorceress", 25)
 person3 = Person("Yennefer", "Sorceress", 25)
 
-print(person1)
 print(id(person2))
 print(id(person3))
-print(person3 == person2)
-print(person1 > person2)
+print(person1)
+
+print(person1>person2)
