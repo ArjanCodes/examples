@@ -11,112 +11,129 @@ class Rule(ABC):
     def points(self, hand: Hand):
         pass
 
-    @abstractmethod
-    def is_valid(self, hand: Hand):
-        pass
-
-class Aces(Rule):
-
-    def name(self):
-        return "Aces"
-
-    def points(self, hand: Hand):
-        return hand.count(1) * 1
-
-    def is_valid(self, hand: Hand):
-        return True
-
-class Twos(Rule):
+class SameValueRule(Rule):
+    def __init__(self, value: int, name: str):
+        self.__value = value
+        self.__name = name
 
     def name(self):
-        return "Twos"
+        return self.__name
 
     def points(self, hand: Hand):
-        return hand.count(2) * 2
+        return hand.count(self.__value) * self.__value
 
-    def is_valid(self, hand: Hand):
-        return True
-
-
-class Rules:
+class Aces(SameValueRule):
 
     def __init__(self):
-        self.rules_map = {
-            1: self.aces,
-            2: self.twos,
-            3: self.threes,
-            4: self.fours,
-            5: self.fives,
-            6: self.sixes,
-            7: self.three_of_a_kind,
-            8: self.four_of_a_kind,
-            9: self.full_house,
-            10: self.small_straight,
-            11: self.large_straight,
-            12: self.yahtzee,
-            13: self.chance,
-        }
+        super().__init__(1, "Aces")
 
-    def aces(self, hand):
-        return hand.count(1) * 1
+class Twos(SameValueRule):
 
-    def twos(self, hand):
-        return hand.count(2) * 2
+    def __init__(self):
+        super().__init__(2, "Twos")
 
-    def threes(self, hand):
-        return hand.count(3) * 3
+class Threes(SameValueRule):
 
-    def fours(self, hand):
-        return hand.count(4) * 4
+    def __init__(self):
+        super().__init__(3, "Threes")
 
-    def fives(self, hand):
-        return hand.count(5) * 5
 
-    def sixes(self, hand):
-        return hand.count(6) * 6
+class Fours(SameValueRule):
 
-    def three_of_a_kind(self, hand):
+    def __init__(self):
+        super().__init__(4, "Fours")
+
+class Fives(SameValueRule):
+
+    def __init__(self):
+        super().__init__(5, "Fives")
+
+class Sixes(SameValueRule):
+
+    def __init__(self):
+        super().__init__(6, "Sixes")
+
+class ThreeOfAKind(Rule):
+
+    def name(self):
+        return "Three of a kind"
+
+    def points(self, hand: Hand):
         for i in range(6):
             if hand.count(i + 1) >= 3:
                 return hand.sum()
         return 0
 
-    def four_of_a_kind(self, hand):
+class FourOfAKind(Rule):
+
+    def name(self):
+        return "Four of a kind"
+
+    def points(self, hand: Hand):
         for i in range(6):
             if hand.count(i + 1) >= 4:
                 return hand.sum()
         return 0
 
-    def full_house(self, hand):
+class FullHouse(Rule):
+
+    def name(self):
+        return "Full house"
+
+    def points(self, hand: Hand):
         counts = [hand.count(i + 1) for i in range(6)]
-        print(counts)
         if 2 in counts and 3 in counts:
             return 25
         else:
             return 0
 
-    def small_straight(self, hand):
-        l = list(set(hand.get_hand()))
+class Straight(Rule):
+
+    def is_straight(self, l):
         # sum of consecutive n numbers 1...n = n * (n+1) / 2 
-        consecutive_sum = max(l) * (max(l) + 1) / 2 - ((min(l) - 1) * (min(l))/2)
-        if len(l) >= 4 and sum(l) == consecutive_sum:
+        consecutive_sum = (min(l) + max(l)) * (max(l) - min(l) + 1) / 2
+        return sum(l) == consecutive_sum
+
+class SmallStraight(Straight):
+
+    def name(self):
+        return "Small straight"
+
+    def points(self, hand: Hand):
+        l = sorted(list(set(hand.get_hand())))
+        if len(l) == 4 and self.is_straight(l):
+            return 30
+        elif len(l) == 5 and (self.is_straight(l[1:]) or self.is_straight(l[:-1])):
             return 30
         else:
             return 0
 
-    def large_straight(self, hand):
-        l = list(set(hand.get_hand()))
-        # sum of consecutive n numbers 1...n = n * (n+1) / 2 
-        consecutive_sum = max(l) * (max(l) + 1) / 2 - ((min(l) - 1) * (min(l))/2)
-        if len(l) >= 5 and sum(l) == consecutive_sum:
+class LargeStraight(Straight):
+
+    def name(self):
+        return "Large straight"
+
+    def points(self, hand: Hand):
+        if self.is_straight(hand.get_hand()):
             return 40
         else:
             return 0
 
-    def yahtzee(self, hand):
+class Yahtzee(Rule):
+
+    def name(self):
+        return "Yahtzee"
+
+    def points(self, hand: Hand):
         if len(set(hand.get_hand())) == 1:
             return 50
-        return 0
+        else:
+            return 0
 
-    def chance(self, hand):
+class Chance(Rule):
+
+    def name(self):
+        return "Chance"
+
+    def points(self, hand: Hand):
         return hand.sum()

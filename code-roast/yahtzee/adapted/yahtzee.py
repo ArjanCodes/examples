@@ -10,92 +10,71 @@ import os
 import random
 import re
 from hand import Die, Hand
-from rules import Rules
+from rules import *
 
 class ScoreBoard(object):
 
     # TODO: Everything
     def __init__(self):
-        self.scoreboard_rows = {
-            1: "Aces",
-            2: "Twos",
-            3: "Threes",
-            4: "Fours",
-            5: "Fives",
-            6: "Sixes",
-            7: "Three of a Kind",
-            8: "Four of a Kind",
-            9: "Full House",
-            10: "Small Straight",
-            11: "Large Straight",
-            12: "Yahtzee",
-            13: "Chance",
-        }
+        self.scoreboard_rows = [
+            Aces(),
+            Twos(),
+            Threes(),
+            Fours(),
+            Fives(),
+            Sixes(),
+            ThreeOfAKind(),
+            FourOfAKind(),
+            FullHouse(),
+            SmallStraight(),
+            LargeStraight(),
+            Yahtzee(),
+            Chance(),
+        ]
         # Once again, prevent cheating with private variables
-        self.__scoreboard_points = {}
+        self.__scoreboard_points = [0] * len(self.scoreboard_rows)
 
-    def set_scoreboard_row_value(self, row, value):
-        if row not in self.scoreboard_rows.keys():
-            print("Bad row index")
-            return False
+    def assign_points(self, row: int, hand: Hand):
+        if row < 0 or row >= len(self.scoreboard_rows):
+            raise IndexError("Bad row index")
+        elif self.__scoreboard_points[row] > 0:
+            raise Exception("ScoreBoard already saved!")
         else:
-            if row in self.__scoreboard_points.keys():
-                print("ScoreBoard already saved!")
-                return False
-            else:
-                print("Adding {} points to {}".format(
-                    value,
-                    self.scoreboard_rows[int(row)])
-                )
-                self.__scoreboard_points[row] = value
-                return True
+            rule = self.scoreboard_rows[row]
+            points = rule.points(hand)
+            print(f"Adding {points} points to {rule.name()}")
+            self.__scoreboard_points[row] = points
 
     def get_scoreboard_points(self):
         return self.__scoreboard_points
 
     def show_scoreboard_rows(self):
-        for key, val in self.scoreboard_rows.items():
-            print("{}. {}".format(key, val))
+        for idx, rule in enumerate(self.scoreboard_rows):
+            print(f"{idx + 1}. {rule.name()}")
 
-    def show_scoreboard_points(self):
+    def show_scoreboard_points(self, hand: Hand = None):
         print("\nSCOREBOARD")
         print("===================================")
-        for idx, row in self.scoreboard_rows.items():
-            try:
-                print("{:<2} {:<21}| {:2} points".format(idx+1,
-                      row,
-                      self.__scoreboard_points[idx]))
-            except KeyError:
-                print("{:<2} {:<21}|".format(idx+1, row))
+        for idx, rule in enumerate(self.scoreboard_rows):
+            points = self.__scoreboard_points[idx]
+            if hand is not None and points == 0 and rule.points(hand) > 0:
+                print(f"{idx + 1}. {rule.name()}: +{rule.points(hand)} points ***")
+            else:
+                print(f"{idx + 1}. {rule.name()}: {[points]} points")
         print("===================================")
 
-    def select_scoring(self, hand):
-        msg = "Choose which scoring to use "\
-               "(leave empty to show available rows): "
-        scoreboard_row = False
-        score_saved = False
-        while not scoreboard_row and not score_saved:
-            scoreboard_row = input(msg)
-            if scoreboard_row.strip() == "":
-                self.show_scoreboard_points()
-                scoreboard_row = False
-                continue
+    def select_scoring(self, hand: Hand):
+        self.show_scoreboard_points(hand)
+        while True:
+            scoreboard_row = input("Choose which scoring to use: ")
             try:
-                scoreboard_row = int(re.sub('[^0-9,]', '', scoreboard_row))
+                scoreboard_row_int = int(re.sub('[^0-9,]', '', scoreboard_row))
+                if scoreboard_row_int < 1 or scoreboard_row_int > len(self.scoreboard_rows):
+                    print("Please select an existing scoring rule.")
+                else:
+                    return scoreboard_row_int - 1
             except ValueError:
-                print("You entered something other than a number.")
-                print("Please try again")
-                scoreboard_row = False
-                continue
-            if scoreboard_row > len(self.scoreboard_rows):
-                print("Please select an existing scoring rule.")
-                scoreboard_row = False
-                continue
-            else:
-                score_saved = self.set_scoreboard_row_value(
-                    int(scoreboard_row),
-                    Rules().rules_map[int(scoreboard_row)](hand)
-                )
+                print("You entered something other than a number. Please try again.")
 
 def choose_dice_reroll(hand):
     while True:
@@ -110,10 +89,12 @@ def choose_dice_reroll(hand):
                 reroll = reroll.replace(" ", "")  # Remove spaces
                 reroll = re.sub('[^0-9,]', '', reroll)  # Remove non-numerals
                 reroll = reroll.split(",")  # Turn string into list
-                return list(map(int, reroll))  # Turn strings in list to int
+                reroll = list(map(int, reroll))  # Turn strings in list to int
             
             if not reroll or 0 in reroll:
                 return []
+            else:
+                return reroll
 
         except ValueError:
             print("You entered something other than a number.")
@@ -138,7 +119,7 @@ To exit, press [Ctrl+C]
     
 
     # We keep going until the scoreboard is full
-    while len(scoreboard.get_scoreboard_points()) < len(scoreboard.scoreboard_rows):
+    for i in range(len(scoreboard.scoreboard_rows)):
         rolls = 0
         selected_dice = hand.all_dice()
         while True:
@@ -156,10 +137,10 @@ To exit, press [Ctrl+C]
             # choose which dice to reroll, break if empty
             selected_dice = choose_dice_reroll(hand)
             if len(selected_dice) == 0:
-                print("Braking out because len == 0")
                 break
 
-        scoreboard.select_scoring(hand)
+        selected_row = scoreboard.select_scoring(hand)
+        scoreboard.assign_points(selected_row, hand)
         scoreboard.show_scoreboard_points()
 
         input("\nPress any key to continue")
@@ -167,7 +148,7 @@ To exit, press [Ctrl+C]
 
     print("\nCongratulations! You finished the game!\n")
     scoreboard.show_scoreboard_points()
-    print("Total points: {}".format(sum(scoreboard.get_scoreboard_points().values())))
+    print("Total points: {}".format(sum(scoreboard.get_scoreboard_points())))
 
 
 if __name__ == '__main__':
