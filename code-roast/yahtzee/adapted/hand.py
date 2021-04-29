@@ -2,9 +2,12 @@ import random
 
 class Die:
 
-    def __init__(self, sides=6):
+    def __init__(self, face: int = None, sides: int = 6):
         self.sides = sides
-        self.roll() # Arjan: call roll immediately (die always has a face up)
+        if face is not None:
+            self.__face = face
+        else:
+            self.roll() # Arjan: call roll immediately (die always has a face up)
 
     def roll(self):
         # ARJAN: Random now uses the number of sides and returns the face
@@ -25,8 +28,8 @@ class Hand:
     def __init__(self, dice=5, sides=6):
         self.dice = dice
         self.hand = []
-        for x in range(dice):
-            self.hand.append(Die(sides))
+        for _ in range(dice):
+            self.hand.append(Die(None, sides))
 
     def all_dice(self):
         return range(1, self.dice)

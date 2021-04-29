@@ -1,8 +1,4 @@
 class Person:
-    name: str
-    job: str
-    age: int
-
     def __init__(self, name, job, age):
         self.name = name
         self.job = job

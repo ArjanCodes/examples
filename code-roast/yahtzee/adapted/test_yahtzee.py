@@ -1,7 +1,21 @@
 import unittest
-from yahtzee import *
 from hand import *
 from rules import *
+
+class DieTestCase(unittest.TestCase):
+
+    def test_sides_per_die(self):
+        die = Die(None, 1)
+        for _ in range(50):
+            self.assertEqual(die.roll(), 1)
+
+    def test_set_face(self):
+        die = Die(3)
+        self.assertEqual(die.get_face(), 3)
+
+    def test_to_string(self):
+        die = Die()
+        self.assertEqual(str(die.get_face()), str(die))
 
 
 class HandTestCase(unittest.TestCase):
@@ -15,27 +29,18 @@ class HandTestCase(unittest.TestCase):
         for i in hand.hand:
             self.assertEqual(i.sides, 18)
 
-    def test_hand_sides_per_die_2(self):
-        hand = Hand(5, 1)
-        die = Die(1)
-        for i in range(50):
-            self.assertEqual(die.roll(), 1)
-
 
 class RulesTestCase(unittest.TestCase):
 
     def test_aces(self):
         hand = Hand()
         hand.set_faces([1] * 5)
-        self.assertEqual(Rules().aces(hand), 5)
+        self.assertEqual(Aces().points(hand), 5)
 
     def test_three_of_a_kind(self):
         hand = Hand()
-        for i in range(3):
-            hand.hand[i]._Die__face = 1
-        for i in range(3, 5):
-            hand.hand[i]._Die__face = 2
-        self.assertEqual(Rules().three_of_a_kind(hand), 7)
+        hand.set_faces([1, 1, 1, 2, 2])
+        self.assertEqual(ThreeOfAKind().points(hand), 7)
 
     def test_four_of_a_kind(self):
         hand = Hand()
@@ -43,7 +48,7 @@ class RulesTestCase(unittest.TestCase):
             hand.hand[i]._Die__face = 1
         for i in range(4, 5):
             hand.hand[i]._Die__face = 2
-        self.assertEqual(Rules().four_of_a_kind(hand), 6)
+        self.assertEqual(FourOfAKind().points(hand), 6)
 
     def test_full_house(self):
         hand = Hand()
@@ -53,7 +58,7 @@ class RulesTestCase(unittest.TestCase):
             hand.hand[i]._Die__face = 2
         for i in range(3, 5):
             hand.hand[i]._Die__face = 3
-        self.assertEqual(Rules().full_house(hand), 25)
+        self.assertEqual(FullHouse().points(hand), 25)
 
     def test_no_full_house(self):
         hand = Hand()
@@ -63,7 +68,7 @@ class RulesTestCase(unittest.TestCase):
             hand.hand[i]._Die__face = 4
         for i in range(3, 5):
             hand.hand[i]._Die__face = 3
-        self.assertEqual(Rules().full_house(hand), 0)
+        self.assertEqual(FullHouse().points(hand), 0)
 
     def test_small_straight(self):
         hand = Hand()
@@ -72,7 +77,7 @@ class RulesTestCase(unittest.TestCase):
         hand.hand[2]._Die__face = 5
         hand.hand[3]._Die__face = 2
         hand.hand[4]._Die__face = 5
-        self.assertEqual(Rules().small_straight(hand), 30)
+        self.assertEqual(SmallStraight().points(hand), 30)
 
     def test_large_straight(self):
         hand = Hand()
@@ -81,19 +86,19 @@ class RulesTestCase(unittest.TestCase):
         hand.hand[2]._Die__face = 5
         hand.hand[3]._Die__face = 2
         hand.hand[4]._Die__face = 1
-        self.assertEqual(Rules().large_straight(hand), 40)
+        self.assertEqual(LargeStraight().points(hand), 40)
 
     def test_yahtzee(self):
         hand = Hand()
         for i in hand.hand:
             i._Die__face = 3
-        self.assertEqual(Rules().yahtzee(hand), 50)
+        self.assertEqual(Yahtzee().points(hand), 50)
 
     def test_chance(self):
         hand = Hand()
         for i in range(5):
             hand.hand[i]._Die__face = i + 1
-        self.assertEqual(Rules().chance(hand), 15)
+        self.assertEqual(Chance().points(hand), 15)
 
 
 if __name__ == '__main__':

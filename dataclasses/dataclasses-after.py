@@ -9,11 +9,10 @@ class Person:
     strength: int = 100
 
     def __post_init__(self):
-        self.sort_index = self.strength
-        # object.__setattr__(self, 'sort_index', self.strength)
+        object.__setattr__(self, 'sort_index', self.strength)
 
-    # def __str__(self):
-    #     return f'{self.name}, {self.job} ({self.age})'
+    def __str__(self):
+        return f'{self.name}, {self.job} ({self.age})'
 
 
 person1 = Person("Geralt", "Witcher", 30, 99)
