@@ -1,0 +1,38 @@
+{
+    "name": "create-react-app-with-typescript",
+    "version": "4.0.0",
+    "private": true,
+    "dependencies": {
+        "@material-ui/core": "latest",
+        "@material-ui/data-grid": "*",
+        "@material-ui/icons": "^4.11.2",
+        "@types/react": "latest",
+        "@types/react-dom": "latest",
+        "prettier": "^2.2.1",
+        "react": "latest",
+        "react-dom": "latest",
+        "react-scripts": "latest",
+        "typescript": "latest"
+    },
+    "scripts": {
+        "start": "react-scripts start",
+        "build": "react-scripts build",
+        "test": "react-scripts test",
+        "eject": "react-scripts eject"
+    },
+    "browserslist": {
+        "production": [
+            ">0.2%",
+            "not dead",
+            "not op_mini all"
+        ],
+        "development": [
+            "last 1 chrome version",
+            "last 1 firefox version",
+            "last 1 safari version"
+        ]
+    },
+    "prettier": {
+        "tabWidth": 4
+    }
+}
