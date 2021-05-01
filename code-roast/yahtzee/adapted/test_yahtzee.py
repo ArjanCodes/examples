@@ -44,60 +44,37 @@ class RulesTestCase(unittest.TestCase):
 
     def test_four_of_a_kind(self):
         hand = Hand()
-        for i in range(4):
-            hand.hand[i]._Die__face = 1
-        for i in range(4, 5):
-            hand.hand[i]._Die__face = 2
+        hand.set_faces([1, 1, 1, 1, 2])
         self.assertEqual(FourOfAKind().points(hand), 6)
 
     def test_full_house(self):
         hand = Hand()
-        for i in range(1):
-            hand.hand[i]._Die__face = 2
-        for i in range(1, 3):
-            hand.hand[i]._Die__face = 2
-        for i in range(3, 5):
-            hand.hand[i]._Die__face = 3
+        hand.set_faces([2, 2, 3, 3, 3])
         self.assertEqual(FullHouse().points(hand), 25)
 
     def test_no_full_house(self):
         hand = Hand()
-        for i in range(1):
-            hand.hand[i]._Die__face = 2
-        for i in range(1, 3):
-            hand.hand[i]._Die__face = 4
-        for i in range(3, 5):
-            hand.hand[i]._Die__face = 3
+        hand.set_faces([2, 2, 4, 3, 3])
         self.assertEqual(FullHouse().points(hand), 0)
 
     def test_small_straight(self):
         hand = Hand()
-        hand.hand[0]._Die__face = 4
-        hand.hand[1]._Die__face = 3
-        hand.hand[2]._Die__face = 5
-        hand.hand[3]._Die__face = 2
-        hand.hand[4]._Die__face = 5
+        hand.set_faces([4, 3, 5, 2, 5])
         self.assertEqual(SmallStraight().points(hand), 30)
 
     def test_large_straight(self):
         hand = Hand()
-        hand.hand[0]._Die__face = 4
-        hand.hand[1]._Die__face = 3
-        hand.hand[2]._Die__face = 5
-        hand.hand[3]._Die__face = 2
-        hand.hand[4]._Die__face = 1
+        hand.set_faces([4, 3, 5, 2, 1])
         self.assertEqual(LargeStraight().points(hand), 40)
 
     def test_yahtzee(self):
         hand = Hand()
-        for i in hand.hand:
-            i._Die__face = 3
+        hand.set_faces([3, 3, 3, 3, 3])
         self.assertEqual(Yahtzee().points(hand), 50)
 
     def test_chance(self):
         hand = Hand()
-        for i in range(5):
-            hand.hand[i]._Die__face = i + 1
+        hand.set_faces([1, 2, 3, 4, 5])
         self.assertEqual(Chance().points(hand), 15)
 
 
