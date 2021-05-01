@@ -1,4 +1,4 @@
 *.pyc
 .coverage
 htmlcov
-.DS_Store
+**/.DS_Store
