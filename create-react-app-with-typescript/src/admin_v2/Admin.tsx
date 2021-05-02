@@ -1,5 +1,4 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
-import { useHistory } from "react-router";
 import BasicMenu from "./BasicMenu";
 import LeftDrawer from "./LeftDrawer";
 import PolicySettings from "./PolicySettings";
@@ -13,13 +12,15 @@ const useStyles = makeStyles((theme) => ({
         marginTop: 64,
     },
     info: {
-        backgroundColor: theme.palette.secondary.light,
+        padding: theme.spacing(1),
+        borderLeft: "4px solid",
+        borderColor: theme.palette.secondary.light,
+        marginBottom: theme.spacing(5),
     },
 }));
 
 export default function Admin() {
     const classes = useStyles();
-    const history = useHistory();
 
     return (
         <>
@@ -35,7 +36,7 @@ export default function Admin() {
                     </Typography>
                     <BasicMenu />
                 </Box>
-                <Box p={2} className={classes.info}>
+                <Box className={classes.info}>
                     <Typography>
                         Manage your users on this page, send them company policy
                         updates, or contact them by email.

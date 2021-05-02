@@ -62,7 +62,7 @@ export default function UserTable() {
                     label="Show only system administrators"
                 />
             </Box>
-            <div style={{ height: 400, width: "100%" }}>
+            <div style={{ height: 370, width: "100%" }}>
                 <DataGrid
                     rows={rows}
                     columns={columns}

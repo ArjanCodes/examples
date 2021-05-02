@@ -13,6 +13,9 @@ const useStyles = makeStyles((theme) => ({
         padding: theme.spacing(3),
         marginTop: 64,
     },
+    info: {
+        marginBottom: theme.spacing(1),
+    },
 }));
 
 export default function Admin() {
@@ -41,6 +44,12 @@ export default function Admin() {
                         Back to home
                     </Button>
                     <BasicMenu />
+                </Box>
+                <Box className={classes.info}>
+                    <Typography>
+                        Manage your users on this page, send them company policy
+                        updates, or contact them by email.
+                    </Typography>
                 </Box>
                 <PolicySettings />
                 <UserTable />

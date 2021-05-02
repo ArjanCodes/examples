@@ -1,10 +1,8 @@
-import AppBar from "@material-ui/core/AppBar";
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
-import Toolbar from "@material-ui/core/Toolbar";
-import Typography from "@material-ui/core/Typography";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
 import Admin from "./admin_v2/Admin";
+import Header from "./Header";
 import Home from "./Home";
 
 const useStyles = makeStyles((theme) => ({
@@ -31,14 +29,7 @@ export default function App() {
         <Router>
             <div className={classes.root}>
                 <CssBaseline />
-                <AppBar position="fixed">
-                    <Toolbar>
-                        <img src="logo.png" className={classes.brand} />
-                        <Typography variant="h4" noWrap>
-                            Insiders
-                        </Typography>
-                    </Toolbar>
-                </AppBar>
+                <Header />
 
                 <Switch>
                     <Route path="/admin">

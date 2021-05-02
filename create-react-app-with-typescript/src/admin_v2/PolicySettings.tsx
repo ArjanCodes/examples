@@ -27,7 +27,7 @@ export default function PolicySettings() {
     };
 
     return (
-        <Box mt={3} mb={3}>
+        <Box mt={2} mb={2}>
             <Box display="flex" flexDirection="row" alignItems="center">
                 <FormControl
                     variant="outlined"
