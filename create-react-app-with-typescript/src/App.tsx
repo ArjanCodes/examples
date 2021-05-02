@@ -1,7 +1,7 @@
 import CssBaseline from "@material-ui/core/CssBaseline";
 import { makeStyles } from "@material-ui/core/styles";
 import { BrowserRouter as Router, Route, Switch } from "react-router-dom";
-import Admin from "./admin_v2/Admin";
+import Admin from "./admin_v1/Admin";
 import Header from "./Header";
 import Home from "./Home";
 

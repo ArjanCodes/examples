@@ -1,4 +1,6 @@
 import { Box, makeStyles, Typography } from "@material-ui/core";
+import InfoIcon from "@material-ui/icons/Info";
+import Color from "color";
 import BasicMenu from "./BasicMenu";
 import LeftDrawer from "./LeftDrawer";
 import PolicySettings from "./PolicySettings";
@@ -13,9 +15,12 @@ const useStyles = makeStyles((theme) => ({
     },
     info: {
         padding: theme.spacing(1),
-        borderLeft: "4px solid",
-        borderColor: theme.palette.secondary.light,
+        backgroundColor: Color(theme.palette.secondary.main)
+            .alpha(0.2)
+            .toString(),
         marginBottom: theme.spacing(5),
+        display: "flex",
+        flexDirection: "row",
     },
 }));
 
@@ -37,6 +42,7 @@ export default function Admin() {
                     <BasicMenu />
                 </Box>
                 <Box className={classes.info}>
+                    <InfoIcon style={{ marginRight: 16 }} />
                     <Typography>
                         Manage your users on this page, send them company policy
                         updates, or contact them by email.

@@ -26,6 +26,12 @@ export default function PolicySettings() {
         setEmailAddress(`${event.target.value}`);
     };
 
+    const handleClickSendPolicy = () => {
+        if (emailAddress === "") {
+            alert("Error! Please provide an email address");
+        }
+    };
+
     return (
         <>
             <Box display="flex" flexDirection="row" alignItems="center">
@@ -57,6 +63,7 @@ export default function PolicySettings() {
             </Box>
             <Box>
                 <Button
+                    onClick={handleClickSendPolicy}
                     variant="contained"
                     color="secondary"
                     startIcon={<SendIcon />}
