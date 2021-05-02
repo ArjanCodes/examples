@@ -27,39 +27,44 @@ export default function PolicySettings() {
     };
 
     return (
-        <Box display="flex" flexDirection="row" alignItems="center">
-            <FormControl
-                variant="outlined"
-                style={{ minWidth: 150, marginRight: 8 }}
-            >
-                <InputLabel>Policy type</InputLabel>
-                <Select
-                    value={policy}
-                    onChange={handleChangePolicy}
-                    label="Policy type"
+        <>
+            <Box display="flex" flexDirection="row" alignItems="center">
+                <FormControl
+                    variant="outlined"
+                    style={{ minWidth: 150, marginRight: 8 }}
                 >
-                    <MenuItem value="holidays">Holidays</MenuItem>
-                    <MenuItem value="ict">ICT services</MenuItem>
-                    <MenuItem value="salary">Salary</MenuItem>
-                    <MenuItem value="printing">Printing</MenuItem>
-                    <MenuItem value="office">Office</MenuItem>
-                    <MenuItem value="declarations">Declarations</MenuItem>
-                </Select>
-            </FormControl>
-            <TextField
-                variant="outlined"
-                label="User email address"
-                style={{ flexGrow: 1, paddingRight: 8 }}
-                value={emailAddress}
-                onChange={handleChangeEmailAddress}
-            />
-            <Button
-                color="primary"
-                variant="contained"
-                startIcon={<SendIcon />}
-            >
-                Send policy info
-            </Button>
-        </Box>
+                    <InputLabel>Policy type</InputLabel>
+                    <Select
+                        value={policy}
+                        onChange={handleChangePolicy}
+                        label="Policy type"
+                    >
+                        <MenuItem value="holidays">Holidays</MenuItem>
+                        <MenuItem value="ict">ICT services</MenuItem>
+                        <MenuItem value="salary">Salary</MenuItem>
+                        <MenuItem value="printing">Printing</MenuItem>
+                        <MenuItem value="office">Office</MenuItem>
+                        <MenuItem value="declarations">Declarations</MenuItem>
+                    </Select>
+                </FormControl>
+                <TextField
+                    variant="outlined"
+                    label="User email address"
+                    style={{ flexGrow: 1 }}
+                    value={emailAddress}
+                    onChange={handleChangeEmailAddress}
+                />
+            </Box>
+            <Box>
+                <Button
+                    variant="contained"
+                    color="secondary"
+                    startIcon={<SendIcon />}
+                    style={{ marginTop: 8 }}
+                >
+                    Send policy info
+                </Button>
+            </Box>
+        </>
     );
 }

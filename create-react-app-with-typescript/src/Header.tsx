@@ -22,7 +22,7 @@ export default function Header() {
             <Toolbar className={classes.toolbar}>
                 <img src="logo.png" className={classes.brand} />
                 <Typography variant="h4" noWrap>
-                    Insiders
+                    Insider
                 </Typography>
             </Toolbar>
         </AppBar>

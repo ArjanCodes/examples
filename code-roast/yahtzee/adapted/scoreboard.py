@@ -1,25 +1,17 @@
+from typing import List
+
 from hand import Hand
-from rules import *
+from rules import Rule
+
 
 class ScoreBoard:
 
     def __init__(self):
-        self.rules = [
-            Aces(),
-            Twos(),
-            Threes(),
-            Fours(),
-            Fives(),
-            Sixes(),
-            ThreeOfAKind(),
-            FourOfAKind(),
-            FullHouse(),
-            SmallStraight(),
-            LargeStraight(),
-            Yahtzee(),
-            Chance(),
-        ]
-        # Once again, prevent cheating with private variables
+        self.rules = []
+        self.points = []
+
+    def register_rules(self, rule: List):
+        self.rules.extend(rule)
         self.points = [0] * len(self.rules)
 
     def rule_count(self):

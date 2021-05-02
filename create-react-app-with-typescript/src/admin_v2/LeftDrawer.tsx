@@ -62,10 +62,10 @@ export default function LeftDrawer() {
                     <ListItemIcon>
                         <ChevronLeftIcon />
                     </ListItemIcon>
-                    <ListItemText primary="HOME" />
+                    <ListItemText primary={<b>HOME</b>} />
                 </ListItem>
                 <Divider />
-                <ListItem button>
+                <ListItem button selected>
                     <ListItemIcon>
                         <PersonIcon />
                     </ListItemIcon>
@@ -94,6 +94,7 @@ export default function LeftDrawer() {
                         color="primary"
                         variant="outlined"
                         startIcon={<StarIcon />}
+                        fullWidth
                     >
                         Upgrade to premium
                     </Button>

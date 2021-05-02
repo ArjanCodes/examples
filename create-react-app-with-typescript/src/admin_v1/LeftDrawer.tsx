@@ -51,7 +51,7 @@ export default function LeftDrawer() {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                <ListItem button>
+                <ListItem button selected>
                     <ListItemIcon>
                         <PersonIcon />
                     </ListItemIcon>

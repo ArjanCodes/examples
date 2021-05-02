@@ -1,9 +1,12 @@
-import sys
 import os
 import random
 import re
+import sys
+
 from hand import Hand
 from scoreboard import ScoreBoard
+from yahtzee_rules import *
+
 
 class YahtzeeGame:
     def __init__(self):
@@ -20,6 +23,23 @@ class YahtzeeGame:
         # Begin by instantiating the hand and scoreboard
         self.hand = Hand()
         self.scoreboard = ScoreBoard()
+
+        # Register the rules for Yahtzee
+        self.scoreboard.register_rules([
+            Aces(),
+            Twos(),
+            Threes(),
+            Fours(),
+            Fives(),
+            Sixes(),
+            ThreeOfAKind(),
+            FourOfAKind(),
+            FullHouse(),
+            SmallStraight(),
+            LargeStraight(),
+            Yahtzee(),
+            Chance(),
+        ])
 
     def choose_dice_reroll(self):
         while True:

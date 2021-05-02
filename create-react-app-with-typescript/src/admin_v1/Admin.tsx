@@ -37,7 +37,7 @@ export default function Admin() {
                     </Typography>
                     <Button
                         startIcon={<ChevronLeftIcon />}
-                        color="secondary"
+                        color="primary"
                         variant="contained"
                         onClick={handleClickHome}
                     >
