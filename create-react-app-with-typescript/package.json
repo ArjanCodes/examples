@@ -8,9 +8,11 @@
         "@material-ui/icons": "^4.11.2",
         "@types/react": "latest",
         "@types/react-dom": "latest",
+        "@types/react-router-dom": "^5.1.7",
         "prettier": "^2.2.1",
         "react": "latest",
         "react-dom": "latest",
+        "react-router-dom": "^5.2.0",
         "react-scripts": "latest",
         "typescript": "latest"
     },

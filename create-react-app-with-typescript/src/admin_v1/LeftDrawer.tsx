@@ -1,5 +1,4 @@
 import {
-    Button,
     Divider,
     Drawer,
     List,
@@ -19,16 +18,15 @@ const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
     },
-    appBar: {
-        width: `calc(100% - ${drawerWidth}px)`,
-        marginLeft: drawerWidth,
-    },
     drawer: {
         width: drawerWidth,
         flexShrink: 0,
+        marginTop: 64,
+        zIndex: 1,
     },
     drawerPaper: {
         width: drawerWidth,
+        backgroundColor: "#eeeeee",
     },
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
@@ -71,15 +69,11 @@ export default function LeftDrawer() {
                     </ListItemIcon>
                     <ListItemText primary="Notifications" />
                 </ListItem>
-                <ListItem>
-                    <Button
-                        variant="outlined"
-                        color="primary"
-                        fullWidth
-                        startIcon={<StarIcon />}
-                    >
-                        Upgrade to premium
-                    </Button>
+                <ListItem button>
+                    <ListItemIcon>
+                        <StarIcon />
+                    </ListItemIcon>
+                    <ListItemText primary="Upgrade to premium" />
                 </ListItem>
             </List>
         </Drawer>

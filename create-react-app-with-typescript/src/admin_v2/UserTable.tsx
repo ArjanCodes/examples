@@ -1,5 +1,13 @@
-import { Box, Button } from "@material-ui/core";
+import {
+    Box,
+    Button,
+    FormControlLabel,
+    makeStyles,
+    Switch,
+} from "@material-ui/core";
 import { DataGrid, GridRowId } from "@material-ui/data-grid";
+import AddIcon from "@material-ui/icons/Add";
+import SendIcon from "@material-ui/icons/Send";
 import * as React from "react";
 
 const columns = [
@@ -37,24 +45,52 @@ const rows = [
     { id: 9, lastName: "Roxie", firstName: "Harvey", age: 65 },
 ];
 
+const useStyles = makeStyles((theme) => ({
+    emailButton: {
+        marginRight: theme.spacing(1),
+    },
+}));
+
 export default function UserTable() {
     const [selectionModel, setSelectionModel] = React.useState<GridRowId[]>([]);
+    const classes = useStyles();
     return (
         <>
-            <DataGrid
-                rows={rows}
-                columns={columns}
-                pageSize={5}
-                checkboxSelection
-                onSelectionModelChange={(newSelection) => {
-                    console.log(newSelection.selectionModel);
-                    setSelectionModel(newSelection.selectionModel);
-                }}
-                selectionModel={selectionModel}
-            />
-            <Box textAlign="right">
-                <Button variant="contained" color="primary">
+            <Box>
+                <FormControlLabel
+                    control={<Switch color="primary" />}
+                    label="Show only system administrators"
+                />
+            </Box>
+            <div style={{ height: 400, width: "100%" }}>
+                <DataGrid
+                    rows={rows}
+                    columns={columns}
+                    pageSize={5}
+                    checkboxSelection
+                    onSelectionModelChange={(newSelection) => {
+                        console.log(newSelection.selectionModel);
+                        setSelectionModel(newSelection.selectionModel);
+                    }}
+                    selectionModel={selectionModel}
+                />
+            </div>
+
+            <Box textAlign="right" mt={1}>
+                <Button
+                    variant="outlined"
+                    disabled={selectionModel.length == 0}
+                    className={classes.emailButton}
+                    startIcon={<SendIcon />}
+                >
                     Send email to users
+                </Button>
+                <Button
+                    variant="contained"
+                    color="primary"
+                    startIcon={<AddIcon />}
+                >
+                    Add users
                 </Button>
             </Box>
         </>
