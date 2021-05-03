@@ -1,7 +1,9 @@
 import unittest
 from io import StringIO
 from unittest.mock import patch
+
 from final import *
+
 
 class Authorizer_SMS_TestCase(unittest.TestCase):
 
@@ -31,7 +33,7 @@ class Authorizer_SMS_TestCase(unittest.TestCase):
 class Authorizer_Robot_TestCase(unittest.TestCase):
 
     def test_init_authorized(self):
-        auth = Authorizer_SMS()
+        auth = Authorizer_Robot()
         self.assertFalse(auth.is_authorized())
 
     def test_authorize_success(self):
