@@ -1,5 +1,6 @@
 import random
 
+
 class Die:
 
     def __init__(self, face: int = None, sides: int = 6):
@@ -32,7 +33,7 @@ class Hand:
             self.hand.append(Die(None, sides))
 
     def all_dice(self):
-        return range(1, self.dice)
+        return range(1, self.dice + 1)
 
     def roll(self, dice):
         if [x for x in dice if x > self.dice]:

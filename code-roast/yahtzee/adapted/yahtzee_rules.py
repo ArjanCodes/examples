@@ -70,6 +70,11 @@ class FullHouse(Rule):
 class Straight(Rule):
 
     def is_straight(self, l):
+        # create a sorted list with no duplicates
+        sorted_list = sorted(list(set(l)))
+        # if the length changed, there were doubles, so no straight
+        if len(sorted_list) != len(l):
+            return False
         # sum of consecutive n numbers 1...n = n * (n+1) / 2 
         consecutive_sum = (min(l) + max(l)) * (max(l) - min(l) + 1) / 2
         return sum(l) == consecutive_sum
@@ -80,7 +85,7 @@ class SmallStraight(Straight):
         return "Small straight"
 
     def points(self, hand: Hand):
-        l = sorted(list(set(hand.get_hand())))
+        l = hand.get_hand()
         if len(l) == 4 and self.is_straight(l):
             return 30
         elif len(l) == 5 and (self.is_straight(l[1:]) or self.is_straight(l[:-1])):

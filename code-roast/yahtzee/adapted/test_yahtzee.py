@@ -1,6 +1,9 @@
 import unittest
+
 from hand import *
 from rules import *
+from yahtzee_rules import *
+
 
 class DieTestCase(unittest.TestCase):
 
@@ -66,6 +69,11 @@ class RulesTestCase(unittest.TestCase):
         hand = Hand()
         hand.set_faces([4, 3, 5, 2, 1])
         self.assertEqual(LargeStraight().points(hand), 40)
+
+    def test_no_large_straight(self):
+        hand = Hand()
+        hand.set_faces([5, 3, 6, 2, 1])
+        self.assertEqual(LargeStraight().points(hand), 0)
 
     def test_yahtzee(self):
         hand = Hand()
