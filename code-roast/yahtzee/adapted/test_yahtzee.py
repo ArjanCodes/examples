@@ -2,7 +2,9 @@ import unittest
 
 from hand import *
 from rules import *
-from yahtzee_rules import *
+from yahtzee_rules import (Aces, Chance, FibonYahtzee, Fives, FourOfAKind,
+                           Fours, FullHouse, LargeStraight, Sixes,
+                           SmallStraight, ThreeOfAKind, Threes, Twos, Yahtzee)
 
 
 class DieTestCase(unittest.TestCase):

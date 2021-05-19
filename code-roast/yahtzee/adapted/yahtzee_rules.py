@@ -113,6 +113,17 @@ class Yahtzee(Rule):
         else:
             return 0
 
+class FibonYahtzee(Rule):
+
+    def name(self):
+        return "FibonYahtzee"
+
+    def points(self, hand: Hand):
+        if sorted(hand.get_hand()) == [1, 1, 2, 3, 5]:
+            return 100
+        else:
+            return 0
+
 class Chance(Rule):
 
     def name(self):

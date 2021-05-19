@@ -5,7 +5,9 @@ import sys
 
 from hand import Hand
 from scoreboard import ScoreBoard
-from yahtzee_rules import *
+from yahtzee_rules import (Aces, Chance, FibonYahtzee, Fives, FourOfAKind,
+                           Fours, FullHouse, LargeStraight, Sixes,
+                           SmallStraight, ThreeOfAKind, Threes, Twos, Yahtzee)
 
 
 class YahtzeeGame:
@@ -38,6 +40,7 @@ class YahtzeeGame:
             SmallStraight(),
             LargeStraight(),
             Yahtzee(),
+            FibonYahtzee(),
             Chance(),
         ])
 
