@@ -12,6 +12,7 @@ class Employee(ABC):
     def pay(self):
         pass
 
+
 @dataclass
 class HourlyEmployee(Employee):
 
@@ -22,6 +23,7 @@ class HourlyEmployee(Employee):
     def pay(self):
         return self.pay_rate * self.hours_worked + self.employer_cost
 
+
 @dataclass
 class SalariedEmployee(Employee):
 
@@ -30,6 +32,7 @@ class SalariedEmployee(Employee):
 
     def pay(self):
         return self.monthly_salary * self.percentage
+
 
 @dataclass
 class Freelancer(Employee):
@@ -41,6 +44,7 @@ class Freelancer(Employee):
     def pay(self):
         return self.pay_rate * self.hours_worked
 
+
 @dataclass
 class SalariedEmployeeWithCommission(SalariedEmployee):
 
@@ -50,6 +54,7 @@ class SalariedEmployeeWithCommission(SalariedEmployee):
     def pay(self):
         return super().pay() + self.commission * self.contracts_landed
 
+
 @dataclass
 class HourlyEmployeeWithCommission(HourlyEmployee):
 
@@ -58,6 +63,7 @@ class HourlyEmployeeWithCommission(HourlyEmployee):
 
     def pay(self):
         return super().pay() + self.commission * self.contracts_landed
+
 
 @dataclass
 class FreelancerWithCommission(Freelancer):

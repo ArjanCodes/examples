@@ -3,10 +3,10 @@ from dataclasses import dataclass
 
 
 class Contract(ABC):
-
     @abstractmethod
     def get_payment(self):
         pass
+
 
 @dataclass
 class Commission:
@@ -32,6 +32,7 @@ class Employee:
             payout += self.commission.get_payment()
         return payout
 
+
 @dataclass
 class HourlyContract(Contract):
 
@@ -42,6 +43,7 @@ class HourlyContract(Contract):
     def get_payment(self):
         return self.pay_rate * self.hours_worked + self.employer_cost
 
+
 @dataclass
 class SalariedContract(Contract):
 
@@ -50,6 +52,7 @@ class SalariedContract(Contract):
 
     def get_payment(self):
         return self.monthly_salary * self.percentage
+
 
 @dataclass
 class FreelancerContract(Contract):
@@ -60,8 +63,6 @@ class FreelancerContract(Contract):
 
     def get_payment(self):
         return self.pay_rate * self.hours_worked
-
-
 
 
 hc = HourlyContract(pay_rate=50, hours_worked=100)

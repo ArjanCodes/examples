@@ -15,6 +15,7 @@ class HourlyEmployee:
     def pay(self):
         return self.pay_rate * self.hours_worked + self.employer_cost + self.commission * self.contracts_landed
 
+
 @dataclass
 class SalariedEmployee:
 
@@ -27,6 +28,7 @@ class SalariedEmployee:
 
     def pay(self):
         return self.monthly_salary * self.percentage + self.commission * self.contracts_landed
+
 
 @dataclass
 class Freelancer:
