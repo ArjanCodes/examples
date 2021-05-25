@@ -39,7 +39,10 @@ class SalariedEmployee:
 
     def pay(self):
         """Pay an employee"""
-        return self.monthly_salary * self.percentage + self.commission * self.contracts_landed
+        return (
+            self.monthly_salary * self.percentage
+            + self.commission * self.contracts_landed
+        )
 
 
 @dataclass
@@ -56,7 +59,9 @@ class Freelancer:
 
     def pay(self):
         """Pay an employee"""
-        return self.pay_rate * self.hours_worked + self.commission * self.contracts_landed
+        return (
+            self.pay_rate * self.hours_worked + self.commission * self.contracts_landed
+        )
 
 
 h = HourlyEmployee(name="Henry", id=12346, pay_rate=50, hours_worked=100)

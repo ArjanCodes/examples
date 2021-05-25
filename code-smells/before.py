@@ -31,7 +31,9 @@ class Employee:
                 pass
         else:
             if self.holidays < 1:
-                raise ValueError("You don't have any holidays left. Now back to work, you!")
+                raise ValueError(
+                    "You don't have any holidays left. Now back to work, you!"
+                )
             self.holidays -= 1
             print("Have fun on your holiday. Don't forget to check your emails!")
 
@@ -78,7 +80,9 @@ def find_intern(employees: List[Employee]):
 def pay_employee(employee: Employee):
     """Pay an employee."""
     if isinstance(employee, SalariedEmployee):
-        print(f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}.")
+        print(
+            f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}."
+        )
     elif isinstance(employee, HourlyEmployee):
         print(
             f"Paying employee {employee.name} a hourly rate of \

@@ -89,5 +89,7 @@ class FreelancerWithCommission(Freelancer):
 h = HourlyEmployee(name="Henry", id=12346, pay_rate=50, hours_worked=100)
 print(f"{h.name} worked for {h.hours_worked} hours and earned ${h.pay()}.")
 
-s = SalariedEmployeeWithCommission(name="Sarah", id=47832, monthly_salary=5000, contracts_landed=10)
+s = SalariedEmployeeWithCommission(
+    name="Sarah", id=47832, monthly_salary=5000, contracts_landed=10
+)
 print(f"{s.name} landed {s.contracts_landed} contracts and earned ${s.pay()}.")

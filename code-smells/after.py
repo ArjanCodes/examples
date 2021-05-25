@@ -71,7 +71,9 @@ class SalariedEmployee(Employee):
     monthly_salary: float = 5000
 
     def pay(self):
-        print(f"Paying employee {self.name} a monthly salary of ${self.monthly_salary}.")
+        print(
+            f"Paying employee {self.name} a monthly salary of ${self.monthly_salary}."
+        )
 
 
 def find_employee(employees: List[Employee], role: Role):
