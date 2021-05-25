@@ -1,12 +1,11 @@
+"""
+Basic example showing how to read and validate data from a file using Pydantic.
+"""
+
 import json
 from typing import List, Optional
 
 import pydantic
-
-# Read data from a JSON file
-f = open("./data.json")
-data = json.load(f)
-f.close()
 
 
 class Book(pydantic.BaseModel):
@@ -21,6 +20,7 @@ class Book(pydantic.BaseModel):
 
     @pydantic.validator("isbn_10")
     def isbn_10_valid(cls, value):
+        """Validator to check whether ISBN10 is valid"""
         chars = [c for c in value if c in "0123456789Xx"]
         if len(chars) != 10:
             raise ValueError(f"ISBN10 should be 10 digits, but received {value}.")
@@ -31,6 +31,8 @@ class Book(pydantic.BaseModel):
             raise ValueError(f"ISBN10 should be divisible by 11, which is not true for {value}.")
 
 
-books: List[Book] = [Book(**item) for item in data]
-
-print(books)
+# Read data from a JSON file
+with open("./data.json") as file:
+    data = json.load(file)
+    books: List[Book] = [Book(**item) for item in data]
+    print(books)
