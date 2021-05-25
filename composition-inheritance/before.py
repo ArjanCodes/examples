@@ -1,57 +1,50 @@
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
 
 
 @dataclass
-class Employee(ABC):
+class HourlyEmployee:
 
     name: str
     id: int
-
-    @abstractmethod
-    def pay(self):
-        pass
-
-@dataclass
-class HourlyEmployee(Employee):
-
-    pay_rate: float
+    commission: float = 100
+    contracts_landed: float = 0
+    pay_rate: float = 0
     hours_worked: int = 0
+    employer_cost: float = 1000
 
     def pay(self):
-        return self.pay_rate * self.hours_worked
+        return self.pay_rate * self.hours_worked + self.employer_cost + self.commission * self.contracts_landed
 
 @dataclass
-class SalariedEmployee(Employee):
+class SalariedEmployee:
 
-    monthly_salary: float
+    name: str
+    id: int
+    commission: float = 100
+    contracts_landed: float = 0
+    monthly_salary: float = 0
     percentage: float = 1
 
     def pay(self):
-        return self.monthly_salary * self.percentage
+        return self.monthly_salary * self.percentage + self.commission * self.contracts_landed
 
 @dataclass
-class SalariedEmployeeWithCommission(SalariedEmployee):
+class Freelancer:
 
+    name: str
+    id: int
     commission: float = 100
     contracts_landed: float = 0
+    pay_rate: float = 0
+    hours_worked: int = 0
+    vat_number: str = ""
 
     def pay(self):
-        return super().pay() + self.commission * self.contracts_landed
+        return self.pay_rate * self.hours_worked + self.commission * self.contracts_landed
 
-@dataclass
-class HourlyEmployeeWithCommission(HourlyEmployee):
 
-    commission: float = 100
-    contracts_landed: float = 0
-
-    def pay(self):
-        return super().pay() + self.commission * self.contracts_landed
-
-h = HourlyEmployee("Henry", 12346, 50)
-h.hours_worked = 100
+h = HourlyEmployee(name="Henry", id=12346, pay_rate=50, hours_worked=100)
 print(f"{h.name} worked for {h.hours_worked} hours and earned ${h.pay()}.")
 
-s = SalariedEmployeeWithCommission("Sarah", 47832, 5000)
-s.contracts_landed = 10
+s = SalariedEmployee(name="Sarah", id=47832, monthly_salary=5000, contracts_landed=10)
 print(f"{s.name} landed {s.contracts_landed} contracts and earned ${s.pay()}.")
