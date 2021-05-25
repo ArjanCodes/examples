@@ -11,5 +11,5 @@
   "python.linting.pylintEnabled": true,
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
-  "python.formatting.blackArgs": ["--line-length", "120"]
+  "python.formatting.blackArgs": ["--line-length", "100"]
 }

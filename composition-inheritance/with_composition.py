@@ -7,23 +7,28 @@ from dataclasses import dataclass
 
 
 class Contract(ABC):
+    """Represents a contract and payment process for a particular employeee."""
+
     @abstractmethod
     def get_payment(self):
-        pass
+        """Compute how much to pay an employee under this contract."""
 
 
 @dataclass
 class Commission:
+    """Represents a commission payment process."""
 
     commission: float = 100
     contracts_landed: float = 0
 
     def get_payment(self):
+        """Returns the commission to be paid out"""
         return self.commission * self.contracts_landed
 
 
 @dataclass
 class Employee:
+    """Basic representation of an employee at the company."""
 
     name: str
     id: int
@@ -31,6 +36,7 @@ class Employee:
     commission: Commission = None
 
     def pay(self):
+        """Pay an employee."""
         payout = self.contract.get_payment()
         if self.commission is not None:
             payout += self.commission.get_payment()
@@ -39,6 +45,7 @@ class Employee:
 
 @dataclass
 class HourlyContract(Contract):
+    """Contract type for an employee being paid on an hourly basis."""
 
     pay_rate: float
     hours_worked: int = 0
@@ -50,6 +57,7 @@ class HourlyContract(Contract):
 
 @dataclass
 class SalariedContract(Contract):
+    """Contract type for an employee being paid a monthly salary."""
 
     monthly_salary: float
     percentage: float = 1
@@ -60,6 +68,7 @@ class SalariedContract(Contract):
 
 @dataclass
 class FreelancerContract(Contract):
+    """Contract type for a freelancer (paid on an hourly basis)."""
 
     pay_rate: float
     hours_worked: int = 0

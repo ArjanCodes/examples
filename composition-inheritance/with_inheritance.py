@@ -8,17 +8,19 @@ from dataclasses import dataclass
 
 @dataclass
 class Employee(ABC):
+    """Basic representation of an employee at the company."""
 
     name: str
     id: int
 
     @abstractmethod
     def pay(self):
-        pass
+        """Pay an employee."""
 
 
 @dataclass
 class HourlyEmployee(Employee):
+    """Employee that's paid based on number of worked hours."""
 
     pay_rate: float
     hours_worked: int = 0
@@ -30,6 +32,7 @@ class HourlyEmployee(Employee):
 
 @dataclass
 class SalariedEmployee(Employee):
+    """Employee that's paid based on a fixed monthly salary."""
 
     monthly_salary: float
     percentage: float = 1
@@ -40,6 +43,7 @@ class SalariedEmployee(Employee):
 
 @dataclass
 class Freelancer(Employee):
+    """Freelancer that's paid based on number of worked hours."""
 
     pay_rate: float
     hours_worked: int = 0
@@ -51,6 +55,7 @@ class Freelancer(Employee):
 
 @dataclass
 class SalariedEmployeeWithCommission(SalariedEmployee):
+    """Employee that's paid based on a fixed monthly salary and that gets a commission."""
 
     commission: float = 100
     contracts_landed: float = 0
@@ -61,6 +66,7 @@ class SalariedEmployeeWithCommission(SalariedEmployee):
 
 @dataclass
 class HourlyEmployeeWithCommission(HourlyEmployee):
+    """Employee that's paid based on number of worked hours and that gets a commission."""
 
     commission: float = 100
     contracts_landed: float = 0
@@ -71,6 +77,7 @@ class HourlyEmployeeWithCommission(HourlyEmployee):
 
 @dataclass
 class FreelancerWithCommission(Freelancer):
+    """Freelancer that's paid based on number of worked hours and that gets a commission."""
 
     commission: float = 100
     contracts_landed: float = 0

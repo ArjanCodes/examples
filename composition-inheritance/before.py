@@ -7,6 +7,7 @@ from dataclasses import dataclass
 
 @dataclass
 class HourlyEmployee:
+    """Employee that's paid based on number of worked hours."""
 
     name: str
     id: int
@@ -17,11 +18,17 @@ class HourlyEmployee:
     employer_cost: float = 1000
 
     def pay(self):
-        return self.pay_rate * self.hours_worked + self.employer_cost + self.commission * self.contracts_landed
+        """Pay an employee"""
+        return (
+            self.pay_rate * self.hours_worked
+            + self.employer_cost
+            + self.commission * self.contracts_landed
+        )
 
 
 @dataclass
 class SalariedEmployee:
+    """Employee that's paid based on a fixed monthly salary."""
 
     name: str
     id: int
@@ -31,11 +38,13 @@ class SalariedEmployee:
     percentage: float = 1
 
     def pay(self):
+        """Pay an employee"""
         return self.monthly_salary * self.percentage + self.commission * self.contracts_landed
 
 
 @dataclass
 class Freelancer:
+    """Freelancer that's paid based on number of worked hours."""
 
     name: str
     id: int
@@ -46,6 +55,7 @@ class Freelancer:
     vat_number: str = ""
 
     def pay(self):
+        """Pay an employee"""
         return self.pay_rate * self.hours_worked + self.commission * self.contracts_landed
 
 
