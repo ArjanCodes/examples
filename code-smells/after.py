@@ -1,4 +1,6 @@
-"""Very advanced Employee management system"""
+"""
+Very advanced Employee management system.
+"""
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass

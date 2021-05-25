@@ -1,4 +1,6 @@
-"""Very advanced Employee management system"""
+"""
+Very advanced Employee management system.
+"""
 
 from dataclasses import dataclass
 from typing import List
