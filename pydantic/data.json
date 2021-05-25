@@ -5,7 +5,8 @@
     "author": "Peter Thiel",
     "publisher": "Ballantine Books",
     "isbn_10": "0753555190",
-    "isbn_13": "978-0753555194"
+    "isbn_13": "978-0753555194",
+    "price": 14.29
   },
   {
     "title": "The Lean Startup",
@@ -13,14 +14,16 @@
     "author": "Eric Ries",
     "publisher": "Penguin UK",
     "isbn_10": "0670921602",
-    "isbn_13": "978-0670921607"
+    "isbn_13": "978-0670921607",
+    "price": 12.96
   },
   {
     "title": "A Promised Land",
     "author": "Barack Obama",
     "publisher": "Viking UK",
     "isbn_10": "0241491517",
-    "isbn_13": "978-0241491515"
+    "isbn_13": "978-0241491515",
+    "price": 31.74
   },
   {
     "title": "The Hard Thing about Hard Things",
@@ -28,7 +31,8 @@
     "author": "Ben Horowitz",
     "publisher": "HarperBusiness",
     "isbn_10": "0062273205",
-    "isbn_13": "978-0062273208"
+    "isbn_13": "978-0062273208",
+    "price": 15.55
   },
   {
     "title": "Design patterns",
@@ -36,7 +40,8 @@
     "author": "Erich Gamma, Richard Helm, Ralph Johnson, John Vlissides",
     "publisher": "Addison Wesley",
     "isbn_10": "0201633612",
-    "isbn_13": "978-0201633610"
+    "isbn_13": "978-0201633610",
+    "price": 50
   },
   {
     "title": "Clean Code",
@@ -44,6 +49,7 @@
     "author": "Robert Martin",
     "publisher": "Financial Times Prentice Hall",
     "isbn_10": "0132350882",
-    "isbn_13": "978-0132350884"
+    "isbn_13": "978-0132350884",
+    "price": 33.43
   }
 ]

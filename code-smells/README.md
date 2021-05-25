@@ -1,6 +1,6 @@
 ## About this video
 
-This video covers a few different code smells and how to fix them. I might do a whole series of videos covering a variety of code smells (there are quite a few).
+This video covers a few different code smells and how to fix them. I might do a whole series of videos covering a variety of code smells (there are quite a few). I'm thinking of hiding a bonus code smell in there and see if the viewers can figure out what it is. If you have a suggestion, let me know.
 
 ## Video outline
 
