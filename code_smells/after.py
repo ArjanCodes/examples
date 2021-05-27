@@ -4,19 +4,19 @@ Very advanced Employee management system.
 
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from enum import Enum
+from enum import Enum, auto
 from typing import List
 
 
 class Role(Enum):
     """Employee roles"""
 
-    PRESIDENT = 1
-    VICEPRESIDENT = 2
-    MANAGER = 3
-    LEAD = 4
-    WORKER = 5
-    INTERN = 6
+    PRESIDENT = auto()
+    VICEPRESIDENT = auto()
+    MANAGER = auto()
+    LEAD = auto()
+    WORKER = auto()
+    INTERN = auto()
 
 
 @dataclass
@@ -78,7 +78,7 @@ class SalariedEmployee(Employee):
 
 def find_employee(employees: List[Employee], role: Role):
     """Find an employee with a particular role in the employee list"""
-    return next((e for e in employees if e.role == role), None)
+    return next((e for e in employees if e.role is role), None)
 
 
 my_employees = [
