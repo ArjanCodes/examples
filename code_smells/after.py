@@ -7,6 +7,18 @@ from dataclasses import dataclass
 from enum import Enum, auto
 from typing import List
 
+FIXED_VACATION_DAYS_PAYOUT = 5  # The fixed nr of vacation days that can be paid out.
+
+
+class VacationDaysShortageError(Exception):
+    """Custom error that is raised when not enough vacation days are available."""
+
+    def __init__(self, requested_days: int, remaining_days: int, message: str):
+        self.requested_days = requested_days
+        self.remaining_days = remaining_days
+        self.message = message
+        super().__init__(message)
+
 
 class Role(Enum):
     """Employee roles"""
@@ -25,7 +37,7 @@ class Employee(ABC):
 
     name: str
     role: Role
-    holidays: int = 25
+    vacation_days: int = 25
 
     @abstractmethod
     def pay(self):
@@ -33,21 +45,26 @@ class Employee(ABC):
 
     def take_a_holiday(self):
         """Let the employee take a holiday (lazy bastard)"""
-        if self.holidays < 1:
-            raise ValueError("You don't have any holidays left. Now back to work, you!")
-        self.holidays -= 1
+        if self.vacation_days < 1:
+            raise VacationDaysShortageError(
+                requested_days=1,
+                remaining_days=self.vacation_days,
+                message="You don't have any holidays left. Now back to work, you!",
+            )
+        self.vacation_days -= 1
         print("Have fun on your holiday. Don't forget to check your emails!")
 
     def payout_a_holiday(self):
         """Let the employee get paid for unused holidays."""
-        # fixed nr of holidays for paying out is 5
-        if self.holidays < 5:
-            raise ValueError(
-                f"You don't have enough holidays left over for a payout.\
-                    Remaining holidays: {self.holidays}."
+        # check that there are enough vacation days left for a payout
+        if self.vacation_days < FIXED_VACATION_DAYS_PAYOUT:
+            raise VacationDaysShortageError(
+                requested_days=FIXED_VACATION_DAYS_PAYOUT,
+                remaining_days=self.vacation_days,
+                message="You don't have enough holidays left over for a payout",
             )
-        self.holidays -= 5
-        print(f"Paying out a holiday. Holidays left: {self.holidays}")
+        self.vacation_days -= FIXED_VACATION_DAYS_PAYOUT
+        print(f"Paying out a holiday. Holidays left: {self.vacation_days}")
 
 
 @dataclass
@@ -76,19 +93,36 @@ class SalariedEmployee(Employee):
         )
 
 
-def find_employee(employees: List[Employee], role: Role):
-    """Find an employee with a particular role in the employee list"""
-    return next((e for e in employees if e.role is role), None)
+class Company:
+    """Represents a company with employees."""
+
+    def __init__(self) -> None:
+        self.employees: List[Employee] = []
+
+    def add_employee(self, employee: Employee) -> None:
+        """Add an employee to the list of employees."""
+        self.employees.append(employee)
+
+    def find_employees(self, role: Role):
+        """Find all employees with a particular role in the employee list"""
+        return [employee for employee in self.employees if employee.role is role]
 
 
-my_employees = [
-    SalariedEmployee(name="Louis", role=Role.MANAGER),
-    HourlyEmployee(name="Brenda", role=Role.PRESIDENT),
-    HourlyEmployee(name="Tim", role=Role.INTERN),
-]
+def main():
+    """Main function."""
 
-print(find_employee(my_employees, role=Role.VICEPRESIDENT))
-print(find_employee(my_employees, role=Role.MANAGER))
-print(find_employee(my_employees, role=Role.INTERN))
-my_employees[0].pay()
-my_employees[0].take_a_holiday()
+    company = Company()
+
+    company.add_employee(SalariedEmployee(name="Louis", role=Role.MANAGER))
+    company.add_employee(HourlyEmployee(name="Brenda", role=Role.PRESIDENT))
+    company.add_employee(HourlyEmployee(name="Tim", role=Role.INTERN))
+
+    print(company.find_employees(role=Role.VICEPRESIDENT))
+    print(company.find_employees(role=Role.MANAGER))
+    print(company.find_employees(role=Role.INTERN))
+    company.employees[0].pay()
+    company.employees[0].take_a_holiday()
+
+
+if __name__ == "__main__":
+    main()

@@ -5,6 +5,8 @@ Very advanced Employee management system.
 from dataclasses import dataclass
 from typing import List
 
+FIXED_VACATION_DAYS_PAYOUT = 5  # The fixed nr of vacation days that can be paid out.
+
 
 @dataclass
 class Employee:
@@ -12,29 +14,29 @@ class Employee:
 
     name: str
     role: str
-    holidays: int = 25
+    vacation_days: int = 25
 
     def take_a_holiday(self, payout: bool):
         """Let the employee take a single holiday, or pay out 5 holidays."""
         if payout:
-            # fixed nr of holidays for paying out is 5
-            if self.holidays < 5:
+            # check that there are enough vacation days left for a payout
+            if self.vacation_days < FIXED_VACATION_DAYS_PAYOUT:
                 raise ValueError(
                     f"You don't have enough holidays left over for a payout.\
-                        Remaining holidays: {self.holidays}."
+                        Remaining holidays: {self.vacation_days}."
                 )
             try:
-                self.holidays -= 5
-                print(f"Paying out a holiday. Holidays left: {self.holidays}")
+                self.vacation_days -= FIXED_VACATION_DAYS_PAYOUT
+                print(f"Paying out a holiday. Holidays left: {self.vacation_days}")
             except Exception:
                 # this should never happen
                 pass
         else:
-            if self.holidays < 1:
+            if self.vacation_days < 1:
                 raise ValueError(
                     "You don't have any holidays left. Now back to work, you!"
                 )
-            self.holidays -= 1
+            self.vacation_days -= 1
             print("Have fun on your holiday. Don't forget to check your emails!")
 
 
@@ -53,51 +55,68 @@ class SalariedEmployee(Employee):
     monthly_salary: float = 5000
 
 
-def find_manager(employees: List[Employee]):
-    """Find a manager employee."""
-    for employee in employees:
-        if employee.role == "manager":
-            return employee
-    return None
+class Company:
+    """Represents a company with employees."""
+
+    def __init__(self) -> None:
+        self.employees: List[Employee] = []
+
+    def add_employee(self, employee: Employee) -> None:
+        """Add an employee to the list of employees."""
+        self.employees.append(employee)
+
+    def find_managers(self):
+        """Find all manager employees."""
+        managers = []
+        for employee in self.employees:
+            if employee.role == "manager":
+                managers.append(employee)
+        return managers
+
+    def find_vice_presidents(self):
+        """Find all vice-president employees."""
+        vice_presidents = []
+        for employee in self.employees:
+            if employee.role == "vice_president":
+                vice_presidents.append(employee)
+        return vice_presidents
+
+    def find_interns(self):
+        """Find all interns."""
+        interns = []
+        for employee in self.employees:
+            if employee.role == "intern":
+                interns.append(employee)
+        return interns
+
+    def pay_employee(self, employee: Employee):
+        """Pay an employee."""
+        if isinstance(employee, SalariedEmployee):
+            print(
+                f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}."
+            )
+        elif isinstance(employee, HourlyEmployee):
+            print(
+                f"Paying employee {employee.name} a hourly rate of \
+                ${employee.hourly_rate} for {employee.amount} hours."
+            )
 
 
-def find_vice_president(employees: List[Employee]):
-    """Find a vice-president employee."""
-    for employee in employees:
-        if employee.role == "vice_president":
-            return employee
-    return None
+def main():
+    """Main function."""
+
+    company = Company()
+
+    company.add_employee(SalariedEmployee(name="Louis", role="manager"))
+    company.add_employee(HourlyEmployee(name="Brenda", role="president"))
+    company.add_employee(HourlyEmployee(name="Tim", role="intern"))
+
+    print(company.find_vice_presidents())
+    print(company.find_managers())
+    print(company.find_interns())
+    company.pay_employee(company.employees[0])
+    company.employees[0].take_a_holiday(False)
 
 
-def find_intern(employees: List[Employee]):
-    """Find an intern."""
-    for employee in employees:
-        if employee.role == "intern":
-            return employee
-    return None
-
-
-def pay_employee(employee: Employee):
-    """Pay an employee."""
-    if isinstance(employee, SalariedEmployee):
-        print(
-            f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}."
-        )
-    elif isinstance(employee, HourlyEmployee):
-        print(
-            f"Paying employee {employee.name} a hourly rate of \
-            ${employee.hourly_rate} for {employee.amount} hours."
-        )
-
-
-my_employees = [
-    SalariedEmployee(name="Louis", role="manager"),
-    HourlyEmployee(name="Brenda", role="president"),
-    HourlyEmployee(name="Tim", role="intern"),
-]
-
-print(find_vice_president(my_employees))
-print(find_manager(my_employees))
-print(find_intern(my_employees))
-pay_employee(my_employees[0])
-my_employees[0].take_a_holiday(False)
+if __name__ == "__main__":
+    main()

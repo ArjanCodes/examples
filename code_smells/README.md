@@ -26,13 +26,13 @@ This video covers a few different code smells and how to fix them. I might do a 
 
 - Code smell #3: not using available built-in functions
 
-  - Python has lots of built-in methods to make your life easier, especially for lists (map, filter, etc). Use them!
-  - Find_employee method uses a loop, but there are easier ways to do this
-  - FIX: use the next() function instead to reduce the find_employee function to a single line
+  - Python has lots of built-in methods to make your life easier, especially for lists. List comprehensions in particular are a really powerful, and there are other alternatives that are suitable as well - think of functions like map or filter. Use them!
+  - Find_employees methods use a loop, but there are easier ways to do this
+  - FIX: use a list comprehension to reduce the find_employees function to a single line
 
 - Code smell #4: vague identifiers (amount in HourlyEmployee -> hours_worked)
 
-  - HourlyEmployee has an 'amount' variable that stands for the nr of hourse worked.
+  - HourlyEmployee has an 'amount' variable that stands for the nr of hours worked.
   - This is a very vague name that doesn't explain at all what the variable means and what the unit is.
   - FIX: Change it to hours_worked
 
@@ -49,6 +49,11 @@ This video covers a few different code smells and how to fix them. I might do a 
   - FIX: split the method in two
 
 - Code smell #7: empty catch/except clause
+
   - payout_a_holiday has a try with an empty except.
-  - This is bad, because exceptions are now ignored completely, and can't be handled outside of the method call anymore.
+  - This is bad, because exceptions are now ignored completely, and can't be handled outside of the method call anymore. Even worse: these kinds of catch-all blocks can even ignore SyntaxError or KeyboardInterrupt exceptions in some cases. So your code could have a typo, and you wouldn't know about it.
   - FIX: if you can't do anything with an exception, don't catch it and ignore it, another part of your program might be able to deal with it
+
+- Code smell #8 (bonus): use custom exceptions
+  - If you raise a ValueError, this introduces coupling, because the calling code needs to know that if the function raises a ValueError, this can be both an internal Python error, or because of a shortage of holidays. Also, there is no easily accessible information about the context of the errors (remaining vacation days etc).
+  - FIX: create a custom VacationDayShortageError that has attributes containing useful error data, such as the remaining available vacation days.
