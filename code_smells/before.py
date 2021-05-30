@@ -16,7 +16,7 @@ class Employee:
     role: str
     vacation_days: int = 25
 
-    def take_a_holiday(self, payout: bool):
+    def take_a_holiday(self, payout: bool) -> None:
         """Let the employee take a single holiday, or pay out 5 holidays."""
         if payout:
             # check that there are enough vacation days left for a payout
@@ -65,7 +65,7 @@ class Company:
         """Add an employee to the list of employees."""
         self.employees.append(employee)
 
-    def find_managers(self):
+    def find_managers(self) -> List[Employee]:
         """Find all manager employees."""
         managers = []
         for employee in self.employees:
@@ -73,7 +73,7 @@ class Company:
                 managers.append(employee)
         return managers
 
-    def find_vice_presidents(self):
+    def find_vice_presidents(self) -> List[Employee]:
         """Find all vice-president employees."""
         vice_presidents = []
         for employee in self.employees:
@@ -81,7 +81,7 @@ class Company:
                 vice_presidents.append(employee)
         return vice_presidents
 
-    def find_interns(self):
+    def find_interns(self) -> List[Employee]:
         """Find all interns."""
         interns = []
         for employee in self.employees:
@@ -89,7 +89,7 @@ class Company:
                 interns.append(employee)
         return interns
 
-    def pay_employee(self, employee: Employee):
+    def pay_employee(self, employee: Employee) -> None:
         """Pay an employee."""
         if isinstance(employee, SalariedEmployee):
             print(
@@ -102,7 +102,7 @@ class Company:
             )
 
 
-def main():
+def main() -> None:
     """Main function."""
 
     company = Company()

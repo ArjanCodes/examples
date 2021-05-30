@@ -13,7 +13,7 @@ FIXED_VACATION_DAYS_PAYOUT = 5  # The fixed nr of vacation days that can be paid
 class VacationDaysShortageError(Exception):
     """Custom error that is raised when not enough vacation days are available."""
 
-    def __init__(self, requested_days: int, remaining_days: int, message: str):
+    def __init__(self, requested_days: int, remaining_days: int, message: str) -> None:
         self.requested_days = requested_days
         self.remaining_days = remaining_days
         self.message = message
@@ -40,10 +40,10 @@ class Employee(ABC):
     vacation_days: int = 25
 
     @abstractmethod
-    def pay(self):
+    def pay(self) -> None:
         """Method to call when paying an employee"""
 
-    def take_a_holiday(self):
+    def take_a_holiday(self) -> None:
         """Let the employee take a holiday (lazy bastard)"""
         if self.vacation_days < 1:
             raise VacationDaysShortageError(
@@ -54,7 +54,7 @@ class Employee(ABC):
         self.vacation_days -= 1
         print("Have fun on your holiday. Don't forget to check your emails!")
 
-    def payout_a_holiday(self):
+    def payout_a_holiday(self) -> None:
         """Let the employee get paid for unused holidays."""
         # check that there are enough vacation days left for a payout
         if self.vacation_days < FIXED_VACATION_DAYS_PAYOUT:
@@ -74,7 +74,7 @@ class HourlyEmployee(Employee):
     hourly_rate: float = 50
     hours_worked: int = 10
 
-    def pay(self):
+    def pay(self) -> None:
         print(
             f"Paying employee {self.name} a hourly rate of \
             ${self.hourly_rate} for {self.hours_worked} hours."
@@ -87,7 +87,7 @@ class SalariedEmployee(Employee):
 
     monthly_salary: float = 5000
 
-    def pay(self):
+    def pay(self) -> None:
         print(
             f"Paying employee {self.name} a monthly salary of ${self.monthly_salary}."
         )
@@ -103,12 +103,12 @@ class Company:
         """Add an employee to the list of employees."""
         self.employees.append(employee)
 
-    def find_employees(self, role: Role):
+    def find_employees(self, role: Role) -> List[Employee]:
         """Find all employees with a particular role in the employee list"""
         return [employee for employee in self.employees if employee.role is role]
 
 
-def main():
+def main() -> None:
     """Main function."""
 
     company = Company()
