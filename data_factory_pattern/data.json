@@ -1,0 +1,18 @@
+[
+  {
+    "type": "wizard",
+    "name": "Stregobor"
+  },
+  {
+    "type": "fighter",
+    "name": "Geralt"
+  },
+  {
+    "type": "bard",
+    "name": "Jaskier"
+  },
+  {
+    "type": "sorcerer",
+    "name": "Yennefer"
+  }
+]
