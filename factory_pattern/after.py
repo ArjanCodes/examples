@@ -2,6 +2,7 @@
 Basic video exporting example
 """
 
+import pathlib
 from abc import ABC, abstractmethod
 
 
@@ -13,7 +14,7 @@ class VideoExporter(ABC):
         """Prepares video data for exporting."""
 
     @abstractmethod
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         """Exports the video data to a folder."""
 
 
@@ -23,7 +24,7 @@ class LosslessVideoExporter(VideoExporter):
     def prepare_export(self, video_data):
         print("Preparing video data for lossless export.")
 
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         print(f"Exporting video data in lossless format to {folder}.")
 
 
@@ -33,7 +34,7 @@ class H264BPVideoExporter(VideoExporter):
     def prepare_export(self, video_data):
         print("Preparing video data for H.264 (Baseline) export.")
 
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         print(f"Exporting video data in H.264 (Baseline) format to {folder}.")
 
 
@@ -43,7 +44,7 @@ class H264Hi422PVideoExporter(VideoExporter):
     def prepare_export(self, video_data):
         print("Preparing video data for H.264 (Hi422P) export.")
 
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         print(f"Exporting video data in H.264 (Hi422P) format to {folder}.")
 
 
@@ -55,7 +56,7 @@ class AudioExporter(ABC):
         """Prepares audio data for exporting."""
 
     @abstractmethod
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         """Exports the audio data to a folder."""
 
 
@@ -65,7 +66,7 @@ class AACAudioExporter(AudioExporter):
     def prepare_export(self, audio_data):
         print("Preparing audio data for AAC export.")
 
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         print(f"Exporting audio data in AAC format to {folder}.")
 
 
@@ -75,20 +76,23 @@ class WAVAudioExporter(AudioExporter):
     def prepare_export(self, audio_data):
         print("Preparing audio data for WAV export.")
 
-    def do_export(self, folder: str):
+    def do_export(self, folder: pathlib.Path):
         print(f"Exporting audio data in WAV format to {folder}.")
 
 
 class ExporterFactory(ABC):
-    """Factory that represents a combination of video and audio codecs."""
+    """
+    Factory that represents a combination of video and audio codecs.
+    The factory doesn't maintain any of the instances it creates.
+    """
 
     @abstractmethod
     def get_video_exporter(self) -> VideoExporter:
-        """Returns the video exporter belonging to this factory."""
+        """Returns a new video exporter belonging to this factory."""
 
     @abstractmethod
     def get_audio_exporter(self) -> AudioExporter:
-        """Returns the audio exporter belonging to this factory."""
+        """Returns a new audio exporter belonging to this factory."""
 
 
 class FastExporter(ExporterFactory):
@@ -131,16 +135,13 @@ def read_factory() -> ExporterFactory:
     }
     while True:
         export_quality = input("Enter desired output quality (low, high, master): ")
-        if export_quality in factories.keys():
+        if export_quality in factories:
             return factories[export_quality]
         print(f"Unknown output quality option: {export_quality}.")
 
 
-def main() -> None:
+def main(factory: ExporterFactory) -> None:
     """Main function."""
-
-    # create the factory
-    factory = read_factory()
 
     # retrieve the exporters
     video_exporter = factory.get_video_exporter()
@@ -151,10 +152,14 @@ def main() -> None:
     audio_exporter.prepare_export("placeholder_for_audio_data")
 
     # do the export
-    folder = "/usr/tmp/video"
+    folder = pathlib.Path("/usr/tmp/video")
     video_exporter.do_export(folder)
     audio_exporter.do_export(folder)
 
 
 if __name__ == "__main__":
-    main()
+    # create the factory
+    factory = read_factory()
+
+    # perform the exporting job
+    main(factory)

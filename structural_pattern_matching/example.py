@@ -1,3 +1,4 @@
+import shlex
 from dataclasses import dataclass
 from typing import List
 
@@ -39,15 +40,15 @@ def run_command_v3(command: str) -> None:
             print("Quitting the program.")
             quit()
         case _:
-            print(f"Unknown command '{command}'.")
+            print(f"Unknown command {command!r}.")
 
 @dataclass
 class Command:
     command: str
     arguments: List[str]
 
-def run_command_v4(c: Command) -> None:
-    match c:
+def run_command_v4(command: Command) -> None:
+    match command:
         case Command(command="load", arguments=[filename]):
             print(f"Loading filename {filename}.")
         case Command(command="save", arguments=[filename]):
@@ -59,7 +60,7 @@ def run_command_v4(c: Command) -> None:
             print("Quitting the program.")
             quit()
         case _:
-            print(f"Unknown command '{c}'.")
+            print(f"Unknown command {command!r}.")
 
 def main() -> None:
     """Main function."""
@@ -68,7 +69,7 @@ def main() -> None:
         # command = input("$ ")
         # run_command_v3(command)
         # read a command with arguments from the input
-        [ command, *arguments ] = input("$ ").split()
+        command, *arguments = shlex.split(input("$ "))
 
         # run the command
         run_command_v4(Command(command, arguments))

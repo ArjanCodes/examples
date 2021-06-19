@@ -26,6 +26,11 @@ class ISBN10FormatError(Exception):
         super().__init__(message)
 
 
+class Author(pydantic.BaseModel):
+    name: str
+    verified: bool
+
+
 class Book(pydantic.BaseModel):
     """Represents a book with that you can read from a JSON file."""
 
@@ -36,6 +41,7 @@ class Book(pydantic.BaseModel):
     isbn_10: Optional[str]
     isbn_13: Optional[str]
     subtitle: Optional[str]
+    author2: Optional[Author]
 
     @pydantic.root_validator(pre=True)
     @classmethod
@@ -65,6 +71,7 @@ class Book(pydantic.BaseModel):
             raise ISBN10FormatError(
                 value=value, message="ISBN10 digit sum should be divisible by 11."
             )
+        return value
 
     class Config:
         """Pydantic config class"""
@@ -80,9 +87,10 @@ def main() -> None:
     with open("./data.json") as file:
         data = json.load(file)
         books: List[Book] = [Book(**item) for item in data]
-        print(books)
-        print(books[0].dict(exclude={"price"}))
-        print(books[1].copy())
+        # print(books)
+        print(books[0])
+        # print(books[0].dict(exclude={"price"}))
+        # print(books[1].copy())
 
 
 if __name__ == "__main__":

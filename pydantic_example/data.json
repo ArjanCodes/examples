@@ -6,7 +6,11 @@
     "publisher": "Ballantine Books",
     "isbn_10": "0753555190",
     "isbn_13": "978-0753555194",
-    "price": 14.29
+    "price": 14.29,
+    "author2": {
+      "name": "Peter Thiel",
+      "verified": true
+    }
   },
   {
     "title": "The Lean Startup",
