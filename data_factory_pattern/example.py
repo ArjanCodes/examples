@@ -3,22 +3,12 @@ Basic example showing how to create objects from data using a dynamic factory wi
 register/unregister methods.
 """
 
+import importlib
 import json
-from abc import ABC, abstractmethod
-from dataclasses import dataclass
-from typing import Callable, Dict, List
+from typing import List
 
-
-@dataclass
-class GameCharacter(ABC):
-    """Basic representation of a game character with a class and a name."""
-
-    type: str
-    name: str
-
-    @abstractmethod
-    def make_a_noise(self):
-        """Let the character make a noise."""
+from game_character import GameCharacter
+from game_character_factory import GameCharacterFactory
 
 
 class Sorcerer(GameCharacter):
@@ -42,32 +32,24 @@ class Fighter(GameCharacter):
         print("Bam!")
 
 
-class Bard(GameCharacter):
-    """Represents a bard game character."""
+class ModuleInterface:
+    """Represents a plugin interface. A plugin has a single register function."""
 
-    def make_a_noise(self):
-        print("Toss a coin!")
+    @staticmethod
+    def register(factory: GameCharacterFactory) -> None:
+        """Register the necessary items in the game character factory."""
 
 
-class GameCharacterFactory:
-    """Factory that creates a game character from JSON data."""
+def import_module(name: str) -> ModuleInterface:
+    """Imports a module given a name."""
+    return importlib.import_module(name)  # type: ignore
 
-    def __init__(self):
-        self.creator_fns: Dict[str, Callable[..., GameCharacter]] = {}
 
-    def register(
-        self, character_type: str, creator_fn: Callable[..., GameCharacter]
-    ) -> None:
-        """Register a new game character type."""
-        self.creator_fns[character_type] = creator_fn
-
-    def unregister(self, character_type: str) -> None:
-        """Unregister a game character type."""
-        self.creator_fns.pop(character_type, None)
-
-    def create(self, **kwargs) -> GameCharacter:
-        """Create a game character of a specific type, given JSON data."""
-        return self.creator_fns[kwargs["type"]](**kwargs)
+def load_plugins(factory: GameCharacterFactory, plugins: List[str]) -> None:
+    """Loads the plugins defined in the plugins list."""
+    for plugin_file in plugins:
+        plugin = import_module(plugin_file)
+        plugin.register(factory)
 
 
 def main() -> None:
@@ -76,17 +58,21 @@ def main() -> None:
     # game character factory
     factory = GameCharacterFactory()
 
-    # register the various character types
+    # register a couple of character types
     factory.register("sorcerer", Sorcerer)
     factory.register("wizard", Wizard)
     factory.register("fighter", Fighter)
-    factory.register("bard", Bard)
 
-    # read data from a JSON file to create the game characters
+    # read data from a JSON file
     characters: List[GameCharacter] = []
     with open("./data.json") as file:
         data = json.load(file)
-        characters = [factory.create(**item) for item in data]
+
+        # load the plugins
+        load_plugins(factory, data["plugins"])
+
+        # create the characters
+        characters = [factory.create(**item) for item in data["characters"]]
 
     # do something with the characters
     print(characters)

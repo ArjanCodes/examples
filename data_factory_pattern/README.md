@@ -12,12 +12,12 @@ In this video, I talk about a more data-oriented version of the Factory pattern 
 
 - Load the data from the file and print out the contents.
 
-- Create a generic GameCharacter ABC, and then specific subclasses for each of the characters.
+- Create a generic GameCharacter ABC, and then specific subclasses for each of the characters (except bard).
 
 - Now the fun part: create a factory that can create these characters, without knowing their type. This is done via registering and unregistering creator functions (which in fact are class initializers)
 
 - Now create the factory, register the characters and do something with the characters.
 
-- Add an extra character 'bard'. For this, we don't have to change the factory class at all. We only need to create the specific subclass, and register it with the factory, and now we're able to use it.
+- Create a basic plugin loading mechanism, using importlib.
 
-- [Question to the reviewers: it would be nice if there was a way to also split out the registering code into a separate file that is loaded dynamically from the data (e.g. a field "loaderPath" or something in the JSON file. Do you have any idea)
+- Add an extra character 'bard'. For this, we don't have to change the factory class at all. We only need to create the specific subclass, and register it with the factory, and now we're able to use it. Using this plugin mechanism, we were able to extend the code without having to touch the original code! Isn't that neat?
