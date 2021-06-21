@@ -140,12 +140,12 @@ def read_factory() -> ExporterFactory:
         print(f"Unknown output quality option: {export_quality}.")
 
 
-def main(factory: ExporterFactory) -> None:
+def main(fac: ExporterFactory) -> None:
     """Main function."""
 
     # retrieve the exporters
-    video_exporter = factory.get_video_exporter()
-    audio_exporter = factory.get_audio_exporter()
+    video_exporter = fac.get_video_exporter()
+    audio_exporter = fac.get_audio_exporter()
 
     # prepare the export
     video_exporter.prepare_export("placeholder_for_video_data")
