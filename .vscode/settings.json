@@ -12,5 +12,6 @@
   "python.linting.mypyEnabled": true,
   "python.linting.enabled": true,
   "python.formatting.provider": "black",
-  "python.analysis.useImportHeuristic": true
+  "python.analysis.useImportHeuristic": true,
+  "python.pythonPath": "/Users/arjanegges/.pyenv/versions/3.10.0b2/bin/python"
 }

@@ -1,3 +1,7 @@
+"""
+Example application showing Python 3.10 structural pattern matching.
+"""
+
 import shlex
 from dataclasses import dataclass
 from typing import List
@@ -44,6 +48,8 @@ def run_command_v3(command: str) -> None:
 
 @dataclass
 class Command:
+    """Class that represents a command."""
+    
     command: str
     arguments: List[str]
 
@@ -61,6 +67,7 @@ def run_command_v4(command: Command) -> None:
             quit()
         case _:
             print(f"Unknown command {command!r}.")
+
 
 def main() -> None:
     """Main function."""
