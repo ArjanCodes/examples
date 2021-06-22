@@ -4,9 +4,13 @@ In this video, I talk about a more data-oriented version of the Factory pattern 
 
 ## Video outline
 
-- Often, you want to extend code after it's been shipped. For example, if you build a game, you might want to release an update with new game characters, or you want modders to be able to plug in new types of characters in your game. In that latter case, you need a pattern that allows you to do this without changing any of the original code. This is a similar problem to building a system that allows for third-party plugin development. A second thing you often encounter, especially in games, is that these custom characters/extensions need to be created via a specification in the data.
+- Today is a bit of a crazy video. I'm going to show you a trick in Python that allows you to extend a script with new code without changing a single line in the original code, including the imports. And it probably breaks a couple of rules. Let's dive in.
 
-- I'm going to show you a variety of the factory pattern, I'm calling this the 'plugin pattern' that completely separates creation of objects from their specification in the data.
+- If you're new here...
+
+- Often, you want to extend code after it's been shipped. For example, if you build a game, you might want to release an update with new game characters, or you want modders to be able to plug in new types of characters in your game. In that latter case, you need a pattern that allows you to do this without changing any of the original code. This is a similar problem to building a system that allows for third-party plugin development.
+
+- So what I'm about to show you is not really a design pattern. It has elements of the factory pattern. It's more on the architectural level: let's build a plugin system.
 
 - Explain the example first: simple game with a variety of characters (show JSON file with examples).
 
