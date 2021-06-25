@@ -8,7 +8,7 @@ class Bard(GameCharacter):
     """Represents a bard game character."""
 
     def make_a_noise(self):
-        print("Toss a coin to the Witcher!")
+        print("Toss a coin to your Witcher!")
 
 
 def register(factory: GameCharacterFactory):
