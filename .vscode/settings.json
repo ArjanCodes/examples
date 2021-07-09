@@ -1,17 +1,13 @@
 {
-  "editor.defaultFormatter": "esbenp.prettier-vscode",
-  "[python]": {
-    "editor.defaultFormatter": null
-  },
   "editor.formatOnSaveMode": "file",
   "editor.formatOnSave": true,
   "editor.codeActionsOnSave": {
     "source.organizeImports": true
   },
   "python.linting.pylintEnabled": true,
-  "python.linting.mypyEnabled": true,
   "python.linting.enabled": true,
-  "python.formatting.provider": "black",
   "python.analysis.useImportHeuristic": true,
-  "python.pythonPath": "/usr/local/bin/python3"
+  "python.pythonPath": "/usr/local/bin/python3",
+  "python.analysis.typeCheckingMode": "strict",
+  "python.formatting.provider": "black"
 }
