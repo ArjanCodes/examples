@@ -51,7 +51,7 @@ class TradingBot:
         self.exchange = Exchange()
         self.exchange.connect()
 
-    def run(self, coin: str, trading_strategy: TradingStrategy):
+    def run(self, coin: str, trading_strategy: TradingStrategy) -> None:
         """Run the trading bot once for a particular coin, with a given strategy."""
         prices = self.exchange.get_market_data(coin)
         should_buy = trading_strategy.should_buy(prices)

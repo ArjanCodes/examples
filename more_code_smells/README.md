@@ -8,52 +8,83 @@ The code smells video from a couple of weeks ago did really well, so I've decide
 
   - The term code smell comes from Martin Fowler's book on refactoring.
   - A code smell is not a bug, but a hint that something's wrong in your code.
-  - Often points to a deeper problem/design flaw
-  - Pragmatic approach to code smells is that you should consider these on a case-by-case basis. Use them to point out design issues in your code and fix them if possible.
-  - Purist approach: all code smell are actually code stenches and shouldn't be allowed at all.
+  - Code smells can be minor things, or they can point to a deeper problem/design flaw
 
-- Let's look at a particularly smelly example and make it smell all rosy again!
+-
 
-- Code smell #1: abusing types for something else
+### Code smell #1: Mutable default arguments
 
-  - We're using a str type to distinguish between roles. But str can basically be anything, "slacker", "troublemaker", etc. We don't want those kinds of roles in our company, now do we?
-  - FIX: Move to enum to fix the problem
+(see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-5717](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-5717))
 
-- Code smell #2: duplicate code
+The `add_vehicle_info` method has a `list` argument with a mutable default value. This is problematic. show by adding the following lines of code in the main function:
 
-  - The find_xxx methods basically all do the same thing, except for a different role.
-  - FIX: Refactor into one method that accepts the role as a parameter
+```python
+print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
+print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
+```
 
-- Code smell #3: not using available built-in functions
+Solution: remove the default argument from the `add_vehicle_info` function. Even better: put this function in the `VehicleRegistry` class where it belongs, and then the list argument is no longer needed.
 
-  - Python has lots of built-in methods to make your life easier, especially for lists. List comprehensions in particular are a really powerful, and there are other alternatives that are suitable as well - think of functions like map or filter. Use them!
-  - Find_employees methods use a loop, but there are easier ways to do this
-  - FIX: use a list comprehension to reduce the find_employees function to a single line
+### Code smell #2: High number of arguments
 
-- Code smell #4: vague identifiers (amount in HourlyEmployee -> hours_worked)
+(see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-107](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-107))
 
-  - HourlyEmployee has an 'amount' variable that stands for the nr of hours worked.
-  - This is a very vague name that doesn't explain at all what the variable means and what the unit is.
-  - FIX: Change it to hours_worked
+The `add_vehicle_info` method has too many parameters. Two reasons:
 
-- Code smell #5: using isinstance to separate behavior
+1. It's copying over all of the parameters from `VehicleInfo`, so we can better use `VehicleInfo` directly instead. This is also related to another smell called the 'feature envy smell' where an object or method needs to know too many implementation details of another object, suggesting they should be merged, or split differently.
+2. `VehicleInfo` doesn't declare any defaults, which can reduce the number of parameters needed.
 
-  - pay_employee needs to do different things depending on the type of employee
-  - this approach leads to a lot of coupling since we need to update this method for every new employee type, with big if-else statements as a result
-  - FIX: add a pay() method to Employee, use inheritance for subclass-specific implementations
+Solution: directly add `VehicleInfo` object instead of via a function, and define a few sensible default values in `VehicleInfo`.
 
-- Code smell #6: using boolean flags to make a method do 2 different things
+Overall: avoid methods with more than 3 or 4 arguments.
 
-  - take_a_holiday method does two different things depending on a boolean flag (either let someone take a holiday, or pay out the holiday to the employee)
-  - This leads to low cohesion (one method having too many responsibilities), and methods that are harder to understand what they do
-  - FIX: split the method in two
+### Code smell #3: Too deep nesting
 
-- Code smell #7: empty catch/except clause
+( see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-1066](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-1066))
 
-  - payout_a_holiday has a try with an empty except.
-  - This is bad, because exceptions are now ignored completely, and can't be handled outside of the method call anymore. Even worse: these kinds of catch-all blocks can even ignore SyntaxError or KeyboardInterrupt exceptions in some cases. So your code could have a typo, and you wouldn't know about it.
-  - FIX: if you can't do anything with an exception, don't catch it and ignore it, another part of your program might be able to deal with it
+Too deep nesting is generally a sign of code that has low cohesion (too many responsibilities). `create_vehicle` has too deep nesting. It has both the job of finding vehicle information, as well as generating a license and an id. A second issue is that the nesting can be further simplified by using Boolean logic.
 
-- Code smell #8 (bonus): use custom exceptions
-  - If you raise a ValueError, this introduces coupling, because the calling code needs to know that if the function raises a ValueError, this can be both an internal Python error, or because of a shortage of holidays. Also, there is no easily accessible information about the context of the errors (remaining vacation days etc).
-  - FIX: create a custom VacationDayShortageError that has attributes containing useful error data, such as the remaining available vacation days.
+Solution: create a separate `find_vehicle` method and call that, and combine the if-statements into a single one with the `and` operation. Bonus: show the difference between handling the special case (vehicle info not found) first vs after and the effect on code nesting.
+
+### Code smell #4: Using nested conditional expressions
+
+(see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-3358](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-3358))
+
+When you use nested conditional expressions the code becomes really hard to read. An example is the `online_status` method: it's hard to understand what the result is in which situation.
+
+Solution: split the conditional expression into two. Actually, I must say I almost never use these myself. Often I find a regular if-statement cleaner, even though it's not as short. I'd say a conditional expression is useful if the variable names and results are short so it fits comfortably in a single line.
+
+### Code smell #5: Using wildcard imports
+
+(see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-2208](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-2208))
+
+Both random and string use a wildcard import. Don't do this because it clutters up the namespace and may lead to you accidentally redefining functions or variables that you shouldn't. Also, it's unclear whether things come from random or from the string library, which is confusing. For instance, does the `choices` function come from random or string? And how about the `digits` variable?
+
+Solution: replace the wildcard imports by full module imports (i.e. `import string` - Code reviewer question: does this type of import has a name that I can mention for clarity?).
+
+Notes:
+
+- Only if it is completely clear what something is, you can use `from X import Y`.
+- If the module name is too long, alias it to a shorter name. Example: `import pandas as pd`.
+
+### Code smell #6: Asymmetrical code
+
+(see [https://wiki.c2.com/?AsymmetricalCode](https://wiki.c2.com/?AsymmetricalCode))
+
+Both Vehicle and VehicleInfo have a method that returns a string representation of the object. But they have different names. Asymmetrical code is when you have similar code in different places that is named or handled differently.
+
+Solution: replace both by the built-in `__str__` function (reviewers: or is `__repr__` the better option here?)
+
+### Code smell #7: Methods that don't need self
+
+If a method doesn't use self, it should be a static method. This is the case for the methods that generate an id and that generate a license.
+
+Solution: simple, remove self. And as a bonus, let's improve the clarity of the license generating method by splitting out the string parts.
+
+By the way, Python has class methods and static methods. These are not the same thing! Both are bound to a class instead of two an object. However, a class method has access to the class state. So it can for example change the value of a class variable which is then applicable to all instances. A static method can't do that. It's simply part of a class because it makes sense.
+
+### Final thoughts
+
+It's good to know about these smells, but don't hesitate to use tools to help you. I use VS Code as my editor, and I'm using a combination of Pylint, Pylance and Black, which solves already a lot of issues for me. Pylint is mainly useful for style issues. Pylance adds lots of features to VSCode such as better syntax highlighting, type checking and automatic imports. Finally, Black is a really nice autoformatter. I just set it to format my code whenever I save the file. It's opinionated so I don't have to think about it.
+
+Hope you enjoyed this example. Thanks for watching, take care and see you next time!

@@ -1,10 +1,10 @@
 """
 Basic example of a Vehicle registration system.
 """
+import random
+import string
 from dataclasses import dataclass
-from os import strerror
-from random import *
-from string import *
+from datetime import datetime
 from typing import Optional
 
 
@@ -23,9 +23,9 @@ class VehicleInfo:
 
     brand: str
     model: str
-    electric: bool
     catalogue_price: int
-    production_year: int
+    electric: bool = True
+    production_year: int = datetime.now().year
 
     def compute_tax(self) -> float:
         """Computes the tax to be paid when registering a vehicle of this type."""
@@ -34,7 +34,7 @@ class VehicleInfo:
             tax_percentage = 0.02
         return tax_percentage * self.catalogue_price
 
-    def get_info_str(self) -> str:
+    def __str__(self) -> str:
         """Returns a string representation of this instance."""
         tax = self.compute_tax()
         return f"brand: {self.brand} - type: {self.model} - tax: {tax}"
@@ -48,66 +48,60 @@ class Vehicle:
         self.license_plate = license_plate
         self.info = info
 
-    def to_string(self) -> strerror:
+    def __str__(self) -> str:
         """Returns a string representation of this instance."""
-        info_str = self.info.get_info_str()
-        return f"Id: {self._id}. License plate: {self.license_plate}. Info: {info_str}."
-
-
-def add_vehicle_info(
-    brand: str,
-    model: str,
-    electric: bool,
-    catalogue_price: int,
-    year: int,
-    vehicle_list: list[VehicleInfo] = [],
-) -> list[VehicleInfo]:
-    """Helper method for adding a VehicleInfo object to a list."""
-    vehicle_list.append(VehicleInfo(brand, model, electric, catalogue_price, year))
-    return vehicle_list
+        return (
+            f"Id: {self._id}. License plate: {self.license_plate}. Info: {self.info}."
+        )
 
 
 class VehicleRegistry:
     """Class representing a basic vehicle registration system."""
 
     def __init__(self) -> None:
-        self.vehicle_info: list[VehicleInfo] = []
-
-        # add various entries containing information about vehicles
-        add_vehicle_info("Tesla", "Model 3", True, 50000, 2021, self.vehicle_info)
-        add_vehicle_info("Volkswagen", "ID3", True, 35000, 2021, self.vehicle_info)
-        add_vehicle_info("BMW", "520e", False, 60000, 2021, self.vehicle_info)
-        add_vehicle_info("Tesla", "Model Y", True, 55000, 2021, self.vehicle_info)
-
+        self.vehicle_info: list[VehicleInfo] = [
+            VehicleInfo("Tesla", "Model 3", 50000),
+            VehicleInfo("Volkswagen", "ID3", 35000),
+            VehicleInfo("BMW", "520e", 60000, False),
+            VehicleInfo("Tesla", "Model Y", 55000),
+        ]
         self.online = True
 
-    def generate_vehicle_id(self, length: int) -> str:
-        """Helper method for generating a random vehicle id."""
-        return "".join(choices(ascii_uppercase, k=length))
+    def find_vehicle_info(self, brand: str, model: str) -> Optional[VehicleInfo]:
+        """Finds vehicle info for a brand and model. If no info can be found, None is returned."""
+        for vehicle_info in self.vehicle_info:
+            if vehicle_info.brand == brand and vehicle_info.model == model:
+                return vehicle_info
+        return None
 
-    def generate_vehicle_license(self, _id: str) -> str:
+    @staticmethod
+    def generate_vehicle_id(length: int) -> str:
+        """Helper method for generating a random vehicle id."""
+        return "".join(random.choices(string.ascii_uppercase, k=length))
+
+    @staticmethod
+    def generate_vehicle_license(_id: str) -> str:
         """Helper method for generating a vehicle license number."""
-        return f"{_id[:2]}-{''.join(choices(digits, k=2))}-{''.join(choices(ascii_uppercase, k=2))}"
+
+        digit_part = "".join(random.choices(string.digits, k=2))
+        letter_part = "".join(random.choices(string.ascii_uppercase, k=2))
+        return f"{_id[:2]}-{digit_part}-{letter_part}"
 
     def create_vehicle(self, brand: str, model: str) -> Vehicle:
         """Creates a new vehicle and generates an id and a license plate."""
-        for vehicle_info in self.vehicle_info:
-            if vehicle_info.brand == brand:
-                if vehicle_info.model == model:
-                    vehicle_id = self.generate_vehicle_id(12)
-                    license_plate = self.generate_vehicle_license(vehicle_id)
-                    return Vehicle(vehicle_id, license_plate, vehicle_info)
-        raise VehicleInfoMissingError(brand, model)
+        vehicle_info = self.find_vehicle_info(brand, model)
+        if vehicle_info is None:
+            raise VehicleInfoMissingError(brand, model)
+
+        vehicle_id = self.generate_vehicle_id(12)
+        license_plate = self.generate_vehicle_license(vehicle_id)
+        return Vehicle(vehicle_id, license_plate, vehicle_info)
 
     def online_status(self) -> str:
         """Reports whether the registry system is online."""
-        return (
-            "Offline"
-            if not self.online
-            else "Connection error"
-            if len(self.vehicle_info) == 0
-            else "Online"
-        )
+        if not self.online:
+            return "Offline"
+        return "Connection error" if len(self.vehicle_info) == 0 else "Online"
 
 
 def main() -> None:
@@ -121,11 +115,8 @@ def main() -> None:
 
     vehicle = registry.create_vehicle("Volkswagen", "ID3")
 
-    # print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
-    # print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
-
     # print out the vehicle information
-    print(vehicle.to_string())
+    print(vehicle)
 
 
 if __name__ == "__main__":

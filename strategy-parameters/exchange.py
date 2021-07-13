@@ -10,10 +10,10 @@ class ExchangeConnectionError(Exception):
 class Exchange:
     """Basic exchange simulator."""
 
-    def __init__(self):
+    def __init__(self) -> None:
         self.connected = False
 
-    def connect(self):
+    def connect(self) -> None:
         """Connect to the exchange."""
         print("Connecting to Crypto exchange...")
         self.connected = True
@@ -51,13 +51,13 @@ class Exchange:
         }
         return price_data[coin]
 
-    def buy(self, coin: str, amount: float):
+    def buy(self, coin: str, amount: float) -> None:
         """Simulates buying an amount of a given coin at the current price."""
         if not self.connected:
             raise ExchangeConnectionError()
         print(f"Buying amount {amount} of {coin}.")
 
-    def sell(self, coin: str, amount: float):
+    def sell(self, coin: str, amount: float) -> None:
         """Simulates selling an amount of a given coin at the current price."""
         if not self.connected:
             raise ExchangeConnectionError()
