@@ -10,7 +10,7 @@ The code smells video from a couple of weeks ago did really well, so I've decide
   - A code smell is not a bug, but a hint that something's wrong in your code.
   - Code smells can be minor things, or they can point to a deeper problem/design flaw
 
--
+- Today, I'll cover 7 more code smells. Not all of these code smells are Python-specific by the way. But regardless, they're still pretty smelly!
 
 ### Code smell #1: Mutable default arguments
 
