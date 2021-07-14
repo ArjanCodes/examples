@@ -16,12 +16,12 @@ The code smells video from a couple of weeks ago did really well, so I've decide
 
 (see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-107](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-107))
 
-The `add_vehicle_info` method has too many parameters. Two reasons:
+The `add_vehicle_model_info` method has too many parameters. Two reasons:
 
-1. It's copying over all of the parameters from `VehicleInfo`, so we can better use `VehicleInfo` directly instead. This is also related to another smell called the 'feature envy smell' where an object or method needs to know too many implementation details of another object, suggesting they should be merged, or split differently.
-2. `VehicleInfo` doesn't declare any defaults, which can reduce the number of parameters needed.
+1. It's copying over all of the parameters from `VehicleModelInfo`, so we can better use `VehicleModelInfo` directly instead. This is also related to another smell called the 'feature envy smell' where an object or method needs to know too many implementation details of another object, suggesting they should be merged, or split differently.
+2. `VehicleModelInfo` doesn't declare any defaults, which can reduce the number of parameters needed.
 
-Solution: directly add `VehicleInfo` object instead of via a function, and define a few sensible default values in `VehicleInfo`.
+Solution: directly add `VehicleModelInfo` object instead of passing all the attributes as arguments, and define a few sensible default values in `VehicleModelInfo`. Rename the method to `add` since it's clear we're adding `VehicleModelInfo` object.
 
 Overall: avoid methods with more than 3 or 4 arguments.
 
@@ -29,13 +29,19 @@ Overall: avoid methods with more than 3 or 4 arguments.
 
 ( see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-1066](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-1066))
 
-Too deep nesting is generally a sign of code that has low cohesion (too many responsibilities). `create_vehicle` has too deep nesting. It has both the job of finding vehicle information, as well as generating a license and an id. A second issue is that the nesting can be further simplified by using Boolean logic.
+Too deep nesting is generally a sign of code that has low cohesion (too many responsibilities). `register_vehicle` has too deep nesting. It has both the job of finding vehicle information, as well as generating a license and an id. A second issue is that the nesting can be further simplified by using Boolean logic.
 
-Solution: create a separate `find_vehicle` method and call that, and combine the if-statements into a single one with the `and` operation. Bonus: show the difference between handling the special case (vehicle info not found) first vs after and the effect on code nesting.
+Solution: create a separate `find_model_info` method and call that, and combine the if-statements into a single one with the `or` operation. Bonus: show the difference between handling the special case (vehicle info not found) first vs after and the effect on code nesting.
 
 ### Code smell #3: Use the right datastructure
 
-If you need to iterate over all vehicleinfo objects just to find one with a specific brand+model, you probably want to use a dictionary instead, and key it on (str, str) tuples.
+If you need to iterate over all `VehicleModelInfo` objects just to find one with a specific brand+model, you probably want to use a dictionary instead, and key it on (str, str) tuples.
+
+Solution: convert the datastructure to a dict with (str, str) tuples as keys.
+
+Note:
+
+- This also significantly simplifies the `find_model_info` function!
 
 ### Code smell #4: Using nested conditional expressions
 
@@ -45,24 +51,28 @@ When you use nested conditional expressions the code becomes really hard to read
 
 Solution: split the conditional expression into two. Actually, I must say I almost never use these myself. Often I find a regular if-statement cleaner, even though it's not as short. I'd say a conditional expression is useful if the variable names and results are short so it fits comfortably in a single line.
 
+Notes:
+
+- The `online_status` method doesn't do that much in this particular example, it's mainly there to demonstrate the smell.
+
 ### Code smell #5: Using wildcard imports
 
 (see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-2208](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-2208))
 
 Both random and string use a wildcard import. Don't do this because it clutters up the namespace and may lead to you accidentally redefining functions or variables that you shouldn't. Also, it's unclear whether things come from random or from the string library, which is confusing. For instance, does the `choices` function come from random or string? And how about the `digits` variable?
 
-Solution: replace the wildcard imports by full module imports (i.e. `import string` - Code reviewer question: does this type of import has a name that I can mention for clarity?).
+Solution: replace the wildcard import by importing the module directly (i.e. `import string`).
 
 Notes:
 
-- Only if it is completely clear what something is, you can use `from X import Y`.
-- If the module name is too long, alias it to a shorter name. Example: `import pandas as pd`.
+- Rule of thumb: always just import the module, unless there is a good reason not to (for instance in the case of dataclasses or datetime, it's completely clear what it is and they can be used in different places in the module)
+- If the module name is too long, you can alias it to a shorter name. Example: `import pandas as pd`.
 
 ### Code smell #6: Asymmetrical code
 
 (see [https://wiki.c2.com/?AsymmetricalCode](https://wiki.c2.com/?AsymmetricalCode))
 
-Both Vehicle and VehicleInfo have a method that returns a string representation of the object. But they have different names. Asymmetrical code is when you have similar code in different places that is named or handled differently.
+Both `Vehicle` and `VehicleModelInfo` have a method that returns a string representation of the object. But they have different names. Asymmetrical code is when you have similar code in different places that is named or handled differently.
 
 Solution: replace both by the built-in `__str__` function.
 
@@ -76,7 +86,7 @@ If a method doesn't use self, it should be a static method. This is the case for
 
 Solution: simple, remove self. And as a bonus, let's improve the clarity of the license generating method by splitting out the string parts.
 
-By the way, Python has class methods and static methods. These are not the same thing! Both are bound to a class instead of two an object. However, a class method has access to the class state. So it can for example change the value of a class variable which is then applicable to all instances. A static method can't do that. It's simply part of a class because it makes sense.
+By the way, Python has class methods and static methods. These are not the same thing! Both are bound to a class instead of to an object. However, a class method has access to the class state. So it can for example change the value of a class variable which is then applicable to all instances. A static method can't do that. It's simply part of a class because it makes sense.
 
 ### Code smell #8 (BONUS): Not using a main function in a module
 
