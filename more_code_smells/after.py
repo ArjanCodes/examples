@@ -5,7 +5,19 @@ import random
 import string
 from dataclasses import dataclass
 from datetime import datetime
+from enum import Enum, auto
 from typing import Optional
+
+TAX_PERCENTAGE_ELECTRIC = 0.02
+TAX_PERCENTAGE_PETROL = 0.05
+
+
+class RegistryStatus(Enum):
+    """Possible statuses for the vehicle registry system."""
+
+    ONLINE = auto()
+    CONNECTION_ERROR = auto()
+    OFFLINE = auto()
 
 
 @dataclass
@@ -29,13 +41,12 @@ class VehicleInfo:
 
     def compute_tax(self) -> float:
         """Computes the tax to be paid when registering a vehicle of this type."""
-        tax_percentage = 0.05
-        if self.electric:
-            tax_percentage = 0.02
+        tax_percentage = (
+            TAX_PERCENTAGE_ELECTRIC if self.electric else TAX_PERCENTAGE_PETROL
+        )
         return tax_percentage * self.catalogue_price
 
     def __str__(self) -> str:
-        """Returns a string representation of this instance."""
         tax = self.compute_tax()
         return f"brand: {self.brand} - type: {self.model} - tax: {tax}"
 
@@ -43,16 +54,13 @@ class VehicleInfo:
 class Vehicle:
     """Class representing a vehicle (electric or fossil fuel)."""
 
-    def __init__(self, _id: str, license_plate: str, info: VehicleInfo) -> None:
-        self._id = _id
+    def __init__(self, vehicle_id: str, license_plate: str, info: VehicleInfo) -> None:
+        self.vehicle_id = vehicle_id
         self.license_plate = license_plate
         self.info = info
 
     def __str__(self) -> str:
-        """Returns a string representation of this instance."""
-        return (
-            f"Id: {self._id}. License plate: {self.license_plate}. Info: {self.info}."
-        )
+        return f"Id: {self.vehicle_id}. License plate: {self.license_plate}. Info: {self.info}."
 
 
 class VehicleRegistry:
@@ -70,8 +78,9 @@ class VehicleRegistry:
     def find_vehicle_info(self, brand: str, model: str) -> Optional[VehicleInfo]:
         """Finds vehicle info for a brand and model. If no info can be found, None is returned."""
         for vehicle_info in self.vehicle_info:
-            if vehicle_info.brand == brand and vehicle_info.model == model:
-                return vehicle_info
+            if vehicle_info.brand != brand or vehicle_info.model != model:
+                continue
+            return vehicle_info
         return None
 
     @staticmethod
@@ -80,28 +89,32 @@ class VehicleRegistry:
         return "".join(random.choices(string.ascii_uppercase, k=length))
 
     @staticmethod
-    def generate_vehicle_license(_id: str) -> str:
+    def generate_vehicle_license(vehicle_id: str) -> str:
         """Helper method for generating a vehicle license number."""
 
         digit_part = "".join(random.choices(string.digits, k=2))
         letter_part = "".join(random.choices(string.ascii_uppercase, k=2))
-        return f"{_id[:2]}-{digit_part}-{letter_part}"
+        return f"{vehicle_id[:2]}-{digit_part}-{letter_part}"
 
     def create_vehicle(self, brand: str, model: str) -> Vehicle:
         """Creates a new vehicle and generates an id and a license plate."""
         vehicle_info = self.find_vehicle_info(brand, model)
-        if vehicle_info is None:
+        if not vehicle_info:
             raise VehicleInfoMissingError(brand, model)
 
         vehicle_id = self.generate_vehicle_id(12)
         license_plate = self.generate_vehicle_license(vehicle_id)
         return Vehicle(vehicle_id, license_plate, vehicle_info)
 
-    def online_status(self) -> str:
+    def online_status(self) -> RegistryStatus:
         """Reports whether the registry system is online."""
         if not self.online:
-            return "Offline"
-        return "Connection error" if len(self.vehicle_info) == 0 else "Online"
+            return RegistryStatus.OFFLINE
+        return (
+            RegistryStatus.CONNECTION_ERROR
+            if len(self.vehicle_info) == 0
+            else RegistryStatus.ONLINE
+        )
 
 
 def main() -> None:

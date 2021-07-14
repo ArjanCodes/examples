@@ -12,20 +12,7 @@ The code smells video from a couple of weeks ago did really well, so I've decide
 
 - Today, I'll cover 7 more code smells. Not all of these code smells are Python-specific by the way. But regardless, they're still pretty smelly!
 
-### Code smell #1: Mutable default arguments
-
-(see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-5717](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-5717))
-
-The `add_vehicle_info` method has a `list` argument with a mutable default value. This is problematic. show by adding the following lines of code in the main function:
-
-```python
-print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
-print(add_vehicle_info("Tesla", "Model 3", True, 50000, 2021))
-```
-
-Solution: remove the default argument from the `add_vehicle_info` function. Even better: put this function in the `VehicleRegistry` class where it belongs, and then the list argument is no longer needed.
-
-### Code smell #2: High number of arguments
+### Code smell #1: Large number of arguments
 
 (see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-107](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-107))
 
@@ -38,13 +25,17 @@ Solution: directly add `VehicleInfo` object instead of via a function, and defin
 
 Overall: avoid methods with more than 3 or 4 arguments.
 
-### Code smell #3: Too deep nesting
+### Code smell #2: Too deep nesting
 
 ( see [https://rules.sonarsource.com/python/type/Code Smell/RSPEC-1066](https://rules.sonarsource.com/python/type/Code%20Smell/RSPEC-1066))
 
 Too deep nesting is generally a sign of code that has low cohesion (too many responsibilities). `create_vehicle` has too deep nesting. It has both the job of finding vehicle information, as well as generating a license and an id. A second issue is that the nesting can be further simplified by using Boolean logic.
 
 Solution: create a separate `find_vehicle` method and call that, and combine the if-statements into a single one with the `and` operation. Bonus: show the difference between handling the special case (vehicle info not found) first vs after and the effect on code nesting.
+
+### Code smell #3: Use the right datastructure
+
+If you need to iterate over all vehicleinfo objects just to find one with a specific brand+model, you probably want to use a dictionary instead, and key it on (str, str) tuples.
 
 ### Code smell #4: Using nested conditional expressions
 
@@ -73,7 +64,11 @@ Notes:
 
 Both Vehicle and VehicleInfo have a method that returns a string representation of the object. But they have different names. Asymmetrical code is when you have similar code in different places that is named or handled differently.
 
-Solution: replace both by the built-in `__str__` function (reviewers: or is `__repr__` the better option here?)
+Solution: replace both by the built-in `__str__` function.
+
+Notes:
+
+- `__str__` vs `__repr__`. When to use which one? Use the former for more human-readable strings, and the latter to produce Python code that can be evaluated to produce the same object. I generally keep the distinction between `__str__` for users, and `__repr__` for developers.
 
 ### Code smell #7: Methods that don't need self
 
@@ -83,8 +78,14 @@ Solution: simple, remove self. And as a bonus, let's improve the clarity of the 
 
 By the way, Python has class methods and static methods. These are not the same thing! Both are bound to a class instead of two an object. However, a class method has access to the class state. So it can for example change the value of a class variable which is then applicable to all instances. A static method can't do that. It's simply part of a class because it makes sense.
 
+### Code smell #8 (BONUS): Not using a main function in a module
+
+If you don't use a main function, this means that any variables you declare under the `if __name__ == "__main__":` part are in the global scope of the module, which can lead to unexpected bugs, shadowing variables that you also use somewhere else, etc.
+
+Solution: put everything into a separate main function and directly under the `if...` part.
+
 ### Final thoughts
 
-It's good to know about these smells, but don't hesitate to use tools to help you. I use VS Code as my editor, and I'm using a combination of Pylint, Pylance and Black, which solves already a lot of issues for me. Pylint is mainly useful for style issues. Pylance adds lots of features to VSCode such as better syntax highlighting, type checking and automatic imports. Finally, Black is a really nice autoformatter. I just set it to format my code whenever I save the file. It's opinionated so I don't have to think about it.
+It's good to know about these smells, but don't hesitate to use tools to help you. I use VS-Code as my editor, and I'm using a combination of Pylint, Pylance and Black, which solves already a lot of issues for me. Pylint is mainly useful for style issues. Pylance adds lots of features to VSCode such as better syntax highlighting, type checking and automatic imports. Finally, Black is a really nice autoformatter. I just set it to format my code whenever I save the file. It's opinionated so I don't have to think about it.
 
 Hope you enjoyed this example. Thanks for watching, take care and see you next time!
