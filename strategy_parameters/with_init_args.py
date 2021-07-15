@@ -7,6 +7,11 @@ from dataclasses import dataclass
 from exchange import Exchange
 
 
+def average(lst: list[float]):
+    """Compute the average of a list."""
+    return sum(lst) / len(lst)
+
+
 class TradingStrategy(ABC):
     """Trading strategy that decides whether to buy or sell, given a list of prices."""
 
@@ -28,11 +33,11 @@ class AverageTradingStrategy(TradingStrategy):
     def should_buy(self, prices: list[float]) -> bool:
 
         list_window = prices[-int(self.window_size) :]
-        return prices[-1] < sum(list_window) / len(list_window)
+        return prices[-1] < average(list_window)
 
     def should_sell(self, prices: list[float]) -> bool:
         list_window = prices[-int(self.window_size) :]
-        return prices[-1] > sum(list_window) / len(list_window)
+        return prices[-1] > average(list_window)
 
 
 @dataclass
@@ -54,28 +59,36 @@ class MinMaxTradingStrategy(TradingStrategy):
 class TradingBot:
     """Trading bot that connects to a crypto exchange and performs trades."""
 
-    def __init__(self) -> None:
-        self.exchange = Exchange()
-        self.exchange.connect()
+    def __init__(self, exchange: Exchange, trading_strategy: TradingStrategy) -> None:
+        self.exchange = exchange
+        self.trading_strategy = trading_strategy
 
-    def run(self, coin: str, trading_strategy: TradingStrategy):
-        """Run the trading bot once for a particular coin, with a given strategy."""
-        prices = self.exchange.get_market_data(coin)
-        should_buy = trading_strategy.should_buy(prices)
-        should_sell = trading_strategy.should_sell(prices)
+    def run(self, symbol: str):
+        """Run the trading bot once for a particular symbol, with a given strategy."""
+        prices = self.exchange.get_market_data(symbol)
+        should_buy = self.trading_strategy.should_buy(prices)
+        should_sell = self.trading_strategy.should_sell(prices)
         if should_buy:
-            self.exchange.buy(coin, 10)
+            self.exchange.buy(symbol, 10)
         elif should_sell:
-            self.exchange.sell(coin, 10)
+            self.exchange.sell(symbol, 10)
         else:
-            print(f"No action needed for {coin}.")
+            print(f"No action needed for {symbol}.")
 
 
 def main() -> None:
     """Main function."""
 
-    bot = TradingBot()
-    bot.run("BTC/USD", MinMaxTradingStrategy(min_price=31000, max_price=34000))
+    # create the exchange and connect to it
+    exchange = Exchange()
+    exchange.connect()
+
+    # create the trading strategy
+    trading_strategy = MinMaxTradingStrategy(min_price=31000, max_price=34000)
+
+    # create the trading bot and run the bot once
+    bot = TradingBot(exchange, trading_strategy)
+    bot.run("BTC/USD")
 
 
 if __name__ == "__main__":

@@ -1,6 +1,6 @@
 ## About this video
 
-This video is about how to use the Strategy pattern where each strategy has different parameters
+This video is about how to use the Strategy pattern where each strategy has different parameters.
 
 ## Video outline
 
