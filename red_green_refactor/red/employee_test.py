@@ -6,22 +6,17 @@ import unittest
 from employee import Employee
 
 
-class TestEmployeeMethods(unittest.TestCase):
-    """Test the methods of the Employee class."""
-
-    def test_employee_init(self):
-        """Whether the employee is properly initialized."""
-        arjan = Employee(name="Arjan", _id=12345)
-        self.assertEqual(arjan.has_commission, True)
+class TestEmployeeComputePayout(unittest.TestCase):
+    """Test the compute_payout method of the Employee class."""
 
     def test_employee_payout_no_commission_no_hours(self):
         """Whether payout is correctly computed in case of no commission and no hours worked."""
-        arjan = Employee(name="Arjan", _id=12345)
+        arjan = Employee(name="Arjan", employee_id=12345)
         self.assertEqual(arjan.compute_payout(), arjan.employer_cost)
 
     def test_employee_payout_no_commission(self):
         """Whether payout is correctly computed in case of no commission and 10 hours worked."""
-        arjan = Employee(name="Arjan", _id=12345, hours_worked=10)
+        arjan = Employee(name="Arjan", employee_id=12345, hours_worked=10)
         self.assertEqual(arjan.compute_payout(), arjan.employer_cost + 1000.0)
 
     def test_employee_payout_with_commission(self):
@@ -31,7 +26,7 @@ class TestEmployeeMethods(unittest.TestCase):
         """
         arjan = Employee(
             name="Arjan",
-            _id=12345,
+            employee_id=12345,
             hours_worked=10,
             contracts_landed=10,
         )
@@ -45,7 +40,7 @@ class TestEmployeeMethods(unittest.TestCase):
         """
         arjan = Employee(
             name="Arjan",
-            _id=12345,
+            employee_id=12345,
             hours_worked=10,
             contracts_landed=10,
             has_commission=False,

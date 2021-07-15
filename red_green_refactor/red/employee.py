@@ -9,7 +9,7 @@ class Employee:
     """Basic representation of an employee."""
 
     name: str
-    _id: int
+    employee_id: int
     pay_rate: float = 100.0
     hours_worked: int = 0
     employer_cost: float = 1000.0
