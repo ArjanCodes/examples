@@ -68,10 +68,6 @@ class Vehicle:
         return f"Id: {self.vehicle_id}. License plate: {self.license_plate}. Info: {self.info}."
 
 
-class VehicleModelCatalog:
-    """Class representing a set of information about vehicle models."""
-
-
 class VehicleRegistry:
     """Class representing a basic vehicle registration system."""
 
@@ -85,8 +81,9 @@ class VehicleRegistry:
 
     def find_model_info(self, brand: str, model: str) -> Optional[VehicleModelInfo]:
         """Finds vehicle model info for a brand and model. If no info can be found, None is returned."""
-        return self.vehicle_models[(brand, model)]
+        return self.vehicle_models.get((brand, model))
 
+    # Below is the function used before changing self.vehicle_models to a dictionary
     # def find_model_info(self, brand: str, model: str) -> Optional[VehicleModelInfo]:
     #     """Finds vehicle info for a brand and model. If no info can be found, None is returned."""
     #     for vehicle_model in self.vehicle_models:
@@ -110,10 +107,17 @@ class VehicleRegistry:
 
     def register_vehicle(self, brand: str, model: str) -> Vehicle:
         """Register a new vehicle and generates an id and a license plate."""
-        vehicle_model = self.find_model_info(brand, model)
-        if not vehicle_model:
+
+        # without the walrus operator
+        # vehicle_model = self.find_model_info(brand, model)
+        # if not vehicle_model:
+        #     raise VehicleInfoMissingError(brand, model)
+
+        # with the walrus operator
+        if not (vehicle_model := self.find_model_info(brand, model)):
             raise VehicleInfoMissingError(brand, model)
 
+        # generate the vehicle id and license plate
         vehicle_id = self.generate_vehicle_id(12)
         license_plate = self.generate_vehicle_license(vehicle_id)
         return Vehicle(vehicle_id, license_plate, vehicle_model)

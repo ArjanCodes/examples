@@ -1,14 +1,10 @@
 """
 Basic example of a Trading bot with a strategy pattern.
 """
+import statistics
 from abc import ABC, abstractmethod
 
 from exchange import Exchange
-
-
-def average(lst: list[float]):
-    """Compute the average of a list."""
-    return sum(lst) / len(lst)
 
 
 class TradingStrategy(ABC):
@@ -28,11 +24,11 @@ class AverageTradingStrategy(TradingStrategy):
 
     def should_buy(self, prices: list[float]) -> bool:
         list_window = prices[-3:]
-        return prices[-1] < average(list_window)
+        return prices[-1] < statistics.mean(list_window)
 
     def should_sell(self, prices: list[float]) -> bool:
         list_window = prices[-3:]
-        return prices[-1] > average(list_window)
+        return prices[-1] > statistics.mean(list_window)
 
 
 class MinMaxTradingStrategy(TradingStrategy):

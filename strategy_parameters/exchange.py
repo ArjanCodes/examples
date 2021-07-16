@@ -18,10 +18,14 @@ class Exchange:
         print("Connecting to Crypto exchange...")
         self.connected = True
 
-    def get_market_data(self, coin: str) -> list[float]:
-        """Returns fake market price data for a given coin."""
+    def check_connection(self) -> None:
+        """Check if the exchange is connected."""
         if not self.connected:
             raise ExchangeConnectionError()
+
+    def get_market_data(self, symbol: str) -> list[float]:
+        """Return fake market price data for a given market symbol."""
+        self.check_connection()
 
         price_data = {
             "BTC/USD": [
@@ -49,16 +53,14 @@ class Exchange:
                 2004.0,
             ],
         }
-        return price_data[coin]
+        return price_data[symbol]
 
-    def buy(self, coin: str, amount: float) -> None:
-        """Simulates buying an amount of a given coin at the current price."""
-        if not self.connected:
-            raise ExchangeConnectionError()
-        print(f"Buying amount {amount} of {coin}.")
+    def buy(self, symbol: str, amount: float) -> None:
+        """Simulate buying an amount of a given symbol at the current price."""
+        self.check_connection()
+        print(f"Buying amount {amount} in market {symbol}.")
 
-    def sell(self, coin: str, amount: float) -> None:
-        """Simulates selling an amount of a given coin at the current price."""
-        if not self.connected:
-            raise ExchangeConnectionError()
-        print(f"Selling amount {amount} of {coin}.")
+    def sell(self, symbol: str, amount: float) -> None:
+        """Simulate selling an amount of a given symbol at the current price."""
+        self.check_connection()
+        print(f"Selling amount {amount} in market {symbol}.")
