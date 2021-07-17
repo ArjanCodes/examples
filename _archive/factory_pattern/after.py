@@ -134,7 +134,9 @@ def read_factory() -> ExporterFactory:
         "master": MasterQualityExporter(),
     }
     while True:
-        export_quality = input("Enter desired output quality (low, high, master): ")
+        export_quality = input(
+            f"Enter desired output quality ({', '.join(factories)}): "
+        )
         if export_quality in factories:
             return factories[export_quality]
         print(f"Unknown output quality option: {export_quality}.")
