@@ -11,7 +11,7 @@ class Employee:
     name: str
     employee_id: int
     pay_rate: float = 100.0
-    hours_worked: int = 0
+    hours_worked: float = 0.0
     employer_cost: float = 1000.0
     commission: float = 100.0
     contracts_landed: int = 0
