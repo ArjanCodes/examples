@@ -44,6 +44,12 @@ Write the actual code and show in several steps that the tests are passing.
 
 You realize that the Employee class can be improved. Actually, the `has_commission` Boolean variable can be replaced by a property that computes it based on the price paid per landed contract. Refactor this and adapt the tests.
 
+### A few testing tips
+
+- Don't use the same Employee instance in different tests.
+- Don't test the Python built-in functions.
+- Test by comparing with constant values, don't copy over the implementation.
+
 ### Why is test-driven development useful?
 
 - Test-driven development offers more than just simple validation of correctness, but can also drive the design of a program. By focusing on the test cases first, one must imagine how the functionality is used by clients (in the first case, the test cases). So, the programmer is concerned with the interface before the implementation.

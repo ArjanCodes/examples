@@ -4,13 +4,15 @@ The code smells video from a couple of weeks ago did really well, so I've decide
 
 ## Video outline
 
-- What are code smells?
+A couple of weeks ago I did a video about code smells. If you haven't watched that yet, I posted a link to it in the comments. I really enjoyed recording that video and you seemed to like it too, so I'm doing another one. I'll also give you a tip on what you can do to avoid code smells in general.
 
-  - The term code smell comes from Martin Fowler's book on refactoring.
-  - A code smell is not a bug, but a hint that something's wrong in your code.
-  - Code smells can be minor things, or they can point to a deeper problem/design flaw
+If you're new here and you want to become a better software developer, gain a deeper understanding of programming in general, start now by subscribing and hitting the bell, so you don't miss anything.
 
-- Today, I'll cover 7 more code smells. Not all of these code smells are Python-specific by the way. But regardless, they're still pretty smelly!
+### Explain the example
+
+## What are code smells?
+
+Recap: a code smell is not a bug, it's more of a hint that something's wrong in your code. It can be a minor thing that's easy to fix. Or, it can point to a bigger problem in your design. Today, I'll cover 7 more code smells. Not all of them are Python-specific by the way. But regardless, they're still pretty smelly!
 
 ### Code smell #1: Large number of arguments
 
@@ -63,7 +65,7 @@ Both random and string use a wildcard import. Don't do this because it clutters 
 
 Solution: replace the wildcard import by importing the module directly (i.e. `import string`).
 
-Notes:
+Notes [not in screencast but regular!]:
 
 - Rule of thumb: always just import the module, unless there is a good reason not to (for instance in the case of dataclasses or datetime, it's completely clear what it is and they can be used in different places in the module)
 - If the module name is too long, you can alias it to a shorter name. Example: `import pandas as pd`.
@@ -76,7 +78,7 @@ Both `Vehicle` and `VehicleModelInfo` have a method that returns a string repres
 
 Solution: replace both by the built-in `__str__` function.
 
-Notes:
+Notes [not in screencast but regular!]:
 
 - `__str__` vs `__repr__`. When to use which one? Use the former for more human-readable strings, and the latter to produce Python code that can be evaluated to produce the same object. I generally keep the distinction between `__str__` for users, and `__repr__` for developers.
 
@@ -96,6 +98,8 @@ Solution: put everything into a separate main function and directly under the `i
 
 ### Final thoughts
 
-It's good to know about these smells, but don't hesitate to use tools to help you. I use VS-Code as my editor, and I'm using a combination of Pylint, Pylance and Black, which solves already a lot of issues for me. Pylint is mainly useful for style issues. Pylance adds lots of features to VSCode such as better syntax highlighting, type checking and automatic imports. Finally, Black is a really nice autoformatter. I just set it to format my code whenever I save the file. It's opinionated so I don't have to think about it.
+It's good to know about these smells, but if you want to avoid code smells, there are tools to help you. I use VS-Code as my editor, and I'm using a combination of Pylint, Pylance and Black, which solves already a lot of issues for me. Pylint is mainly useful for style issues. Pylance adds lots of features to VSCode such as better syntax highlighting, type checking and automatic imports. Finally, Black is a really nice autoformatter. I just set it to format my code whenever I save the file. It's opinionated so I don't have to think about it.
 
-Hope you enjoyed this example. Thanks for watching, take care and see you next time!
+Another thing you can do is make sure to understand your problem, before you start solving it. I wrote a free guide to help you with this. You can get it at arjancodes.com/designguide. It describes in 7 steps what I generally do when designing new software. I've kept it pretty short and to the point, so you can go through it quickly and apply it immediately.
+
+I hope you enjoyed this video. Now let's go and cleanse ourselves. Or perhaps you like dirty. I think it's time to end this. Thanks for watching, take care and see you next time!
