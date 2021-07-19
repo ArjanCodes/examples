@@ -6,7 +6,9 @@ This video is about GitHub Copilot. I'll basically be monkeying around with the 
 
 ### What is Github Copilot?
 
-Last month, Github introduced Copilot. They call it an AI pair programmer that helps you write code faster and with less work. I like that. Because I'm a lazy bastard. Today I'm going to put it through its paces and see if it delivers what they promise. In short: I'm impressed. But I'm concerned about a few things. Let's dive in.
+Github Copilot is an AI pair programmer that doesn't spit on your keyboard or lick your mouse when you're not there. Yeah, that could be a thing!
+
+Today I'm going to put it through its paces and see if it delivers what they promise. In short: I'm impressed. But I'm also concerned about a few things. Let's dive in.
 
 -- teaser of me being flabbergasted that something works
 
@@ -14,7 +16,7 @@ If you're new here and you want to become a better software developer, gain a de
 
 ### Installing it in VSCode
 
-Copilot integrates directly with VSCode. You can install it as an extension. At the moment, you need to be in the Technical Preview group in order to use it. I put a link in the description that you can click on if you want to join the waitlist.
+Last month, Github introduced Copilot. They call it an AI pair programmer that helps you write code faster and with less work. I like that. Because I'm a lazy bastard. Copilot integrates directly with VSCode. You can install it as an extension. At the moment, you need to be in the Technical Preview group in order to use it. I put a link in the description that you can click on if you want to join the waitlist.
 
 ### Play around with the tool
 

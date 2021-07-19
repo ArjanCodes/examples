@@ -4,6 +4,10 @@ This video is about test-driven development and the related concept of 'red-gree
 
 ## Video outline
 
+The idea of test-driven-development is that you write the tests before the actual code. Today I'll show you an example of how this works, what the pros and cons are of working this way. And as a bonus, I have a few tips for you on how to setup your unit tests. Let's dive in.
+
+If you're new here and you want to become a better software developer, gain a deeper understanding of programming in general, start now by subscribing and hitting the bell, so you don't miss anything.
+
 ### Example explanation
 
 This example is a simple `Employee` class that is used to compute how much someone should be paid based on their pay rate, the hours worked and a few more parameters.
