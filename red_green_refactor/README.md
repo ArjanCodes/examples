@@ -4,15 +4,15 @@ This video is about test-driven development and the related concept of 'red-gree
 
 ## Video outline
 
-The idea of test-driven-development is that you write the tests before the actual code. Today I'll show you an example of how this works, what the pros and cons are of working this way. And as a bonus, I have a few tips for you on how to setup your unit tests. Let's dive in.
+The idea of test-driven-development is that you write the tests before the actual code. Today I'll show you an example of how this works and what the benefits are. But there are also some things you need to watch out for. Let's dive in.
 
 If you're new here and you want to become a better software developer, gain a deeper understanding of programming in general, start now by subscribing and hitting the bell, so you don't miss anything.
 
 ### Example explanation
 
-This example is a simple `Employee` class that is used to compute how much someone should be paid based on their pay rate, the hours worked and a few more parameters.
+This example is a simple `Employee` class that is used to compute how much someone should be paid based on their pay rate, the hours worked and a few more parameters. Quick look at the tests.
 
-I haven't implemented the `compute_pay` method yet. We're going to do that later and follow the process of test-driven development
+I haven't implemented the `compute_pay` method yet. We're going to do that later and follow the process of test-driven development.
 
 ### What is Test-driven development?
 
@@ -48,11 +48,7 @@ Write the actual code and show in several steps that the tests are passing.
 
 You realize that the Employee class can be improved. Actually, the `has_commission` Boolean variable can be replaced by a property that computes it based on the price paid per landed contract. Refactor this and adapt the tests.
 
-### A few testing tips
-
-- Don't use the same Employee instance in different tests.
-- Don't test the Python built-in functions.
-- Test by comparing with constant values, don't copy over the implementation.
+I have a few tips for you on how to setup your unit tests. But before I talk about that, let's review the test-driven-development cycle and its pros and cons.
 
 ### Why is test-driven development useful?
 
@@ -69,6 +65,12 @@ You realize that the Employee class can be improved. Actually, the `has_commissi
 - A high number of passing unit tests may bring a false sense of security, resulting in fewer additional software testing activities, such as integration testing and compliance testing.
 
 - Unit tests created in a test-driven development environment are typically created by the developer who is writing the code being tested. Therefore, the tests may share blind spots with the code: if, for example, a developer does not realize that certain input parameters must be checked, most likely neither the test nor the code will verify those parameters. Another example: if the developer misinterprets the requirements for the module he is developing, the code and the unit tests he writes will both be wrong in the same way. Therefore, the tests will pass, giving a false sense of correctness.
+
+### A few testing tips
+
+- Don't use the same Employee instance in different tests.
+- Don't test the Python built-in functions.
+- Test by comparing with constant values, don't copy over the implementation.
 
 ### Takeaway
 

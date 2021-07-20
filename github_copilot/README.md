@@ -44,7 +44,7 @@ The interface integrates well with VSCode. Really basic. Does the job and doesn'
 
 Overall, I'm impressed. I find Copilot quite helpful with providing quick solutions to common software problems. I can imagine that as the tool gets better, it's going to save developers time.
 
-This is not going to put out of a job, or make my channel obsolete. You still need to think about how to design your software and how to organize your code though. I wrote a guide to help you with this. You can get it for free at arjancodes.com/designguide. This describes the 7 steps I think about when designing a new feature or software application. It might help you structure your thoughts. Arjancodes.com/designguide.
+This is not going to put you out of a job, or make my channel obsolete. You still need to think about how to design your software and how to organize your code. I wrote a guide to help you with this. You can get it for free at arjancodes.com/designguide. This describes the 7 steps I think about when designing a new feature or software application. It might help you structure your thoughts. Arjancodes.com/designguide.
 
 I have a few concerns about Copilot.
 
@@ -62,6 +62,6 @@ I have a few concerns about Copilot.
 
 - Security issues
   - Many repos contain sensitive information such as DB credentials, API private keys, and so on. GitHub trains the models on public repos, where this is less of a problem, but that might change. Tools like Copilot are another reason to never put sensitive data in repositories, even if they are private.
-  - Can a bad actor commit malicious code and trick the algorithm into suggesting that code to other developers who then use it? This opens up a new avenue for hackers to get into existing code.
+  - Can a bad actor commit malicious code and trick the algorithm into suggesting that code to other developers who then use it? This opens up a new avenue for hackers to get into existing code. Maybe this is all purely academic and it won't be an issue. Given what's happened in the past, I'm not so sure.
 
 Overall: it's an interesting new direction for software development. I'm not going to uninstall this yet and see how it feels when I use this for a longer period. I'm curious: do you see yourself using Copilot in your development process? Would you pay for this? Let me know what your thoughts are. Thanks for watching, take care and see you soon!
