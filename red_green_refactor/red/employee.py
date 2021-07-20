@@ -19,3 +19,4 @@ class Employee:
 
     def compute_payout(self) -> float:
         """Compute how much the employee should be paid."""
+        raise NotImplementedError()
