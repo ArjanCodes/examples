@@ -6,7 +6,7 @@ This video is about GitHub Copilot. I'll basically be monkeying around with the 
 
 ### What is Github Copilot?
 
-Github Copilot is an AI pair programmer that doesn't spit on your keyboard or lick your mouse when you're not there. Yeah, that could be a thing!
+Github Copilot is an AI pair programmer that doesn't spill food all over your keyboard or lick your mouse when you're not there. Yeah, that could be a thing!
 
 Today I'm going to put it through its paces and see if it delivers what they promise. In short: I'm impressed. But I'm also concerned about a few things. Let's dive in.
 
