@@ -44,7 +44,7 @@ class VehicleModelInfo:
     model: str
     catalogue_price: int
     fuel_type: FuelType = FuelType.ELECTRIC
-    production_year: int = datetime.now().year
+    launch_year: int = datetime.now().year
 
     @property
     def tax(self) -> float:
@@ -134,7 +134,10 @@ class VehicleRegistry:
 
 
 def main() -> None:
-    """Main function."""
+    """
+    Create a vehicle registry with different vehicle models.
+    Register a vehicle and print out the information.
+    """
 
     # create a registry instance
     registry = VehicleRegistry()

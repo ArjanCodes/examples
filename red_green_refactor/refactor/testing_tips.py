@@ -8,7 +8,7 @@ from employee import Employee
 NAME: str = "Arjan"
 EMPLOYEE_ID: int = 12345
 
-"""Employee used for testing. [DON'T REUSE INSTANCES IN DIFFERENT TESTS!]"""
+"""Employee used for testing."""
 employee_to_test = Employee(name="Arjan", employee_id=12345)
 
 
@@ -16,7 +16,7 @@ class TestEmployeeComputePayout(unittest.TestCase):
     """Test the compute_payout method of the Employee class."""
 
     def test_employee_attributes(self):
-        """Ensure Employee attributes are as expected. [NOT NEEDED!]"""
+        """Ensure Employee attributes are as expected."""
         expected_attributes = {
             "name": NAME,
             "employee_id": EMPLOYEE_ID,
@@ -54,8 +54,7 @@ class TestEmployeeComputePayout(unittest.TestCase):
         self.assertAlmostEqual(employee_to_test.compute_payout(), 3000.0)
 
     def test_employee_payout_no_commission_no_hours(self):
-        """Whether payout is correctly computed in case of no commission and no hours worked.
-        [NO, YOU'RE CHECKING NOW WHETHER COPYING THE IMPLEMENTATION WORKS. USE CONSTANTS INSTEAD.]"""
+        """Whether payout is correctly computed in case of no commission and no hours worked."""
         employee_to_test.contracts_landed = 0
         employee_to_test.hours_worked = 0
         self.assertAlmostEqual(

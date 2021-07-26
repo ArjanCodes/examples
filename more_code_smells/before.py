@@ -42,7 +42,7 @@ class VehicleModelInfo:
     model: str
     catalogue_price: int
     fuel_type: FuelType
-    production_year: int
+    launch_year: int
 
     @property
     def tax(self) -> float:

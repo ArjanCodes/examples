@@ -66,7 +66,10 @@ class TradingBot:
 
 
 def main() -> None:
-    """Main function."""
+    """
+    Create an exchange and a trading bot with a strategy.
+    Run the strategy once on a particular symbol.
+    """
 
     # create the exchange and connect to it
     exchange = Exchange()
