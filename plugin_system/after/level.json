@@ -1,17 +1,18 @@
 {
-  "plugins": ["plugin_bard"],
+  "plugins": ["plugins.bard"],
   "characters": [
     {
       "type": "wizard",
       "name": "Stregobor"
     },
     {
-      "type": "fighter",
+      "type": "witcher",
       "name": "Geralt"
     },
     {
       "type": "bard",
-      "name": "Jaskier"
+      "name": "Jaskier",
+      "instrument": "lute"
     },
     {
       "type": "sorcerer",
