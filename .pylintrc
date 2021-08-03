@@ -1,4 +1,5 @@
 [MASTER]
 extension-pkg-whitelist=pydantic
+docstring-min-length=10
 [FORMAT]
 good-names=i,j,x,y,id

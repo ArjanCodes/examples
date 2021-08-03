@@ -2,6 +2,7 @@
 
 import math
 import random
+from enum import Enum, auto
 from tkinter import *
 
 from PIL import Image, ImageDraw, ImageTk
@@ -57,13 +58,20 @@ selectedTower = "<None>"
 displayTower = None
 
 
+class TowerDefenseGameState(Enum):
+    IDLE = auto()
+    WAIT_FOR_SPAWN = auto()
+    SPAWNING = auto()
+
+
 class TowerDefenseGame(Game):
     def __init__(
         self, title: str = "Tower Defense", width: int = mapSize, height: int = mapSize
     ):
         super().__init__(title, width, height)
+        self.state = TowerDefenseGameState.IDLE
 
-    def initialize(self):  # setting up the window for the game here
+    def initialize(self):
         self.displayboard = Displayboard(self)
 
         self.infoboard = Infoboard(self)
@@ -71,8 +79,7 @@ class TowerDefenseGame(Game):
         self.towerbox = Towerbox(self)
         self.add_object(Map())
         self.add_object(Mouse(self))
-        self.wavegenerator = Wavegenerator(self)
-        self.add_object(self.wavegenerator)
+        self.add_object(Wavegenerator(self))
 
     def update(self):
         super().update()
@@ -135,6 +142,9 @@ class TowerDefenseGame(Game):
             displayTower.paintSelect(self.canvas)
         self.displayboard.paint()
 
+    def set_state(self, state: TowerDefenseGameState):
+        self.state = state
+
 
 class Map:
     def __init__(self):
@@ -177,9 +187,8 @@ class Map:
 
 
 class Wavegenerator:
-    def __init__(self, game):
+    def __init__(self, game: TowerDefenseGame):
         self.game = game
-        self.done = False
         self.currentWave = []
         self.currentMonster = 0
         self.direction = None
@@ -192,15 +201,14 @@ class Wavegenerator:
         self.waveFile = open("texts/waveTexts/WaveGenerator2.txt", "r")
 
     def getWave(self):
-        self.game.displayboard.nextWaveButton.canPress = False
+        self.game.set_state(TowerDefenseGameState.SPAWNING)
         self.currentMonster = 1
         self.waveLine = self.waveFile.readline()
         if len(self.waveLine) == 0:
-            self.done = True
-        else:
-            self.currentWave = self.waveLine.split()
-            self.currentWave = list(map(int, self.currentWave))
-            self.maxTicks = self.currentWave[0]
+            return
+        self.currentWave = self.waveLine.split()
+        self.currentWave = list(map(int, self.currentWave))
+        self.maxTicks = self.currentWave[0]
 
     def findSpawn(self):
         global spawnx
@@ -287,35 +295,40 @@ class Wavegenerator:
         self.currentMonster = self.currentMonster + 1
 
     def update(self):
-        if self.done == False:
+        if self.game.state == TowerDefenseGameState.WAIT_FOR_SPAWN:
+            self.getWave()
+        elif self.game.state == TowerDefenseGameState.SPAWNING:
             if self.currentMonster == len(self.currentWave):
-                self.game.displayboard.nextWaveButton.canPress = True
-            else:
-                self.ticks = self.ticks + 1
-                if self.ticks == self.maxTicks:
-                    self.ticks = 0
-                    self.spawnMonster()
+                self.game.set_state(TowerDefenseGameState.IDLE)
+                return
+            self.ticks = self.ticks + 1
+            if self.ticks == self.maxTicks:
+                self.ticks = 0
+                self.spawnMonster()
 
     def paint(self, canvas):
         pass
 
 
 class NextWaveButton:
-    def __init__(self, game):
+    def __init__(self, game: TowerDefenseGame):
         self.game = game
         self.x = 450
         self.y = 25
         self.xTwo = 550
         self.yTwo = 50
-        self.canPress = True
+
+    @property
+    def is_idle(self) -> bool:
+        return self.game.state is TowerDefenseGameState.IDLE
 
     def checkPress(self, click, x, y):
         if x >= self.x and y >= self.y and x <= self.xTwo and y <= self.yTwo:
-            if self.canPress and click and len(monsters) == 0:
-                self.game.wavegenerator.getWave()
+            if self.is_idle and click and len(monsters) == 0:
+                self.game.set_state(TowerDefenseGameState.WAIT_FOR_SPAWN)
 
-    def paint(self, canvas):
-        if self.canPress and len(monsters) == 0:
+    def paint(self, canvas: Canvas):
+        if self.is_idle and len(monsters) == 0:
             self.color = "blue"
         else:
             self.color = "red"
@@ -541,7 +554,7 @@ class Towerbox:
 
 
 class Mouse:
-    def __init__(self, game):  # when i define a "Mouse", this is what happens
+    def __init__(self, game: TowerDefenseGame):
         self.game = game
         self.x = 0
         self.y = 0
@@ -1195,7 +1208,8 @@ class WaterBlock(Block):
 
 
 def main():
-    game = TowerDefenseGame()  # start the application at Class Game()
+    game = TowerDefenseGame()
+    game.initialize()
     game.run()
 
 

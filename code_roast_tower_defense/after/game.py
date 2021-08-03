@@ -1,6 +1,5 @@
 import tkinter as tk
-from abc import ABC, abstractmethod
-from typing import Protocol
+from typing import Optional, Protocol
 
 
 class GameObject(Protocol):
@@ -11,14 +10,15 @@ class GameObject(Protocol):
         """Paints the game."""
 
 
-class Game(ABC):  # the main class that we call "Game"
+class Game:  # the main class that we call "Game"
     def __init__(
         self, title: str, width: int, height: int, timestep: int = 50
     ):  # setting up the window for the game here
         self.root = tk.Tk()  # saying this window will use tkinter
         self.root.title(title)
-        self.running = True  # creating a variable RUN. does nothing yet.
+        self.running = False
         self.root.protocol("WM_DELETE_WINDOW", self.end)
+        self.timer_id: Optional[str] = None
         self.timestep = timestep
         self.frame = tk.Frame(master=self.root)
         self.frame.grid(row=0, column=0)
@@ -43,26 +43,22 @@ class Game(ABC):  # the main class that we call "Game"
         self.objects.remove(obj)
 
     def run(self):
-        self.initialize()
+        self.running = True
         self._run()
         self.root.mainloop()
 
     def _run(self):
-        if not self.running:
-            return
-        self.update()  # calls the function 'def update(self):'
-        self.canvas.delete(tk.ALL)  # clear the screen
-        self.paint()  # calls the function 'def paint(self):'
+        self.update()
+        self.paint()
 
-        self.root.after(
-            self.timestep, self._run
-        )  # does a run of the function every 50/1000 = 1/20 of a second
+        if self.running:
+            self.timer_id = self.root.after(self.timestep, self._run)
 
     def end(self):
-        self.root.destroy()  # closes the game window and ends the program
-
-    def initialize(self):
-        """Initializes the game."""
+        self.running = False
+        if self.timer_id is not None:
+            self.root.after_cancel(self.timer_id)
+        self.root.destroy()
 
     def update(self):
         """Updates the game."""
@@ -71,5 +67,6 @@ class Game(ABC):  # the main class that we call "Game"
 
     def paint(self):
         """Paints the game."""
+        self.canvas.delete(tk.ALL)  # clear the screen
         for obj in self.objects:
             obj.paint(self.canvas)
