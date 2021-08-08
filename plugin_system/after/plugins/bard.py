@@ -2,7 +2,7 @@
 
 from dataclasses import dataclass
 
-import game.factory
+from game import factory
 
 
 @dataclass
@@ -18,4 +18,4 @@ class Bard:
 
 
 def register() -> None:
-    game.factory.register("bard", Bard)
+    factory.register("bard", Bard)

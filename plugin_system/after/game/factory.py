@@ -19,6 +19,10 @@ def unregister(character_type: str) -> None:
 
 def create(arguments: dict[str, Any]) -> GameCharacter:
     """Create a game character of a specific type, given JSON data."""
-    character_type = arguments["type"]
-    del arguments["type"]
-    return creator_fns[character_type](**arguments)
+    args_copy = arguments.copy()
+    character_type = args_copy.pop("type")
+    try:
+        creator_func = creator_fns[character_type]
+    except KeyError:
+        raise ValueError(f"unknown character type {character_type!r}") from None
+    return creator_func(**args_copy)

@@ -12,16 +12,16 @@ Give a short overview of what the factory patt clis (and show a UML diagram). Th
 
 ## Change #1: use Protocol instead of ABCs
 
-What is a Protocol? It was introduced in Python 3.8 and it behaves a bit like an interface, but the difference is that you don't need to explicitly implement the protocol in a class. The duck typing system of Python will automatically take care of this. The result is that your class definitions become a bit shorter.
+What is a Protocol? It was introduced in Python 3.8 and it behaves a bit like an interface, but the difference is that you don't need to explicitly implement the protocol in a class. The result is that your class definitions become a bit shorter. ABCs rely on so-called nominal typing, meaning that if you want types to be related in some way. You have to explicitly write that down, like inheriting from an ABC. Protocols are different and rely on structural typing. This means that Python considers objects to be of matching types if their structures are the same, for example if objects have the same methods. This matches better with Python's runtime type checking system that treats objects the same if they look the same for the part that's being used at runtime. This is what's called duck typing. So let's change the example and see what the effect is.
 
-- Change the example to using Protocols instead of ABCs
+- Change the example to using Protocols instead of ABCs.
 
-Caveats of Protocols:
+- Overall, I think in Python, protocols are the way to go most of the time. Until recently, I've relied on ABCs in a large part for explaining the design patterns, but as you can see, Protocols work just as well and offer more flexibility.
 
-1. When you are creating a "subclass", you no longer have any helpful automatic check to inform you of mistakes such as using the wrong argument types for a method.
-2. Since you're inheriting anymore, you can't reuse code from a superclass. For example, if you want to add a few convenience methods for processing or preparing video or audio data, you can't do that in the superclass anymore, because there is no superclass. Or, if you want a method to be there but default do nothing, this is not possible either with Protocol.
+Caveats:
 
-If these two things are important to you, it's better to stick with ABCs instead of Protocol.
+1. If you're not using inheritance like I'm doing here you also lose some of the advantages that inheritance offers like helpful automatic checks to inform you of mistakes such as using the wrong argument types for a method, or being able to add convenience methods to the superclass that you use in a subclass.
+2. You can use Protocols like ABCs and inherit from them. You can even use @abstractmethod. In that case you'll have both the static type checking that Protocols offer as well as the runtime checks with abstract methods. But arguably it's a less "pythonic" approach.
 
 ## Change #2: Don't use Factory classes, but use a tuple
 
@@ -29,10 +29,17 @@ Tuples are helpful data structures that allow you to organize data. So you can u
 
 Caveats of using tuples in this way:
 
-1. Since the video and audio exporter are directly in the tuple, you have no control over when the exporters are created. With a factory class, you can create the exporters on the fly when you call the `get_video_exporter`/`get_audio_exporter` methods. With tuples this is not possible, unless you don't store the actual exporters but creator functions instead, but then it becomes much more complicated.
-2. Tuples are simply containers of objects. They don't contain any methods that you can call. If you need this, use classes instead. For example, if you want to store configuration data with a factory object, this becomes ugly quickly with tuples.
-3. All combinations of video/audio exporters are now fixed in the FACTORIES constant and defined in a single place. If you have a lot of those combinations, the FACTORIES dictionary might lose cohesion.
+1. Tuples are simply containers of objects. They don't contain any methods that you can call. If you need this, use classes instead. For example, if you want to store configuration data with a factory object, this becomes ugly quickly with tuples.
+2. All combinations of video/audio exporters are now fixed in the FACTORIES constant and defined in a single place. If you have a lot of those combinations, the FACTORIES dictionary might lose cohesion.
+3. You need to remember the order of the exporters everywhere (video first, then audio). It's not a big issue, but one more thing that can potentially go wrong. You could use named tuples, but another option is using dataclasses in combination with the **call** dunder method.
+
+## Change #3: Use dataclasses with the **call** dunder method
+
+Create a media exporter dataclass, and a factory data class + add **call** method to easily define them.
+
+1. Overall, I find this a nice, clean approach that combines Python features to have a factory-like pattern.
+2. The advantage of named tuples over dataclasses though is that they're lighter weight (as in, use less memory and have faster element access), and they're immutable. If that's not important, personally I'd go for dataclasses instead.
 
 ## Final thoughts
 
-Overall, classes and abstract base classes offer the most flexibility in terms of your design. But it comes at a price of more verbose code. Protocols integrate very well with the duck typing system, and results in shorter code, but you do lose the possibilities that inheritance offers. Tuples are a great way to quickly construct a container of objects, but don't give much control over how you access those objects and can lead to less cohesion at the place where you're creating the tuples.
+Overall, classes and abstract base classes offer the most flexibility in terms of your design. But it comes at a price of more verbose code. Protocols integrate very well with the duck typing system, and results in shorter code. Tuples are a great way to quickly construct a container of objects, but you expose the structure of your factory to the outside. They can lead to less cohesion at the place where you're creating the tuples. Data classes combined with the **call** dunder methods are a nice Pythonic approach to factories, but dataclasses do have some overhead in terms of memory usage and they're slower in terms of accessing the elements than tuples.

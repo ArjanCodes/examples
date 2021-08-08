@@ -2,23 +2,19 @@
 Basic video exporting example
 """
 
-from abc import abstractmethod
+from dataclasses import dataclass
 from pathlib import Path
-from typing import Protocol
+from typing import Protocol, Type
 
 
 class VideoExporter(Protocol):
     """Basic representation of video exporting codec."""
 
-    @abstractmethod
-    def prepare_export(self, video_data: str) -> None:
+    def prepare_export(self, video_data: str):
         """Prepares video data for exporting."""
-        raise NotImplementedError
 
-    @abstractmethod
-    def do_export(self, folder: Path) -> None:
+    def do_export(self, folder: Path):
         """Exports the video data to a folder."""
-        raise NotImplementedError
 
 
 class LosslessVideoExporter:
@@ -81,57 +77,32 @@ class WAVAudioExporter:
         print(f"Exporting audio data in WAV format to {folder}.")
 
 
-class ExporterFactory(Protocol):
-    """
-    Factory that represents a combination of video and audio codecs.
-    The factory doesn't maintain any of the instances it creates.
-    """
-
-    def get_video_exporter(self) -> VideoExporter:
-        """Returns a new video exporter belonging to this factory."""
-
-    def get_audio_exporter(self) -> AudioExporter:
-        """Returns a new audio exporter belonging to this factory."""
+@dataclass
+class MediaExporter:
+    video: VideoExporter
+    audio: AudioExporter
 
 
-class FastExporter:
-    """Factory aimed at providing a high speed, lower quality export."""
+@dataclass
+class MediaExporterFactory:
+    video_class: Type[VideoExporter]
+    audio_class: Type[AudioExporter]
 
-    def get_video_exporter(self) -> VideoExporter:
-        return H264BPVideoExporter()
-
-    def get_audio_exporter(self) -> AudioExporter:
-        return AACAudioExporter()
-
-
-class HighQualityExporter:
-    """Factory aimed at providing a slower speed, high quality export."""
-
-    def get_video_exporter(self) -> VideoExporter:
-        return H264Hi422PVideoExporter()
-
-    def get_audio_exporter(self) -> AudioExporter:
-        return AACAudioExporter()
-
-
-class MasterQualityExporter:
-    """Factory aimed at providing a low speed, master quality export."""
-
-    def get_video_exporter(self) -> VideoExporter:
-        return LosslessVideoExporter()
-
-    def get_audio_exporter(self) -> AudioExporter:
-        return WAVAudioExporter()
+    def __call__(self) -> MediaExporter:
+        return MediaExporter(
+            self.video_class(),
+            self.audio_class(),
+        )
 
 
 FACTORIES = {
-    "low": FastExporter(),
-    "high": HighQualityExporter(),
-    "master": MasterQualityExporter(),
+    "low": MediaExporterFactory(H264BPVideoExporter, AACAudioExporter),
+    "high": MediaExporterFactory(H264Hi422PVideoExporter, AACAudioExporter),
+    "master": MediaExporterFactory(LosslessVideoExporter, WAVAudioExporter),
 }
 
 
-def read_factory() -> ExporterFactory:
+def read_factory() -> MediaExporterFactory:
     """Constructs an exporter factory based on the user's preference."""
 
     while True:
@@ -144,29 +115,28 @@ def read_factory() -> ExporterFactory:
             print(f"Unknown output quality option: {export_quality}.")
 
 
-def do_export(fac: ExporterFactory) -> None:
-    """Do a test export using a video and audio exporter."""
-
-    # retrieve the exporters
-    video_exporter = fac.get_video_exporter()
-    audio_exporter = fac.get_audio_exporter()
+def do_export(exporter: MediaExporter) -> None:
+    """Create a video and audio exporter and do a test export."""
 
     # prepare the export
-    video_exporter.prepare_export("placeholder_for_video_data")
-    audio_exporter.prepare_export("placeholder_for_audio_data")
+    exporter.video.prepare_export("placeholder_for_video_data")
+    exporter.audio.prepare_export("placeholder_for_audio_data")
 
     # do the export
     folder = Path("/usr/tmp/video")
-    video_exporter.do_export(folder)
-    audio_exporter.do_export(folder)
+    exporter.video.do_export(folder)
+    exporter.audio.do_export(folder)
 
 
 def main() -> None:
     # create the factory
     factory = read_factory()
 
+    # use the factory to create the actual objects
+    media_exporter = factory()
+
     # perform the exporting job
-    do_export(factory)
+    do_export(media_exporter)
 
 
 if __name__ == "__main__":

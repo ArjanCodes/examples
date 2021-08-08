@@ -6,8 +6,7 @@ register/unregister methods.
 import json
 from dataclasses import dataclass
 
-import game.factory as factory
-from game.loader import load_plugins
+from game import factory, loader
 
 
 @dataclass
@@ -34,7 +33,7 @@ class Witcher:
     name: str
 
     def make_a_noise(self) -> None:
-        print("Bam!")
+        print("Hmmm")
 
 
 def main() -> None:
@@ -50,7 +49,7 @@ def main() -> None:
         data = json.load(file)
 
         # load the plugins
-        load_plugins(data["plugins"])
+        loader.load_plugins(data["plugins"])
 
         # create the characters
         characters = [factory.create(item) for item in data["characters"]]

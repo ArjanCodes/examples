@@ -84,21 +84,15 @@ class TowerDefenseGame(Game):
     def update(self):
         super().update()
         self.displayboard.update()
-        for i in range(len(projectiles)):
-            try:
-                projectiles[i].update()
-            except:
-                pass
+        for p in projectiles:
+            p.update()
         for y in range(gridSize):
             for x in range(gridSize):
                 blockGrid[x][
                     y
                 ].update()  # updates each block one by one by going to its 'def update():' command
-        for i in range(len(monsters)):
-            try:
-                monsters[i].update()
-            except:
-                pass
+        for m in monsters:
+            m.update()
         global monstersByHealth
         global monstersByHealthReversed
         global monstersByDistance
@@ -322,10 +316,19 @@ class NextWaveButton:
     def is_idle(self) -> bool:
         return self.game.state is TowerDefenseGameState.IDLE
 
-    def checkPress(self, click, x, y):
-        if x >= self.x and y >= self.y and x <= self.xTwo and y <= self.yTwo:
-            if self.is_idle and click and len(monsters) == 0:
-                self.game.set_state(TowerDefenseGameState.WAIT_FOR_SPAWN)
+    def is_within_bounds(self, x: int, y: int) -> bool:
+        return self.x <= x <= self.xTwo and self.y <= y <= self.yTwo
+
+    @property
+    def can_spawn(self) -> bool:
+        return not self.is_idle and len(monsters) == 0
+
+    def checkPress(self, click, x: int, y: int):
+        if not self.is_within_bounds(x, y):
+            return
+        if not click or not self.can_spawn:
+            return
+        self.game.set_state(TowerDefenseGameState.WAIT_FOR_SPAWN)
 
     def paint(self, canvas: Canvas):
         if self.is_idle and len(monsters) == 0:
@@ -670,7 +673,7 @@ class Moneybar:
         canvas.create_text(240, 40, text="Money: " + self.text, fill="black")
 
 
-class Projectile(object):
+class Projectile:
     def __init__(self, x, y, damage, speed):
         self.hit = False
         self.x = x
@@ -682,15 +685,13 @@ class Projectile(object):
         # self.image = ImageTk.PhotoImage(self.image)
 
     def update(self):
-        try:
-            if target.alive == False:
-                projectiles.remove(self)
-                return
-        except:
-            if self.hit:
-                self.gotMonster()
-            self.move()
-            self.checkHit()
+        if self.target and not self.target.alive:
+            projectiles.remove(self)
+            return
+        if self.hit:
+            self.gotMonster()
+        self.move()
+        self.checkHit()
 
     def gotMonster(self):
         self.target.health -= self.damage
@@ -702,7 +703,7 @@ class Projectile(object):
 
 class TrackingBullet(Projectile):
     def __init__(self, x, y, damage, speed, target):
-        super(TrackingBullet, self).__init__(x, y, damage, speed)
+        super().__init__(x, y, damage, speed)
         self.target = target
         self.image = Image.open("images/projectileImages/bullet.png")
         self.image = ImageTk.PhotoImage(self.image)
@@ -711,6 +712,8 @@ class TrackingBullet(Projectile):
         self.length = (
             (self.x - (self.target.x)) ** 2 + (self.y - (self.target.y)) ** 2
         ) ** 0.5
+        if self.length <= 0:
+            return
         self.x += self.speed * ((self.target.x) - self.x) / self.length
         self.y += self.speed * ((self.target.y) - self.y) / self.length
 
@@ -768,7 +771,10 @@ class AngledProjectile(Projectile):
         self.y += self.yChange
         self.distance += self.speed
         if self.distance >= self.range:
-            projectiles.remove(self)
+            try:
+                projectiles.remove(self)
+            except ValueError:
+                pass
 
 
 class Tower(object):
