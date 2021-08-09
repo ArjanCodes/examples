@@ -100,7 +100,7 @@ def read_factory() -> tuple[VideoExporter, AudioExporter]:
 def do_export(fac: tuple[VideoExporter, AudioExporter]) -> None:
     """Create a video and audio exporter and do a test export."""
 
-    (video_exporter, audio_exporter) = fac
+    video_exporter, audio_exporter = fac
 
     # prepare the export
     video_exporter.prepare_export("placeholder_for_video_data")
