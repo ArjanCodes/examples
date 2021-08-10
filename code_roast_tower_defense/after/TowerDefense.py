@@ -321,9 +321,9 @@ class NextWaveButton:
 
     @property
     def can_spawn(self) -> bool:
-        return not self.is_idle and len(monsters) == 0
+        return self.is_idle and len(monsters) == 0
 
-    def checkPress(self, click, x: int, y: int):
+    def checkPress(self, click: bool, x: int, y: int):
         if not self.is_within_bounds(x, y):
             return
         if not click or not self.can_spawn:
