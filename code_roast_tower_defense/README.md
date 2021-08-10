@@ -16,7 +16,7 @@ A few obvious ones:
 - Wildcard tkinter import. This also makes it hard to separate things, because when you're moving a class to another file, you have no idea what imports you'll be missing, and you can't search for "tk." or "tkinter." to find them.
 - All classes are in the same file which makes it really hard to refactor.
 - Creating and running the game should be put into a main function.
-- Empty except blocks are really bad, never use this because it hides other errors.
+- Not all monster subclasses are needed
 
 Other things:
 
@@ -64,4 +64,4 @@ You can get Tabnine Basic as a free extension to your IDE of choice. If you're a
 
 ## Final thoughts
 
-- Obviously, the refactor is far from finished. Having a basic game engine setup already helps, and now you can start separating out the various different objects and combine them in a more loosely coupled way.
+- Obviously, the refactor is far from finished. Having a basic game engine setup already helps, and now you can start separating out the various different objects and combine them in a more loosely coupled way.before
