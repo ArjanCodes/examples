@@ -1,12 +1,17 @@
-from support.app import CustomerSupport
+from support.app import CustomerSupport, RandomOrderingStrategy
 from support.ticket import SupportTicket
+
+
+class BlackHoleStrategy:
+    def __call__(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
+        return []
 
 
 def main():
     # create the application
     app = CustomerSupport()
 
-    # register a few tickets
+    # create a few tickets
     app.add_ticket(SupportTicket("John Smith", "My computer makes strange sounds!"))
     app.add_ticket(
         SupportTicket("Linus Sebastian", "I can't upload any videos, please help.")
@@ -16,7 +21,7 @@ def main():
     )
 
     # process the tickets
-    app.process_tickets("fifo")
+    app.process_tickets(RandomOrderingStrategy())
 
 
 if __name__ == "__main__":

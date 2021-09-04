@@ -17,7 +17,7 @@ def main():
         SupportTicket("Linus Sebastian", "I can't upload any videos, please help.")
     )
     app.add_ticket(
-        SupportTicket("Arjan Egges", "VSCode doesn't automatically solve my bugs.")
+        SupportTicket("Arjan Codes", "VSCode doesn't automatically solve my bugs.")
     )
 
     # process the tickets

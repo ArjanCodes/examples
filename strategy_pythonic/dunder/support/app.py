@@ -1,34 +1,29 @@
 import random
-from dataclasses import dataclass
-from typing import Optional, Protocol
+from typing import Protocol
 
 from support.ticket import SupportTicket
 
 
 class TicketOrderingStrategy(Protocol):
-    def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
+    def __call__(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
         """Returns an ordered list of tickets."""
 
 
 class FIFOOrderingStrategy:
-    def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
+    def __call__(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
         return tickets.copy()
 
 
 class FILOOrderingStrategy:
-    def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
+    def __call__(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
         tickets_copy = tickets.copy()
         tickets_copy.reverse()
         return tickets_copy
 
 
-@dataclass
 class RandomOrderingStrategy:
-    seed: Optional[int] = None
-
-    def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
+    def __call__(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
         tickets_copy = tickets.copy()
-        random.seed(self.seed)
         random.shuffle(tickets_copy)
         return tickets_copy
 
@@ -42,7 +37,7 @@ class CustomerSupport:
 
     def process_tickets(self, processing_strategy: TicketOrderingStrategy):
         # create the ordered list
-        ticket_list = processing_strategy.create_ordering(self.tickets)
+        ticket_list = processing_strategy(self.tickets)
 
         # if it's empty, don't do anything
         if len(ticket_list) == 0:
