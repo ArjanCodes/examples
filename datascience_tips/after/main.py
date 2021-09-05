@@ -56,7 +56,8 @@ def main():
         train_runner.reset()
         test_runner.reset()
 
-    tracker.flush()
+        # Flush the tracker after every epoch for live updates
+        tracker.flush()
 
 
 if __name__ == "__main__":
