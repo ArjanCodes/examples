@@ -1,6 +1,5 @@
 # This file may be used to create an environment using:
 # $ conda create --name <env> --file <this file>
-# platform: win-64
 dependencies:
   - python=3.9
   - pip
@@ -13,3 +12,4 @@ dependencies:
     - tensorboard
     - mlflow
     - tqdm
+    - pillow
