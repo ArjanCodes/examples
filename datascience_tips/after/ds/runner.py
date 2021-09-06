@@ -26,12 +26,16 @@ class Runner:
         self.compute_loss = torch.nn.CrossEntropyLoss(reduction="mean")
         self.y_true_batches: list[list[Any]] = []
         self.y_pred_batches: list[list[Any]] = []
+        # Assume Stage based on presence of optimizer
+        self.stage = Stage.VAL if optimizer is None else Stage.TRAIN
 
     @property
     def avg_accuracy(self):
         return self.accuracy_metric.average
 
     def run(self, desc: str, experiment: ExperimentTracker):
+        self.model.train(self.stage == Stage.TRAIN)
+
         for x, y in tqdm(self.loader, desc=desc, ncols=80):
             loss, batch_accuracy = self._run_single(x, y)
 
@@ -71,21 +75,19 @@ def run_epoch(
     experiment: ExperimentTracker,
     epoch_id: int,
 ):
-    # Testing Loop
-    experiment.set_stage(Stage.VAL)
-    test_runner.run("Validation Batches", experiment)
-
     # Training Loop
     experiment.set_stage(Stage.TRAIN)
     train_runner.run("Train Batches", experiment)
 
-    # Log Validation Epoch Metrics
+    # Log Training Epoch Metrics
+    experiment.add_epoch_metric("accuracy", train_runner.avg_accuracy, epoch_id)
+
+    # Testing Loop
     experiment.set_stage(Stage.VAL)
+    test_runner.run("Validation Batches", experiment)
+
+    # Log Validation Epoch Metrics
     experiment.add_epoch_metric("accuracy", test_runner.avg_accuracy, epoch_id)
     experiment.add_epoch_confusion_matrix(
         test_runner.y_true_batches, test_runner.y_pred_batches, epoch_id
     )
-
-    # Log Validation Epoch Metrics
-    experiment.set_stage(Stage.TRAIN)
-    experiment.add_epoch_metric("accuracy", train_runner.avg_accuracy, epoch_id)
