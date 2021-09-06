@@ -1,3 +1,11 @@
+The `processed` folder will contain JPG images of the MNIST dataset after running [parse_raw_data.py](../parse_raw_data.py). The images are not directly commited to GitHub. Rather, the script should be executed to create them.
+
+---
+
+The `raw` folder contains the raw MNIST data files, which can be downloaded [here](http://yann.lecun.com/exdb/mnist/). Below is some information about the file format of the MNIST dataset needed to create the processed images.
+
+---
+
 header\
 size in dimension 0\
 size in dimension 1\

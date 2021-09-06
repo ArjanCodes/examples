@@ -14,7 +14,7 @@ BATCH_SIZE = 128
 LOG_PATH = "./runs"
 
 # Data configuration
-DATA_DIR = "./data"
+DATA_DIR = "./data/raw"
 TEST_DATA = pathlib.Path(f"{DATA_DIR}/t10k-images-idx3-ubyte.gz")
 TEST_LABELS = pathlib.Path(f"{DATA_DIR}/t10k-labels-idx1-ubyte.gz")
 TRAIN_DATA = pathlib.Path(f"{DATA_DIR}/train-images-idx3-ubyte.gz")
