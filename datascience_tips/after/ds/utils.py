@@ -1,8 +1,8 @@
-from pathlib import Path
+import pathlib
 
 
-def generate_tensorboard_experiment_directory(root: str, parents: bool = True) -> str:
-    root_path = Path(root).resolve()
+def create_experiment_log_dir(root: str, parents: bool = True) -> str:
+    root_path = pathlib.Path(root).resolve()
     child = (
         create_from_missing(root_path)
         if not root_path.exists()
@@ -12,16 +12,17 @@ def generate_tensorboard_experiment_directory(root: str, parents: bool = True) -
     return child.as_posix()
 
 
-def create_from_missing(root):
+def create_from_missing(root: pathlib.Path) -> pathlib.Path:
     return root / "0"
 
 
-def create_from_existing(root):
+def create_from_existing(root: pathlib.Path) -> pathlib.Path:
     children = [
-        int(c.name) for c in root.glob("*") if (c.is_dir() and c.name.isnumeric())
+        int(c.name) for c in root.glob("*")
+        if (c.is_dir() and c.name.isnumeric())
     ]
     if is_first_experiment(children):
-        child = root / "0"
+        child = create_from_missing(root)
     else:
         child = root / increment_experiment_number(children)
     return child

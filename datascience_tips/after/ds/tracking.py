@@ -7,7 +7,7 @@ from matplotlib import pyplot as plt
 from sklearn.metrics import ConfusionMatrixDisplay, confusion_matrix
 from torch.utils.tensorboard import SummaryWriter
 
-from ds.utils import generate_tensorboard_experiment_directory
+from ds.utils import create_experiment_log_dir
 
 
 class Stage(Enum):
@@ -32,11 +32,10 @@ class ExperimentTracker(Protocol):
 
 class TensorboardExperiment(ExperimentTracker):
     def __init__(self, log_path: str, create: bool = True):
-
-        log_dir = generate_tensorboard_experiment_directory(root=log_path)
         self.stage = Stage.TRAIN
-        self._validate_log_dir(log_dir, create=create)
-        self._writer = SummaryWriter(log_dir=log_dir)
+        self._writer = SummaryWriter(
+            log_dir=create_experiment_log_dir(log_path, parents=True)
+        )
         plt.ioff()
 
     def set_stage(self, stage: Stage):
