@@ -44,8 +44,8 @@ class MNIST(Dataset[Any]):
         self.x = self.data[self.idx].copy().astype(np.float64)
         self.x /= self.TRAIN_MAX
         self.x -= self.TRAIN_NORMALIZED_MEAN
-        self.x /= self.TRAIN_NORMALIZED_MEAN
-        self.x = self.data[self.idx].astype(np.float32)
+        self.x /= self.TRAIN_NORMALIZED_STDEV
+        self.x = self.x.astype(np.float32)
         self.x = torch.from_numpy(self.x)
         self.x = self.x.unsqueeze(0)
 
