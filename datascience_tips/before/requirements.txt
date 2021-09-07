@@ -1,0 +1,10 @@
+﻿# Python: 3.9.6
+torch
+numpy
+pandas
+scikit-learn
+matplotlib
+tensorboard
+mlflow
+tqdm
+pillow

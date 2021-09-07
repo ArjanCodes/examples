@@ -6,17 +6,17 @@ from support.ticket import SupportTicket
 TicketOrderingStrategy = Callable[[list[SupportTicket]], list[SupportTicket]]
 
 
-def fifoStrategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
+def fifo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
     return tickets.copy()
 
 
-def filoStrategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
+def filo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
     tickets_copy = tickets.copy()
     tickets_copy.reverse()
     return tickets_copy
 
 
-def randomStrategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
+def random_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
     tickets_copy = tickets.copy()
     # random.seed(???) - can't do that here!
     random.shuffle(tickets_copy)

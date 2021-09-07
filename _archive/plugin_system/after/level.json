@@ -1,0 +1,22 @@
+{
+  "plugins": ["plugins.bard"],
+  "characters": [
+    {
+      "type": "wizard",
+      "name": "Stregobor"
+    },
+    {
+      "type": "witcher",
+      "name": "Geralt"
+    },
+    {
+      "type": "bard",
+      "name": "Jaskier",
+      "instrument": "banjo"
+    },
+    {
+      "type": "sorcerer",
+      "name": "Yennefer"
+    }
+  ]
+}

@@ -1,4 +1,4 @@
-from support.app import CustomerSupport, randomStrategyGenerator
+from support.app import CustomerSupport, random_strategy_generator
 from support.ticket import SupportTicket
 
 
@@ -21,7 +21,7 @@ def main():
     )
 
     # process the tickets
-    app.process_tickets(randomStrategyGenerator(1))
+    app.process_tickets(random_strategy_generator(1))
 
 
 if __name__ == "__main__":
