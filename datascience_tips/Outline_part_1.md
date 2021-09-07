@@ -26,7 +26,7 @@ Unfortunately, most studies don't really pay any attention to how to setup a mor
 
 ## About composing functions (talking head)
 
-When you're working with data, it often happens that you need to create some sort of pipeline for processing data. For example, delete partial entries or outliers, normalize the data, transform the data into another format, and then export it to a file or store it in a database. It's useful to have a definition of what the pipeline is and let that be an object or module of some sort, so you can push various collections of data through the same pipeline.
+When you're working with data, it often happens that you need to create some sort of pipeline for processing data. For example, delete partial entries or outliers, normalize the data, transform the data into another format, and then export it to a file or store it in a database. It's useful to have a definition of what the pipeline is and let that be an object or module of some sort, so you can push various collections of data through the same pipeline. PyTorch supports this by defining a network. But you may not always want to use PyTorch. So what to do in that case?
 
 One way to do it is to call a sequence of functions, store each intermediate result in a variable and pass that variable to the next function. If you have many of those functions, it becomes annoying to declare a variable for each intermediate result, so, it seems reasonable to reuse the variable for this, like in the example code. However, this is not ideal. Reusing a variable means that it's no longer clear what the variable actually means, because it means different things depending on where you are in the pipeline. If you transform data, you won't be able to use typing for your variable, because that changes over time.
 
@@ -36,6 +36,8 @@ A much cleaner way to do it is by using function composition. Let's see how that
 
 Show that you can compose functions. The basic way to do it is simply chain the functions. But that leads to unreadable code as you add more functions to the sequence. Second option is to create a helper 'compose' function that gets the functions to be called as arguments.
 
-I'm adding a compose helper function and then use that to compose all the functions. Ideally, I'd like to simply store these functions in a list, but for some reason that doesn't work. Apparently these functions that torch are not pure functions.
+IF you're using Scikit Learn, it has a concept similar to what PyTorch offers, which is called a Pipeline. This also allows you to compose functions and call them on a some input date. There's a link in the description with more information.
+
+https://scikit-learn.org/stable/modules/generated/sklearn.pipeline.Pipeline.html
 
 This is the end of part one. Next week, I'm going to finish this refactoring. We're going to take a closer look at how data is handled by the code and how we can use design principles to improve that.
