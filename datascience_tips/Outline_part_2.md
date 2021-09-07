@@ -24,3 +24,11 @@ As you'll see in a minute, I won't use design patterns all that much. It's more 
 ## Final thoughts (talking head)
 
 As you've seen, I haven't really used many design patterns in this refactoring. A lot of the refactoring work concerned splitting code into separate methods or functions, introducing abstractions to reduce coupling (such as cleaning up the ExperimentTracker class), and making sure that configuration settings are in a single place. Let me know in the comments if you have any other suggestions for further improving this code. But the main takeaway is this: in data science projects, the data is central. Design your code around the data, and use the information expert principle to assign responsibilities close to the data that they need.
+
+That's the first way to think about this. The second way is to consider how objects or modules communicate with each other. You generally want to design the system in such a way that the amount of different data that has to flow between them is minimized. In the code example, you see this problem in the first version of dataset.py, where it needs to import lots of specific loading functions. Or in the original main.py file, where the code inside the for-loop depends on lots of variables defined outside of it.
+
+So if two pieces of code are communicating and sending lots of different data to each other, you should probably rethink your design and try to optimize how these pieces of code communicate. It's basically what I tried to do with the Runner class and the run_epoch method.
+
+Another thing that helps you manage more complex code is to use type hints. As you saw type hints are not always properly implemented in the libraries you use, but if you at least try to use them in your own code, it helps avoid some problems like mixing reals and floats.
+
+I hope you enjoyed this closer look at software design for data science projects. Thanks to Mark Todisco for providing the original example code. I hope you found this helpful - if you did give this video a like and consider subscribing to my channel so you don't miss anything. Thanks for watching, take care and see you next time!
