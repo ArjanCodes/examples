@@ -32,8 +32,20 @@ Another way to look at testing is to differentiate between white box and black b
 
 Here's an example of running a (manual) mutation test. I'm going to replace the + operator with a - operator in the `add_three` function and verify that all tests fail. This is called a mutant. And we see that the tests all fail. But if we replace the \* in multiply_by_two with a + sign our only test still passes.
 
-Black box testing doesn't know anything about the internal working of the code - it looks at what the software does, not how it does it. An example of this is a technique called snapshot testing. Snapshot testing is a technique where you take a snapshot of the state of the system before and after a command is executed. Then you can compare the two snapshots to see if the state of the system has changed. If you build web applications, you can use snapshot testing to compare the HTML and CSS that an app produces and make sure things work as expected. This is for example what React's Jest testing library does.
+(talking head) Black box testing doesn't know anything about the internal working of the code - it looks at what the software does, not how it does it. An example of this is a technique called snapshot testing. Snapshot testing is a technique where you take a snapshot of the state of the system before and after a command is executed. Then you can compare the two snapshots to see if the state of the system has changed. If you build web applications, you can use snapshot testing to compare the HTML and CSS that an app produces and make sure things work as expected. This is for example what React's Jest testing library does.
 
-## Testing levels
+## Property/invariant testing
 
-## Testing metrics
+Another important concept in determining program correctness is the invariant. An invariant is a logical assertion that is always held to be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and the end of every execution of a loop. Based on this idea, you could define a certain property that you want to be certain is always true, and then you can test whether this is the case using lots of automatically generated inputs. This is called property-based testing. Let's look at an example.
+
+## Property-based testing example (screencast)
+
+- The `add_three` function could have the property that whatever you put into it, the output is always the input + 3.
+- You could also write a test that verifies that applying add_three and then remove_three gives the original input (this is also called Bilbo testing, or There And Back Again).
+- Other examples of property-based testing are: 1) verifying that something won't change, e.g. sorting a list shouldn't change its length, or 2) things that are hard to prove but easy to verify, such as that fields in a dictionary are never the empty string after you've called a data processing function.
+
+## Final thoughts (talking head)
+
+I've mainly talked about pretty low-level testing techniques in this video. In the coming months, I'm going to explore libraries in Python that can help you with setting all of these up and also look at all these different techniques in more detail. There are also higher level testing processes like integration testing or acceptance testing that also require a particular infrastructure such as a DTAP street (this stands for Development Testing Acceptance Production). I can talk about that stuff as well on the channel, let me know if want to know more about this. Also I'm curious: are you using unit testing at the moment? And what about mutation testing or property-based testing? Let me know in the comments below!
+
+That's it for today - thanks for watching and see you next time!

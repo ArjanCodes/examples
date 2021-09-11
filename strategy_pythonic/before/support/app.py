@@ -23,7 +23,6 @@ class CustomerSupport:
             for ticket in reversed(self.tickets):
                 ticket.process()
         elif processing_strategy == "random":
-            list_copy = self.tickets.copy()
-            random.shuffle(list_copy)
-            for ticket in list_copy:
+            random_list = random.sample(self.tickets, len(self.tickets))
+            for ticket in random_list:
                 ticket.process()

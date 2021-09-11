@@ -11,20 +11,16 @@ def fifo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
 
 
 def filo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
-    tickets_copy = tickets.copy()
-    tickets_copy.reverse()
-    return tickets_copy
+    return list(reversed(tickets))
 
 
 def random_strategy_generator(seed: Optional[int] = None) -> TicketOrderingStrategy:
     use_seed = False
 
     def random_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
-        tickets_copy = tickets.copy()
         if use_seed:
             random.seed(seed)
-        random.shuffle(tickets_copy)
-        return tickets_copy
+        return random.sample(tickets, len(tickets))
 
     return random_strategy
 

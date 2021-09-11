@@ -17,16 +17,12 @@ class FIFOOrderingStrategy(TicketOrderingStrategy):
 
 class FILOOrderingStrategy(TicketOrderingStrategy):
     def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
-        tickets_copy = tickets.copy()
-        tickets_copy.reverse()
-        return tickets_copy
+        return list(reversed(tickets))
 
 
 class RandomOrderingStrategy(TicketOrderingStrategy):
     def create_ordering(self, tickets: list[SupportTicket]) -> list[SupportTicket]:
-        tickets_copy = tickets.copy()
-        random.shuffle(tickets_copy)
-        return tickets_copy
+        return random.sample(tickets, len(tickets))
 
 
 class CustomerSupport:

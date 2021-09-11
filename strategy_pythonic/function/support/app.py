@@ -11,16 +11,11 @@ def fifo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
 
 
 def filo_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
-    tickets_copy = tickets.copy()
-    tickets_copy.reverse()
-    return tickets_copy
+    return list(reversed(tickets))
 
 
 def random_strategy(tickets: list[SupportTicket]) -> list[SupportTicket]:
-    tickets_copy = tickets.copy()
-    # random.seed(???) - can't do that here!
-    random.shuffle(tickets_copy)
-    return tickets_copy
+    return random.sample(tickets, len(tickets))
 
 
 class CustomerSupport:

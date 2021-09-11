@@ -34,7 +34,7 @@ class Runner:
         return self.accuracy_metric.average
 
     def run(self, desc: str, experiment: ExperimentTracker):
-        self.model.train(self.stage == Stage.TRAIN)
+        self.model.train(self.stage is Stage.TRAIN)
 
         for x, y in tqdm(self.loader, desc=desc, ncols=80):
             loss, batch_accuracy = self._run_single(x, y)

@@ -1,5 +1,12 @@
+import random
+
+
 def add_three(x: int) -> int:
     return x + 3
+
+
+def remove_three(x: int) -> int:
+    return x - 3
 
 
 def add_three_alt(x: int) -> int:
@@ -23,6 +30,9 @@ def main():
     assert add_three_alt(2) == 5
     assert add_three_alt(3) == 6
     assert multiply_by_two(2) == 4
+    for _ in range(100):
+        x = random.randint(-1000, 1000)
+        assert remove_three(add_three(x)) == x
     print("All tests pass!")
 
 
