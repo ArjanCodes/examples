@@ -1,6 +1,8 @@
 ## Introduction (talking head)
 
-Last week, I showed you the first steps to refactor a data science project. Today, I'm going to complete the work, let's first recap what I've done so far.
+Last week, I showed you the first steps to refactor a data science project. Today, I'm going to complete the work by looking into how we can improve the way that the overall program can be structured. As I've said in the previous video as well, I'm not a data scientist myself, but I'm learning about the topic at the moment. A great way to do that is via Skillshare, who's the sponsor of this video.
+
+(skillshare promo)
 
 # Code recap (screencast)
 
