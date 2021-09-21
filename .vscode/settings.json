@@ -9,5 +9,7 @@
   "python.analysis.useImportHeuristic": true,
   "python.pythonPath": "/usr/local/bin/python3",
   "python.analysis.typeCheckingMode": "strict",
-  "python.formatting.provider": "black"
+  "python.formatting.provider": "black",
+    
+  
 }

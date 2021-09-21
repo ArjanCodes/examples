@@ -6,7 +6,13 @@ I'm going to be using Tabnine, an AI code completion assistant that integrates d
 
 ## Example outline
 
-Explain the example code (in `before`).
+Explain the example code (in `before`). I'm going to use Tabnine in this example, who is the sponsor of this video. Tabnine is an AI assistant that provides smart code completion in your IDE. It supports over 30 languages including Python in 15 IDEs, including VS Code and PyCharm.
+
+Tabnine offers both a local model and a cloud model. You can choose to run Tabnine locally only and your code never leaves your machine. This also means you can use it to work offline, while ensuring maximum security and privacy.
+
+Tabnine recently launched Tabnine for Teams, which will learn your team’s projects, preferences, and patterns, suggesting even better code completions for you and your team members.
+
+You can get Tabnine Basic as a free extension to your IDE of choice. If you're a student, you can get Tabnine Pro for free, for more information, go to tabnine.com/students. Or you can use coupon code ARJAN20 to get a 20% discount off the Pro plan. The links are in the description of this video.
 
 ## The strategy pattern (talking head)
 

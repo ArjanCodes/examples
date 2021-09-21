@@ -26,11 +26,13 @@ class ExperimentTracker(Protocol):
     def add_epoch_metric(self, name: str, value: float, step: int):
         """Implements logging a epoch-level metric."""
 
-    def add_epoch_confusion_matrix(self, y_true: np.array, y_pred: np.array, step: int):
+    def add_epoch_confusion_matrix(
+        self, y_true: list[np.array], y_pred: list[np.array], step: int
+    ):
         """Implements logging a confusion matrix at epoch-level."""
 
 
-class TensorboardExperiment(ExperimentTracker):
+class TensorboardExperiment:
     def __init__(self, log_path: str, create: bool = True):
         self.stage = Stage.TRAIN
         self._writer = SummaryWriter(
