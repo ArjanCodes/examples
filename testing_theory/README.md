@@ -28,7 +28,9 @@ When we talk about software testing, often people immediately think about unit t
 
 ## Box testing (Screencast)
 
-Another way to look at testing is to differentiate between white box and black box testing. White box testing looks at the inner structure of the software. Unit tests are a good example of white box testing. But other techniques also exist such as mutation testing, which slightly modifies the source code of a program to see whether the tests pick it up.
+Another way to look at testing is to differentiate between white box and black box testing. White box testing looks at the inner structure of the software. Unit tests are a good example of white box testing. But other techniques also exist such as mutation testing, which slightly modifies the source code of a program to see whether the tests pick it up. It's kind of testing your unit tests. And it works well for the common off-by-one mistakes you often see, like accessing an array at index i instead of i-1. Letting a loop run for i < n instead of <= n.
+
+Mutmut: https://github.com/boxed/mutmut.
 
 Here's an example of running a (manual) mutation test. I'm going to replace the + operator with a - operator in the `add_three` function and verify that all tests fail. This is called a mutant. And we see that the tests all fail. But if we replace the \* in multiply_by_two with a + sign our only test still passes.
 
@@ -36,7 +38,9 @@ Here's an example of running a (manual) mutation test. I'm going to replace the 
 
 ## Property/invariant testing
 
-Another important concept in determining program correctness is the invariant. An invariant is a logical assertion that is always held to be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and the end of every execution of a loop. Based on this idea, you could define a certain property that you want to be certain is always true, and then you can test whether this is the case using lots of automatically generated inputs. This is called property-based testing. Let's look at an example.
+Another important concept in determining program correctness is the invariant. An invariant is a logical assertion that is always held to be true during a certain phase of execution. For example, a loop invariant is a condition that is true at the beginning and the end of every execution of a loop. Based on this idea, you could define a certain property that you want to be certain is always true, and then you can test whether this is the case using lots of automatically generated inputs. This is called property-based testing. There are also libraries available to do property-based testing, such as hypothesis: https://hypothesis.readthedocs.io/en/latest/. I'll talk about hypothesis in a separate video in more detail.
+
+Let's look at an example.
 
 ## Property-based testing example (screencast)
 

@@ -2,7 +2,11 @@
 
 This video is a refactor of a data science project kindly provided by Mark Todisco. The project is a basic hand-written digit recognition model based on a well-known dataset called MNIST (see the link in the description of the video).
 
-This is a two-part video. In first part, I'm mainly going to look at a few design issues in the code, and change it to make better use of Python features. I'm also going to cover a really nice functional mechanism for dealing with data in a pipeline.
+This is a three-part video. In first part, I'm mainly going to look at a few design issues in the code. I'm also going to cover a really nice functional mechanism for dealing with data in a pipeline. And then in the second and third parts, I'll dive more into how data flows in the application and how we can improve that by designing things differently.
+
+Disclaimer: I'm not a data scientist, I'm purely approaching the code from a software design point of view. So it's possible that I'm going to do some things that you don't think make a lot of sense. I still hope though that you find some use in how I refactor the code, let me know in the comments what you think and if I should do more of these data sciency kinds of videos in the future.
+
+Before we start though, I have something for you. It's a free guide to help you make better software design decisions in 7 steps. You can get it at arjancodes.com/designguide. I've tried to keep the guide short and to the point, so you can get the information quickly and apply it immediately to what you're doing. So, arjancodes.com/designguide. That link is also in the description of the video.
 
 But let's first look at the code!
 

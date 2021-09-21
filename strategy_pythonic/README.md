@@ -2,6 +2,8 @@
 
 Just like with the Factory pattern, I'd like to take a look today at the Strategy pattern and see what other Python features we can use to establish the same thing!
 
+I'm going to be using Tabnine, an AI code completion assistant that integrates directly into your IDE. They're the sponsor of this video.
+
 ## Example outline
 
 Explain the example code (in `before`).
@@ -40,6 +42,6 @@ In this case we're returning a single function. If you want to simulate more com
 
 ## Final thoughts
 
-So, it seems the distinction between classes and functions is not as clear cut as you'd think. In fact, classes, objects with the **call** dunder method and functions are all Callables. The syntax is just slightly different, and each of them offer different benefits. The result is that for most object-oriented patterns, you can probably mix classes, functions and objects differently to get a variety of the pattern, as I did in this video. I tried something similar a couple of weeks ago with the Factory pattern, you can check out the video here.
+So, it seems the distinction between classes and functions is not as clear cut as you'd think. In fact, classes, objects with the **call** dunder method and functions are all Callables. The syntax is just slightly different, and each of them offer different benefits. The result is that for most object-oriented patterns, you can probably mix classes, functions and objects differently to get a variety of the pattern, as I did in this video.
 
-Hope you enjoyed this - if you did, give this video a like, and consider subscribing so you don't miss anything. Thanks for watching, take care, and see you next week.
+Hope you enjoyed this - if you did, give this video a like, and consider subscribing so you don't miss anything. Don't forget to check out Tabnine, links are below. Thanks for watching, take care, and see you next week.

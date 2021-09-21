@@ -1,6 +1,8 @@
 ## Introduction (talking head)
 
-Last week, I showed you the first steps to refactor a data science project. Today, I'm going to complete the work, let's first recap what I've done so far.
+Last week, I showed you the first steps to refactoring a data science project. In this part, I'm going create a Runner class that will be responsible for running the main training and testing loop, which is currently still in the main.py file.
+
+If you want to learn more about data science, Skillshare, who's the sponsor of this video, is a great place to start.
 
 # Code recap (screencast)
 
@@ -17,18 +19,7 @@ As you'll see in a minute, I won't use design patterns all that much. It's more 
 - The main code for running the epochs has way too many responsibilities, and also contains a lot of duplication. Let's create a Runner class that allows us to run a single iteration over the data.
 - I'm also adding a separate run_epoch method to run a single epoch. Notice that the runner.py file is independent of TensorboardExperiment now. Runner is a good example of applying the Information Expert Principle. It has both the data for running an iteration, as well as the methods to run that iteration. It also keeps track of the past batches, instead of having to keep track of that in the main code.
 - The main function calls the run_epoch method and is now much simplified.
-- Currently, directories and files used in the code are all over the place. Let's move any of those settings to the top. Load_data.py will no longer have directory/file mentions in there. We can create general version of the load_data methods. I'm removing some of the asserts, because these are specific to a particular dataset and do not belong here. You could (and probably should) add separate data validation systems in the future, but that's out of the scope of this video.
-- Dataset.py gets a generic create_data_loader function, which also removes some of the code duplication there.
-- If you now look at main.py, you'll see that there are no longer any mentions of low-level stuff list ds.load_data. Also, the code is much shorter, and all settings are in a single place. You can now even separate out all the settings and put them in a separate (JSON) file. Now all the analysis code is generic and you can use it for any dataset.
 
-## Final thoughts (talking head)
+## Talking head
 
-As you've seen, I haven't really used many design patterns in this refactoring. A lot of the refactoring work concerned splitting code into separate methods or functions, introducing abstractions to reduce coupling (such as cleaning up the ExperimentTracker class), and making sure that configuration settings are in a single place. Let me know in the comments if you have any other suggestions for further improving this code. But the main takeaway is this: in data science projects, the data is central. Design your code around the data, and use the information expert principle to assign responsibilities close to the data that they need.
-
-That's the first way to think about this. The second way is to consider how objects or modules communicate with each other. You generally want to design the system in such a way that the amount of different data that has to flow between them is minimized. In the code example, you see this problem in the first version of dataset.py, where it needs to import lots of specific loading functions. Or in the original main.py file, where the code inside the for-loop depends on lots of variables defined outside of it.
-
-So if two pieces of code are communicating and sending lots of different data to each other, you should probably rethink your design and try to optimize how these pieces of code communicate. It's basically what I tried to do with the Runner class and the run_epoch method.
-
-Another thing that helps you manage more complex code is to use type hints. As you saw type hints are not always properly implemented in the libraries you use, but if you at least try to use them in your own code, it helps avoid some problems like mixing reals and floats.
-
-I hope you enjoyed this closer look at software design for data science projects. Thanks to Mark Todisco for providing the original example code. I hope you found this helpful - if you did give this video a like and consider subscribing to my channel so you don't miss anything. Thanks for watching, take care and see you next time!
+Next week, I'm going to complete this project. I'll be using the code from this week's video as a starting point.
