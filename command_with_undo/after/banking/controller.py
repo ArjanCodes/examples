@@ -1,16 +1,6 @@
 from dataclasses import dataclass, field
-from typing import Protocol
 
-
-class Transaction(Protocol):
-    def execute(self) -> None:
-        raise NotImplementedError()
-
-    def undo(self) -> None:
-        raise NotImplementedError()
-
-    def redo(self) -> None:
-        raise NotImplementedError()
+from banking.transaction import Transaction
 
 
 @dataclass
@@ -19,9 +9,9 @@ class BankController:
     redo_stack: list[Transaction] = field(default_factory=list)
 
     def execute(self, transaction: Transaction):
+        transaction.execute()
         self.redo_stack.clear()
         self.undo_stack.append(transaction)
-        transaction.execute()
 
     def undo(self):
         if len(self.undo_stack) == 0:

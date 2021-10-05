@@ -1,6 +1,6 @@
 from banking.bank import Bank
+from banking.commands import Batch, Deposit, Transfer, Withdrawal
 from banking.controller import BankController
-from banking.transactions import Deposit, Transfer, Withdrawal
 
 
 def main() -> None:
@@ -17,17 +17,24 @@ def main() -> None:
     account3 = bank.create_account("Microsoft")
 
     # deposit some money in my account
-    controller.execute(Deposit(account1.number, 100000, bank))
+    controller.execute(Deposit(account1, 100000))
     controller.undo()
     controller.redo()
 
+    # create and execute a batch of commands
+    batch = Batch(
+        commands=[
+            Deposit(account2, 100000),
+            Deposit(account3, 100000),
+            # Withdrawal(account1, 100000000),
+            Transfer(account2, account1, 50000),
+        ]
+    )
+
     # more deposits
-    controller.execute(Deposit(account2.number, 100000, bank))
-    controller.execute(Deposit(account3.number, 100000, bank))
-
-    # do a transfer
-    controller.execute(Transfer(account2.number, account1.number, 50000, bank, bank))
-
+    print("Executing batch")
+    controller.execute(batch)
+    print("Finished executing batch")
     # undo and redo
     controller.undo()
     controller.undo()
@@ -35,7 +42,7 @@ def main() -> None:
     controller.redo()
 
     # get the money out of my account
-    controller.execute(Withdrawal(account1.number, 150000, bank))
+    controller.execute(Withdrawal(account1, 150000))
 
     print(bank)
 
