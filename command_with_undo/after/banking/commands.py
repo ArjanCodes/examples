@@ -10,7 +10,7 @@ class Deposit:
     amount: int
 
     @property
-    def transfer_details(self):
+    def transfer_details(self) -> str:
         return f"${self.amount/100:.2f} to account {self.account.name}"
 
     def execute(self) -> None:
@@ -32,7 +32,7 @@ class Withdrawal:
     amount: int
 
     @property
-    def transfer_details(self):
+    def transfer_details(self) -> str:
         return f"${self.amount/100:.2f} from account {self.account.name}"
 
     def execute(self) -> None:
@@ -55,7 +55,7 @@ class Transfer:
     amount: int
 
     @property
-    def transfer_details(self):
+    def transfer_details(self) -> str:
         return (
             f"${self.amount/100:.2f} from account {self.from_account.name}"
             f" to account {self.to_account.name}"

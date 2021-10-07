@@ -7,7 +7,7 @@ def main() -> None:
     bank = Bank()
 
     # create some accounts
-    account1 = bank.create_account("Arjan Codes")
+    account1 = bank.create_account("ArjanCodes")
     account2 = bank.create_account("Google")
     account3 = bank.create_account("Microsoft")
 
