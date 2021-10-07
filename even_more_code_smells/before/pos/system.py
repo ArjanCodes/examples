@@ -15,13 +15,12 @@ class POSSystem:
         self.payment_processor = StripePaymentProcessor(self)
         self.orders: dict[str, Order] = {}
 
-    def setup_payment_processor(self) -> None:
-        self.payment_processor.connect_to_service()
+    def setup_payment_processor(self, url: str) -> None:
+        self.payment_processor.connect_to_service(url)
 
-    def register_order(self, order: Order) -> str:
-        order_id = generate_id()
-        self.orders[order_id] = order
-        return order_id
+    def register_order(self, order: Order):
+        order.id = generate_id()
+        self.orders[order.id] = order
 
     def find_order(self, order_id: str) -> Order:
         return self.orders[order_id]
@@ -32,8 +31,7 @@ class POSSystem:
             total += order.quantities[i] * order.prices[i]
         return total
 
-    def process_order(self, order_id: str):
-        order = self.find_order(order_id)
-        self.payment_processor.process_payment(order)
-        order.status = OrderStatus.PAID
+    def process_order(self, order: Order) -> None:
+        self.payment_processor.process_payment(order.id)
+        order.set_status(OrderStatus.PAID)
         print("Shipping order to customer.")

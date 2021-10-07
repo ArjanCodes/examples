@@ -12,7 +12,7 @@ def generate_id(length: int = 6) -> str:
 
 class PaymentProcessor(Protocol):
     def process_payment(self, reference: str, price: int) -> None:
-        raise NotImplementedError()
+        ...
 
 
 class POSSystem:
@@ -20,16 +20,14 @@ class POSSystem:
         self.payment_processor = payment_processor
         self.orders: dict[str, Order] = {}
 
-    def register_order(self, order: Order) -> str:
-        order_id = generate_id()
-        self.orders[order_id] = order
-        return order_id
+    def register_order(self, order: Order) -> None:
+        order.id = generate_id()
+        self.orders[order.id] = order
 
     def find_order(self, order_id: str) -> Order:
         return self.orders[order_id]
 
-    def process_order(self, order_id: str):
-        order = self.find_order(order_id)
-        self.payment_processor.process_payment(order_id, order.total_price)
-        order.status = OrderStatus.PAID
+    def process_order(self, order: Order) -> None:
+        self.payment_processor.process_payment(order.id, order.total_price)
+        order.set_status(OrderStatus.PAID)
         print("Shipping order to customer.")

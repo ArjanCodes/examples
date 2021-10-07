@@ -23,21 +23,13 @@ class Order:
     items: list[str] = field(default_factory=list)
     quantities: list[int] = field(default_factory=list)
     prices: list[int] = field(default_factory=list)
-    status: OrderStatus = OrderStatus.OPEN
+    _status: OrderStatus = OrderStatus.OPEN
+    id: str = ""
 
     def create_line_item(self, name: str, quantity: int, price: int) -> None:
         self.items.append(name)
         self.quantities.append(quantity)
         self.prices.append(price)
 
-    def pay(self, payment_type: str, security_code: str) -> None:
-        if payment_type == "debit":
-            print("Processing debit payment type")
-            print(f"Verifying security code: {security_code}")
-            self.status = OrderStatus.PAID
-        elif payment_type == "credit":
-            print("Processing credit payment type")
-            print(f"Verifying security code: {security_code}")
-            self.status = OrderStatus.PAID
-        else:
-            raise ValueError(f"Unknown payment type: {payment_type}")
+    def set_status(self, status: OrderStatus):
+        self._status = status

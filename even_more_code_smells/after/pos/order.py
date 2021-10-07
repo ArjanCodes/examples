@@ -1,8 +1,8 @@
-import functools
 from dataclasses import dataclass, field
 from enum import Enum, auto
 
 from pos.customer import Customer
+from pos.line_item import LineItem
 
 
 class OrderStatus(Enum):
@@ -16,28 +16,21 @@ class OrderStatus(Enum):
 
 
 @dataclass
-class LineItem:
-    item: str
-    quantity: int
-    price: int
-
-    @property
-    def total_price(self) -> int:
-        return self.quantity * self.price
-
-
-@dataclass
 class Order:
     customer: Customer
     items: list[LineItem] = field(default_factory=list)
-    status: OrderStatus = OrderStatus.OPEN
+    _status: OrderStatus = OrderStatus.OPEN
+    id: str = ""
 
     def add_line_item(self, item: LineItem) -> None:
         self.items.append(item)
 
+    def set_status(self, status: OrderStatus):
+        self._status = status
+
     @property
     def total_price(self) -> int:
-        return functools.reduce(lambda x, y: x + y.total_price, self.items, 0)
+        return sum(line_item.total_price for line_item in self.items)
         # or using a for loop:
         # total = 0
         # for item in self.items:

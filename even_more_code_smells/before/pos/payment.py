@@ -9,10 +9,10 @@ class PaymentServiceConnectionError(Exception):
 
 class OrderRepository(Protocol):
     def find_order(self, order_id: str) -> Order:
-        raise NotImplementedError()
+        ...
 
     def compute_order_total_price(self, order: Order) -> int:
-        raise NotImplementedError()
+        ...
 
 
 class StripePaymentProcessor:
@@ -20,14 +20,15 @@ class StripePaymentProcessor:
         self.connected = False
         self.system = system
 
-    def connect_to_service(self):
-        print("Connecting to payment processing service...done!")
+    def connect_to_service(self, url: str) -> None:
+        print(f"Connecting to payment processing service at url {url}... done!")
         self.connected = True
 
-    def process_payment(self, order_id: str, order: Order):
+    def process_payment(self, order_id: str) -> None:
         if not self.connected:
             raise PaymentServiceConnectionError()
+        order = self.system.find_order(order_id)
         total_price = self.system.compute_order_total_price(order)
         print(
-            f"Processing payment of ${(total_price / 100):.2f}, reference: {order_id}."
+            f"Processing payment of ${(total_price / 100):.2f}, reference: {order.id}."
         )

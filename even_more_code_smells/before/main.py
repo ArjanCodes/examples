@@ -5,7 +5,7 @@ from pos.system import POSSystem
 def main() -> None:
     # create the POS system and setup the payment processor
     system = POSSystem()
-    system.setup_payment_processor()
+    system.setup_payment_processor("https://api.stripe.com/v2")
 
     # create the order
     order = Order(
@@ -15,10 +15,9 @@ def main() -> None:
     order.create_line_item("SSD", 1, 15000)
     order.create_line_item("USB cable", 2, 500)
 
-    # register the order
-    order_id = system.register_order(order)
-
-    system.process_order(order_id)
+    # register and process the order
+    system.register_order(order)
+    system.process_order(order)
 
 
 if __name__ == "__main__":
