@@ -5,12 +5,12 @@ from banking.transaction import Transaction
 
 @dataclass
 class BankController:
-    stack: list[Transaction] = field(default_factory=list)
+    ledger: list[Transaction] = field(default_factory=list)
     current: int = 0
 
     def execute(self, transaction: Transaction) -> None:
-        del self.stack[self.current :]
-        self.stack.append(transaction)
+        del self.ledger[self.current :]
+        self.ledger.append(transaction)
         self.current += 1
 
     def undo(self) -> None:
@@ -18,9 +18,9 @@ class BankController:
             self.current -= 1
 
     def redo(self) -> None:
-        if self.current < len(self.stack):
+        if self.current < len(self.ledger):
             self.current += 1
 
-    def compute_balance_cache(self) -> None:
-        for transaction in self.stack[: self.current]:
+    def compute_balances(self) -> None:
+        for transaction in self.ledger[: self.current]:
             transaction.execute()

@@ -21,20 +21,18 @@ def main() -> None:
     controller.undo()
     controller.redo()
 
-    # create and execute a batch of commands
-    batch = Batch(
-        commands=[
-            Deposit(account2, 100000),
-            Deposit(account3, 100000),
-            # Withdrawal(account1, 100000000),
-            Transfer(account2, account1, 50000),
-        ]
+    # execute a batch of commands
+    controller.execute(
+        Batch(
+            commands=[
+                Deposit(account2, 100000),
+                Deposit(account3, 100000),
+                # Withdrawal(account1, 100000000),
+                Transfer(account2, account1, 50000),
+            ]
+        )
     )
 
-    # more deposits
-    print("Executing batch")
-    controller.execute(batch)
-    print("Finished executing batch")
     # undo and redo
     controller.undo()
     controller.undo()
@@ -44,7 +42,9 @@ def main() -> None:
     # get the money out of my account
     controller.execute(Withdrawal(account1, 150000))
 
-    controller.compute_balance_cache()
+    # clear the cach and compute the balances
+    bank.clear_cache()
+    controller.compute_balances()
 
     print(bank)
 

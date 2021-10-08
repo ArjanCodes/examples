@@ -1,5 +1,6 @@
 from pos.customer import Customer
-from pos.order import LineItem, Order
+from pos.line_item import LineItem
+from pos.order import Order
 from pos.payment import StripePaymentProcessor
 from pos.system import POSSystem
 

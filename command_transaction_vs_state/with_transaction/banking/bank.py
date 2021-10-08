@@ -17,3 +17,7 @@ class Bank:
 
     def get_account(self, account_number: str) -> Account:
         return self.accounts[account_number]
+
+    def clear_cache(self):
+        for account in self.accounts.values():
+            account.clear_cache()

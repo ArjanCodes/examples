@@ -15,5 +15,5 @@ class Account:
             raise ValueError("Insufficient funds")
         self._balance_cache -= amount
 
-    def reset(self) -> None:
+    def clear_cache(self) -> None:
         self._balance_cache = 0
