@@ -1,33 +1,45 @@
 """
 Very advanced Employee management system.
 """
-from dataclasses import dataclass
+from dataclasses import dataclass, field
+from typing import Optional, Protocol
+
+
+class PaymentSource(Protocol):
+    def compute_pay(self) -> int:
+        ...
+
+
+@dataclass
+class DealBasedCommission:
+
+    commission: int = 10000
+    deals_landed: int = 0
+
+    def compute_pay(self) -> int:
+        return self.commission * self.deals_landed
+
+
+@dataclass
+class HourlyContract:
+
+    hourly_rate: int
+    hours_worked: float = 0.0
+    employer_cost: int = 100000
+
+    def compute_pay(self) -> int:
+        return int(self.hourly_rate * self.hours_worked + self.employer_cost)
 
 
 @dataclass
 class Employee:
-    """Basic representation of an employee."""
 
     name: str
-    employee_id: int
-    pay_rate: int = 10000
-    hours_worked: float = 0.0
-    employer_cost: int = 100000
-    commission: int = 10000
-    contracts_landed: int = 0
+    id: int
+    payment_sources: list[PaymentSource] = field(default_factory=list)
 
-    @property
-    def has_commission(self) -> bool:
-        """Whether the employee has a commission."""
-        return self.commission > 0
+    def add_payment_source(self, payment_source: PaymentSource):
+        self.payment_sources.append(payment_source)
 
-    def compute_payout(self) -> int:
-        """Compute how much the employee should be paid."""
-        if self.hours_worked < 0:
-            raise ValueError(
-                f"hours_worked should be a positive number, but got: {self.hours_worked}"
-            )
-        payout = self.pay_rate * self.hours_worked + self.employer_cost
-        if self.has_commission:
-            payout += self.commission * self.contracts_landed
-        return int(payout)
+    def compute_pay(self) -> int:
+        return sum(source.compute_pay() for source in self.payment_sources)
