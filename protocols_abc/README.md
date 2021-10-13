@@ -14,7 +14,7 @@ Protocols were introduced in Python 3.8 and behave a bit like an interface, but 
 
 # Change the example to use a protocol class
 
-- Show that dependencies are now different: in particular, devices no longer directly inherit from
+- Show that dependencies are now different: in particular, devices no longer directly inherit from the Device class
 
 # A cool feature of protocols (talking head)
 
@@ -23,6 +23,7 @@ The big difference between protocols and ABCs is that as opposed to ABCs, which 
 # Use Protocols to only define what's needed (screencast)
 
 - Change the example to split the Protocol class in two parts.
+- Show what switching on and off type checking (python.analysis.typeCheckingMode) does to both ABCs and Protocols. With type checking, ABC gives an error when you try to create an instance. Protocols give an error when you try to use a class at a place where it doesn't match the protocol.
 
 # Final thoughts
 
