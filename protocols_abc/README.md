@@ -18,7 +18,7 @@ Protocols were introduced in Python 3.8 and behave a bit like an interface, but 
 
 # A cool feature of protocols (talking head)
 
-The big difference between protocols and ABCs is that as opposed to ABCs, which define the structure of the classes that inherit from them, Protocols only define what a function or method expects in terms of an interface. This reduces coupling. For example, collect_diagnostics doesn't need to know anything about the fact that devices connect and disconnect. The IOTService doesn't need to know anything about the fact that devices send status updates. So now you can define another class that just sends status updates and use that to collect diagnostics. With ABCs, this isn't possible.
+The big difference between protocols and ABCs is that as opposed to ABCs, which define the structure of the classes that inherit from them, Protocols only define what a function or method expects in terms of an interface. This reduces coupling. For example, collect_diagnostics doesn't need to know anything about the fact that devices connect and disconnect. The IOTService doesn't need to know anything about the fact that devices send status updates. So now you can define another class that just sends status updates and use that to collect diagnostics. With ABCs, you can in principle also do this, but then you'll need to use multiple inheritance, which, since inheritance is one of the strongest forms of coupling, I generally try to avoid in my code.
 
 # Use Protocols to only define what's needed (screencast)
 
@@ -26,13 +26,16 @@ The big difference between protocols and ABCs is that as opposed to ABCs, which 
 
 # Final thoughts
 
-This clearly shows the conceptual difference between Protocols and ABCs. ABCs conceptually "belong" with their subclasses. Protocols "belong" at the place where they're used. When you use Protocols, you can even define the same protocol multiple times if you wanted to, and then the files in which these protocols are defined don't depend on each other and can still be used together, which is really cool!
+This clearly shows the conceptual difference between Protocols and ABCs. ABCs conceptually "belong" with their subclasses. Protocols "belong" at the place where they're used.
 
-A few caveats of protocols:
+ABCs are not obsolete because of protocols. If you want to have control over most or all of the classes implementing the interface, they can still be a very good fit. For example if you know that you're not going to define any new subclasses outside of the module containing the ABC.
 
-1. If you're not using inheritance with protocols you also lose some of the advantages that inheritance offers like helpful automatic checks to inform you of mistakes such as using the wrong argument types for a method that's part of a Device subclass.
-2. With protocols, unless you inherit from them, you won't be able to add convenience methods to the superclass that you can then use in a subclass.
+Because protocols conceptually belong more at the place where they're used, they might make more sense if you expect many different classes in many different projects to use the interface and it would be unreasonable or unenforceable to expect all these external classes to explicitly inherit from an ABC.
 
-You can use Protocols like ABCs and inherit from them if you want to. You can even use @abstractmethod with them. In that case you'll have both the static type checking that Protocols offer as well as the runtime checks with abstract methods. But arguably it's a less "pythonic" approach. And then, you'll lose the advantages of duck typing, such as being able to split the class and only define the interface that you need.
+A nice thing about Protocols is that you can even define the same protocol multiple times if you wanted to, and then the files in which these protocols are defined don't depend on each other and can still be used together, which is really cool!
+
+However, if you're not using inheritance to define a relationship between superclass and subclass you also lose some of the advantages that inheritance offers like helpful automatic checks to inform you of mistakes such as using the wrong argument types for a method that's part of a Device subclass. You also won't be able to add convenience methods to the superclass that you can then use in a subclass. For example in the case of Device, you might want to add a convenience method that connects, runs a program and then disconnects again. With ABCs this is easy, with Protocols, you'll need to solve it differently (though that's certainly not impossible - you could for example define a function that accepts a Device and simply calls the methods).
+
+You can use Protocols like ABCs and inherit from them if you want to. You can even use @abstractmethod with them. In that case you'll have both the static type checking that Protocols offer as well as the runtime checks with abstract methods. But arguably it's a less "pythonic" approach. And then, you'll lose the advantages of duck typing, such as being able to split the class and only define the part of the interface that you need. Doing this by the way, is called Interface Segregation and it's part of the SOLID design principles. I've talked about them in another video - there's a link at the top right.
 
 I hope you enjoyed this video. If you did, give the video a like to help me spread the word throughout YouTube, and consider subscribing to my channel if you want to watch more of my content. Thanks for watching, take care, and see you next time!
