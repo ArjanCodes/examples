@@ -1,7 +1,7 @@
 from iot.message import MessageType
 
 
-class HueLight:
+class HueLightDevice:
     def connect(self) -> None:
         print("Connecting Hue light.")
 
@@ -17,7 +17,7 @@ class HueLight:
         return "hue_light_status_ok"
 
 
-class SmartSpeaker:
+class SmartSpeakerDevice:
     def connect(self) -> None:
         print("Connecting to Smart Speaker.")
 
@@ -33,7 +33,7 @@ class SmartSpeaker:
         return "smart_speaker_status_ok"
 
 
-class Curtains:
+class CurtainsDevice:
     def connect(self) -> None:
         print("Connecting to Curtains.")
 

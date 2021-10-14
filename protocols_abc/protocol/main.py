@@ -1,4 +1,4 @@
-from iot.devices import Curtains, HueLight, SmartSpeaker
+from iot.devices import CurtainsDevice, HueLightDevice, SmartSpeakerDevice
 from iot.diagnostics import collect_diagnostics
 from iot.message import Message, MessageType
 from iot.service import IOTService
@@ -14,9 +14,9 @@ def main() -> None:
     service = IOTService()
 
     # create and register a few devices
-    hue_light = HueLight()
-    speaker = SmartSpeaker()
-    curtains = Curtains()
+    hue_light = HueLightDevice()
+    speaker = SmartSpeakerDevice()
+    curtains = CurtainsDevice()
     hue_light_id = service.register_device(hue_light)
     speaker_id = service.register_device(speaker)
     curtains_id = service.register_device(curtains)

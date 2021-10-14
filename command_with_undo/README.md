@@ -1,16 +1,16 @@
 ## About this video
 
-In this video I'm going to talk about the Command design pattern. You can use it to represent commands and have control over when they're executed. I'm going to show you an example of how to use it to implement an undo/redo system.
+In this video I'm going to talk about the Command design pattern. You can use it to represent commands and have control over when they're executed. I'm going to show you an example of how it works. And then I'm going to show you something that's used in most non-destructive editors: a very nice way to add undo and redo behavior.
 
 This video is sponsored by Skillshare. (skillshare section)
 
 ## Explain the example (screencast)
 
-We start with a basic Bank and Account class. The example creates a bank and adds some accounts to it. We also deposit and withdraw some money. At the moment, this code is pretty limited though. We have little control over when transactions are executed, what to do when a transaction fails, etc. We can use the Command design pattern to make this more flexible.
+We start with a basic Bank and Account class. The example creates a bank and adds some accounts to it. We also deposit and withdraw some money. At the moment, this code is pretty limited though. We have little control over when transactions are executed, what to do when a transaction fails, etc. We can use the Command design pattern to make this more flexible. I'll show you in a minute how I'm going to change this code and apply the Command pattern.
 
 ## The Command design pattern (talking head)
 
-The Command design pattern is a behavioral design pattern that provides a way to encapsulate all knowledge about executing an operation into a single object. Here's a class diagram. I'm going to show you how to use it to implement an undo/redo system and making transactions more flexible overall, using a bank example. Banks are a great example of where the command pattern is useful, because bank transactions follow the command pattern pretty closely.
+The Command design pattern is a behavioral design pattern that provides a way to encapsulate all knowledge about executing an operation into a single object. Here's a class diagram. I'm going to show you how to use it to make transactions more flexible overall and have undo/redo behavior, using a bank example. Banks are a great example of where the command pattern is useful, because bank transactions follow the command pattern pretty closely. And there's one more thing I'm going to show you that really takes the Command pattern flexibility to the next level.
 
 ## Implement the command pattern
 
@@ -23,9 +23,13 @@ The Command design pattern is a behavioral design pattern that provides a way to
 
 Explain undo and redo stack.
 
-## Add undo and redo management to the BankController class
+## Add undo and redo management to the BankController class (screencast)
 
-## Increasing robustness using rollback
+## Increasing robustness using rollback (talking head)
+
+Because a command is now a thing, we can create even more flexibility by introducing groups of commands, or: batches. Let's see how we can do that.
+
+## Add the batch to the example (screencast)
 
 Add a command batch. If one of the commands in the batch fails, the whole batch is rolled back.
 

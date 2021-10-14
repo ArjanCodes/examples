@@ -1,10 +1,6 @@
-## About this video
-
-Here's another code smells video. They just keep on coming!
-
 ## Video outline
 
-I did several videos covering code smells in the past. If you haven't watched those yet, I'll put a link to the previous two videos in the description. Some of you told me you don't like the word code smell. So here's a warning: please skip the following 10 seconds. Code smell, code smell, code smell, code smell, code smell, code smell, code smell! 7! That's how many I'm going to cover in this video. And there's a bonus at the end. While I'm working on the code today, I'll be using Tabnine, this video's sponsor.
+I did several videos covering code smells in the past. If you haven't watched those yet, I'll put a link to the previous two videos in the description. Some of you told me you don't like the word code smell. So here's a warning: please skip the following 10 seconds. Code smell, code smell, code smell, code smell, code smell, code smell, code smell! 7! That's how many I'm going to cover in this video. And there's a smelly little bonus at the end. While I'm working on the code today, I'll be using Tabnine, this video's sponsor.
 
 ## Tabnine sponsored section
 
@@ -14,7 +10,7 @@ Example of a Point-Of-Sale (POS) system for handling orders.
 
 ## What are code smells? (talking head)
 
-Recap: a code smell is not a bug, it's more of a hint that something's wrong in your code. It can be a minor thing that's easy to fix. Or, it can point to a bigger problem in your design. Today, I'll cover 7 more code smells. Not all of them are Python-specific by the way. But regardless, they're still pretty smelly!
+Recap: a code smell is not a bug, it's more of a hint that something's wrong in your code. It can be a minor thing that's easy to fix. Or, it can point to a bigger problem in your design. Today, I'll cover 7 more code smells. Not all of them are Python-specific by the way. But regardless, they're still pretty smelly! Now, time to clean up this code.
 
 ## Code smell #1: Wrong/too elaborate data structure
 
