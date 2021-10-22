@@ -17,12 +17,12 @@ def main() -> None:
     account3 = bank.create_account("Microsoft")
 
     # deposit some money in my account
-    controller.execute(Deposit(account1, 100000))
+    controller.register(Deposit(account1, 100000))
     controller.undo()
     controller.redo()
 
     # execute a batch of commands
-    controller.execute(
+    controller.register(
         Batch(
             commands=[
                 Deposit(account2, 100000),
@@ -40,9 +40,9 @@ def main() -> None:
     controller.redo()
 
     # get the money out of my account
-    controller.execute(Withdrawal(account1, 150000))
+    controller.register(Withdrawal(account1, 150000))
 
-    # clear the cach and compute the balances
+    # clear the cache and compute the balances
     bank.clear_cache()
     controller.compute_balances()
 

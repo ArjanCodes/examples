@@ -1,6 +1,6 @@
 # Intro (talking head)
 
-Last week, I talked about the Command pattern and show you how you can use it to store transactions. This week, I'm going to show you how you can take this idea to the next level by changing what data you store. This is not always what you want to do, but in some cases, it's an extremely powerful approach.
+Last week, I talked about the Command pattern and show you how you can use it to store transactions. If you haven't watched that, I've put a link in the description. This week, I'm going to show you how you can take this idea to the next level by changing what data you store. This is not always what you want to do, but in some cases, it's an extremely powerful approach.
 
 That choice is a software design decision. My goal with this channel is to help you with improving the way you make those decisions. Help you recognize patterns that will then hopefully lead you to a better design in the end. I've written a guide that provides you with a starting point. And it's free, go to arjancodes.com/designguide to get your code. It contains the 7 steps that I follow myself when I design a piece of software, and I hope it helps you too to make better design decisions. Arjancodes.com/designguide, the link is also in the description.
 

@@ -56,12 +56,5 @@ class Batch:
     commands: list[Transaction] = field(default_factory=list)
 
     def execute(self) -> None:
-        completed_commands: list[Transaction] = []
-        try:
-            for command in self.commands:
-                command.execute()
-                completed_commands.append(command)
-        except ValueError:
-            for command in reversed(completed_commands):
-                command.undo()
-            raise
+        for command in self.commands:
+            command.execute()

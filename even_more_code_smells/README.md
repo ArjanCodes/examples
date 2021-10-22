@@ -16,6 +16,8 @@ Recap: a code smell is not a bug, it's more of a hint that something's wrong in 
 
 Order is using various arrays to store items, quantities and prices. This leads to problems because we have to keep track of three arrays and make sure they're the right size. It makes more sense to combine an item, a quantity and a price into an object. Let's call that a line item and add a separate class for it.
 
+Mention Tabnine?
+
 ## Code smell #2. Misleading names
 
 It's hard to name things. Methods are often called add_something, create_something, get_something, etc. Are we really adding something? Or creating it? Or getting it? It's important to have method names reflect what the method actually does. In this case, the create_line_item method should be called add_line_item, since it's adding something to a list, not creating something for us.
@@ -30,7 +32,9 @@ Whenever you encounter a method that gets a single object as a parameter and the
 
 ## Code smell #5. Backpedalling / Law of Demeter ([https://wiki.c2.com/?BackPedalling](https://wiki.c2.com/?BackPedalling)):
 
-Backpedalling means that you call a method, but then not provide the data it needs, so that the method needs to find all the stuff it requires elsewhere, often leading to the method needing implemenation details of another object. A related principle is the Law of Demeter: the principle of least knowledge. You see this happening in the payment processor, which has to get all kinds of information from the POSSystem when it processes a payment. If you look at what the payment processor actually needs it's only two things: a price that needs to be paid, and a reference or id related to what you're paying. So let's simply provide those things to the process_payment method, and make payment processor completely independent of the POS system.
+(talking head) Backpedalling means that you call a method, but then not provide the data it needs, so that the method needs to find all the stuff it requires elsewhere, often leading to the method needing implemenation details of another object. A related principle is the Law of Demeter: the principle of least knowledge.
+
+You see this happening in the payment processor, which has to get all kinds of information from the POSSystem when it processes a payment. If you look at what the payment processor actually needs it's only two things: a price that needs to be paid, and a reference or id related to what you're paying. So let's simply provide those things to the process_payment method, and make payment processor completely independent of the POS system.
 
 ## Code smell #6. Hardwired sequences with a single order:
 

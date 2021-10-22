@@ -8,7 +8,7 @@ class BankController:
     ledger: list[Transaction] = field(default_factory=list)
     current: int = 0
 
-    def execute(self, transaction: Transaction) -> None:
+    def register(self, transaction: Transaction) -> None:
         del self.ledger[self.current :]
         self.ledger.append(transaction)
         self.current += 1
