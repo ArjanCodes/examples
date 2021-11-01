@@ -1,0 +1,11 @@
+﻿# Python: 3.10.0
+torch
+numpy
+pandas
+scikit-learn
+matplotlib
+tensorboard
+mlflow
+tqdm
+pillow
+hydra-core

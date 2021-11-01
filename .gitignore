@@ -3,3 +3,6 @@
 htmlcov
 **/.DS_Store
 **/node_modules
+.hydra
+**/*.log
+configs/runs
