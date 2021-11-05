@@ -1,0 +1,11 @@
+{
+    "export_dir": "PDN Scraper Exports",
+    "prime_src": "211001_PDN_studies_9.csv",
+    "url_dmnsns": "https://app.dimensions.ai/discover/publication/results.json",
+    "research_dir": "PDN Research Papers From Scrape",
+    "url_scihub": "https://sci-hubtw.hkvisa.net/",
+    "paper_folder": "../papers",
+    "research_words": "../words/research.txt",
+    "bycatch_words": "../words/bycatch.txt",
+    "target_words": "../words/target.txt"
+}
