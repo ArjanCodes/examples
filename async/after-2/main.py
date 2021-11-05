@@ -40,11 +40,11 @@ async def main() -> None:
     # run the programs
     await service.run_program(wake_up_program)
     await run_parallel(
-        hue_light.send_message(MessageType.SWITCH_OFF),
-        speaker.send_message(MessageType.SWITCH_OFF),
+        service.send_msg(Message(hue_light_id, MessageType.SWITCH_OFF)),
+        service.send_msg(Message(speaker_id, MessageType.SWITCH_OFF)),
         run_sequence(
-            toilet.send_message(MessageType.FLUSH),
-            toilet.send_message(MessageType.CLEAN),
+            service.send_msg(Message(toilet_id, MessageType.FLUSH)),
+            service.send_msg(Message(toilet_id, MessageType.CLEAN)),
         ),
     )
 

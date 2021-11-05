@@ -1,8 +1,9 @@
 defaults:
   - files: mnist
+  - _self_
 paths:
   log: ./runs
-  data: ./data/raw
+  data: ${hydra:runtime.cwd}/../data/raw
 params:
   epoch_count: 20
   lr: 5e-5
