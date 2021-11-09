@@ -2,6 +2,14 @@
 
 (start with screencast). There's something very interesting in this code (show the main() function only). What do you think will happen if I print the class name of FileRequest: "print(file_request.**class**.**name**)? It should print "FileRequest", right? Well, let's see... Ooohhhh... that's interesting. The FileRequest initializer doesn't create a FileRequest. I love code that changes the meaning of core Python concepts. We're gonna have some fun untangling this mess. Let's dive in!
 
+# Thanks (talking head)
+
+In this code roast episode, I'm going to analyse and refactor a pdf and web scraping script that analyses academic papers. Thanks to John Fallot for supplying the code for this roast, let's first walk through the code to see how everything is setup, and then I'll do an analysis and start refactoring. I'll be using Tabnine, who's the sponsor of this video.
+
+# Tabnine sponsored section
+
+# Explain the example and analysis (screencast)
+
 Analysis:
 
 - This code changes the what basic programming concepts like class initializers do. Really bad idea! Look at the ScrapeRequest class: the superclass creates subclasses for you based on a parameter that you pass to its initializer??? You're redefining what a class initializer should do. And introduce a lot of coupling at the same time, because the superclass needs to know all its possible subclasses. I'm going to give you three reasons why this is a VERY BAD IDEA (tm) (add title over this). But first let's look at the rest of the code.
@@ -31,14 +39,36 @@ Refactoring PART 1:
 - Change DOIRequest and PubIDRequest to functions as well and put them together in fetch.py.
 - Simplify PDFScraper by removing all the instance variables and let the data use files (hardcoded in the class for now, will improve config in the next part)
 
-In the next part, I'm going to cleanup the scraper code and use a better mechanism for dealing with configuration settings. Thanks for watching, take care and see you next week!
+In the next part, I'm going to cleanup the scraper code and use a better mechanism for dealing with configuration settings. Thanks again to the sponsor, Tabnine - check them out via one of the links in the description. If you enjoyed this video, give it a like, this really helps promote my channel on YouTube, and subscribe if you enjoy my content. Thanks for watching, take care and see you next week!
 
 ---
 
-Refactoring PART 2:
+# Code roast part II
+
+## Introduction (talking head)
+
+In last week's video I started refactoring a pdf and web scraping script. If you haven't watched that video, I recommend you watch that one before continuing. I've put the link in the description.
+
+I'm not a data scientist myself, I'm a software engineer. So I view data science projects like this through the lens of a software engineer or designer. If you want to learn more about data science itself, Skillshare, this video's sponsor, has lots of great courses to help you get started.
+
+## Skillshare sponsored section
+
+## Recap the example (screencast)
+
+## What I'll do in Part 2 (talking head)
+
+In this part of the refactoring, I'm going to clean up the scraper classes, move a few more things to different files and then show you how to properly deal with the configuration settings for this project.
+
+## Refactoring PART 2 (screencast)
 
 - Create a Scraper protocol class and let the other scrapers inherit from it
 - Move the other scraping classes to a separate file.
 - Move change_dir and export to separate files and pass config settings (such as the export dir) as an argument
 - Improve logging
 - Separate config into a JSON file and use a dataclass. There are way more possibilities with a package like Hydra, but I'll cover that in a future video.
+
+## Final thoughts (talking head)
+
+Thanks again to John Fallot for supplying the code. I know I was a bit more roasty in this video, especially about the scraper initializer. But you, sometimes a bit of tough love doesn't hurt. In the end, I want you to become better at this stuff, as that's what my channel is all about. I've written down a guide to help you get started. You can get it for free by going to arjancodes.com/designguide. It describes the 7 steps I go through when I design my software. It's short and to the point, really actionable stuff that you can apply right away to your own projects. So, arjancodes.com/designguide for your free download.
+
+I do hope you enjoyed the video, and if you did, give it a like and consider subscribing to my channel if you're not a subscriber yet. If you're a subscriber already, why not unsubscribe and then subscribe again, to enjoy the awesomeness that is the YouTube subscribe button. Thanks for watching, take care and see you next week!
