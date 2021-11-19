@@ -22,6 +22,8 @@ It's not even clear what problem this is supposed to solve, because in the main 
 - Having lots of comments, thank you messages, etc at the top of the code file is a bad idea, because you almost never look at that text as a developer and you constantly need to scroll past it when you edit the code. It's better to put this in a separate readme file.
 - Configuration settings are a bit all over the place. Some things are defined at the top, others locally in the main file (like where the papers are located).
 
+# Talking head
+
 Several reasons why changing the meaning of basic programming concepts is a REALLY BAD IDEA:
 
 1. You need a lot of boilerplate code with low-level dunder methods to do this, which makes your code really hard to understand
@@ -39,7 +41,7 @@ Refactoring PART 1:
 - Change DOIRequest and PubIDRequest to functions as well and put them together in fetch.py.
 - Simplify PDFScraper by removing all the instance variables and let the data use files (hardcoded in the class for now, will improve config in the next part)
 
-In the next part, I'm going to cleanup the scraper code and use a better mechanism for dealing with configuration settings. Thanks again to the sponsor, Tabnine - check them out via one of the links in the description. If you enjoyed this video, give it a like, this really helps promote my channel on YouTube, and subscribe if you enjoy my content. Thanks for watching, take care and see you next week!
+In the next part, I'm going to cleanup the scraper code and use a better mechanism for dealing with configuration settings. Thanks again to the sponsor, Tabnine - check them out via one of the links in the description. If you enjoyed this video, give it a like, this really helps promote my channel on YouTube, and subscribe if you enjoy my content. If you want to watch another data science code refactoring like this, check out this video. Thanks for watching, take care and see you next time!
 
 ---
 
@@ -49,7 +51,7 @@ In the next part, I'm going to cleanup the scraper code and use a better mechani
 
 In last week's video I started refactoring a pdf and web scraping script. If you haven't watched that video, I recommend you watch that one before continuing. I've put the link in the description.
 
-I'm not a data scientist myself, I'm a software engineer. So I view data science projects like this through the lens of a software engineer or designer. If you want to learn more about data science itself, Skillshare, this video's sponsor, has lots of great courses to help you get started.
+I'm not a data scientist myself, I'm a software engineer. So I view data science projects like this through the lens of a software engineer or designer. If you want to learn more about data science itself, Skillshare, this video's sponsor, has lots of great classes to help you get started.
 
 ## Skillshare sponsored section
 
@@ -66,6 +68,7 @@ In this part of the refactoring, I'm going to clean up the scraper classes, move
 - Move change_dir and export to separate files and pass config settings (such as the export dir) as an argument
 - Improve logging
 - Separate config into a JSON file and use a dataclass. There are way more possibilities with a package like Hydra, but I'll cover that in a future video.
+- Put the words separately in a text file.
 
 ## Final thoughts (talking head)
 
