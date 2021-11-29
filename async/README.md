@@ -1,5 +1,7 @@
 # Introduction
 
+In this video I'm going to show you how to run code in parallel to make it much faster.
+
 # Explain the example
 
 # Threads

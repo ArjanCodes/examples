@@ -49,7 +49,7 @@ In the next part, I'm going to cleanup the scraper code and use a better mechani
 
 ## Introduction (talking head)
 
-In last week's video I started refactoring a pdf and web scraping script. If you haven't watched that video, I recommend you watch that one before continuing. I've put the link in the description.
+In this video, I'm going to finish refactoring a pdf and web scraping script. If you haven't watched part 1 of this refactoring, I've put the link to that video in the description.
 
 I'm not a data scientist myself, I'm a software engineer. So I view data science projects like this through the lens of a software engineer or designer. If you want to learn more about data science itself, Skillshare, this video's sponsor, has lots of great classes to help you get started.
 
@@ -59,7 +59,7 @@ I'm not a data scientist myself, I'm a software engineer. So I view data science
 
 ## What I'll do in Part 2 (talking head)
 
-In this part of the refactoring, I'm going to clean up the scraper classes, move a few more things to different files and then show you how to properly deal with the configuration settings for this project.
+In this part of the refactoring, I'm going to clean up the scraper classes, move a few more things to different files and then show you how to properly deal with the configuration settings for this project. Let's dive in.
 
 ## Refactoring PART 2 (screencast)
 
@@ -74,4 +74,4 @@ In this part of the refactoring, I'm going to clean up the scraper classes, move
 
 Thanks again to John Fallot for supplying the code. I know I was a bit more roasty in this video, especially about the scraper initializer. But you, sometimes a bit of tough love doesn't hurt. In the end, I want you to become better at this stuff, as that's what my channel is all about. I've written down a guide to help you get started. You can get it for free by going to arjancodes.com/designguide. It describes the 7 steps I go through when I design my software. It's short and to the point, really actionable stuff that you can apply right away to your own projects. So, arjancodes.com/designguide for your free download.
 
-I do hope you enjoyed the video, and if you did, give it a like and consider subscribing to my channel if you're not a subscriber yet. If you're a subscriber already, why not unsubscribe and then subscribe again, to enjoy the awesomeness that is the YouTube subscribe button. Thanks for watching, take care and see you next week!
+I do hope you enjoyed the video, and if you did, give it a like and consider subscribing to my channel. If you liked this refactoring, check out this miniseries as well where I do a full refactoring of an hand-written digit recognition project. Thanks for watching, take care and see you next week!
