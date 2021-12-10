@@ -14,3 +14,8 @@ If several tests rely on the same underlying test data, you can create a so-call
 # Fixture variations and property-based testing (screencast)
 
 Fixtures are great for extracting data or objects that you use across multiple tests. They aren’t always as good for tests that require slight variations in the data. Littering your test suite with fixtures is no better than littering it with plain data or objects. It might even be worse because of the added layer of indirection. If your goal with this is property-based testing, you can use the parameterize decorator to do this (see example code).
+
+# Running the tests
+
+Unittest: python -m unittest discover
+Pytest: pytest

@@ -16,10 +16,10 @@ def test_employee() -> Employee:
 
 
 class TestEmployeeComputePayout:
-    """Test the compute_payout method of the Employee class."""
+    """Test the compute_pay method of the Employee class."""
 
-    def test_employee_payout_returns_a_float(self, test_employee: Employee):
-        """Whether payout returns a float."""
+    def test_employee_payout_returns_an_int(self, test_employee: Employee):
+        """Whether payout returns an int."""
         assert isinstance(test_employee.compute_pay(), int)
 
     def test_employee_payout_no_commission_no_hours(self, test_employee: Employee):
