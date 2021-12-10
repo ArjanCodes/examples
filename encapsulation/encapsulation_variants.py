@@ -66,7 +66,9 @@ class OrderEncapsulationAndInformationHiding:
 @dataclass
 class OrderInformationHidingWithoutEncapsulation:
     """The status variable is public again (so there's no boundary),
-    but we don't know what the type is - that information is hidden."""
+    but we don't know what the type is - that information is hidden. I know, it's a bit
+    of a contrived example - you wouldn't ever do this. But at least it shows that
+    it's possible."""
 
     payment_status: Any = None
 
