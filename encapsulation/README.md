@@ -28,4 +28,6 @@ The way I view it is that encapsulation means you're drawing a boundary around s
 
 -- encapsulation with and without information hiding example
 
-Encapsulation, the good and the bad:
+Encapsulation, pros and cons:
+
+- to do

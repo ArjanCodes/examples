@@ -57,7 +57,7 @@ class OrderEncapsulationAndInformationHiding:
             raise PaymentStatusError("You can't cancel an already paid order.")
         self._payment_status = PaymentStatus.CANCELLED
 
-    def pay(self):
+    def pay(self) -> None:
         if self._payment_status == PaymentStatus.PAID:
             raise PaymentStatusError("Order is already paid.")
         self._payment_status = PaymentStatus.PAID
@@ -83,13 +83,13 @@ class OrderInformationHidingWithoutEncapsulation:
             raise PaymentStatusError("You can't cancel an already paid order.")
         self.payment_status = PaymentStatus.CANCELLED
 
-    def pay(self):
+    def pay(self) -> None:
         if self.payment_status == PaymentStatus.PAID:
             raise PaymentStatusError("Order is already paid.")
         self.payment_status = PaymentStatus.PAID
 
 
-def main():
+def main() -> None:
     test = OrderInformationHidingWithoutEncapsulation()
     test.pay()
     print("Is paid: ", test.is_paid())
