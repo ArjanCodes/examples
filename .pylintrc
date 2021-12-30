@@ -1,6 +1,6 @@
 [MASTER]
 extension-pkg-whitelist=pydantic
 docstring-min-length=10
-disable=missing-function-docstring, missing-class-docstring
+disable=missing-module-docstring, missing-function-docstring, missing-class-docstring
 [FORMAT]
 good-names=i,j,x,y,id
