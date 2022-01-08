@@ -46,11 +46,12 @@ def get_blog(id: int) -> Blog:
 
 
 def update_blog(id: int, payload: BlogPayload) -> Blog:
-    if not BLOGS[id]:
+    blog = BLOGS.get(id)
+    if not blog:
         raise NotFoundError("Blog not found")
-    # REVIEWERS: any idea how to fix this type error cleanly?
-    BLOGS[id].update(payload)
-    return BLOGS[id]
+    for key, value in payload.items():
+        blog[key] = value
+    return blog
 
 
 def all_authors() -> list[Author]:
