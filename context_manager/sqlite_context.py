@@ -5,18 +5,16 @@ import sqlite3
 class SQLite:
     def __init__(self, file_name: str):
         self.file_name = file_name
-        self.connection = None
+        self.connection = sqlite3.connect(self.file_name)
 
     def __enter__(self):
         logging.info("Calling __enter__")
-        self.connection = sqlite3.connect(self.file_name)
         return self.connection.cursor()
 
     def __exit__(self, error: Exception, value: object, traceback: object):
         logging.info("Calling __exit__")
-
-        if self.connection:
-            self.connection.close()
+        self.connection.commit()
+        self.connection.close()
 
 
 def main():

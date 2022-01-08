@@ -5,15 +5,14 @@ from contextlib import contextmanager
 
 @contextmanager
 def open_db(file_name: str):
-    conn = None
+    conn = sqlite3.connect(file_name)
     try:
         logging.info("Creating connection")
-        conn = sqlite3.connect(file_name)
         yield conn.cursor()
     finally:
         logging.info("Closing connection")
-        if conn:
-            conn.close()
+        conn.commit()
+        conn.close()
 
 
 def main():
