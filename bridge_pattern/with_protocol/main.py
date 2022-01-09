@@ -6,7 +6,7 @@ from stream.webcam import Webcam
 from stream.youtube_stream import YouTubeStreamingService
 
 
-def main():
+def main() -> None:
     # setup logging
     logging.basicConfig(level=logging.INFO)
 

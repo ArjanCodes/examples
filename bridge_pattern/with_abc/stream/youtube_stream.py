@@ -1,6 +1,6 @@
 import logging
 
-from stream.data import Buffer, generate_id
+from stream.data import generate_id
 from stream.service import StreamingService
 
 
