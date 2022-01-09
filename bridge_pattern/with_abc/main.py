@@ -11,7 +11,8 @@ def main():
     logging.basicConfig(level=logging.INFO)
 
     # create a device and a streaming service
-    service = YouTubeStreamingService(webcam)
+    service = YouTubeStreamingService()
+    service.add_device(webcam)
 
     # start streaming
     reference = service.start_stream()
@@ -19,7 +20,9 @@ def main():
     service.stop_stream(reference)
 
     # create another device and streaming service
-    service2 = TwitchStreamingService(dslr_camera)
+    service2 = TwitchStreamingService()
+    service2.add_device(dslr_camera)
+    service2.add_device(webcam)
 
     # start streaming there as well
     reference2 = service2.start_stream()
