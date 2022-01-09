@@ -39,14 +39,14 @@ def all_blogs() -> list[Blog]:
     return list(BLOGS.values())
 
 
-def get_blog(id: int) -> Blog:
-    if not BLOGS[id]:
+def get_blog(blog_id: int) -> Blog:
+    if not BLOGS.get(blog_id):
         raise NotFoundError("Blog not found")
-    return BLOGS[id]
+    return BLOGS[blog_id]
 
 
-def update_blog(id: int, payload: BlogPayload) -> Blog:
-    blog = BLOGS.get(id)
+def update_blog(blog_id: int, payload: BlogPayload) -> Blog:
+    blog = BLOGS.get(blog_id)
     if not blog:
         raise NotFoundError("Blog not found")
     for key, value in payload.items():
@@ -58,7 +58,7 @@ def all_authors() -> list[Author]:
     return list(AUTHORS.values())
 
 
-def get_author(id: int):
-    if not AUTHORS[id]:
+def get_author(author_id: int) -> Author:
+    if not AUTHORS.get(author_id):
         raise NotFoundError("Author not found")
-    return AUTHORS[id]
+    return AUTHORS[author_id]

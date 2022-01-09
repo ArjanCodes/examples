@@ -10,8 +10,7 @@ def main():
         cursor.execute("SELECT * FROM blogs")
         logging.info(cursor.fetchall())
     finally:
-        if connection:
-            connection.close()
+        connection.close()
 
 
 if __name__ == "__main__":
