@@ -1,8 +1,12 @@
 # Introduction
 
-In this video, I'm going to talk about context managers in Python, how to use them and how to create your own. But, they also have some issues that you need to know about.
+There's only a few managers I actually like. One of them is the seagull manager. Fly in, dump on everyone and make a big mess, and then leave. I'm still trying to perfect my moves. But that's not what this video is about. This video is about another manager I like: the context manager in Python.
 
-Let's dive in!
+I'll show you how to use them and I'll cover several ways to create your own. At the end I'll share a tip with you that can use to simplify code that uses multiple context managers.
+
+Before we dive in, I have something for you. A free guide to help you make better design decisions. You can get it at arjancodes.com/designguide. It's a PDF file, to the point, explaining the steps I take when I design a new piece of software. Hopefully, it's helpful to you. So, arjancodes.com/designguide. The link is also in the description of the video.
+
+Now, let's dive in!
 
 # Explain the example without context manager (screencast)
 
@@ -89,7 +93,7 @@ async def get_all_users():
 
 The main reason to use context managers is to help allocate and cleanup resources. This is helpful for example if you want to open a file, a database connection, or a network connection. If an error occurs, the context manager mechanism will automatically clean up the resource.
 
-This also means that if you don't need to cleanup resources, there's no reason to use a context manager. In fact, you shouldn't. Because context managers use the 'with' statement in Python, this also results in an extra code indentation level, and a new scope (because the variable is not accessible outside of the with statement). Nesting with statements introduces more layers and makes things worse:
+This also means that if you don't need to cleanup resources, there's no reason to use a context manager. Because context managers use the 'with' statement in Python, this results in an unnecessary code indentation level, and a new scope as well (because the variable is not accessible outside of the with statement). By the way, a nice trick is if you're nesting with statements, like this:
 
 ```python
 with open_socket() as s:
@@ -98,7 +102,7 @@ with open_socket() as s:
             do_stuff(s, f, db) # ugh
 ```
 
-Fortunately, Python allows you to define multiple resources in a single with statement. And since Python 3.10, you can use the parenthesis syntax to split them over multiple lines, like so:
+You can write this differently, because Python allows you to create multiple resources in a single with statement. And since Python 3.10, you can use the parenthesis syntax to split them over multiple lines, like so:
 
 ```python
 with (
@@ -108,7 +112,5 @@ with (
 ):
     do_stuff(s, f, db) # ugh
 ```
-
-But of course this only works if you can create the resources at the same time, which isn't possible if there are dependencies between the resources.
 
 I hope you enjoyed this video. If you did, give it a like and consider subscribing to my channel if you want to learn more about software design and development. Thanks for watching, take care, and see you soon.

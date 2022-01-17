@@ -1,6 +1,10 @@
 # Introduction
 
-It seems the whole world today is built on APIs. There are different ways of developing an API, but the two most popular approaches are REST and GraphQL. What's the difference? And when should you use one over the other? Today, we're gonna find out.
+REST vs GraphQL. I know what you're thinking. Ah, this is one of those videos again where we're supposed to find out which one is better. But then it becomes a lame "it depends on what you want to use it for".
+
+So which one is better? Well, IT DEPENDS. You know why? Because we're nuanced people. The world of software development is not black and white. It's 254 shades of grey. Fifty... pfft, amateurs.
+
+So, we are going to dive into the details. Talk about some pros and cons of REST and GraphQL, show you a couple of examples. And then give you some of my thoughts on when to use one over the other.
 
 Before we dive in, let's first talk about the sponsor of this video, Skillshare.
 
@@ -16,7 +20,11 @@ Let's look at how we can create a simple REST API in Python.
 
 # Problems with the REST interface (talking head)
 
-- You kind of have to make sure yourself that the REST interface adheres to the standard.
+Let's talk about some of the problems with the REST interface. If you're enjoying the video so far, give it a thumbs up. That helps spread the word about this channel.
+
+- You kind of have to make sure yourself that the REST interface adheres to the standard. A good starting point to help you with this is Swagger and the OpenAPI standard. They also provide tools to help you design your APIs while making sure they adhere to the standard. I'll put a link to Swagger in the description of the video.
+
+https://swagger.io
 
 - Getting the author of a blog requires a separate request. You could implement a population mechanism, but there's no standard way to do that. This leads to having to coordinate several requests in the frontend to get the data you need and waiting for them to complete, slowing down the user experience.
 
@@ -58,7 +66,7 @@ I hope this video has been helpful. Give it a thumbs up if you liked it. Conside
 
 curl -X POST -H "Content-Type: application/json" \
  -d '{"title": "I like this blog" }' \
- http://127.0.0.1:5000/blogs/1
+ http://127.0.0.1:5000/blogs/2
 
 # Updating a blog (GraphQL)
 
