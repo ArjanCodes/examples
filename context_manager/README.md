@@ -2,7 +2,7 @@
 
 There's only a few managers I actually like. One of them is the seagull manager. Fly in, dump on everyone and make a big mess, and then leave. I'm still trying to perfect my moves. But that's not what this video is about. This video is about another manager I like: the context manager in Python.
 
-I'll show you how to use them and I'll cover several ways to create your own. At the end I'll share a tip with you that can use to simplify code that uses multiple context managers.
+I'll show you how to use them and I'll cover several ways to create your own, and I'll takl about when you should use them and when you shouldn't.
 
 Before we dive in, I have something for you. A free guide to help you make better design decisions. You can get it at arjancodes.com/designguide. It's a PDF file, to the point, explaining the steps I take when I design a new piece of software. Hopefully, it's helpful to you. So, arjancodes.com/designguide. The link is also in the description of the video.
 
