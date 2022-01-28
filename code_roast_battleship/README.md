@@ -1,0 +1,5 @@
+- Separating input and printing from the game
+- Use types more explicitly
+- Early exit from a method
+- Create properties and methods to increase readability (e.g. to check if a guess is valid)
+- Rename battleship_run to something more meaning (ie read_nr_players)
