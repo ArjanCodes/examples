@@ -1,12 +1,9 @@
-# Battleship Attempt 2
-
-# Imports
-
 import os
-import random as rand
+import random
 
 GUESSES_COUNT = 5
-BOARD_SIZE = 5
+BOARD_SIZE_X = 5
+BOARD_SIZE_Y = 5
 
 
 def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
@@ -24,134 +21,98 @@ def read_int(prompt: str, min_value: int = 1, max_value: int = 5) -> int:
     return read_int(prompt)
 
 
-"""
-Defining the Game class to make it easier to 
-understand the code further in the project
-"""
+def create_board(size_x: int, size_y: int) -> list[list[str]]:
+    # create the board
+    board = [["O"] * size_x for _ in range(size_y)]
+
+    # place the ship on the board
+    ship_row = random.randint(0, size_x - 1)
+    ship_col = random.randint(0, size_y - 1)
+    board[ship_row][ship_col] = "S"
+
+    return board
 
 
 class Game:
-    def __init__(self, player_count: int):
-        self.player_list = [GUESSES_COUNT] * player_count
-        self.current_player = 1
-        self.board = self.create_board(BOARD_SIZE, BOARD_SIZE)
-        self.ship_row = rand.randint(0, BOARD_SIZE - 1)
-        self.ship_col = rand.randint(0, BOARD_SIZE - 1)
-
     """
-    Defining the many methods that makes the game work,
-    starting with the create_matrix where we take in the 
-    boards max x and max y to define its size.
-    """
+    Defining the Game class to make it easier to
+    understand the code further in the project"""
 
-    def create_board(self, max_x: int, max_y: int) -> list[str]:
-        return ["O" * max_x] * max_y
+    def __init__(self, player_count: int = 1) -> None:
+        self.player_count = player_count
+        self.board = create_board(BOARD_SIZE_X, BOARD_SIZE_Y)
 
     def is_ship(self, row: int, col: int) -> bool:
-        return row == self.ship_row and col == self.ship_col
+        return self.board[row][col] == "S"
 
     def already_guessed(self, row: int, col: int) -> bool:
         return self.board[row][col] == "X"
 
-    def place_guess_on_board(self, row: int, col: int):
-        current_row = self.board[row]
-        self.board[row] = current_row[:col] + "X" + current_row[col + 1 :]
-
-    @property
-    def current_player_guesses_remaining(self) -> int:
-        return self.player_list[self.current_player - 1]
-
-    """
-    Defining the print_board function, here I respresent
-    x as rows
-    y as colums
-    """
+    def place_guess_on_board(self, row: int, col: int) -> None:
+        if not self.is_ship(row, col):
+            self.board[row][col] = "X"
 
     def print_board(self, show_ship: bool = False):
         for row in self.board:
-            if row == self.ship_row and show_ship:
-                ship_row = self.board[self.ship_row]
-                print(
-                    " ".join(
-                        ship_row[: self.ship_col] + "S" + ship_row[self.ship_col + 1 :]
-                    )
-                )
-            else:
-                print(" ".join(row))
+            row = ["O" if col == "S" and not show_ship else col for col in row]
+            print(" ".join(row))
 
-    """
-    I wanted to avoid retyping code as much as possible
-    so I did the above function and then created player_guesses
-    to take user input and sort it into guesses for row and column
-    As of writing this comment I'm avoiding writing any game logic in the function.
-    """
+    def read_player_guess(self, player: int) -> tuple[int, int]:
 
-    def player_guess(self) -> tuple[int, int]:
-
-        guess_row = read_int(
-            f"Player {self.current_player}: Guess row: ", max_value=BOARD_SIZE
+        guess_row = (
+            read_int(f"Player {player}: Guess row: ", max_value=BOARD_SIZE_X) - 1
         )
-        guess_col = read_int(
-            f"Player {self.current_player}: Guess column: ", max_value=BOARD_SIZE
+        guess_col = (
+            read_int(f"Player {player}: Guess column: ", max_value=BOARD_SIZE_Y) - 1
         )
 
         if self.already_guessed(guess_row, guess_col):
             print("You've already guessed on that row! Try again.")
-            return self.player_guess()
-
-        # reduce guesses by 1
-        self.player_list[self.current_player - 1] -= 1
-
-        # place the guess on the board
-        self.place_guess_on_board(guess_row, guess_col)
+            return self.read_player_guess(player)
 
         # return the guessed row and column
         return guess_row, guess_col
 
-    """
-    Seperating out the game_logic to try to make the main function as readable as possible.
-    This is also an exercise to practice writing recursive code instead of using while loops.
-    """
+    def turn(self, player: int) -> bool:
 
-    def main(self):
-        while True:
-            if self.current_player_guesses_remaining <= 0:
-                print(f"Player {self.current_player} ran out of guesses and lost!")
+        # print the board
+        self.print_board()
+
+        # let the player guess
+        guess_row, guess_col = self.read_player_guess(player)
+
+        # if you found the ship, you win
+        if self.is_ship(guess_row, guess_col):
+            print(f"Congratulations! Player {player} sank the ship!")
+            return True
+
+        # you didn't find the ship, so place the guess on the board
+        self.place_guess_on_board(guess_row, guess_col)
+        print("Sorry, you missed!")
+        return False
+
+    def main(self) -> None:
+        total_guesses = 0
+        while total_guesses < GUESSES_COUNT * self.player_count:
+
+            # determine the current player and the remaining guesses
+            current_player = (total_guesses % self.player_count) + 1
+            remaining_guesses = GUESSES_COUNT - total_guesses // self.player_count
+
+            print(f"Player {current_player} has {remaining_guesses} guesses left.")
+
+            if self.turn(current_player):
                 break
-
-            # print the board
-            self.print_board()
-
-            # let the player guess
-            print(
-                f"Player {self.current_player} has {self.current_player_guesses_remaining} guesses left."
-            )
-            guess_row, guess_col = self.player_guess()
-
-            # if you found the ship, you win
-            if self.is_ship(guess_row, guess_col):
-                print(f"Congratulations! Player {self.current_player} sank the ship!")
-                break
-
-            print("Sorry, you missed!")
-
-            # go to the next player
-            self.current_player = (self.current_player % len(self.player_list)) + 1
+            total_guesses += 1
 
         # print the board one last time, showing the ship
         self.print_board(show_ship=True)
 
 
-"""
-Here is all that is left outside of functions and the game class. 
-Pretty easy to read if you ask me.
-"""
-
-
 def main():
     os.system("clear")
     player_count = read_int(
-        "Please enter how many players are going to play:", max_value=2
+        "Please enter how many players are going to play: ", max_value=2
     )
     game = Game(player_count)
     os.system("clear")
