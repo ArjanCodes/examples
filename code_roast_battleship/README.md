@@ -1,3 +1,9 @@
+# Introduction
+
+In this video I'm going to refactor a simplified Battleship game. I'll start with an analysis of the game, and then I'll show you how to refactor the code to make it more readable and maintainable.
+
+NOTE FOR REVIEWERS: I'm not entirely sure I should leave the Game class in there. I was also thinking about a solution that has a Board class, containing the board representation + utility methods to check things on the board (basically the methods at the top in the Game class like is_ship, already_guessed, etc.). The main game loop can then be a function instead of a method. What do you think?
+
 # Analysis of the game code
 
 - A lot of things are stored in the Game class as instance variables that are not needed. For example, there's no reason to store the guess_row and guess_col values as these are only used locally in a particular player turn.
