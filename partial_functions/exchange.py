@@ -1,5 +1,3 @@
-from dataclasses import dataclass
-
 PRICE_DATA = {
     "BTC/USD": [
         35_842_00,
@@ -32,9 +30,9 @@ class ExchangeConnectionError(Exception):
     """Custom error that is raised when an exchange is not connected."""
 
 
-@dataclass
 class Exchange:
-    connected: bool = False
+    def __init__(self) -> None:
+        self.connected = False
 
     def connect(self) -> None:
         """Connect to the exchange."""
