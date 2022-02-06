@@ -2,6 +2,7 @@
 Basic example of a Trading bot with a strategy pattern.
 """
 import statistics
+from dataclasses import dataclass
 from functools import partial
 from typing import Callable
 
@@ -30,18 +31,13 @@ def should_sell_minmax(prices: list[int], min_price: int) -> bool:
     return prices[-1] > min_price
 
 
+@dataclass
 class TradingBot:
     """Trading bot that connects to a crypto exchange and performs trades."""
 
-    def __init__(
-        self,
-        exchange: Exchange,
-        buy_strategy: TradingStrategyFunction,
-        sell_strategy: TradingStrategyFunction,
-    ) -> None:
-        self.exchange = exchange
-        self.buy_strategy = buy_strategy
-        self.sell_strategy = sell_strategy
+    exchange: Exchange
+    buy_strategy: TradingStrategyFunction
+    sell_strategy: TradingStrategyFunction
 
     def run(self, symbol: str) -> None:
         prices = self.exchange.get_market_data(symbol)

@@ -2,6 +2,7 @@
 Basic example of a Trading bot with a strategy pattern.
 """
 import statistics
+from dataclasses import dataclass
 from typing import Protocol
 
 from exchange import Exchange
@@ -11,10 +12,10 @@ class TradingStrategy(Protocol):
     """Trading strategy that decides whether to buy or sell, given a list of prices."""
 
     def should_buy(self, prices: list[int]) -> bool:
-        ...
+        raise NotImplementedError()
 
     def should_sell(self, prices: list[int]) -> bool:
-        ...
+        raise NotImplementedError()
 
 
 class AverageTradingStrategy:
@@ -41,12 +42,12 @@ class MinMaxTradingStrategy:
         return prices[-1] > 33_000_00
 
 
+@dataclass
 class TradingBot:
     """Trading bot that connects to a crypto exchange and performs trades."""
 
-    def __init__(self, exchange: Exchange, trading_strategy: TradingStrategy) -> None:
-        self.exchange = exchange
-        self.trading_strategy = trading_strategy
+    exchange: Exchange
+    trading_strategy: TradingStrategy
 
     def run(self, symbol: str) -> None:
         prices = self.exchange.get_market_data(symbol)
