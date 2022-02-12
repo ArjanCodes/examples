@@ -49,10 +49,12 @@ class BattleshipBoard:
         if not self.is_ship(row, col):
             self.grid[row][col] = GUESS
 
-    def print(self, show_ship: bool = False) -> None:
+    def to_string(self, show_ship: bool = False) -> str:
+        rows_str: list[str] = []
         for row in self.grid:
             row = [HIDDEN if col == SHIP and not show_ship else col for col in row]
-            print(" ".join(row))
+            rows_str.append(" ".join(row))
+        return "\n".join(rows_str)
 
 
 def read_guess(already_guessed: Callable[[int, int], bool]) -> tuple[int, int]:
@@ -73,7 +75,7 @@ def read_guess(already_guessed: Callable[[int, int], bool]) -> tuple[int, int]:
 def turn(board: BattleshipBoard) -> bool:
     """Handle a single player's turn."""
 
-    board.print()
+    print(board.to_string())
 
     # let the player guess
     guess_row, guess_col = read_guess(board.already_guessed)
@@ -111,7 +113,7 @@ def play_game(player_count: int, board: BattleshipBoard) -> None:
     # print the board one last time, showing the ship
     if not won_game:
         print("Game over, you didn't find the ship in time.")
-    board.print(show_ship=True)
+    print(board.to_string(show_ship=True))
 
 
 def main() -> None:

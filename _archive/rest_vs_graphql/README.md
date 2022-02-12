@@ -72,13 +72,16 @@ curl -X POST -H "Content-Type: application/json" \
 
 Below is an example of a GraphQL mutation for updating a blog
 
+```
 mutation UpdateBlog($id: ID!, $payload: BlogPayload!) {
-update_blog(id: $id, payload: $payload) {
-id
-title
-content
+    update_blog(id: $id, payload: $payload) {
+        id
+        title
+        content
+    }
 }
-}
+
+```
 
 Variables:
 

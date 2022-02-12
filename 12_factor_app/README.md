@@ -1,15 +1,18 @@
-In the modern era, software is commonly delivered as a service: called web apps, or software-as-a-service. The twelve-factor app is a methodology for building software-as-a-service apps that:
+If you want to build a scalable software-as-a-service product, that's easy to maintain, you need to set it up in a very specific way. Doing that is really important, because if you don't, you're going to run into a lot of problems, your software won't work well, your customers are going be unhappy, and ultimately your product is going to fail.
 
-Use declarative formats for setup automation, to minimize time and cost for new developers joining the project;
-Have a clean contract with the underlying operating system, offering maximum portability between execution environments;
-Are suitable for deployment on modern cloud platforms, obviating the need for servers and systems administration;
-Minimize divergence between development and production, enabling continuous deployment for maximum agility;
-And can scale up without significant changes to tooling, architecture, or development practices.
-The twelve-factor methodology can be applied to apps written in any programming language, and which use any combination of backing services (database, queue, memory cache, etc).
+Today I want to go through the 12 factors that are crucial to developing a modern software-as-a-service product. This video's not Python-specific by the way, you can use any programming language or environment you like. I'm also not going to talk much about software design today, this is going to be a DevOps video. But the concepts are not completely independent. Thinking carefully about software design is going to help you choose the right technologies that will best serve your product. I've written a guide to help you with designing software from scratch in 7 steps. You can get it for free at arjancodes.com/designguide. It's based on my own experience developing at least three different software-as-a-service products over the last five years. You know, why not benefit from my experience to avoid some of the mistakes that I made in the past? If you go to the link below and enter your email address, you'll get it in your inbox right away.
+
+Back in the day, if you bought software, you got a bunch of floppies, a CD-ROM, or a DVD. I remember buying WordPerfect 5.1 on 12 floppies. And then when you're installing it and you're at floppy 10 out 12, of course then that disk is damaged. Ah, the memories. When the Internet took off, companies switched from sending you physical disks to allowing to download the software instead. And now that cloud technology is maturing, we're no longer directly downloading software, but software is delivered as a service instead. You register on a website, and use the software directly as a web application.
+
+The twelve-factor app is a methodology for building software-as-a-service apps in a particular way. Most of the cloud technologies you see today (AWS, Azure, Google Cloud) are all built on the principles of the twelve-factor app.
+
+The overall idea is that you create the app in such as way that you automate setup and deployment, that you're compatible with modern cloud platforms so you don't need your own servers anymore, that development and production environments are as similar as possible, and that you can scale up your app without having to make too many changes. So what are these twelve factors then? Let's dive in.
 
 # I. Codebase: One codebase tracked in revision control, many deploys
 
-The code of your application is stored in a single repository using a version control system like Git. There's a one-to-one correlation between the codebase and the app. Multiple apps shouldn't share the same codebase. If you want that, you should extract the code you want to share into libraries that you can include using a dependency manager. In JavaScript/Typescript you would generally use NPM for this. In Python, there are dependency managers as well. Pip is very basic, but there are dependency managers built on top of this such as Poetry.
+The first factor states that you should store the code in a version control system like Git. There should be a one-to-one correlation between your codebase and the app. So if your app is a website, the code that renders that website should be in a single repository. It's possible that your app consists of multiple services: your website (or frontend) server, a backend server, a database server, services for specific things like handling payments, performing analytics, etc. Each of these should be defined in a separate repository, at least the ones you're developing yourself. More about that later.
+
+If your apps and services need to share code (like certain data structures or interfaces), extract these into libraries that you can then include using a dependency manager. If you're building a service with JavaScript or Typescript and Node.js, you can use npm. In Python, you can use Pip, or more advanced tools for managing dependencies like Poetry.
 
 There is one codebase, but there can be multiple deploys. A deploy is a running instance of your app. The production version of your app is one of the deploys, but there can be other versions running as well: a version locally on your machine, a version used for testing, a staging version, and so on.
 
