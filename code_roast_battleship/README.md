@@ -1,10 +1,16 @@
 # Introduction
 
-In this video I'm going to refactor a simplified Battleship game. I'll start with an analysis of the game, and then I'll show you how to refactor the code to make it more readable and maintainable.
+In this video I'm going to refactor a simplified Battleship game. Thanks to Sax for providing the code for this roast. Sax asked me to be extra mean in this roast. So, just to be sure: you suck, you write worse code than an intern with a hangover. And before I started recording this video, I killed three puppies. Not those three though, I could never do that, they're too cute! Awwww...
 
-NOTE FOR REVIEWERS: I'm not entirely sure I should leave the Game class in there. I was also thinking about a solution that has a Board class, containing the board representation + utility methods to check things on the board (basically the methods at the top in the Game class like is_ship, already_guessed, etc.). The main game loop can then be a function instead of a method. What do you think?
+By the way, if you want your code to be roasted on the channel. If you like feeling violated, feel like there's a void where once there was your soul. Join my Discord server, and submit your code if you dare.
+
+Before we take a closer look at the Battleship game, I want to give you something. It's a free guide that helps you make better design decisions. It contains the 7 steps I take whenever I design a new piece of software. Hopefully it helps you avoid some of the mistakes I made in the past. So, get your copy for free at arjancodes.com/designguide. The link is also in the description of this video.
+
+Now let's dive into the code.
 
 # Analysis of the game code
+
+I'll start with an analysis of the game, and then I'll show you how to refactor the code to make it more readable and maintainable.
 
 - A lot of things are stored in the Game class as instance variables that are not needed. For example, there's no reason to store the guess_row and guess_col values as these are only used locally in a particular player turn.
 - Some data might not be optimally represented. For example, you store the number of guesses a player still has in a list of integers. But is that really needed? You play this game in rounds, so the number of guesses can be computed from which round you're in.

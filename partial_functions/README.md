@@ -1,8 +1,14 @@
 # Introduction
 
-The most common use of functions in a piece of code is to group operations, and then call that function in a different place in the code. But functions are way more flexible than that. In Python, functions are objects (of type Callable). And because of that, you can for example pass functions as arguments to other functions. And with a package like functools, you can even call functions partially.
+The most common use of functions in a piece of code is to group operations, and then call that function in a different place in the code. But functions are way more flexible than that. In Python, functions are objects (of type Callable). You can define types for them, pass functions as arguments to other functions. And with a package like functools, you can even call functions partially. It's better than sliced bread. And I don't even like sliced bread.
 
-In this video, I'm going to show some not-so-common ways of using functions in your code. I'll do that with an example of a trading system, which relies on using different trading strategies. Let's dive in.
+Have you noticed that in whatever country you are, the people living there think that their bread is better than in any other country? It's really weird. I mean, I live in the Netherlands so for us it's different because our bread is actually the best. But in any other country, you're basically living in a lie. How do you cope with that?
+
+Another thing that we're really good at in the Netherlands is writing software design guides. For example this one, at arjancodes.com/designguide. It's totally free and it describes my 7 steps for designing a new piece of software, from scratch. I'm sharing that with you so you can hopefully avoid some of the mistakes I made in the past. And while you're at it, order some Dutch bread. Or, you know, keep living in your fantasy bread world. The choice is yours. Arjancodes.com/designguide. The link is also in the description of this video.
+
+Now, I'm going to show a couple of not-so-common ways of using functions in your code. I'll do that with an example of a trading system, which relies on using different trading strategies. This is going to be like the Strategy pattern, but we're going to do some cool things with functions.
+
+Let's dive in.
 
 # Explain the example (screencast)
 
