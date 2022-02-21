@@ -1,11 +1,3 @@
-from typing import Protocol
-
-
-class PaymentHandler(Protocol):
-    def handle_payment(self, amount: int) -> None:
-        ...
-
-
 class StripePaymentHandler:
     def handle_payment(self, amount: int) -> None:
         print(f"Charging ${amount/100:.2f} using Stripe")
