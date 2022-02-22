@@ -1,6 +1,19 @@
+from typing import Protocol
+
+
+class PaymentHandler(Protocol):
+    def handle_payment(self, amount: int) -> None:
+        ...
+
+
 class StripePaymentHandler:
     def handle_payment(self, amount: int) -> None:
         print(f"Charging ${amount/100:.2f} using Stripe")
+
+
+class PayPalPaymentHandler:
+    def handle_payment(self, amount: int) -> None:
+        print(f"Charging ${amount/100:.2f} using PayPal")
 
 
 PRICES = {
@@ -11,7 +24,7 @@ PRICES = {
 }
 
 
-def order_food(items: list[str], payment_handler: StripePaymentHandler) -> None:
+def order_food(items: list[str], payment_handler: PaymentHandler) -> None:
     total = sum(PRICES[item] for item in items)
     print(f"Your order is ${total/100:.2f}.")
     payment_handler.handle_payment(total)
@@ -19,7 +32,7 @@ def order_food(items: list[str], payment_handler: StripePaymentHandler) -> None:
 
 
 def main() -> None:
-    order_food(["burger", "salad", "drink"], StripePaymentHandler())
+    order_food(["burger", "salad", "drink"], PayPalPaymentHandler())
 
 
 if __name__ == "__main__":
