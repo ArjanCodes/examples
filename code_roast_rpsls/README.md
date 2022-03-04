@@ -10,3 +10,10 @@
 - Naming could be improved: player instead of user, method names like 'get_user_input' and the Game instance variable 'user' are too vague
 
 # Code refactoring
+
+- Simplify the rules file to remove the redundancy
+- Create a UI protocol and CLI implementation
+- Remove the string code from the Scoreboard and move it to CLI
+- Remove the printing code from the Game initializer and put it in CLI. Remove the rest of the printing code as well
+- Turn Game into a dataclass and inject Scoreboard and the UI
+- Rewrite the turn and play methods in Game to use the Scoreboard and UI
