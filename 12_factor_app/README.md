@@ -43,33 +43,27 @@ For some configuration settings it might make sense to make them part of the cod
 
 # IV. Backing services: Treat backing services as attached resources
 
-A backing service is any service the app consumes over the network as part of its normal operation. Examples include datastores (such as MySQL or CouchDB), messaging/queueing systems (such as RabbitMQ or Beanstalkd), SMTP services for outbound email (such as Postfix), and caching systems (such as Memcached).
+Unless you're developing a simple standalone desktop application, your app will have a variety of backend services that it uses: a database, an email sending service, a payment provider, logging service, storage services (like Amazon S3), other APIs, your own API that forms a layer on top of these things, and so on.
 
-Backing services like the database are traditionally managed by the same systems administrators who deploy the app’s runtime. In addition to these locally-managed services, the app may also have services provided and managed by third parties. Examples include SMTP services (such as Postmark), metrics-gathering services (such as New Relic or Loggly), binary asset services (such as Amazon S3), and even API-accessible consumer services (such as Twitter, Google Maps, or Last.fm).
+The whole idea is that your code in principle shouldn't make a distinction between local and third-party services. Services communicate with each other via URLs or other locators (like a database connection string). Furthermore, you should be able to swap out services with other services without having to change to code. You may have to change configuration settings though but they shouldn't be stored in the code.
 
-The code for a twelve-factor app makes no distinction between local and third party services. To the app, both are attached resources, accessed via a URL or other locator/credentials stored in the config. A deploy of the twelve-factor app should be able to swap out a local MySQL database with one managed by a third party (such as Amazon RDS) without any changes to the app’s code. Likewise, a local SMTP server could be swapped with a third-party SMTP service (such as Postmark) without code changes. In both cases, only the resource handle in the config needs to change.
+I have to admit though, this is not the reality in general. We had to switch between storage providers a couple of years ago - we went from Amazon S3 to Google Cloud Storage. We had to change quite a bit in the code, even if we had built a layer between the low-levl storage access and the rest of our backend.
 
-Each distinct backing service is a resource. For example, a MySQL database is a resource; two MySQL databases (used for sharding at the application layer) qualify as two distinct resources. The twelve-factor app treats these databases as attached resources, which indicates their loose coupling to the deploy they are attached to.
+# V. Strictly separate build and run stages
 
-IMAGE
+Deployment of your code should happen in three independent stages: build, release and run. In the build stage you convert your code into an executable bundle. It contains any dependencies and other assets that the code needs. If you use Docker, this would be the Docker image.
 
-Resources can be attached to and detached from deploys at will. For example, if the app’s database is misbehaving due to a hardware issue, the app’s administrator might spin up a new database server restored from a recent backup. The current production database could be detached, and the new database attached – all without any code changes.
+You then have a release stage that combines any configuration settings with the build output. If you're using something like Kubernetes this is the definition of a deployment that links a Docker image with other settings like environment variables, information about the number of replicas and so on.
 
-# V. Build, release, run: Strictly separate build and run stages
+Finally, there's the run stage that actually loads the Docker image and starts the service according to the release configuration.
 
-A codebase is transformed into a (non-development) deploy through three stages:
+Every release should have a unique id: can be a timestamp, or a version number. Once you create a release, it can't be mutated. Any change must create a new release.
 
-The build stage is a transform which converts a code repo into an executable bundle known as a build. Using a version of the code at a commit specified by the deployment process, the build stage fetches vendors dependencies and compiles binaries and assets.
-The release stage takes the build produced by the build stage and combines it with the deploy’s current config. The resulting release contains both the build and the config and is ready for immediate execution in the execution environment.
-The run stage (also known as “runtime”) runs the app in the execution environment, by launching some set of the app’s processes against a selected release.
+Separating build, release and run stages means for example that you shouldn't change code in a service that's currently running. You should change it in your code base, then build, release and run a new version.
 
-The twelve-factor app uses strict separation between the build, release, and run stages. For example, it is impossible to make changes to the code at runtime, since there is no way to propagate those changes back to the build stage.
+You can initiate a build and release when you're changing code. For example, we have coupled this with pushing our code to a develop, staging and production branch which automatically launches a build. You can do this really easily with GitHub Actions nowadays. If you're not using GitHub but for example BitBucket, they also have a similar feature called Pipelines.
 
-Deployment tools typically offer release management tools, most notably the ability to roll back to a previous release. For example, the Capistrano deployment tool stores releases in a subdirectory named releases, where the current release is a symlink to the current release directory. Its rollback command makes it easy to quickly roll back to a previous release.
-
-Every release should always have a unique release ID, such as a timestamp of the release (such as 2011-04-06-20:32:17) or an incrementing number (such as v100). Releases are an append-only ledger and a release cannot be mutated once it is created. Any change must create a new release.
-
-Builds are initiated by the app’s developers whenever new code is deployed. Runtime execution, by contrast, can happen automatically in cases such as a server reboot, or a crashed process being restarted by the process manager. Therefore, the run stage should be kept to as few moving parts as possible, since problems that prevent an app from running can cause it to break in the middle of the night when no developers are on hand. The build stage can be more complex, since errors are always in the foreground for a developer who is driving the deploy.
+Kubernetes is a good example of a system that manages the run stage. If a service crashes, it's automatically restarted. Or if a service starts to be overloaded by requests, Kubernetes can scale it up automatically.
 
 # VI. Processes: Execute the app as one or more stateless processes
 
