@@ -1,15 +1,7 @@
 from enum import Enum
 
-from typing_extensions import Self
 
-
-class ExtendedEnum(Enum):
-    @classmethod
-    def list(cls) -> list[Self]:
-        return [e for e in cls]
-
-
-class Entity(ExtendedEnum):
+class Entity(Enum):
     ROCK = "rock"
     PAPER = "paper"
     SCISSOR = "scissor"

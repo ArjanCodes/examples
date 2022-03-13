@@ -3,32 +3,31 @@ import random
 from entity import Entity
 
 
-def _entities_str(entities: list[Entity]) -> str:
+def _entities_str() -> str:
     return ", ".join(
-        f"({index + 1} for {entity})" for index, entity in enumerate(entities)
+        f"({index + 1} for {entity})" for index, entity in enumerate(Entity)
     )
 
 
 class CLI:
     def pick_player_entity(self) -> Entity:
-        entities = Entity.list()
         while True:
             try:
-                print(f"Select {_entities_str(entities)}:", end="\t")
+                print(f"Select {_entities_str()}:", end="\t")
                 choice = int(input())
 
-                if 0 < choice < len(entities) + 1:
-                    return entities[choice - 1]
+                if 0 < choice < len(Entity) + 1:
+                    return list(Entity)[choice - 1]
                 print("Please select from available choices")
             except ValueError:
                 print("You entered something other than a number")
 
     def pick_cpu_entity(self) -> Entity:
-        return random.choice(Entity.list())
+        return random.choice(list(Entity))
 
     def read_player_name(self) -> str:
         print("Please enter your name:", end="\t")
-        return str(input().strip())
+        return input().strip()
 
     def display_rules(self) -> None:
         print("Rock paper scissor spock and lizard...\n Welcome to the game.")

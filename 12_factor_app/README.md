@@ -47,7 +47,7 @@ Unless you're developing a simple standalone desktop application, your app will 
 
 The whole idea is that your code in principle shouldn't make a distinction between local and third-party services. Services communicate with each other via URLs or other locators (like a database connection string). Furthermore, you should be able to swap out services with other services without having to change to code. You may have to change configuration settings though but they shouldn't be stored in the code.
 
-I have to admit though, this is not the reality in general. We had to switch between storage providers a couple of years ago - we went from Amazon S3 to Google Cloud Storage. We had to change quite a bit in the code, even if we had built a layer between the low-levl storage access and the rest of our backend.
+I have to admit though, this is not the reality in general. We had to switch between storage providers a couple of years ago - we went from Amazon S3 to Google Cloud Storage. We had to change quite a bit in the code, even if we had built a layer between the low-level storage access and the rest of our backend.
 
 # V. Strictly separate build and run stages
 
@@ -67,19 +67,19 @@ Kubernetes is a good example of a system that manages the run stage. If a servic
 
 # VI. Processes: Execute the app as one or more stateless processes
 
-The app is executed in the execution environment as one or more processes.
-
-In the simplest case, the code is a stand-alone script, the execution environment is a developer’s local laptop with an installed language runtime, and the process is launched via the command line (for example, python my_script.py). On the other end of the spectrum, a production deploy of a sophisticated app may use many process types, instantiated into zero or more running processes.
+It's really important to make a distinction between what parts of your system maintain state and which parts don't. Examples of things that maintain state are your database, a cache, file storage, etc. Anything else shouldn't maintain state. So for example if you develop an API service that acts as a layer on top of your database, it shouldn't have any state. You might be tempted to do things locally, like maintain a log file, or store user activity. Don't. Because if you ever decide to scale up and maintain multiple services in parallel, this can result in a big mess.
 
 Twelve-factor processes are stateless and share-nothing. Any data that needs to persist must be stored in a stateful backing service, typically a database.
 
-The memory space or filesystem of the process can be used as a brief, single-transaction cache. For example, downloading a large file, operating on it, and storing the results of the operation in the database. The twelve-factor app never assumes that anything cached in memory or on disk will be available on a future request or job – with many processes of each type running, chances are high that a future request will be served by a different process. Even when running only one process, a restart (triggered by code deploy, config change, or the execution environment relocating the process to a different physical location) will usually wipe out all local (e.g., memory and filesystem) state.
+You may use space temporarily if that's part of the transaction, but basically any request that an API handles should be isolated and not rely on data obtained in a previous request. For example, at my company we have a server that runs code on demand based on a set of files from a git repository. So when we handle each code running request, we retrieve the files from the Git repository and store them in a temporary folder, run the code and then delete the files again.
 
-Asset packagers like django-assetpackager use the filesystem as a cache for compiled assets. A twelve-factor app prefers to do this compiling during the build stage. Asset packagers such as Jammit and the Rails asset pipeline can be configured to package assets during the build stage.
-
-Some web systems rely on “sticky sessions” – that is, caching user session data in memory of the app’s process and expecting future requests from the same visitor to be routed to the same process. Sticky sessions are a violation of twelve-factor and should never be used or relied upon. Session state data is a good candidate for a datastore that offers time-expiration, such as Memcached or Redis.
+Basically, you should assume that at any moment, your stateless service could be restarted and any local data will be lost.
 
 # VII. Port binding: Export services via port binding
+
+The next few points are kind of specific and really technical. Which is a bit strange in my opinion as the other factors are more high-level.
+
+The seventh factor is that your services communicate over a specific port.
 
 Web apps are sometimes executed inside a webserver container. For example, PHP apps might run as a module inside Apache HTTPD, or Java apps might run inside Tomcat.
 

@@ -4,9 +4,9 @@ from scoreboard import Scoreboard
 
 
 def main() -> None:
-    interface = CLI()
-    user_name = interface.read_player_name()
-    game = Game(Scoreboard(), interface, user_name)
+    cli = CLI()
+    player_name = cli.read_player_name()
+    game = Game(Scoreboard(), cli, player_name)
     game.play()
 
 
