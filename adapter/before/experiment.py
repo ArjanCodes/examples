@@ -1,28 +1,28 @@
-from bs4 import BeautifulSoup
+from typing import Any
 
 
 class Experiment:
-    def __init__(self, config: BeautifulSoup) -> None:
+    def __init__(self, config: dict[str, Any]) -> None:
         self.config = config
 
     def load_data(self) -> None:
-        data_path = self.config.find("data_path")
+        data_path = self.config.get("data_path")
         if data_path:
-            print(f"Loading data from {data_path.get_text()}.")
+            print(f"Loading data from {data_path}.")
         else:
             raise ValueError("No data path specified.")
 
     def setup_log(self) -> None:
-        log_path = self.config.find("log_path")
+        log_path = self.config.get("log_path")
         if log_path:
-            print(f"Logging to {log_path.get_text()}.")
+            print(f"Logging to {log_path}.")
         else:
             raise ValueError("No log path specified.")
 
     def train_model(self) -> None:
-        epoch_count = self.config.find("epoch_count")
+        epoch_count = self.config.get("epoch_count")
         if epoch_count:
-            print(f"Training for {epoch_count.get_text()} epochs.")
+            print(f"Training for {epoch_count} epochs.")
         else:
             raise ValueError("No epoch count specified.")
 

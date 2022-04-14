@@ -1,13 +1,12 @@
-from bs4 import BeautifulSoup
+import json
 
 from experiment import Experiment
 
 
 def main() -> None:
-    with open("config.xml", "r", encoding="utf8") as file:
-        config = file.read()
-    bs_xml = BeautifulSoup(config, "xml")
-    experiment = Experiment(bs_xml)
+    with open("config.json", encoding="utf8") as file:
+        config = json.load(file)
+    experiment = Experiment(config)
     experiment.run()
 
 
