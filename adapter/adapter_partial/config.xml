@@ -1,0 +1,7 @@
+<config>
+    <epoch_count>40</epoch_count>
+    <lr>5e-5</lr>
+    <batch_size>64</batch_size>
+    <log_path>./runs</log_path>
+    <data_path>./raw_data</data_path>
+</config>

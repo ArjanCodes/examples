@@ -1,0 +1,7 @@
+{
+    "epoch_count": 40,
+    "lr": 5e-5,
+    "batch_size": 64,
+    "log_path": "./runs",
+    "data_path": "./raw_data"
+}
