@@ -1,5 +1,5 @@
 import pytest
-from pay.processor import PaymentProcessor
+from pay.processor import PaymentProcessor, luhn_checksum
 
 API_KEY = "6cfb67f3-6281-4031-b893-ea85db0dce20"
 
@@ -16,12 +16,12 @@ def test_card_number_invalid_date():
 
 def test_card_number_invalid_luhn():
     payment_processor = PaymentProcessor(API_KEY)
-    assert not payment_processor.luhn_checksum("1249190007575068")
+    assert not luhn_checksum("1249190007575068")
 
 
 def test_card_number_valid_luhn():
     payment_processor = PaymentProcessor(API_KEY)
-    assert payment_processor.luhn_checksum("1249190007575069")
+    assert luhn_checksum("1249190007575069")
 
 
 def test_charge_card_valid():
