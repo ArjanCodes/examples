@@ -15,8 +15,8 @@ def main() -> None:
         config_xml = file.read()
     soup = BeautifulSoup(config_xml, "xml")
     bs_adapter_fn = partial(get_from_bs, soup)
-    # experiment = Experiment(config.get)
-    experiment = Experiment(bs_adapter_fn)
+    experiment = Experiment(config.get)
+    # experiment = Experiment(bs_adapter_fn)
     experiment.run()
 
 

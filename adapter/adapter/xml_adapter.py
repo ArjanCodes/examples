@@ -7,11 +7,11 @@ class XMLAdapter:
     def __init__(self, soup: BeautifulSoup) -> None:
         self.soup = soup
 
-    def get(self, key: str) -> Any | None:
+    def get(self, key: str, default: Any = None) -> Any | None:
         value = self.soup.find(key)
         if value:
             return value.get_text()
-        return None
+        return default
 
 
 # Below is what you would need to do for a class adapter
@@ -20,8 +20,8 @@ class XMLAdapter:
 # This is exactly why I recommend avoiding class adapters.
 
 # class XMLAdapter(BeautifulSoup):
-#    def get(self, key: str) -> Any | None:
+#    def get(self, key: str, default: Any = None) -> Any | None:
 #        value = self.find(key)
 #        if value:
 #            return value.get_text()
-#        return None
+#        return default
