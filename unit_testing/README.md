@@ -30,8 +30,9 @@ Often when you mock things, this is a sign that there's an issue with the design
 
 # Payment tests
 
-- Create a PaymentProcessor protocol class
+- Create a PaymentProcessor protocol class (pay now uses dependency injection)
 - Create a PaymentProcessorMock class to handle the charge
+- Create a CreditCard dataclass so input mocking is no longer needed.
 
 # Final thoughts
 

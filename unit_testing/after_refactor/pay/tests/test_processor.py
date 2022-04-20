@@ -3,6 +3,7 @@ from datetime import date
 
 import pytest
 from dotenv import load_dotenv
+from pay.card import CreditCard
 from pay.processor import PaymentProcessor, luhn_checksum
 
 load_dotenv()
@@ -19,16 +20,18 @@ def payment_processor() -> PaymentProcessor:
 
 def test_invalid_api_key() -> None:
     with pytest.raises(ValueError):
-        payment_processor = PaymentProcessor("")
-        payment_processor.charge("1249190007575069", 12, CC_YEAR, 100)
+        card = CreditCard("1249190007575069", 12, CC_YEAR)
+        PaymentProcessor("").charge(card, 100)
 
 
 def test_card_number_valid_date(payment_processor: PaymentProcessor) -> None:
-    assert payment_processor.validate_card("1249190007575069", 12, CC_YEAR)
+    card = CreditCard("1249190007575069", 12, CC_YEAR)
+    assert payment_processor.validate_card(card)
 
 
 def test_card_number_invalid_date(payment_processor: PaymentProcessor) -> None:
-    assert not payment_processor.validate_card("1249190007575069", 12, 1900)
+    card = CreditCard("1249190007575069", 12, 1900)
+    assert not payment_processor.validate_card(card)
 
 
 def test_card_number_invalid_luhn() -> None:
@@ -40,10 +43,11 @@ def test_card_number_valid_luhn() -> None:
 
 
 def test_charge_card_valid(payment_processor: PaymentProcessor) -> None:
-    payment_processor.charge("1249190007575069", 12, CC_YEAR, 100)
+    card = CreditCard("1249190007575069", 12, CC_YEAR)
+    payment_processor.charge(card, 100)
 
 
-def test_charge_card_invalid() -> None:
+def test_charge_card_invalid(payment_processor: PaymentProcessor) -> None:
     with pytest.raises(ValueError):
-        payment_processor = PaymentProcessor(API_KEY)
-        payment_processor.charge("1249190007575068", 12, 2024, 100)
+        card = CreditCard("1249190007575068", 12, CC_YEAR)
+        payment_processor.charge(card, 100)

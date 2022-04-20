@@ -2,9 +2,17 @@ import os
 
 from dotenv import load_dotenv
 
+from pay.card import CreditCard
 from pay.order import LineItem, Order
 from pay.payment import pay_order
 from pay.processor import PaymentProcessor
+
+
+def read_card_info() -> CreditCard:
+    card = input("Please enter your card number: ")
+    month = int(input("Please enter the card expiry month: "))
+    year = int(input("Please enter the card expiry year: "))
+    return CreditCard(card, month, year)
 
 
 def main():
@@ -15,7 +23,10 @@ def main():
     order = Order()
     order.line_items.append(LineItem(name="Shoes", price=100_00, quantity=2))
     order.line_items.append(LineItem(name="Hat", price=50_00))
-    pay_order(order, payment_processor)
+
+    # Read card info from user
+    card = read_card_info()
+    pay_order(order, payment_processor, card)
 
 
 if __name__ == "__main__":
