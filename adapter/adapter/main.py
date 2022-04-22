@@ -9,7 +9,7 @@ def main() -> None:
         config_xml = file.read()
     bs_xml = BeautifulSoup(config_xml, "xml")
     adapter = XMLAdapter(bs_xml)
-    experiment = Experiment(bs_xml)
+    experiment = Experiment(adapter)
     experiment.run()
 
 

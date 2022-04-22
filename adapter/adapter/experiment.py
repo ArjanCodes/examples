@@ -19,7 +19,7 @@ class Experiment:
 
     def train_model(self) -> None:
         epoch_count = self.config.get("epoch_count")
-        if epoch_count:
+        if not epoch_count:
             raise ValueError("No epoch count specified.")
         print(f"Training for {epoch_count} epochs.")
 
