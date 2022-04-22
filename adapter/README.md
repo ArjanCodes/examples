@@ -1,6 +1,10 @@
 # Intro
 
-This video covers the Adapter pattern and a few variations of it. I'll start with the classic pattern which relies on classes. But then I'll show you how to take this a step further by taking the idea of the pattern and using modern Python features to achieve the same effect, but with less code. Let's dive in!
+This video covers the Adapter pattern and a few variations of it. I'll start with the classic pattern which relies on classes. But then I'll show you how to take this a step further by taking the idea of the pattern and using modern Python features to achieve the same effect, but with less code.
+
+Knowing some of these design patterns is quite useful, as they're great tools to help you improve the design of your software. They reduce coupling and make it easier to change or extend your code. If you want to learn more about how to design a piece of software from scratch, I've written a free guide to help you. You can get the guide at arjancodes.com/designguide. It describes the 7 steps that I take when I design software. I think you'll find it helpful in structuring the way you approach software design. So, arjancodes.com/designguide, the link is also in the description of this video.
+
+Now let's look at today's example.
 
 # Explain the example code
 
@@ -71,3 +75,5 @@ The idea of the pattern is that it forms a adaptation layer between the existing
 # Change the code to use function + partial
 
 # Outro
+
+I hope you enjoyed this deeper dive into the Adapter pattern and the alternatives we have Python to achieve the same thing. Give this video a like, it helps spread the word. If you want to learn more about software design and development, consider subscribing. Thanks for watching, take care, and see you soon.
