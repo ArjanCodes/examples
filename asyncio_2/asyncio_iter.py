@@ -1,6 +1,6 @@
 import asyncio
 from random import randint
-from typing import Any, AsyncIterable
+from typing import AsyncIterable
 
 from req_http import http_get
 
