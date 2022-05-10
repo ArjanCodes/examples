@@ -10,11 +10,10 @@ from hypothesis_testing.office import (
 
 
 @composite
-def employee_list(
+def teams(
     draw: Callable[[SearchStrategy[int]], int], min_size: int = 1, max_size: int = 10
 ) -> list[Employee]:
     rand_val = draw(integers(min_value=min_size, max_value=max_size))
-    print(rand_val)
     return generate_random_team(rand_val)
 
 
@@ -23,8 +22,13 @@ def test_team_size(team_size: int):
     assert len(generate_random_team(team_size)) == team_size
 
 
-@given(employee_list(min_size=1))
-def test_fire_employee(empl_list: list[Employee]):
-    emp_list_copy = empl_list.copy()
+@given(teams(min_size=1))
+def test_team_has_ceo(team: list[Employee]):
+    assert Employee.CEO in team
+
+
+@given(teams(min_size=1))
+def test_fire_employee(team: list[Employee]):
+    emp_list_copy = team.copy()
     fire_random_employee(emp_list_copy)
-    assert len(emp_list_copy) == len(empl_list) - 1
+    assert len(emp_list_copy) == len(team) - 1
