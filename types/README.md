@@ -68,7 +68,7 @@ By using and sharing type definitions between modules, it's easier to see which 
 
 ### Using type hints simplifies your code
 
-Often, untyped Python code has if-statements in the function body to check that the argument you get is actually what you expect it to be. Types help reduce this kind of code. Though to some extent, you might still need it, in particular if you're relying on data read from a file where you have no control over the structure. For internal data representations though, types really help simplify the code because the IDE will point out any mistakes you made as a developer.
+Often, untyped Python code has if-statements in the function body to check that the argument you get is actually what you expect it to be. Types help reduce this kind of code. Though to some extent, you might still need it, in particular if you're relying on data read from a file where you have no control over the structure. A better solution in this case though is to rely on a validation tool, like Pydantic. You can then provide feedback to the user right after they try to import their crooked, badly formatted data.
 
 ## Type hints vs using unit tests
 

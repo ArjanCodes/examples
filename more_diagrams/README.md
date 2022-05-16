@@ -4,36 +4,73 @@ In this video, I'm going to look at a few different ways of drawing diagrams and
 
 ## Mermaid
 
-Pros
+### Pros
 
 - Really, really easy to setup. They have a live server, or install the VS Code plugin and you're good to go.
 - All runs and renders locally on your machine.
 - Many different sorts of diagrams, including pie charts
 - Markdown integration
 
-Cons
+### Cons
 
 - The number of settings you can change per diagram type is limited
 - Syntax is not always easy to remember, especially for all the different arrow types. For example, I always have to look up the arrow syntax for entity-relationship diagrams.
 - Limited control over the layout of the diagram
 
+Here's an example of a sequence diagram in Mermaid:
+
+```mermaid
+sequenceDiagram
+    autonumber
+    participant Client
+    participant OAuthProvider
+    participant Server
+    Client->>OAuthProvider: Request access token
+    activate OAuthProvider
+    OAuthProvider->>Client: Send access token
+    deactivate OAuthProvider
+    Client->>Server: Request resource
+    activate Server
+    Server->>OAuthProvider: Validate token
+    activate OAuthProvider
+    OAuthProvider->>Server: Token valid
+    deactivate OAuthProvider
+    Server->>Client: Send resource
+    deactivate Server
+```
+
 ## PlantUML
 
-Here's a basic example of creating a diagram in PlantUML:
+Sequence diagram in PlantUML
 
 ```plantuml
 @startuml
-alice->bob:hello
+autonumber
+participant Client
+participant OAuthProvider
+participant Server
+Client->>OAuthProvider: Request access token
+activate OAuthProvider
+OAuthProvider->>Client: Send access token
+deactivate OAuthProvider
+Client->>Server: Request resource
+activate Server
+Server->>OAuthProvider: Validate token
+activate OAuthProvider
+OAuthProvider->>Server: Token valid
+deactivate OAuthProvider
+Server->>Client: Send resource
+deactivate Server
 @enduml
 ```
 
-Pros
+### Pros
 
 - It's been out there for a while, so the language and tools should be pretty stable.
 - It has way more capabilities and is way more flexible than either Mermaid or HackerDraw. They're not even close.
 - Markdown integration
 
-Cons:
+### Cons:
 
 - Setting it up in VSCode is cumbersome: a) you need to specify the PlantUML server in two different places, b) if you want to run this locally, you need to install extra things such as Java and GraphViz.
 - If running locally: you might run into version conflicts between the tools that you have installed and PlantUML
