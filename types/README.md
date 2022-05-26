@@ -66,6 +66,10 @@ By using and sharing type definitions between modules, it's easier to see which 
   - changing data structures on the fly (like dynamically adding attributes to an object), or
   - creating data structures that are too large, leading to loss of cohesion
 
+If you define types before you write your code, what you're doing is type-driven development. This is a good way to explain to your type checker how your data is structured and how it's going to interact. Similar to test-driven development, you can then start writing code around your types until the IDE or your type checker stops complaining.
+
+(show type-driven development example)
+
 ### Using type hints simplifies your code
 
 Often, untyped Python code has if-statements in the function body to check that the argument you get is actually what you expect it to be. Types help reduce this kind of code. Though to some extent, you might still need it, in particular if you're relying on data read from a file where you have no control over the structure. A better solution in this case though is to rely on a validation tool, like Pydantic. You can then provide feedback to the user right after they try to import their crooked, badly formatted data.
@@ -73,6 +77,8 @@ Often, untyped Python code has if-statements in the function body to check that 
 ## Type hints vs using unit tests
 
 Instead of using type hints, you can also write unit tests to check that the data that is passed to a function or method does indeed follow what you expect it to be. In a language where type definitions aren't obligatory, like Python, this can make sense. But, you'll lose out on all the advantages that I mentioned just now. And in addition, writing a type hint is faster than writing a bunch of unit tests. Especially for more complex data structures, this might become a lot of work.
+
+I'd also add that using a type checker can add an extra layer of checking your code's accuracy on top of IDE and testing.
 
 ## Final thoughts
 
