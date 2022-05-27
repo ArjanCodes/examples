@@ -4,8 +4,7 @@ import time
 import requests
 
 
-async def counter(until: int = 10) -> float:
-    start = time.perf_counter()
+async def counter(until: int = 10) -> None:
     now = time.perf_counter()
     print("Started counter")
     for i in range(0, until):
@@ -13,7 +12,6 @@ async def counter(until: int = 10) -> float:
         await asyncio.sleep(0.01)
         now = time.perf_counter()
         print(f"{i}: Was asleep for {now - last}s")
-    return time.perf_counter() - start
 
 
 def send_request(url: str) -> int:
@@ -28,10 +26,9 @@ async def send_async_request(url: str) -> int:
 
 async def main() -> None:
 
-    status_code, counter_time = await asyncio.gather(
+    status_code, _ = await asyncio.gather(
         send_async_request("https://www.arjancodes.com"), counter()
     )
-    print(f"Counter took {counter_time:.2f} seconds.")
     print(f"Got HTTP response with status {status_code}.")
 
 

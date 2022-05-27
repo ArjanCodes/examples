@@ -21,12 +21,11 @@ def send_request(url: str) -> int:
 
 
 async def main() -> None:
-    task = asyncio.create_task(counter())
 
     status_code = send_request("https://www.arjancodes.com")
     print(f"Got HTTP response with status {status_code}")
 
-    await task
+    await counter()
 
 
 asyncio.run(main())

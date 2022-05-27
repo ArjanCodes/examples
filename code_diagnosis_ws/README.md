@@ -1,10 +1,9 @@
 ## Code diagnosis workshop
 
-- Nested if-statements / complex if-else logic
+- Too many dependencies (many imports in a single file)
 - Large classes
 - Large functions
+- Nested if-statements / complex if-else logic
 - Law Of Demeter violations
-- Too many dependencies (many imports in a single file)
-- Using inheritance for anything other than establishing an interface
 - Relying too much on exception handling logic
 - Talk a bit about code reviewing

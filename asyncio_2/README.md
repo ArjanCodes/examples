@@ -1,5 +1,9 @@
 ## Intro
 
+Modern software regularly interacts with an API, a database, or a file. The time your software has to wait for those interactions to complete can be used more efficiently, if you know how to leverage concurrency. If you don't, your software is going to be much slower, and the more data you process, the worse it gets.
+
+Today, I'm going to show you how to get started with concurrency in Python. In particular since version 3.10, it's pretty well integrated into the language. I'm also going to show you how to turn a regular function into something you can run concurrently, which could make your program run a lot faster. And you don't even have to modify the original function for this, it's really easy.
+
 ## Concurrent vs Parallel computing & asyncio recap
 
 True parallel computing means that an application runs multiple tasks at the same time, where each task runs on a separate processing unit.

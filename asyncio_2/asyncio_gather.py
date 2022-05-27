@@ -33,10 +33,7 @@ async def main() -> None:
 
     # asynchronous call
     time_before = perf_counter()
-    tasks: list[Awaitable[Any]] = []
-    for _ in range(20):
-        tasks.append(get_random_pokemon_name())
-    await asyncio.gather(*tasks)
+    await asyncio.gather(*[get_random_pokemon_name() for _ in range(20)])
     print(f"Total time (asynchronous): {perf_counter() - time_before}")
 
 
