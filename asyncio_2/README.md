@@ -1,22 +1,26 @@
 ## Intro
 
-Modern software regularly interacts with an API, a database, or a file. The time your software has to wait for those interactions to complete can be used more efficiently, if you know how to leverage concurrency. If you don't, your software is going to be much slower, and the more data you process, the worse it gets.
+Modern software regularly interacts with an API, a database, or a file. That means there's a lot of waiting, and you need to make sure that your software handles that efficiently. If you don't, your application is going to be much slower, and the more data you process, the more you interact with APIs, the worse this is going to get.
 
-Today, I'm going to show you how to get started with concurrency in Python. In particular since version 3.10, it's pretty well integrated into the language. I'm also going to show you how to turn a regular function into something you can run concurrently, which could make your program run a lot faster. And you don't even have to modify the original function for this, it's really easy.
+The way to fix this is to rely on concurrency. In Python, you use the asyncio package for that. I'll give you a brief overview of how that package works, but then I'd like to go a bit deeper and also show you how to turn a regular, blocking function into something you can run concurrently, which could make your program a lot more efficient. And you don't even have to modify the original function for this, it's really easy.
+
+After that I'm going to talk about how concurrency affects your software's design and architecture, so make sure to watch this video till the end. If you want to learn more about how to design a piece of software from scratch, you like my software design guide. You can get it for free at arjancodes.com/designguide. It contains the 7 steps I take when I design new software, and hopefully it helps you avoid some of the mistakes I made in the past. Arjancodes.com/designguide, and the link is also in the description of this video.
 
 ## Concurrent vs Parallel computing & asyncio recap
 
-True parallel computing means that an application runs multiple tasks at the same time, where each task runs on a separate processing unit.
+You may have heard the terms concurrent and parallel computing before, but what's the difference? True parallel computing means that an application runs multiple tasks at the same time, where each task runs on a separate processing unit.
 
 Concurrency means that an application is making progress on more than one task at the same time, but may switch between these tasks instead of actually running them in parallel. If an application works on tasks A and B, it doesn't have to finish A before starting B. It can do a little bit of A, then switch to doing a little bit of B, and back again A, and so on.
 
-This answer on StackOverflow nicely illustrates the difference: "Concurrency is two lines of customers ordering from a single cashier (lines take turns ordering); Parallelism is two lines of customers ordering from two cashiers (each line gets its own cashier)" (see https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concurrency-and-parallelism).
+This answer on StackOverflow nicely illustrates the difference: "Concurrency is two lines of customers ordering from a single cashier (lines take turns ordering); Parallelism is two lines of customers ordering from two cashiers (each line gets its own cashier)" (see https://stackoverflow.com/questions/1050222/what-is-the-difference-between-concurrency-and-parallelism). If you translate this back to computers, each cashier is a processing unit, a CPU core, each customer is a task that the processor needs to take care of.
 
-Modern computers use a combination of parallelism and concurrency. Your CPU might have 4, 8, or more cores that can perform tasks in parallel. You OS will run 10s to 100s of different tasks concurrently, while a subset of these tasks are actually running in parallel while the OS seemlessly switches between the tasks.
+Modern computers use a combination of parallelism and concurrency. Your CPU might have 2, 4, 8, or more cores that can perform tasks in parallel. You OS will run 10s to 100s of different tasks concurrently. A subset of these tasks are actually running in parallel while the OS seemlessly switches between the tasks.
+
+Parallelism in Python has a caveat, which is the Global Interpreter Lock. Any time you run Python code, it needs to acquire an interpreter lock. There are reasons for this that I won't go into in this video, but it effectively means that Python code is single-threaded, even if you start multiple threads. There are ways around this, for example by relying on multiple processes instead of multiple threads, or by switching to an interpreter that doesn't have the lock. Note, this concerns parallelism. Concurrency on the other hand, works really well in Python, especially since version 3.10.
 
 Why is concurrency a smart way to do computing? Well, it so happens that many tasks involve waiting. Our applications are waiting for files to be read or written to, they're constantly communicating with other services over the Internet, or, they're waiting for you to input your password or click a few buttons to help identify traffic lights in a recaptcha (I hate those things).
 
-Anyway, it considerably speeds up things if a computer can do something else while waiting for that network response or for you to finish cursing about recaptchas. In other words, concurrency is a crucial mechanism for making our computers work efficiently in this age of connectivity.
+It considerably speeds up things if a computer can do something else while waiting for that network response or for you to finish cursing about recaptchas. In other words, concurrency is a crucial mechanism for making our computers work efficiently in this age of connectivity.
 
 The asyncio package in Python gives you the tools to control how concurrency is handled within your application. As I've talked about in my previous video, the async and await syntax is the mechanism to achieve this. If you write async in front of a method or function, you indicate that it's allowed to run this method or function concurrently. Await gives you control over the order that things are being executed in. If you write await in front of a concurrent statement, this means that the portion written below that statement can only be executed after the concurrent statement has completed.
 
