@@ -1,6 +1,6 @@
 ## Intro
 
-Testing your software is really important. At least, if you want happy customers. There's a lot of different ways to test software, in particular, it's quite common to start with writing unit tests. Unit tests are great, but writing them is a lot of work. And the bigger your codebase becomes, the more time you have to spend writing and maintaining your tests. It's not uncommon that the testing code is more lines than that actual application code. And if you're not careful, developing and releasing new features is going to become really hard, to a point where you feel like even a minor change is going to involve a lot of development work.
+Testing your software is really important. At least, if you want happy customers. There's a lot of different ways to test software, in particular, it's quite common to start with writing unit tests. Unit tests are great, but writing them is a lot of work. And the bigger your codebase becomes, the more time you have to spend writing and maintaining your tests. It's not uncommon that the testing code has way more lines than the actual application code. And if you're not careful, developing and releasing new features is going to become really hard, to a point where you feel like even a minor change is going to involve a lot of development work.
 
 There might be a way out of this, by looking at other ways to test software. One in particular that I find really interesting is property-based testing. I'm going to show you how to do this in Python, using the honestly, awesome Hypothesis package.
 
@@ -8,11 +8,11 @@ Before we dive in, I have something for you. It's a free guide that helps you de
 
 ## What is property-based testing?
 
-A unit test, generally defines a fixture (a predefined, specific input value), runs a test using that fixture and then checks that the outcome is as expected.
+A unit test, generally defines a fixture (a predefined, specific set of input values), executes code using that fixture and then assert that the result is as expected. This is also called Arrange-Act-Assert in Test-driven development. You can also follow Given-When-Then, which comes from behavior-driven development. The main difference is that Arrange-Act-Assert describes what the test code is doing, whereas Given-When-Then describes it more in the way of what a user might do. There's a bit more nuance to it, but I won't go into that today.
 
-Property-based testing checks that a function, program or any system abides by a property. Most of the time, property tests don't need to know that much about the specific inputs or outputs of a system, they just check specific characteristics.
+As opposed to unit tests, a property test checks that a function, program or any system abides by a property. Most of the time, property tests don't need to know that much about the specific inputs or outputs of a system, they just check specific characteristics.
 
-Although property-based tests also rely on example data like unit tests, they're different because they test a property of the system by automatically generating example input data.
+Although property-based tests also rely on example data like unit tests, they're different because they test a property of the system by automatically generating example input data instead of using fixed data.
 
 Property-based testing is quite well-known in functional programming. It was introduced by the QuickCheck framework in Haskell. You can use this testing approach on all levels of example-based testing: from unit tests to end-to-end tests.
 

@@ -4,7 +4,7 @@ Modern software regularly interacts with an API, a database, or a file. That mea
 
 The way to fix this is to rely on concurrency. In Python, you use the asyncio package for that. I'll give you a brief overview of how that package works, but then I'd like to go a bit deeper and also show you how to turn a regular, blocking function into something you can run concurrently, which could make your program a lot more efficient. And you don't even have to modify the original function for this, it's really easy.
 
-After that I'm going to talk about how concurrency affects your software's design and architecture, so make sure to watch this video till the end. If you want to learn more about how to design a piece of software from scratch, you like my software design guide. You can get it for free at arjancodes.com/designguide. It contains the 7 steps I take when I design new software, and hopefully it helps you avoid some of the mistakes I made in the past. Arjancodes.com/designguide, and the link is also in the description of this video.
+I'll also talk about how concurrency affects your software's design and architecture, so make sure to watch this video till the end. If you want to learn more about how to design a piece of software from scratch, I have a free guide for you. You can get it at arjancodes.com/designguide. It contains the 7 steps I take when I design new software, and hopefully it helps you avoid some of the mistakes I made in the past. Arjancodes.com/designguide, and the link is also in the description of this video.
 
 ## Concurrent vs Parallel computing & asyncio recap
 

@@ -30,7 +30,7 @@ Yet, I use types extensively in the code that I write. Why is this?
 
 ## Reasons to use type hints
 
-### Types help me avoid write documentation.
+### 1. Types help me avoid write documentation.
 
 If you look at a Python function header that doesn't use type hints for its arguments, you need documentation in order to understand what you should provide to that function. I really hate writing documentation:
 
@@ -41,7 +41,7 @@ If there is no documentation at all, you might need to read the body of the func
 
 But I'm all in favor of doing things to keep documentation simpler if possible. Types are a standardized way of specifying what an argument should look like and what kind of thing a function (or method) returns. Because it's a natral part of the function/method header, I find it's much easier and faster to read than putting those things in the function/method's documentation.
 
-### Types are helpful while writing code in your IDE
+### 2. Types are helpful while writing code in your IDE
 
 - The IDE can then detect sooner if you're passing the wrong kind of data structure
 - The IDE provides autocomplete for data structures that it knows
@@ -55,11 +55,11 @@ In the PEP I mentioned in the beginning of the video, the authors also write thi
 - Adding documentation helps, but who reads documentation? And you can still call the function with an int, and the IDE won't complain
 - If you want the IDE to complain so you avoid the error altogether, use type hints!
 
-### Types make coupling more explicit
+### 3. Types make coupling more explicit
 
 By using and sharing type definitions between modules, it's easier to see which modules are coupled to certain data structure. This is especially helpful if in the future you decide to change that data structure, because then you want to know which modules are going to be affected.
 
-### Using type hints forces you to be explicit about the data structures you use
+### 4. Using type hints forces you to be explicit about the data structures you use
 
 - Having a clear idea of what the data looks like helps a lot when you design a piece of software. With types, you define this explicitly in the language.
 - Types also discourage behavior that potentially leads to messy code, such as:
@@ -70,16 +70,18 @@ If you define types before you write your code, what you're doing is type-driven
 
 (show type-driven development example)
 
-### Using type hints simplifies your code
+### 5. Using type hints simplifies your code
 
 Often, untyped Python code has if-statements in the function body to check that the argument you get is actually what you expect it to be. Types help reduce this kind of code. Though to some extent, you might still need it, in particular if you're relying on data read from a file where you have no control over the structure. A better solution in this case though is to rely on a validation tool, like Pydantic. You can then provide feedback to the user right after they try to import their crooked, badly formatted data.
 
 ## Type hints vs using unit tests
 
-Instead of using type hints, you can also write unit tests to check that the data that is passed to a function or method does indeed follow what you expect it to be. In a language where type definitions aren't obligatory, like Python, this can make sense. But, you'll lose out on all the advantages that I mentioned just now. And in addition, writing a type hint is faster than writing a bunch of unit tests. Especially for more complex data structures, this might become a lot of work.
-
-I'd also add that using a type checker can add an extra layer of checking your code's accuracy on top of IDE and testing.
+Instead of using type hints, you can also write unit tests to check that the data that is passed to a function or method does indeed follow what you expect it to be. In a language where type definitions aren't obligatory, like Python, this can make sense. But, you'll lose out on all the advantages that I mentioned just now. And in addition, writing a type hint is faster than writing a bunch of unit tests. Especially for more complex data structures, this might become a lot of work. Type hints, or using a type checker just means that you're adding an extra layer of checking your code's accurracy on top of what your IDE already does and what your tests already cover.
 
 ## Final thoughts
 
-Overall, my goal is to write my code as fast as possible. I want to get things done. Clarity of mind helps me do that, and I find that types have helped me a lot in providing that clarity. It makes me think about the structure of my data, it makes it easier for me to figure what that function is supposed to do that I wrote a couple of months ago, and I can keep my unit tests focused on testing the actual behavior of my functions and methods instead of cluttering up the unit tests with type checks.
+Overall, my goal is to write my code as fast as possible. I want to get things done. Clarity of mind helps me do that, and I find that types have helped me a lot in providing that clarity. It makes me think about the structure of my data, it makes it easier for me to figure out what that function is supposed to do that I wrote a couple of months ago, and I can keep my unit tests focused on testing the actual behavior of my functions and methods instead of cluttering them up with type checks.
+
+That being said, if I write a script that I know is going to be really short, I'm going to throw away the code afterwards, I may not always use type hints either. But most of the time I actually will still use them. It's become a habit for me, it makes me feel like a complete person (as opposed to feeling like this guy).
+
+You do still need to properly test your code though and there's lots of things to think about when writing unit tests. If you want to learn more about that, this video over here is a great start.

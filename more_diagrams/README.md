@@ -4,6 +4,8 @@ In this video, I'm going to look at a few different ways of drawing diagrams and
 
 The opinions in this video are completely mine. This is not a sponsored video, I've not been paid by any of these tools, nor did the makers of these tools see this video before I published it. I did get free access to the full version of HackerDraw for the purpose of this review.
 
+Now, drawing diagrams definitely helps clarify the design of your software, but there are more things to think about when you create a new piece of software. I've written a free guide to help you with this. It's available at arjancodes.com/designguide and it contains the 7 steps I take whenever I design new software. If you enter your email address on the website, you'll get the guide in your inbox right away. Arjancodes.com/designguide, the link is also in the description of this video.
+
 ## Mermaid
 
 ### Pros
