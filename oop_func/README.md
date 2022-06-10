@@ -1,12 +1,6 @@
 # Intro
 
-In this video, I'd like to go through a few varieties of the same programming and move from a purely OOP solutions to a purely functional solution and look at the differences.
-
-When I started studying CS, in 1995, Java just appeared on the scene. It wasn't yet part of my curriculum in my first and second year (I learned Modula-2 and C++), but after that, the entire education sector changed to Java. In some sense, Java encapsulates the worst of OOP. It's verbose, you can't not use a class in your program. So it invites you to write really complex programs and structures. It was quickly adopted by businesses to write very complex designs with deep inheritance hierarchies, very long class names, and overly complex software structures fed by complex design processes involving many stakeholders (Waterfall, Rational Unified Process). I still see some teachers in CS doing this with Java and I think it's for a big part responsible for the hatred against OOP.
-
-Myself I've moved more towards functional programming lately. This is also in part because I've been developing a lot of software using REact and Typescript. Typescript has great support for functional programming, and React relies on a lot on functional components. So moving to functional programming came quite naturally to me.
-
-You may have seen part of this shift in my videos over the last year. It doesn't mean I don't like OOP though. Used carefully, classes can really help you write cleaner, more readable code. And in Python, we don't have to choose between OOP and functional. We can use a combination of both.
+There's a fundamental difference between object-oriented programming and functional programming that goes beyond whether you're using classes with methods, or functions.
 
 # Imperative vs declarative programming
 
