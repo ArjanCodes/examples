@@ -1,0 +1,53 @@
+---
+_DEFAULTS:
+  BUTTON_CLASS: dropdown-button
+  BUTTON_TEXT: Select All
+app:
+  html_class_name: app-div
+  title: Financial Dashboard
+components:
+  category_button:
+    class_name: ${_DEFAULTS.BUTTON_CLASS}
+    id: select-all-category-button
+    title: ${_DEFAULTS.BUTTON_TEXT}
+  category_button_clicks:
+    id: select-all-category-button-clicks
+  category_dropdown:
+    id: category-dropdown
+    title: Category
+  month_button:
+    class_name: ${_DEFAULTS.BUTTON_CLASS}
+    id: select-all-month-button
+    title: ${_DEFAULTS.BUTTON_TEXT}
+  month_button_clicks:
+    id: select-all-month-button-clicks
+  month_dropdown:
+    id: month-dropdown
+    title: Month
+  pie:
+    id: pie-chart
+  records:
+    id: budget-pivot-table-records
+  year_button:
+    class_name: ${_DEFAULTS.BUTTON_CLASS}
+    id: select-all-year-button
+    title: ${_DEFAULTS.BUTTON_TEXT}
+  year_button_clicks:
+    id: select-all-year-button-clicks
+  year_dropdown:
+    id: year-dropdown
+    title: Year
+data:
+  columns:
+    amount: amount
+    category: category
+    date: date
+    month: month
+    year: year
+  path: ./data/transactions.csv
+dates:
+  date_format: '%Y-%m-%d'
+  day_format: '%d'
+  month_format: '%m-%b'
+  year_format: '%Y'
+debug: false
