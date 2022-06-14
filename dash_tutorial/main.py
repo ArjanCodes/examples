@@ -9,10 +9,7 @@ from src.layout import create_layout
 
 def create_app_old(title: str) -> Dash:
     app = Dash(
-        external_stylesheets=[
-            BOOTSTRAP,
-            "https://codepen.io/chriddyp/pen/bWLwgP.css",
-        ],
+        external_stylesheets=[BOOTSTRAP],
     )
     app.title = title
     return app
