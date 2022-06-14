@@ -9,7 +9,9 @@ def render() -> html.Div:
             html.H6(settings.components.year_dropdown.title),
             dcc.Dropdown(
                 id=settings.components.year_dropdown.id,
-                options=src.defaults.get_year_options(src.transactions.load_transaction_data()),
+                options=src.defaults.get_year_options(
+                    src.transactions.load_transaction_data()
+                ),
                 value=src.defaults.get_year_values(),
                 multi=True,
             ),

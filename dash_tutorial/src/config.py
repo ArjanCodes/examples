@@ -87,3 +87,6 @@ def load_settings() -> SettingsSchema:
     settings = oc.OmegaConf.merge(schema, oc.OmegaConf.load(SETTINGS_PATH))
     oc.OmegaConf.resolve(settings)
     return cast(SettingsSchema, settings)
+
+
+SETTINGS = load_settings()

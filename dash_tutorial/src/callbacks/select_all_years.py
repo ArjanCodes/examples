@@ -25,7 +25,9 @@ def register(app: dash.Dash) -> None:
             years
             if clicked
             else list(
-                src.transactions.load_transaction_data()[src.schema.YearColumnSchema.year].unique()
+                src.transactions.load_transaction_data()[
+                    src.schema.YearColumnSchema.year
+                ].unique()
             )
         )
         return sorted(new_years), n_clicks
