@@ -1,12 +1,12 @@
 from dataclasses import dataclass, field
 
-from fastapi import FastAPI
+from fastapi import FastAPI, Response
 
 app = FastAPI()
 
 
 @dataclass
-class Item:
+class Channel:
     id: str
     name: str
     tags: list[str] = field(default_factory=list)
@@ -14,10 +14,15 @@ class Item:
 
 
 @app.get("/")
-def read_root():
-    return {"Hello": "World!"}
+def read_root() -> Response:
+    return Response("The server is running.")
 
 
-@app.get("/items/{item_id}", response_model=Item)
-def read_item(item_id: int) -> Item:
-    return Item(id=str(item_id), name="ArjanCodes")
+@app.get("/channels/{channel_id}", response_model=Channel)
+def read_item(channel_id: str) -> Channel:
+    return Channel(
+        id=channel_id,
+        name="ArjanCodes",
+        tags=["software design", "python"],
+        description="ArjanCodes focuses on helping you become a better software developer.",
+    )
