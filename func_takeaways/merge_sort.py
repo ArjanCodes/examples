@@ -23,6 +23,10 @@ def main() -> None:
     print(f"Original list: {test_list}")
     print(f"Sorted list: {sorted_list}")
 
+    # built in sort
+    test_list.sort()
+    print(test_list)
+
 
 if __name__ == "__main__":
     main()

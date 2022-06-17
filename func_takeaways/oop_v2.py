@@ -15,11 +15,6 @@ class Greeting:
         return greetings
 
 
-class FriendlyGreeting(Greeting):
-    def greet(self, name: str) -> str:
-        return f"{self.greeting_intro}, {name}. How are you doing?"
-
-
 def main() -> None:
     current_time = datetime.now()
     if current_time.hour < 12:
@@ -31,7 +26,7 @@ def main() -> None:
 
     name = input("Enter your name: ")
 
-    greeting = FriendlyGreeting(greeting_intro)
+    greeting = Greeting(greeting_intro)
     print(greeting.greet(name))
     print("\n".join(greeting.greet_list(["John", "Jane", "Joe"])))
 
