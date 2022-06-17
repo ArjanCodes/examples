@@ -10,9 +10,20 @@ Declarative programming – focuses on what to execute, defines program logic, b
 
 # Basic OOP example
 
+- First, show a very simple object-oriented program (oop_v1.py).
+- In order to have variety, you'd commonly use inheritance in an OO program. Let's add a FriendlyGreeting class (oop_v2.py)
+
 # Remove the printing part
 
-Because the methods in the Greeting class directly print things to the screen, they're hard to test and can't really be used by applications that don't print anything to the console but use for instance a GUI. Let's put the printing part in a single place (the main function), so we can replace it with something else more easily.
+Because the methods in the Greeting class directly print things to the screen, they're hard to test and can't really be used by applications that don't print anything to the console but use for instance a GUI. Printing is an example of a side-effect: when you call the method, it modifies something outside of its parameters (namely, the screen - or more directly, the video memory).
+
+In general, a side effect is when a function or method relies on, or modifies, something outside its parameters to do something. Printing something is an example, but other examples are reading from and writing to a file, interacting with a database or another service over a network, relying on an external random number generator or the current date and time.
+
+Side effects make your code harder to reuse and make things harder to test, because you can't isolate a function or method properly. If a function doesn't have side effects and the return value is only determined by its input values (so no random number generation or relying on outside things like the current date and time), then the function is called a pure function. As opposed to functions with side effects, pure functions are easy to test and they're easier to use in different parts of your software, because there are no outside dependencies. If you want to write software that easy to work on and easy to test, take a look at your code and see whether you can turn some of your functions into pure functions. If you focus on putting all those side effects into a single place, they're much easier to manage.
+
+In this particular case, the Greeting class prints things and it relies on the current date. If we wanted to write tests for this class, we would have to patch dates, as well as the built-in output. Which is a pain. Another way to view it is that combining for example printing with constructing the greeting message is a Single Responsibility violation: they're two different things.
+
+So, to make the class easier to reuse, we should remove the side-effects. Let's see how what that looks like (oop_v3).
 
 # A functional approach
 
