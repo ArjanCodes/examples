@@ -2,9 +2,7 @@ import datetime as dt
 
 import pandera as pa
 
-import src
-
-SETTINGS = src.config.load_settings()
+from src.config import SETTINGS
 
 
 class RawTransactionsSchema(pa.SchemaModel):

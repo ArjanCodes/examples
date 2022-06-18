@@ -2,19 +2,21 @@ from datetime import datetime
 
 import pandas as pd
 
-import src
+from src.config import SETTINGS
 from src.schema import TransactionsSchema
-
-SETTINGS = src.config.load_settings()
 
 
 def get_year_options(transactions: pd.DataFrame) -> list[dict[str, str]]:
-    return [{"label": i, "value": i} for i in transactions.loc[:, TransactionsSchema.year].unique()]
+    return [
+        {"label": i, "value": i}
+        for i in transactions.loc[:, TransactionsSchema.year].unique()
+    ]
 
 
 def get_month_options(transactions: pd.DataFrame) -> list[dict[str, str]]:
     return [
-        {"label": i, "value": i} for i in transactions.loc[:, TransactionsSchema.month].unique()
+        {"label": i, "value": i}
+        for i in transactions.loc[:, TransactionsSchema.month].unique()
     ]
 
 

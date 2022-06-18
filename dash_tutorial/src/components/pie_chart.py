@@ -1,23 +1,22 @@
 import dash
 import pandas as pd
 import plotly.graph_objects as go
-import src
 from dash import dcc
 from dash.dependencies import Input, Output
+from src.config import SettingsSchema
+from src.schema import RawTransactionsSchema
 
-SETTINGS = src.config.load_settings()
 
-
-def register(app: dash.Dash) -> None:
+def initialize(app: dash.Dash, settings: SettingsSchema) -> None:
     @app.callback(
-        Output(SETTINGS.components.pie.id, "children"),
-        Input(SETTINGS.components.records.id, "data"),
+        Output(settings.components.pie.id, "children"),
+        Input(settings.components.records.id, "data"),
     )
-    def _update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
+    def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
         pivot_table = pd.DataFrame(pivot_table_records)
         pie = go.Pie(
-            labels=pivot_table.loc[:, src.schema.RawTransactionsSchema.category],
-            values=pivot_table.loc[:, src.schema.RawTransactionsSchema.amount],
+            labels=pivot_table.loc[:, RawTransactionsSchema.category],
+            values=pivot_table.loc[:, RawTransactionsSchema.amount],
             hole=0.5,
         )
         fig = go.Figure(data=[pie])

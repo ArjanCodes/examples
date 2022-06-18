@@ -1,12 +1,18 @@
 import datetime as dt
+from typing import Protocol
 
 import pandas as pd
 from sklearn import pipeline
 from sklearn.base import BaseEstimator, TransformerMixin
 
-import src
+from src.config import SETTINGS
+from src.schema import DateColumnSchema, MonthColumnSchema, YearColumnSchema
 
-SETTINGS = src.config.load_settings()
+
+class DateFormats(Protocol):
+    date_format: str
+    year_format: str
+    month_format: str
 
 
 def create_preprocessing_pipeline() -> pipeline.Pipeline:
@@ -15,13 +21,13 @@ def create_preprocessing_pipeline() -> pipeline.Pipeline:
 
 class CreateYearFromDate(BaseEstimator, TransformerMixin):
     def fit(self, x: pd.DataFrame, y=None) -> "CreateYearFromDate":
-        src.schema.DateColumnSchema.validate(x)
+        DateColumnSchema.validate(x)
         return self
 
     def transform(self, x: pd.DataFrame, y=None) -> pd.DataFrame:
         _x = x.copy()
-        _x.loc[:, src.schema.YearColumnSchema.year] = (
-            _x.loc[:, src.schema.DateColumnSchema.date]
+        _x.loc[:, YearColumnSchema.year] = (
+            _x.loc[:, DateColumnSchema.date]
             .apply(lambda d: dt.datetime.strptime(d, SETTINGS.dates.date_format))
             .apply(lambda d: dt.datetime.strftime(d, SETTINGS.dates.year_format))
         )
@@ -30,13 +36,13 @@ class CreateYearFromDate(BaseEstimator, TransformerMixin):
 
 class CreateMonthFromDate(BaseEstimator, TransformerMixin):
     def fit(self, x: pd.DataFrame, y=None) -> "CreateMonthFromDate":
-        src.schema.DateColumnSchema.validate(x)
+        DateColumnSchema.validate(x)
         return self
 
     def transform(self, x: pd.DataFrame, y=None) -> pd.DataFrame:
         _x = x.copy()
-        _x.loc[:, src.schema.MonthColumnSchema.month] = (
-            _x.loc[:, src.schema.DateColumnSchema.date]
+        _x.loc[:, MonthColumnSchema.month] = (
+            _x.loc[:, DateColumnSchema.date]
             .apply(lambda d: dt.datetime.strptime(d, SETTINGS.dates.date_format))
             .apply(lambda d: dt.datetime.strftime(d, SETTINGS.dates.month_format))
         )

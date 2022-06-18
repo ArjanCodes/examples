@@ -1,12 +1,11 @@
 import pandas as pd
+from src.schema import TransactionsSchema
+from src.transformers import create_preprocessing_pipeline
 
-import src
 
-
-def load_transaction_data() -> pd.DataFrame:
-    settings = src.config.load_settings()
-    raw_transactions = pd.read_csv(settings.data.path)
-    transaction_preprocessing_pipeline = src.transformers.create_preprocessing_pipeline()
-    cleaned_transactions = transaction_preprocessing_pipeline.fit_transform(raw_transactions)
-    src.schema.TransactionsSchema.validate(cleaned_transactions, inplace=True)
+def load_transaction_data(path: str) -> pd.DataFrame:
+    raw_transactions = pd.read_csv(path)
+    preprocessing_pipeline = create_preprocessing_pipeline()
+    cleaned_transactions = preprocessing_pipeline.fit_transform(raw_transactions)
+    TransactionsSchema.validate(cleaned_transactions, inplace=True)
     return cleaned_transactions
