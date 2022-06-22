@@ -25,7 +25,7 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
     ) -> tuple[list[str], int]:
         clicked = n_clicks <= previous_n_clicks
         new_years: list[str] = (
-            years if clicked else list(transactions[TransactionsSchema.year].unique())
+            years if clicked else list(set(transactions[TransactionsSchema.year]))
         )
         return sorted(new_years), n_clicks
 

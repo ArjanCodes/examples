@@ -27,7 +27,7 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         filtered_transactions = transactions.query(f"{TransactionsSchema.year} == {years}")
         clicked = n_clicks <= previous_n_clicks
         new_months: list[str] = (
-            months if clicked else list(filtered_transactions[TransactionsSchema.month].unique())
+            months if clicked else list(set(filtered_transactions[TransactionsSchema.month]))
         )
         return sorted(new_months), n_clicks
 
