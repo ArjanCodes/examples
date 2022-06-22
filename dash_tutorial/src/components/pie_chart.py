@@ -19,7 +19,7 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
             hole=0.5,
         )
         fig = go.Figure(data=[pie])
-        fig.update_layout(margin=dict(t=40, b=0, l=0, r=0))
+        fig.update_layout(margin={"t": 40, "b": 0, "l": 0, "r": 0})
         fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
         return dcc.Graph(figure=fig)
 
