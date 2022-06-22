@@ -25,7 +25,9 @@ def convert_to_datetime(x: pd.DataFrame) -> pd.DataFrame:
 
 
 def create_year_from_date(x: pd.DataFrame) -> pd.DataFrame:
-    x[TransactionsSchema.year] = x[TransactionsSchema.date].dt.strftime(SETTINGS.dates.year_format)
+    x[TransactionsSchema.year] = x[TransactionsSchema.date].dt.strftime(
+        SETTINGS.dates.year_format
+    )
     return x
 
 

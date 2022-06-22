@@ -22,8 +22,12 @@ def initialize(app: dash.Dash, settings: SettingsSchema) -> None:
     ) -> list[dict[str, Any]]:
         transactions = load_transaction_data(settings.data.path)
         year_mask: pd.Series = transactions.isin(years).loc[:, TransactionsSchema.year]
-        month_mask: pd.Series = transactions.isin(months).loc[:, TransactionsSchema.month]
-        category_mask: pd.Series = transactions.isin(categories).loc[:, TransactionsSchema.category]
+        month_mask: pd.Series = transactions.isin(months).loc[
+            :, TransactionsSchema.month
+        ]
+        category_mask: pd.Series = transactions.isin(categories).loc[
+            :, TransactionsSchema.category
+        ]
         row_mask = year_mask & month_mask & category_mask
         filtered_transactions: pd.DataFrame = transactions.loc[row_mask, :]
 

@@ -17,7 +17,9 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
             Input(settings.components.category_button.id, "n_clicks"),
         ],
     )
-    def select_all_categories(year: list[int], month: list[int], _: list[int]) -> list[str]:
+    def select_all_categories(
+        year: list[int], month: list[int], _: list[int]
+    ) -> list[str]:
         categories: list[str] = list(
             transactions.query(
                 f"({TransactionsSchema.year} == {year}) "
