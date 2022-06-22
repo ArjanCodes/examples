@@ -3,7 +3,7 @@ import plotly.graph_objects as go
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from src.config import SettingsSchema
-from src.schema import RawTransactionsSchema
+from src.schema import TransactionsSchema
 
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
@@ -14,8 +14,8 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
     def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
         pivot_table = pd.DataFrame(pivot_table_records)
         pie = go.Pie(
-            labels=pivot_table.loc[:, RawTransactionsSchema.category],
-            values=pivot_table.loc[:, RawTransactionsSchema.amount],
+            labels=pivot_table.loc[:, TransactionsSchema.category],
+            values=pivot_table.loc[:, TransactionsSchema.amount],
             hole=0.5,
         )
         fig = go.Figure(data=[pie])

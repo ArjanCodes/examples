@@ -2,7 +2,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from src.config import SettingsSchema
 from src.defaults import get_month_options, get_month_values
-from src.schema import MonthColumnSchema, YearColumnSchema
+from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
 
@@ -24,14 +24,10 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
     def select_all_months(
         years: list[int], months: list[str], n_clicks: int, previous_n_clicks: int
     ) -> tuple[list[str], int]:
-        filtered_transactions = transactions.query(
-            f"{YearColumnSchema.year} == {years}"
-        )
+        filtered_transactions = transactions.query(f"{TransactionsSchema.year} == {years}")
         clicked = n_clicks <= previous_n_clicks
         new_months: list[str] = (
-            months
-            if clicked
-            else list(filtered_transactions[MonthColumnSchema.month].unique())
+            months if clicked else list(filtered_transactions[TransactionsSchema.month].unique())
         )
         return sorted(new_months), n_clicks
 
