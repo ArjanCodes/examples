@@ -2,7 +2,9 @@
 
 If you're developing software for the cloud, you've certainly run into Docker. Docker has a lot of capabilities, but to get the most out of it, you have to make sure that the way you're running the code locally matches up with how it runs in the cloud. If you don't, you're going to run into incompatibility issues, the software might crash in the cloud but work perfectly on your machine, and that makes testing things and fixing those issues a real pain.
 
-So, today I'm going to show you how to go all in on Docker, and avoid all of those problems. And I'll use a simple API server in Python as an illustration. The code for this episode is on GitHub including all the settings, ready-to-go, so you have no excuse to not do this :).
+So, today I'm going to show you how to go all in on Docker, and avoid all of those problems. And I'll use a simple API server in Python as an example. The code for this episode is on GitHub including all the settings, ready-to-go, so you have no excuse to not do this :).
+
+Well, maybe one. You might not have thought through all the necessary steps to design your software. For that, I have a free guide for you, you can get it at arjan.codes/designguide. It contains the 7 steps I take whenever I design a new piece of software. I think it will help you avoid some of the mistakes I made in the past and put you on the right track. So, arjan.codes/designguide, the link is also in the description.
 
 ## Explain the example
 
@@ -16,11 +18,11 @@ So, today I'm going to show you how to go all in on Docker, and avoid all of tho
 
 Docker has completely changed the game for cloud development. It allows us to run applications in a completely separate container running your preferred Linux distribution. Moreover, you can create an image where you can pre-install software, change anything, treat it like a virtual machine. you can run these images locally on your machine, and they also neatly integrate with cloud technologies such as Kubernetes.
 
-Docker makes going from local development to production code really easy. In between these two environments, you might have other environments such as staging, or a testing environment.
+If you're developing a cloud-based app, you're going to have different environments in which the app will run. The classic set of environments is the DTAP street. The DTAP street (Development, Testing, Acceptance, Production) is an example. But there are alternatives to DTAP. You could create parallel environments (for example have a parallel testing and performance analysis environment), do progressive deployment with feature flags or ring-based deployments that open up a new release to groups of users in sequence.
 
-Talk about DTAP street.
+Many possibilities, but, I won't talk anymore about deployment today. If you'd like me to do a separate video about that, let me know in the comments. And when you're there, why don't you hit that like button as well? It really helps me a lot to reach more people.
 
-Because the same Docker image runs in each of these environments, you reduce the chance that locally running code breaks when you run it in the cloud. This is why Docker is so great and has been adopted as the de facto container solution for the cloud. In this video, I won't talk about deployment specifically. If you'd like me to do a separate video about that, let me know in the comments. And when you're there, why don't you hit that like button as well? It really helps me a lot to reach more people.
+Now, back to Docker. Because the same Docker image runs in each of the different environments you have, you reduce the chance that code that runs locally on your machine breaks when you try to run it in another environment. And also, having the same environments everywhere also simplifies things like testing your code, doing security checks or audits, and it also makes sure that the developers on your team work in the same environment, reducing the potential for errors.
 
 ## Build the Docker image and then run it in a container
 
