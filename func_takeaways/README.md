@@ -16,17 +16,23 @@ Show a very simple object-oriented program (oop_v1.py).
 
 # Takeaway 1: Minimize side effects
 
-Because the methods in the Greeting class directly print things to the screen, they're hard to test and can't really be used by applications that don't print anything to the console but use for instance a GUI. Printing is an example of a side-effect: when you call the method, it modifies something outside of its parameters (namely, the screen - or more directly, the video memory).
+Because the methods in the Greeting class directly print things to the screen, they're hard to test and can't really be used by applications that don't print anything to the console but use for instance a GUI. Printing is an example of a side-effect: when you call the method, it modifies something outside of its parameters (namely, the screen).
 
-In general, a side effect is when a function or method relies on, or modifies, something outside its parameters to do something. Printing something is an example, but other examples are reading from and writing to a file, interacting with a database or another service over a network, relying on an external random number generator or the current date and time.
+In general, a side effect is when a function or method relies on, or modifies, something outside of the parameters it gets. Printing something is an example, but other examples are reading from and writing to a file, interacting with a database or another service over a network, relying on an external random number generator or the current date and time.
 
 Side effects make your code harder to reuse and make things harder to test, because you can't isolate a function or method properly. If a function doesn't have side effects and the return value is only determined by its input values (so no random number generation or relying on outside things like the current date and time), then the function is called a pure function. As opposed to functions with side effects, pure functions are easy to test and they're easier to use in different parts of your software, because there are no outside dependencies. If you want to write software that easy to work on and easy to test, take a look at your code and see whether you can turn some of your functions into pure functions. If you focus on putting all those side effects into a single place, they're much easier to manage.
 
 In this particular case, the Greeting class prints things and it relies on the current date. If we wanted to write tests for this class, we would have to patch dates, as well as the built-in output. Which is a pain. Another way to view it is that combining for example printing with constructing the greeting message is a Single Responsibility violation: they're two different things.
 
-So, to make the class easier to reuse, we should remove the side-effects. Let's see how what that looks like (oop_v2).
+So, to make the class easier to reuse, we should remove the side-effects. Let's see how what that looks like (oop_v2). \*Mention that an alternative is to pass the current date as a parameter to the Greeting class.
 
-Take a look at your own code and try to identify which functions and methods have side effects. Then think about whether you can redesign it so that a bigger part of your code base doesn't have side effects anymore. It's going to make a huge difference. What also make a huge difference to me, is if you give this video a like. It helps promote the channel so others can also find this information. Dankjewel (that's Dutch).
+To summarize, functional code should:
+
+- have return values that depend only on the provided parameters,
+- they should always return the same value if you give the function the same parameter values
+- they should avoid side effects.
+
+Take a look at your own code and identify which functions and methods can be redesigned to follow these points more closely. It's going to make a huge difference. What also make a huge difference to me, is if you give this video a like. It helps promote the channel so others can also find this information. Dankjewel (that's Dutch).
 
 Before I talk about the second takeaway, let's change this to using functions instead (change oop_v2 -> func_v1).
 
