@@ -8,7 +8,7 @@ There's a fundamental difference between object-oriented programming and functio
 
 Imperative programming – focuses on how to execute, defines control flow as statements that change a program state. A developer that writes code using this paradigm specifies the steps that the computer must take to accomplish the goal. This is sometimes referred to as algorithmic programming. Most mainstream languages, including object-oriented programming (OOP) languages such as C#, Visual Basic, C++, Java, and Python as well, were designed to primarily support imperative (procedural) programming. Object-oriented programming is a subset of imperative programming that adds classes and objects to the mix.
 
-Declarative programming – focuses on what to execute, defines program logic, but not detailed control flow. An example of declarative programming is SQL statements. "Select \* from customers where name = arjan". We don't care how it's done (control flow), we just specify what we need. Excel is also a good example of declarative programming. You write in a cell what you want the computed value to be ("average(a2:a12)"), you don't care about how it's done. Functional programming is a specific form of declarative programming. A functional approach involves composing the problem as a set of functions to be executed.
+Declarative programming – focuses on what to execute, defines program logic, but not detailed control flow. An example of declarative programming is SQL statements. "Select \* from customers where name = arjan". We don't care how it's done (control flow), we just specify what we need. Excel is also a good example of declarative programming. You write in a cell what you want the computed value to be ("average(a2:a12)"), you don't care about how it's done. Functional programming is a specific form of declarative programming. From Wikipedia: "In computer science, functional programming is a programming paradigm where programs are constructed by applying and composing functions."
 
 # Example introduction
 
@@ -32,9 +32,10 @@ Before I talk about the second takeaway, let's change this to using functions in
 
 # Takeaway 2: Functions are first-class citizens
 
-The second takeaway from functional programming is that functions are first-class citizens. They're not just groups of statements with input arguments and a return value. They are things that you can compose, deconstruct, pass to other functions, and return as a value from a function. If a function receives another function as an argument, or it returns a function as a result, it's called a higher-order function.
+The second takeaway from functional programming is that functions are first-class citizens. They're not just groups of statements with input arguments and a return value. They are things that you can compose, deconstruct, pass to other functions, and return as a value from another function. If a function receives a function as an argument, or it returns a function as a result, it's called a higher-order function.
 
 (modify func_v1 to func_v2 to illustrate higher order functions)
+(make sure to mention strategy pattern)
 
 Another concept from functional programming is partial function application. A partial function application means that you create a new function that is based on another function, but with some of the arguments already applied.
 
@@ -48,15 +49,15 @@ In imperative languages like Python, variables can be accessed or changed any ti
 
 What's the advantage of having immutable variables? Well for one, it solves many multithreading problems where we might have multiple threads trying to change a single, shared variable at the same time. Another benefit is that if we have a guarantee that a variable never changes, our programs become a lot easier to understand, and they're also much easier to test.
 
-Let's look at an example.
+Let's look at a few examples.
 
-First show bubble_sort.py (which changes the input argument). Printing the original list and the sorted list means we need to remember to make a copy. If not, the original list is gone.
+Show immutable_examples: sorting and shuffling, both in place (mutable) and immutable.
 
-Next, show merge_sort (which doesn't change the input). Since we're not changing the original list, printing it is really easy. Also, because we didn't modify the original, we can now setup property tests really easy to check for example that the sorting algorithm maintains the same list length, or that the new list contains exactly the same elements as the original list.
+Printing the original list and the sorted list means we need to remember to make a copy. If not, the original list is gone.
 
-By the way, these sorting algoritms are purely for illustration. Don't actually use this. Python has a builtin sorting algorithm, just call the `sort` method on an iterable. Python's sorting algorithm is called Timsort and was developed in 2004 by Tim Peters. It's derived from merge sort (which you see above) and insertion sort and it's optimized to work well on many kinds of data. Use that. Don't build your own sorting algorithm (unless you're a badass).
+If we don't change the original list, printing it is really easy. Also, because we didn't modify the original, we can now setup property tests really easy to check for example that the sorting algorithm maintains the same list length, or that the new list contains exactly the same elements as the original list. Another nice things is that sorted accepts an iterable, so you can also use it on tuples for example.
 
-If you notice in your code that you're changing variables all the time, try to restructure it so that this happens less often. You'll notice that your code become easier to maintain because things are more separated and it'll probably be easier to read too.
+So what's the takeaway? If you notice in your code that you're changing variables all the time, try to restructure it so that this happens less often. You'll notice that your code become easier to maintain because things are more separated and it'll probably be easier to read too.
 
 # Final thoughts
 
