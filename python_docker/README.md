@@ -1,4 +1,4 @@
-## Intro
+## Intro (TH)
 
 If you're developing software for the cloud, you've certainly run into Docker. Docker has a lot of capabilities, but to get the most out of it, you have to make sure that the way you're running the code locally matches up with how it runs in the cloud. If you don't, you're going to run into incompatibility issues, the software might crash in the cloud but work perfectly on your machine, and that makes testing things and fixing those issues a real pain.
 
@@ -6,7 +6,7 @@ So, today I'm going to show you how to go all in on Docker, and avoid all of tho
 
 Well, maybe one. You might not have thought through all the necessary steps to design your software. For that, I have a free guide for you, you can get it at arjan.codes/designguide. It contains the 7 steps I take whenever I design a new piece of software. I think it will help you avoid some of the mistakes I made in the past and put you on the right track. So, arjan.codes/designguide, the link is also in the description.
 
-## Explain the example
+## Explain the example (SC)
 
 (only the main.py file is important)
 
@@ -14,7 +14,7 @@ Well, maybe one. You might not have thought through all the necessary steps to d
 - Dataclasses vs Pydantic for the representation of data
 - Show how to run the app locally with uvicorn
 
-## About Docker
+## About Docker (TH)
 
 Docker has completely changed the game for cloud development. It allows us to run applications in a completely separate container running your preferred Linux distribution. Moreover, you can create an image where you can pre-install software, change anything, treat it like a virtual machine. you can run these images locally on your machine, and they also neatly integrate with cloud technologies such as Kubernetes.
 
@@ -24,7 +24,7 @@ Many possibilities, but, I won't talk anymore about deployment today. If you'd l
 
 Now, back to Docker. Because the same Docker image runs in each of the different environments you have, you reduce the chance that code that runs locally on your machine breaks when you try to run it in another environment. And also, having the same environments everywhere also simplifies things like testing your code, doing security checks or audits, and it also makes sure that the developers on your team work in the same environment, reducing the potential for errors.
 
-## Build the Docker image and then run it in a container
+## Build the Docker image and then run it in a container (SC)
 
 The way I ran the code locally before is not ideal. It's running on a Mac and when we deploy this server, it'll run on Linux. The server might break if I try do deploy it due to some incompatibility issue between Linux and macOS, who knows? I also have to make sure that I'm using the right version of Python and that all the dependencies are installed on my machine. If you're a solo developer working on a single project it might not be a big issue. If you work in a bigger team, anything you can do to homogenize things between developers is going to make your life a whole lot easier.
 
@@ -41,15 +41,19 @@ docker build -t channel-api .
 docker run -d -p 8080:80 channel-api
 ```
 
-## Docker compose
+## Docker compose (TH)
 
 When you deploy your code to the cloud, you'll need to build the Docker image just like I did before, and tell Kubernetes or whatever other container orchestration system you're using to update the running image to the next version. This is all part of your continuous deployment pipeline. If you're using GitHub, you can set this up with a GitHub Workflow. If you're using BitBucket, you can use a BitBucket pipeline. Most alternatives will also have some kind of mechanism to start and run a deployment after committing and pushing a code change.
 
-But the way I built and ran the container locally is not ideal. Every time I change something in the code, I have to stop the server manually, rebuild the image, and then run the image.
+But the way I built and ran the container locally is not great. Every time I change something in the code, I have to stop the server manually, rebuild the image, and then start the container.
 
-This is where Docker compose comes in. It has a two important features that make running your code locally in a Docker container really easy: begin able to supply a custom run command that restarts the server, and linking a volume on your machine to a folder inside the running container.
+This is where Docker compose comes in. It has two important features that make running your code locally in a Docker container really easy: you can supply a custom run command that restarts the server automatically when a file has been changed, and you can sync a folder on your machine (that's called a volume in Docker compose terms) to a folder inside the running container.
 
-You still need the Dockerfile that I talked about before, but when you use Docker compose, you also need to supply a YAML file that contains the information that docker-compose needs to run.There are a couple of important ingredients in the docker-compose.yaml file:
+You still need the Dockerfile that I talked about before, but when you use Docker compose, you also need to supply a YAML file that contains the information that docker-compose needs to run.
+
+## Docker compose YAML file (SC)
+
+There are a couple of important ingredients in the docker-compose.yaml file:
 
 - If you want docker-compose to build the image before you start the server (which generally, you want to do), you need to provide the build folder
 - I also provide a container name so it's easy to find it back in the Docker GUI
@@ -68,4 +72,4 @@ Make a minor change in the file, and see how everything is updated and the serve
 
 ## Outro
 
-Hope you enjoyed this video. If you did, give it a like. And if you want to learn more about API development, GraphQL and REST interfaces, watch this video next. Take care, and see you soon!
+The API code I used in this video is pretty basic. If you want to learn more about API development, GraphQL and REST interfaces, watch this video next.
