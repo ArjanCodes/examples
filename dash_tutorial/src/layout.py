@@ -1,6 +1,7 @@
 from dash import Dash, dcc, html
 
 from src.components import (
+    bar_chart,
     category_dropdown,
     month_dropdown,
     pie_chart,
@@ -28,6 +29,7 @@ def create_layout(app: Dash, settings: SettingsSchema) -> None:
                     category_dropdown.render(app, settings),
                 ],
             ),
+            bar_chart.render(app, settings),
             pie_chart.render(app, settings),
             dcc.Store(id=settings.components.records.id),
             dcc.Store(id=settings.components.year_button_clicks.id, data=0),
