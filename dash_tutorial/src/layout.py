@@ -11,12 +11,12 @@ from src.components import (
 from src.config import SettingsSchema
 
 
-def create_layout(app: Dash, settings: SettingsSchema) -> None:
+def create_layout(app: Dash, settings: SettingsSchema) -> html.Div:
     # initialize the record store
     record_store.initialize(app, settings)
 
     # create the layout
-    app.layout = html.Div(
+    return html.Div(
         className=settings.app.html_class_name,
         children=[
             html.H1(settings.app.title),

@@ -5,18 +5,13 @@ from src.config import load_settings
 from src.layout import create_layout
 
 
-def create_app(title: str) -> Dash:
+def main() -> None:
+    settings = load_settings()
     app = Dash(
         external_stylesheets=[BOOTSTRAP],
     )
-    app.title = title
-    return app
-
-
-def main() -> None:
-    settings = load_settings()
-    app = create_app(settings.app.title)
-    create_layout(app, settings)
+    app.title = settings.app.title
+    app.layout = create_layout(settings)
     app.run_server(debug=settings.debug)
 
 
