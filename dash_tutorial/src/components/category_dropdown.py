@@ -2,7 +2,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from src.config import SettingsSchema
 from src.defaults import get_category_options, get_category_values
-from src.schema import MonthColumnSchema, RawTransactionsSchema, YearColumnSchema
+from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
 
@@ -22,10 +22,10 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
     ) -> list[str]:
         categories: list[str] = list(
             transactions.query(
-                f"({YearColumnSchema.year} == {year}) "
-                f"& ({MonthColumnSchema.month} == {month})"
+                f"({TransactionsSchema.year} == {year}) "
+                f"& ({TransactionsSchema.month} == {month})"
             )
-            .loc[:, RawTransactionsSchema.category]
+            .loc[:, TransactionsSchema.category]
             .unique()
         )
         return sorted(categories)

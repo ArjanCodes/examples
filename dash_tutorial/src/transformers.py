@@ -1,49 +1,38 @@
-import datetime as dt
-from typing import Protocol
-
 import pandas as pd
-from sklearn import pipeline
-from sklearn.base import BaseEstimator, TransformerMixin
 
 from src.config import SETTINGS
-from src.schema import DateColumnSchema, MonthColumnSchema, YearColumnSchema
+from src.schema import TransactionsSchema
 
 
-class DateFormats(Protocol):
-    date_format: str
-    year_format: str
-    month_format: str
+def preprocessing_pipeline(x: pd.DataFrame) -> pd.DataFrame:
+    return (
+        x.pipe(copy_dateframe)
+        .pipe(convert_to_datetime)
+        .pipe(create_year_from_date)
+        .pipe(create_month_from_date)
+    )
 
 
-def create_preprocessing_pipeline() -> pipeline.Pipeline:
-    return pipeline.make_pipeline(CreateYearFromDate(), CreateMonthFromDate())
+def copy_dateframe(x: pd.DataFrame) -> pd.DataFrame:
+    return x.copy()
 
 
-class CreateYearFromDate(BaseEstimator, TransformerMixin):
-    def fit(self, x: pd.DataFrame, y=None) -> "CreateYearFromDate":
-        DateColumnSchema.validate(x)
-        return self
-
-    def transform(self, x: pd.DataFrame, y=None) -> pd.DataFrame:
-        _x = x.copy()
-        _x.loc[:, YearColumnSchema.year] = (
-            _x.loc[:, DateColumnSchema.date]
-            .apply(lambda d: dt.datetime.strptime(d, SETTINGS.dates.date_format))
-            .apply(lambda d: dt.datetime.strftime(d, SETTINGS.dates.year_format))
-        )
-        return _x
+def convert_to_datetime(x: pd.DataFrame) -> pd.DataFrame:
+    x[TransactionsSchema.date] = pd.to_datetime(
+        x[TransactionsSchema.date], format=SETTINGS.dates.date_format
+    )
+    return x
 
 
-class CreateMonthFromDate(BaseEstimator, TransformerMixin):
-    def fit(self, x: pd.DataFrame, y=None) -> "CreateMonthFromDate":
-        DateColumnSchema.validate(x)
-        return self
+def create_year_from_date(x: pd.DataFrame) -> pd.DataFrame:
+    x[TransactionsSchema.year] = x[TransactionsSchema.date].dt.strftime(
+        SETTINGS.dates.year_format
+    )
+    return x
 
-    def transform(self, x: pd.DataFrame, y=None) -> pd.DataFrame:
-        _x = x.copy()
-        _x.loc[:, MonthColumnSchema.month] = (
-            _x.loc[:, DateColumnSchema.date]
-            .apply(lambda d: dt.datetime.strptime(d, SETTINGS.dates.date_format))
-            .apply(lambda d: dt.datetime.strftime(d, SETTINGS.dates.month_format))
-        )
-        return _x
+
+def create_month_from_date(x: pd.DataFrame) -> pd.DataFrame:
+    x[TransactionsSchema.month] = x[TransactionsSchema.date].dt.strftime(
+        SETTINGS.dates.month_format
+    )
+    return x

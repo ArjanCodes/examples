@@ -1,15 +1,7 @@
-black
 dash
-dash_pivottable
 dash-bootstrap-components
-dash-table
-flake8
-jupyter
-matplotlib
-numpy
 omegaconf
 pandas
 pandas-stubs
 pandera
 plotly
-scikit-learn

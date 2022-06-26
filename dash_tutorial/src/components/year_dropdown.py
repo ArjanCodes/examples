@@ -2,7 +2,7 @@ from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from src.config import SettingsSchema
 from src.defaults import get_year_options, get_year_values
-from src.schema import YearColumnSchema
+from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
 
@@ -25,7 +25,7 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
     ) -> tuple[list[str], int]:
         clicked = n_clicks <= previous_n_clicks
         new_years: list[str] = (
-            years if clicked else list(transactions[YearColumnSchema.year].unique())
+            years if clicked else list(set(transactions[TransactionsSchema.year]))
         )
         return sorted(new_years), n_clicks
 
