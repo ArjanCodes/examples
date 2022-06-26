@@ -8,7 +8,7 @@ from src.schema import TransactionsSchema
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
     @app.callback(
-        Output(settings.components.pie.id, "children"),
+        Output(settings.components.pie_chart.id, "children"),
         Input(settings.components.records.id, "data"),
     )
     def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
@@ -23,4 +23,4 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
         return dcc.Graph(figure=fig)
 
-    return html.Div(id=settings.components.pie.id)
+    return html.Div(id=settings.components.pie_chart.id)
