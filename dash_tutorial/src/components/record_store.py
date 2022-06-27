@@ -7,14 +7,16 @@ from src.config import SettingsSchema
 from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
+from . import ids
+
 
 def initialize(app: dash.Dash, settings: SettingsSchema) -> None:
     @app.callback(
-        Output(settings.components.records.id, "data"),
+        Output(ids.RECORDS, "data"),
         [
-            Input(settings.components.year_dropdown.id, "value"),
-            Input(settings.components.month_dropdown.id, "value"),
-            Input(settings.components.category_dropdown.id, "value"),
+            Input(ids.YEAR_DROPDOWN, "value"),
+            Input(ids.MONTH_DROPDOWN, "value"),
+            Input(ids.CATEGORY_DROPDOWN, "value"),
         ],
     )
     def filter_budget_records(

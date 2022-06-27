@@ -5,16 +5,18 @@ from src.defaults import get_category_options, get_category_values
 from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
+from . import ids
+
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
     transactions = load_transaction_data(settings.data.path)
 
     @app.callback(
-        Output(settings.components.category_dropdown.id, "value"),
+        Output(ids.CATEGORY_DROPDOWN, "value"),
         [
-            Input(settings.components.year_dropdown.id, "value"),
-            Input(settings.components.month_dropdown.id, "value"),
-            Input(settings.components.category_button.id, "n_clicks"),
+            Input(ids.YEAR_DROPDOWN, "value"),
+            Input(ids.MONTH_DROPDOWN, "value"),
+            Input(ids.CATEGORY_BUTTON, "n_clicks"),
         ],
     )
     def select_all_categories(
@@ -34,15 +36,15 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         children=[
             html.H6(settings.components.category_dropdown.title),
             dcc.Dropdown(
-                id=settings.components.category_dropdown.id,
+                id=ids.CATEGORY_DROPDOWN,
                 options=get_category_options(transactions),
                 value=get_category_values(transactions),
                 multi=True,
             ),
             html.Button(
-                className=settings.components.category_button.class_name,
+                className="dropdown-button",
                 children=[settings.components.category_button.title],
-                id=settings.components.category_button.id,
+                id=ids.CATEGORY_BUTTON,
                 n_clicks=0,
             ),
         ],

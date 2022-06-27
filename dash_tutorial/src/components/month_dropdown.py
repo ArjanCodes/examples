@@ -5,20 +5,22 @@ from src.defaults import get_month_options, get_month_values
 from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
+from . import ids
+
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
     transactions = load_transaction_data(settings.data.path)
 
     @app.callback(
         [
-            Output(settings.components.month_dropdown.id, "value"),
-            Output(settings.components.month_button_clicks.id, "data"),
+            Output(ids.MONTH_DROPDOWN, "value"),
+            Output(ids.MONTH_BUTTON_CLICKS, "data"),
         ],
         [
-            Input(settings.components.year_dropdown.id, "value"),
-            Input(settings.components.month_dropdown.id, "value"),
-            Input(settings.components.month_button.id, "n_clicks"),
-            Input(settings.components.month_button_clicks.id, "data"),
+            Input(ids.YEAR_DROPDOWN, "value"),
+            Input(ids.MONTH_DROPDOWN, "value"),
+            Input(ids.MONTH_BUTTON, "n_clicks"),
+            Input(ids.MONTH_BUTTON_CLICKS, "data"),
         ],
     )
     def select_all_months(
@@ -39,15 +41,15 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         children=[
             html.H6(settings.components.month_dropdown.title),
             dcc.Dropdown(
-                id=settings.components.month_dropdown.id,
+                id=ids.MONTH_DROPDOWN,
                 options=get_month_options(transactions),
                 value=get_month_values(),
                 multi=True,
             ),
             html.Button(
-                className=settings.components.month_button.class_name,
+                className="dropdown-button",
                 children=[settings.components.month_button.title],
-                id=settings.components.month_button.id,
+                id=ids.MONTH_BUTTON,
                 n_clicks=0,
             ),
         ]

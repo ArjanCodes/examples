@@ -5,11 +5,13 @@ from dash.dependencies import Input, Output
 from src.config import SettingsSchema
 from src.schema import TransactionsSchema
 
+from . import ids
+
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
     @app.callback(
-        Output(settings.components.pie_chart.id, "children"),
-        Input(settings.components.records.id, "data"),
+        Output(ids.PIE_CHART, "children"),
+        Input(ids.RECORDS, "data"),
     )
     def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
         pivot_table = pd.DataFrame(pivot_table_records)
@@ -23,4 +25,4 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
         return dcc.Graph(figure=fig)
 
-    return html.Div(id=settings.components.pie_chart.id)
+    return html.Div(id=ids.PIE_CHART)

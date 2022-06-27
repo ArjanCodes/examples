@@ -8,7 +8,6 @@ SETTINGS_PATH = "./config/settings.yaml"
 
 @dataclass
 class SimpleComponent:
-    id: str = oc.MISSING
     class_name: Optional[str] = None
     title: Optional[str] = None
 

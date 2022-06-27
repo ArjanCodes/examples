@@ -5,19 +5,21 @@ from src.defaults import get_year_options, get_year_values
 from src.schema import TransactionsSchema
 from src.transactions import load_transaction_data
 
+from . import ids
+
 
 def render(app: Dash, settings: SettingsSchema) -> html.Div:
     transactions = load_transaction_data(settings.data.path)
 
     @app.callback(
         [
-            Output(settings.components.year_dropdown.id, "value"),
-            Output(settings.components.year_button_clicks.id, "data"),
+            Output(ids.YEAR_DROPDOWN, "value"),
+            Output(ids.YEAR_BUTTON_CLICKS, "data"),
         ],
         [
-            Input(settings.components.year_dropdown.id, "value"),
-            Input(settings.components.year_button.id, "n_clicks"),
-            Input(settings.components.year_button_clicks.id, "data"),
+            Input(ids.YEAR_DROPDOWN, "value"),
+            Input(ids.YEAR_BUTTON, "n_clicks"),
+            Input(ids.YEAR_BUTTON_CLICKS, "data"),
         ],
     )
     def select_all_years(
@@ -33,15 +35,15 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
         children=[
             html.H6(settings.components.year_dropdown.title),
             dcc.Dropdown(
-                id=settings.components.year_dropdown.id,
+                id=ids.YEAR_DROPDOWN,
                 options=get_year_options(transactions),
                 value=get_year_values(),
                 multi=True,
             ),
             html.Button(
-                className=settings.components.year_button.class_name,
+                className="dropdown-button",
                 children=[settings.components.year_button.title],
-                id=settings.components.year_button.id,
+                id=ids.YEAR_BUTTON,
                 n_clicks=0,
             ),
         ]
