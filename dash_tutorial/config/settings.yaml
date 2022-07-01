@@ -1,34 +1,4 @@
 ---
-_DEFAULTS:
-  BUTTON_CLASS: dropdown-button
-  BUTTON_TEXT: Select All
-app:
-  html_class_name: app-div
-  title: Financial Dashboard
-components:
-  category_button:
-    title: ${_DEFAULTS.BUTTON_TEXT}
-  category_dropdown:
-    title: Category
-  month_button:
-    title: ${_DEFAULTS.BUTTON_TEXT}
-  month_dropdown:
-    title: Month
-  year_button:
-    title: ${_DEFAULTS.BUTTON_TEXT}
-  year_dropdown:
-    title: Year
-data:
-  columns:
-    amount: amount
-    category: category
-    date: date
-    month: month
-    year: year
-  path: ./data/transactions.csv
-dates:
-  date_format: "%Y-%m-%d"
-  day_format: "%d"
-  month_format: "%m-%b"
-  year_format: "%Y"
+data_path: ./data/transactions.csv
+locale: nl_NL
 debug: false

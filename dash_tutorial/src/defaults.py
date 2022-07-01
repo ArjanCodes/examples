@@ -2,7 +2,6 @@ from datetime import datetime
 
 import pandas as pd
 
-from src.config import SETTINGS
 from src.schema import TransactionsSchema
 
 
@@ -38,4 +37,4 @@ def get_year_values() -> list[str]:
 
 
 def get_month_values() -> list[str]:
-    return [datetime.now().strftime(SETTINGS.dates.month_format)]
+    return [datetime.now().strftime("%m-%b")]

@@ -1,16 +1,14 @@
+import i18n
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from src.config import SettingsSchema
+from pandas import DataFrame
 from src.defaults import get_category_options, get_category_values
 from src.schema import TransactionsSchema
-from src.transactions import load_transaction_data
 
 from . import ids
 
 
-def render(app: Dash, settings: SettingsSchema) -> html.Div:
-    transactions = load_transaction_data(settings.data.path)
-
+def render(app: Dash, transactions: DataFrame) -> html.Div:
     @app.callback(
         Output(ids.CATEGORY_DROPDOWN, "value"),
         [
@@ -34,16 +32,17 @@ def render(app: Dash, settings: SettingsSchema) -> html.Div:
 
     return html.Div(
         children=[
-            html.H6(settings.components.category_dropdown.title),
+            html.H6(i18n.t("general.category")),
             dcc.Dropdown(
                 id=ids.CATEGORY_DROPDOWN,
                 options=get_category_options(transactions),
                 value=get_category_values(transactions),
                 multi=True,
+                placeholder=i18n.t("general.select"),
             ),
             html.Button(
                 className="dropdown-button",
-                children=[settings.components.category_button.title],
+                children=[i18n.t("general.select_all")],
                 id=ids.CATEGORY_BUTTON,
                 n_clicks=0,
             ),

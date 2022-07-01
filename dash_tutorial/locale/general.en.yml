@@ -1,0 +1,9 @@
+en:
+  hello_world: Hello, world!
+  app_title: Financial Dashboard
+  category: Category
+  amount: Amount
+  year: Year
+  month: Month
+  select: Select...
+  select_all: Select all

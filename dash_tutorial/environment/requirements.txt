@@ -5,3 +5,4 @@ pandas
 pandas-stubs
 pandera
 plotly
+python-i18n
