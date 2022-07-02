@@ -1,8 +1,6 @@
-import locale
-
 import pandas as pd
 
-from src.schema import TransactionsSchema
+from src.schema import DataSchema
 
 
 def preprocessing_pipeline(x: pd.DataFrame) -> pd.DataFrame:
@@ -19,19 +17,17 @@ def copy_dateframe(x: pd.DataFrame) -> pd.DataFrame:
 
 
 def convert_to_datetime(x: pd.DataFrame) -> pd.DataFrame:
-    x[TransactionsSchema.date] = pd.to_datetime(
-        x[TransactionsSchema.date], format="%Y-%m-%d"
+    x[DataSchema.DATE.value] = pd.to_datetime(
+        x[DataSchema.DATE.value], format="%Y-%m-%d"
     )
     return x
 
 
 def create_year_from_date(x: pd.DataFrame) -> pd.DataFrame:
-    x[TransactionsSchema.year] = x[TransactionsSchema.date].dt.strftime("%Y")
+    x[DataSchema.YEAR.value] = x[DataSchema.DATE.value].dt.strftime("%Y")
     return x
 
 
 def create_month_from_date(x: pd.DataFrame) -> pd.DataFrame:
-    # I'm struggling with how to properly localize dates...
-    date_format = locale.nl_langinfo(locale.D_FMT)
-    x[TransactionsSchema.month] = x[TransactionsSchema.date].dt.strftime("%m-%b")
+    x[DataSchema.MONTH.value] = x[DataSchema.DATE.value].dt.strftime("%m-%b")
     return x

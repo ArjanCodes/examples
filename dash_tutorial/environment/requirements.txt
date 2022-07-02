@@ -3,6 +3,5 @@ dash-bootstrap-components
 omegaconf
 pandas
 pandas-stubs
-pandera
 plotly
 python-i18n

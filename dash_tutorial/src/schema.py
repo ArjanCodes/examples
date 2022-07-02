@@ -1,16 +1,10 @@
-import numpy as np
-import pandera as pa
+import enum
 
 
-class RawTransactionsSchema(pa.SchemaModel):
-    date: pa.typing.Series[str]
-    amount: pa.typing.Series[float]
-    category: pa.typing.Series[str]
-
-
-class TransactionsSchema(pa.SchemaModel):
-    date: pa.typing.Series[np.datetime64]
-    amount: pa.typing.Series[float]
-    category: pa.typing.Series[str]
-    year: pa.typing.Series[str]
-    month: pa.typing.Series[str]
+@enum.unique
+class DataSchema(enum.Enum):
+    DATE = "date"
+    AMOUNT = "amount"
+    CATEGORY = "category"
+    YEAR = "year"
+    MONTH = "month"
