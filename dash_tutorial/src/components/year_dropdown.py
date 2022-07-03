@@ -2,7 +2,6 @@ import i18n
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from pandas import DataFrame
-from src.data import DataSchema
 from src.defaults import get_year_options, get_year_values
 
 from . import ids
