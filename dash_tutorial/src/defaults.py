@@ -1,8 +1,6 @@
-from datetime import datetime
-
 import pandas as pd
 
-from src.schema import DataSchema
+from src.data import DataSchema
 
 
 def get_year_options(transactions: pd.DataFrame) -> list[dict[str, str]]:
@@ -23,14 +21,18 @@ def get_category_options(transactions: pd.DataFrame) -> list[dict[str, str]]:
     return final_options
 
 
-def get_category_values(transactions: pd.DataFrame) -> list[str]:
-    categories = transactions.loc[:, DataSchema.CATEGORY.value].unique()
-    return sorted(filter(lambda category: not pd.isna(category), categories))
+def get_uniques(data: pd.DataFrame, col: str) -> list[str]:
+    values: "pd.Series[str]" = data[col]
+    return list(set(values))
 
 
-def get_year_values() -> list[str]:
-    return [str(datetime.now().year)]
+def get_year_values(data: pd.DataFrame) -> list[str]:
+    return get_uniques(data, DataSchema.YEAR.value)
 
 
-def get_month_values() -> list[str]:
-    return [datetime.now().strftime("%m-%b")]
+def get_month_values(data: pd.DataFrame) -> list[str]:
+    return get_uniques(data, DataSchema.MONTH.value)
+
+
+def get_category_values(data: pd.DataFrame) -> list[str]:
+    return get_uniques(data, DataSchema.CATEGORY.value)

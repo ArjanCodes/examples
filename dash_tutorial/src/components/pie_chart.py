@@ -1,10 +1,8 @@
-import i18n
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from src.config import SettingsSchema
-from src.schema import DataSchema
+from src.data import DataSchema
 
 from . import ids
 
