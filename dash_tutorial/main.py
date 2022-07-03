@@ -1,3 +1,5 @@
+import locale
+
 import i18n
 from dash import Dash
 from dash_bootstrap_components.themes import BOOTSTRAP
@@ -14,6 +16,8 @@ def main() -> None:
     data = load_transaction_data(settings.data_path)
 
     # set the locale and load the translations
+    locale.setlocale(locale.LC_ALL, settings.locale)
+    i18n.set("locale", settings.locale)
     i18n.load_path.append("locale")
 
     app = Dash(external_stylesheets=[BOOTSTRAP])
