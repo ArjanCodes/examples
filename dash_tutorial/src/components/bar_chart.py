@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from src.config import SettingsSchema
+from src.data import DataSchema
 
 from . import ids
 
@@ -14,19 +14,18 @@ def render(app: Dash) -> html.Div:
         Input(ids.RECORDS, "data"),
     )
     def update_bar_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
-        print(pivot_table_records)
         pivot_table = pd.DataFrame(pivot_table_records).sort_values(
-            "amount", ascending=False
+            DataSchema.AMOUNT.value, ascending=False
         )
         fig = px.bar(
             pivot_table,
-            x="amount",
-            y="category",
-            color="category",
+            x=DataSchema.AMOUNT.value,
+            y=DataSchema.CATEGORY.value,
+            color=DataSchema.CATEGORY.value,
             orientation="h",
             labels={
-                "category": i18n.t("general.category"),
-                "amount": i18n.t("general.amount"),
+                DataSchema.CATEGORY.value: i18n.t("general.category"),
+                DataSchema.AMOUNT.value: i18n.t("general.amount"),
             },
         )
         return dcc.Graph(figure=fig)

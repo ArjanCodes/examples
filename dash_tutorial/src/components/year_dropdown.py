@@ -2,10 +2,7 @@ import i18n
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from pandas import DataFrame
-from src.config import SettingsSchema
 from src.defaults import get_year_options, get_year_values
-from src.schema import TransactionsSchema
-from src.transactions import load_transaction_data
 
 from . import ids
 
@@ -26,9 +23,7 @@ def render(app: Dash, data: DataFrame) -> html.Div:
         years: list[str], n_clicks: int, previous_n_clicks: int
     ) -> tuple[list[str], int]:
         clicked = n_clicks <= previous_n_clicks
-        new_years: list[str] = (
-            years if clicked else list(set(data[TransactionsSchema.year]))
-        )
+        new_years: list[str] = years if clicked else get_year_values(data)
         return sorted(new_years), n_clicks
 
     return html.Div(
@@ -37,7 +32,7 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             dcc.Dropdown(
                 id=ids.YEAR_DROPDOWN,
                 options=get_year_options(data),
-                value=get_year_values(),
+                value=get_year_values(data),
                 multi=True,
             ),
             html.Button(

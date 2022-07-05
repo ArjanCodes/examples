@@ -1,9 +1,10 @@
 import i18n
+import pandas as pd
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 from pandas import DataFrame
+from src.data import DataSchema
 from src.defaults import get_category_options, get_category_values
-from src.schema import TransactionsSchema
 
 from . import ids
 
@@ -20,15 +21,14 @@ def render(app: Dash, transactions: DataFrame) -> html.Div:
     def select_all_categories(
         year: list[int], month: list[int], _: list[int]
     ) -> list[str]:
-        categories: list[str] = list(
-            transactions.query(
-                f"({TransactionsSchema.year} == {year}) "
-                f"& ({TransactionsSchema.month} == {month})"
-            )
-            .loc[:, TransactionsSchema.category]
-            .unique()
+        query_string = (
+            f"({DataSchema.YEAR.value} == {year})"
+            f" & ({DataSchema.MONTH.value} == {month})"
         )
-        return sorted(categories)
+        categories: "pd.Series[str]" = transactions.query(query_string)[
+            DataSchema.CATEGORY.value
+        ]
+        return sorted(list(set(categories)))
 
     return html.Div(
         children=[

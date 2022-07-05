@@ -1,9 +1,8 @@
-import i18n
 import pandas as pd
 import plotly.graph_objects as go
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from src.config import SettingsSchema
+from src.data import DataSchema
 
 from . import ids
 
@@ -16,8 +15,8 @@ def render(app: Dash) -> html.Div:
     def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
         pivot_table = pd.DataFrame(pivot_table_records)
         pie = go.Pie(
-            labels=pivot_table.loc[:, "category"],
-            values=pivot_table.loc[:, "amount"],
+            labels=pivot_table.loc[:, DataSchema.CATEGORY.value],
+            values=pivot_table.loc[:, DataSchema.AMOUNT.value],
             hole=0.5,
         )
         fig = go.Figure(data=[pie])
