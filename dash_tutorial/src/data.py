@@ -4,8 +4,6 @@ import enum
 import babel.dates
 import pandas as pd
 
-from src.config import load_settings
-
 
 @enum.unique
 class DataSchema(enum.Enum):
@@ -29,8 +27,7 @@ def convert_locale(
     return converted_dates
 
 
-def load_transaction_data(path: str) -> pd.DataFrame:
-    settings = load_settings()
+def load_transaction_data(path: str, locale: str) -> pd.DataFrame:
     data = pd.read_csv(
         path,
         dtype={
@@ -41,7 +38,5 @@ def load_transaction_data(path: str) -> pd.DataFrame:
         },
         parse_dates=[DataSchema.DATE.value],
     )
-    data[DataSchema.MONTH.value] = convert_locale(
-        data[DataSchema.MONTH.value], settings.locale
-    )
+    data[DataSchema.MONTH.value] = convert_locale(data[DataSchema.MONTH.value], locale)
     return data

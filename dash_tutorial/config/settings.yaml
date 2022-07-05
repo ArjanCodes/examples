@@ -1,4 +1,0 @@
----
-data_path: ./data/transactions.csv
-locale: nl_NL
-debug: false

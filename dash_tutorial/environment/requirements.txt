@@ -1,7 +1,6 @@
 Babel
 dash
 dash-bootstrap-components
-omegaconf
 pandas
 pandas-stubs
 plotly
