@@ -9,13 +9,13 @@ from src.defaults import get_category_options, get_category_values
 from . import ids
 
 
-def render(app: Dash, transactions: DataFrame) -> html.Div:
+def render(app: Dash, data: DataFrame) -> html.Div:
     @app.callback(
         Output(ids.CATEGORY_DROPDOWN, "value"),
         [
             Input(ids.YEAR_DROPDOWN, "value"),
             Input(ids.MONTH_DROPDOWN, "value"),
-            Input(ids.CATEGORY_BUTTON, "n_clicks"),
+            Input(ids.SELECT_ALL_CATEGORIES_BUTTON, "n_clicks"),
         ],
     )
     def select_all_categories(
@@ -25,25 +25,23 @@ def render(app: Dash, transactions: DataFrame) -> html.Div:
             f"({DataSchema.YEAR.value} == {year})"
             f" & ({DataSchema.MONTH.value} == {month})"
         )
-        categories: "pd.Series[str]" = transactions.query(query_string)[
-            DataSchema.CATEGORY.value
-        ]
-        return sorted(list(set(categories)))
+        categories: set[str] = set(data.query(query_string)[DataSchema.CATEGORY.value])
+        return sorted(list(categories))
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.category")),
             dcc.Dropdown(
                 id=ids.CATEGORY_DROPDOWN,
-                options=get_category_options(transactions),
-                value=get_category_values(transactions),
+                options=get_category_options(data),
+                value=get_category_values(data),
                 multi=True,
                 placeholder=i18n.t("general.select"),
             ),
             html.Button(
                 className="dropdown-button",
                 children=[i18n.t("general.select_all")],
-                id=ids.CATEGORY_BUTTON,
+                id=ids.SELECT_ALL_CATEGORIES_BUTTON,
                 n_clicks=0,
             ),
         ],

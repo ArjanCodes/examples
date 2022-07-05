@@ -33,8 +33,5 @@ def create_layout(app: Dash, data: DataFrame) -> html.Div:
             bar_chart.render(app),
             pie_chart.render(app),
             dcc.Store(id=ids.RECORDS),
-            dcc.Store(id=ids.YEAR_BUTTON_CLICKS, data=0),
-            dcc.Store(id=ids.MONTH_BUTTON_CLICKS, data=0),
-            dcc.Store(id=ids.CATEGORY_BUTTON_CLICKS, data=0),
         ],
     )

@@ -1,6 +1,6 @@
 import i18n
 from dash import Dash, dcc, html
-from dash.dependencies import Input, Output
+from dash.dependencies import Input, Output, State
 from pandas import DataFrame
 from src.data import DataSchema
 from src.defaults import get_month_options, get_month_values
@@ -10,26 +10,15 @@ from . import ids
 
 def render(app: Dash, data: DataFrame) -> html.Div:
     @app.callback(
-        [
-            Output(ids.MONTH_DROPDOWN, "value"),
-            Output(ids.MONTH_BUTTON_CLICKS, "data"),
-        ],
+        Output(ids.MONTH_DROPDOWN, "value"),
         [
             Input(ids.YEAR_DROPDOWN, "value"),
-            Input(ids.MONTH_DROPDOWN, "value"),
-            Input(ids.MONTH_BUTTON, "n_clicks"),
-            Input(ids.MONTH_BUTTON_CLICKS, "data"),
+            Input(ids.SELECT_ALL_MONTHS_BUTTON, "n_clicks"),
         ],
     )
-    def select_all_months(
-        years: list[int], months: list[str], n_clicks: int, previous_n_clicks: int
-    ) -> tuple[list[str], int]:
+    def select_all_months(years: list[int], _: int) -> list[str]:
         filtered_transactions = data.query(f"{DataSchema.YEAR.value} == {years}")
-        clicked = n_clicks <= previous_n_clicks
-        new_months: list[str] = (
-            months if clicked else get_month_values(filtered_transactions)
-        )
-        return sorted(new_months), n_clicks
+        return sorted(get_month_values(filtered_transactions))
 
     return html.Div(
         children=[
@@ -43,7 +32,7 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             html.Button(
                 className="dropdown-button",
                 children=[i18n.t("general.select_all")],
-                id=ids.MONTH_BUTTON,
+                id=ids.SELECT_ALL_MONTHS_BUTTON,
                 n_clicks=0,
             ),
         ]

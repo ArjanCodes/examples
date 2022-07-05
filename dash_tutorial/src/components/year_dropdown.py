@@ -9,22 +9,11 @@ from . import ids
 
 def render(app: Dash, data: DataFrame) -> html.Div:
     @app.callback(
-        [
-            Output(ids.YEAR_DROPDOWN, "value"),
-            Output(ids.YEAR_BUTTON_CLICKS, "data"),
-        ],
-        [
-            Input(ids.YEAR_DROPDOWN, "value"),
-            Input(ids.YEAR_BUTTON, "n_clicks"),
-            Input(ids.YEAR_BUTTON_CLICKS, "data"),
-        ],
+        Output(ids.YEAR_DROPDOWN, "value"),
+        Input(ids.SELECT_ALL_YEARS_BUTTON, "n_clicks"),
     )
-    def select_all_years(
-        years: list[str], n_clicks: int, previous_n_clicks: int
-    ) -> tuple[list[str], int]:
-        clicked = n_clicks <= previous_n_clicks
-        new_years: list[str] = years if clicked else get_year_values(data)
-        return sorted(new_years), n_clicks
+    def select_all_years(n_clicks: int) -> list[str]:
+        return sorted(get_year_values(data))
 
     return html.Div(
         children=[
@@ -38,7 +27,7 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             html.Button(
                 className="dropdown-button",
                 children=[i18n.t("general.select_all")],
-                id=ids.YEAR_BUTTON,
+                id=ids.SELECT_ALL_YEARS_BUTTON,
                 n_clicks=0,
             ),
         ]

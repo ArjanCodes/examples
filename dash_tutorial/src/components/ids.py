@@ -1,15 +1,12 @@
-CATEGORY_BUTTON = "select-all-category-button"
-CATEGORY_BUTTON_CLICKS = "select-all-category-button-clicks"
+SELECT_ALL_CATEGORIES_BUTTON = "select-all-categories-button"
 CATEGORY_DROPDOWN = "category-dropdown"
 
 BAR_CHART = "bar-chart"
 PIE_CHART = "pie-chart"
 RECORDS = "records"
 
-MONTH_BUTTON = "month-button"
+SELECT_ALL_MONTHS_BUTTON = "select-all-months-button"
 MONTH_DROPDOWN = "month-dropdown"
-MONTH_BUTTON_CLICKS = "month-button-clicks"
 
 YEAR_DROPDOWN = "year-dropdown"
-YEAR_BUTTON = "year-button"
-YEAR_BUTTON_CLICKS = "year-button-clicks"
+SELECT_ALL_YEARS_BUTTON = "select-all-years-button"
