@@ -12,7 +12,7 @@ def render(app: Dash, data: DataFrame) -> html.Div:
         Output(ids.YEAR_DROPDOWN, "value"),
         Input(ids.SELECT_ALL_YEARS_BUTTON, "n_clicks"),
     )
-    def select_all_years(n_clicks: int) -> list[str]:
+    def select_all_years(_: int) -> list[str]:
         return sorted(get_year_values(data))
 
     return html.Div(
