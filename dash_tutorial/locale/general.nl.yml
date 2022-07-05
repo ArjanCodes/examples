@@ -1,9 +1,11 @@
+---
 nl:
-  hello_world: Hallo, wereld!
+  amount: Bedrag
   app_title: Financieel Dashboard
   category: Categorie
-  amount: Bedrag
-  year: Jaar
+  hello_world: Hallo, wereld!
   month: Maand
+  no_data: Geen gegevens geselecteerd
   select: Selecteer...
   select_all: Selecteer alles
+  year: Jaar
