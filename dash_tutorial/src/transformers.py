@@ -1,5 +1,3 @@
-import locale
-
 import pandas as pd
 
 from src.schema import TransactionsSchema
@@ -31,7 +29,5 @@ def create_year_from_date(x: pd.DataFrame) -> pd.DataFrame:
 
 
 def create_month_from_date(x: pd.DataFrame) -> pd.DataFrame:
-    # I'm struggling with how to properly localize dates...
-    date_format = locale.nl_langinfo(locale.D_FMT)
     x[TransactionsSchema.month] = x[TransactionsSchema.date].dt.strftime("%m-%b")
     return x
