@@ -15,7 +15,6 @@ def render(app: Dash, data_manager: DataManager) -> html.Div:
         ],
     )
     def select_all_months(years: list[str], _: int) -> list[str]:
-        print(years)
         return data_manager.month_values(years)
 
     return html.Div(
