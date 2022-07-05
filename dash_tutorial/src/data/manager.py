@@ -16,16 +16,6 @@ class DataManager:
     _data: pd.DataFrame
 
     @property
-    def year_options(self) -> list[dict[str, str]]:
-        available_years: set[str] = set(self._data.loc[:, DataSchema.YEAR.value])
-        return [{"label": i, "value": i} for i in available_years]
-
-    @property
-    def month_options(self) -> list[dict[str, str]]:
-        available_months: set[str] = set(self._data.loc[:, DataSchema.MONTH.value])
-        return [{"label": i, "value": i} for i in available_months]
-
-    @property
     def category_options(self) -> list[dict[str, str]]:
         categories = get_uniques(self._data, DataSchema.CATEGORY.value)
         base_options = [{"label": i, "value": i} for i in categories]

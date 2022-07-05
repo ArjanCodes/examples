@@ -1,12 +1,18 @@
+from typing import Callable
+
 import i18n
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
-from ..data.manager import DataManager
 from . import ids
+from .dropdown_helper import to_dropdown_options
+
+MonthReader = Callable[[list[str] | None], list[str]]
 
 
-def render(app: Dash, data_manager: DataManager) -> html.Div:
+def render(app: Dash, month_reader: MonthReader) -> html.Div:
+    all_months = month_reader(None)
+
     @app.callback(
         Output(ids.MONTH_DROPDOWN, "value"),
         [
@@ -15,15 +21,15 @@ def render(app: Dash, data_manager: DataManager) -> html.Div:
         ],
     )
     def select_all_months(years: list[str], _: int) -> list[str]:
-        return data_manager.month_values(years)
+        return month_reader(years)
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.month")),
             dcc.Dropdown(
                 id=ids.MONTH_DROPDOWN,
-                options=data_manager.month_options,
-                value=data_manager.month_values(),
+                options=to_dropdown_options(all_months),
+                value=all_months,
                 multi=True,
             ),
             html.Button(

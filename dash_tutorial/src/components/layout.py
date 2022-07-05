@@ -25,8 +25,8 @@ def create_layout(app: Dash, data_manager: DataManager) -> html.Div:
             html.Div(
                 className="dropdown-container",
                 children=[
-                    year_dropdown.render(app, data_manager),
-                    month_dropdown.render(app, data_manager),
+                    year_dropdown.render(app, data_manager.year_values),
+                    month_dropdown.render(app, data_manager.month_values),
                     category_dropdown.render(app, data_manager),
                 ],
             ),
