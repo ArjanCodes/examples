@@ -1,9 +1,11 @@
+---
 en:
-  hello_world: Hello, world!
+  amount: Amount
   app_title: Financial Dashboard
   category: Category
-  amount: Amount
-  year: Year
+  hello_world: Hello, world!
   month: Month
+  no_data: No data selected
   select: Select...
   select_all: Select all
+  year: Year

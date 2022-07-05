@@ -13,7 +13,9 @@ def render(app: Dash) -> html.Div:
         Output(ids.BAR_CHART, "children"),
         Input(ids.RECORDS, "data"),
     )
-    def update_bar_chart(pivot_table_records: list[dict[str, float]]) -> dcc.Graph:
+    def update_bar_chart(pivot_table_records: list[dict[str, float]]) -> html.Div:
+        if len(pivot_table_records) == 0:
+            return html.Div(i18n.t("general.no_data"))
         pivot_table = pd.DataFrame(pivot_table_records).sort_values(
             DataSchema.AMOUNT.value, ascending=False
         )
@@ -28,6 +30,6 @@ def render(app: Dash) -> html.Div:
                 DataSchema.AMOUNT.value: i18n.t("general.amount"),
             },
         )
-        return dcc.Graph(figure=fig)
+        return html.Div(dcc.Graph(figure=fig))
 
     return html.Div(id=ids.BAR_CHART)
