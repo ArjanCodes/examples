@@ -3,7 +3,8 @@ from dash import Dash
 from dash_bootstrap_components.themes import BOOTSTRAP
 
 from src.components.layout import create_layout
-from src.data import load_transaction_data
+from src.data.loader import load_transaction_data
+from src.data.manager import DataManager
 
 LOCALE = "nl"
 DEBUG = False
@@ -12,8 +13,9 @@ DATA_PATH = "./data/transactions.csv"
 
 def main() -> None:
 
-    # load the data
+    # load the data and create the data manager
     data = load_transaction_data(DATA_PATH, LOCALE)
+    data_manager = DataManager(data)
 
     # set the locale and load the translations
     i18n.set("locale", LOCALE)
@@ -21,7 +23,7 @@ def main() -> None:
 
     app = Dash(external_stylesheets=[BOOTSTRAP])
     app.title = i18n.t("general.app_title")
-    app.layout = create_layout(app, data)
+    app.layout = create_layout(app, data_manager)
     app.run_server(debug=DEBUG)
 
 

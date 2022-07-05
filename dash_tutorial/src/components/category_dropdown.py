@@ -1,15 +1,13 @@
 import i18n
-import pandas as pd
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from pandas import DataFrame
-from src.data import DataSchema
-from src.defaults import get_category_options, get_category_values
+from src.data.loader import DataSchema
+from src.data.manager import DataManager
 
 from . import ids
 
 
-def render(app: Dash, data: DataFrame) -> html.Div:
+def render(app: Dash, data_manager: DataManager) -> html.Div:
     @app.callback(
         Output(ids.CATEGORY_DROPDOWN, "value"),
         [
@@ -25,7 +23,9 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             f"({DataSchema.YEAR.value} == {year})"
             f" & ({DataSchema.MONTH.value} == {month})"
         )
-        categories: set[str] = set(data.query(query_string)[DataSchema.CATEGORY.value])
+        categories: set[str] = set(
+            data_manager._data.query(query_string)[DataSchema.CATEGORY.value]
+        )
         return sorted(list(categories))
 
     return html.Div(
@@ -33,8 +33,8 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             html.H6(i18n.t("general.category")),
             dcc.Dropdown(
                 id=ids.CATEGORY_DROPDOWN,
-                options=get_category_options(data),
-                value=get_category_values(data),
+                options=data_manager.category_options,
+                value=data_manager.category_values,
                 multi=True,
                 placeholder=i18n.t("general.select"),
             ),

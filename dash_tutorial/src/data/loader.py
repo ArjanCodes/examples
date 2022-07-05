@@ -1,5 +1,5 @@
-import datetime as dt
 import enum
+from datetime import datetime
 
 import babel.dates
 import pandas as pd
@@ -15,16 +15,16 @@ class DataSchema(enum.Enum):
 
 
 def convert_locale(
-    s: "pd.Series[str]",
+    dates: "pd.Series[str]",
     locale: str = "en",
     datetime_fmt: str = "%m-%b",
     babel_fmt: str = "MM-MMM",
 ) -> "pd.Series[str]":
-    dates: "pd.Series[str]" = s.apply(lambda _: dt.datetime.strptime(_, datetime_fmt))
-    converted_dates: "pd.Series[str]" = dates.apply(
-        lambda _: babel.dates.format_date(_, format=babel_fmt, locale=locale)
-    )
-    return converted_dates
+    def date_repr(date_str: str) -> str:
+        date = datetime.strptime(date_str, datetime_fmt)
+        return babel.dates.format_date(date, format=babel_fmt, locale=locale)
+
+    return dates.apply(date_repr)
 
 
 def load_transaction_data(path: str, locale: str) -> pd.DataFrame:

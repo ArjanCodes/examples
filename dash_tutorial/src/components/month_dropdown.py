@@ -1,14 +1,12 @@
 import i18n
 from dash import Dash, dcc, html
-from dash.dependencies import Input, Output, State
-from pandas import DataFrame
-from src.data import DataSchema
-from src.defaults import get_month_options, get_month_values
+from dash.dependencies import Input, Output
 
+from ..data.manager import DataManager
 from . import ids
 
 
-def render(app: Dash, data: DataFrame) -> html.Div:
+def render(app: Dash, data_manager: DataManager) -> html.Div:
     @app.callback(
         Output(ids.MONTH_DROPDOWN, "value"),
         [
@@ -16,17 +14,17 @@ def render(app: Dash, data: DataFrame) -> html.Div:
             Input(ids.SELECT_ALL_MONTHS_BUTTON, "n_clicks"),
         ],
     )
-    def select_all_months(years: list[int], _: int) -> list[str]:
-        filtered_transactions = data.query(f"{DataSchema.YEAR.value} == {years}")
-        return sorted(get_month_values(filtered_transactions))
+    def select_all_months(years: list[str], _: int) -> list[str]:
+        print(years)
+        return data_manager.month_values(years)
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.month")),
             dcc.Dropdown(
                 id=ids.MONTH_DROPDOWN,
-                options=get_month_options(data),
-                value=get_month_values(data),
+                options=data_manager.month_options,
+                value=data_manager.month_values(),
                 multi=True,
             ),
             html.Button(

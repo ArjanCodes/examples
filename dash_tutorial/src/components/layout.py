@@ -1,5 +1,4 @@
 from dash import Dash, dcc, html
-from pandas import DataFrame
 from src.components import (
     bar_chart,
     category_dropdown,
@@ -8,13 +7,14 @@ from src.components import (
     record_store,
     year_dropdown,
 )
+from src.data.manager import DataManager
 
 from . import ids
 
 
-def create_layout(app: Dash, data: DataFrame) -> html.Div:
+def create_layout(app: Dash, data_manager: DataManager) -> html.Div:
     # initialize the record store
-    record_store.initialize(app, data)
+    record_store.initialize(app, data_manager)
 
     # create the layout
     return html.Div(
@@ -25,9 +25,9 @@ def create_layout(app: Dash, data: DataFrame) -> html.Div:
             html.Div(
                 className="dropdown-container",
                 children=[
-                    year_dropdown.render(app, data),
-                    month_dropdown.render(app, data),
-                    category_dropdown.render(app, data),
+                    year_dropdown.render(app, data_manager),
+                    month_dropdown.render(app, data_manager),
+                    category_dropdown.render(app, data_manager),
                 ],
             ),
             bar_chart.render(app),

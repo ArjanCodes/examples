@@ -3,7 +3,7 @@ import pandas as pd
 import plotly.express as px
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from src.data import DataSchema
+from src.data.loader import DataSchema
 
 from . import ids
 
