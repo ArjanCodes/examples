@@ -7,14 +7,14 @@ from src.components import (
     record_store,
     year_dropdown,
 )
-from src.data.manager import DataManager
 
+from ..data.source import DataSource
 from . import ids
 
 
-def create_layout(app: Dash, data_manager: DataManager) -> html.Div:
+def create_layout(app: Dash, data: DataSource) -> html.Div:
     # initialize the record store
-    record_store.initialize(app, data_manager)
+    record_store.initialize(app, data)
 
     # create the layout
     return html.Div(
@@ -25,9 +25,9 @@ def create_layout(app: Dash, data_manager: DataManager) -> html.Div:
             html.Div(
                 className="dropdown-container",
                 children=[
-                    year_dropdown.render(app, data_manager.year_values),
-                    month_dropdown.render(app, data_manager.month_values),
-                    category_dropdown.render(app, data_manager),
+                    year_dropdown.render(app, data),
+                    month_dropdown.render(app, data),
+                    category_dropdown.render(app, data),
                 ],
             ),
             bar_chart.render(app),
