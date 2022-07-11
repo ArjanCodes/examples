@@ -1,10 +1,11 @@
 import functools
 from dataclasses import dataclass
-from typing import Callable, Optional, cast
+from typing import Callable, Literal, Optional, cast
 
 import i18n
 import numpy as np
 import pandas as pd
+import plotly.express as px
 import plotly.graph_objects as go
 from dash import dcc, html
 
@@ -69,6 +70,46 @@ class DataSource:
         fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
 
         return html.Div(dcc.Graph(figure=fig))
+
+    def create_bar_chart(
+        self,
+        years: list[str],
+        months: list[str],
+        categories: list[str],
+        orientation: Literal["h", "v"] = "h",
+    ) -> html.Div:
+        # TODO: repeated code to return no data
+        filtered_source = self.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"))
+
+        x = DataSchema.AMOUNT.value
+        y = DataSchema.CATEGORY.value
+        if orientation == "v":
+            x, y = y, x
+
+        fig = px.bar(
+            filtered_source.create_pivot_table(),
+            x=x,
+            y=y,
+            color=DataSchema.CATEGORY.value,
+            orientation=orientation,
+            labels={
+                DataSchema.CATEGORY.value: i18n.t("general.category"),
+                DataSchema.AMOUNT.value: i18n.t("general.amount"),
+            },
+        )
+        return html.Div(dcc.Graph(figure=fig))
+
+    def create_pivot_table(self) -> pd.DataFrame:
+        pt = self._data.pivot_table(
+            values=[DataSchema.AMOUNT.value],
+            index=[DataSchema.CATEGORY.value],
+            aggfunc="sum",
+            fill_value=0,
+            dropna=False,
+        )
+        return pt.reset_index().sort_values(DataSchema.AMOUNT.value, ascending=False)
 
     def filter(
         self,

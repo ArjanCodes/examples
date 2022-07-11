@@ -30,7 +30,7 @@ def create_layout(app: Dash, data: DataSource) -> html.Div:
                     category_dropdown.render(app, data),
                 ],
             ),
-            bar_chart.render(app),
+            bar_chart.render(app, data),
             pie_chart.render(app, data),
             dcc.Store(id=ids.RECORDS),
         ],
