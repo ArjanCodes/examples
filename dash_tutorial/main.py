@@ -13,13 +13,13 @@ DATA_PATH = "./data/transactions.csv"
 
 def main() -> None:
 
-    # load the data and create the data manager
-    data = load_transaction_data(DATA_PATH, LOCALE)
-    data = DataSource(data, preprocessor)
-
     # set the locale and load the translations
     i18n.set("locale", LOCALE)
     i18n.load_path.append("locale")
+
+    # load the data and create the data manager
+    data = load_transaction_data(DATA_PATH, LOCALE)
+    data = DataSource(data, preprocessor)
 
     app = Dash(external_stylesheets=[BOOTSTRAP])
     app.title = i18n.t("general.app_title")

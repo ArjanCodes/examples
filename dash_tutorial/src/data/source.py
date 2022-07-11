@@ -26,7 +26,12 @@ def create_month_column(df: pd.DataFrame) -> pd.DataFrame:
 
 
 def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
-    # df[DataSchema.CATEGORY.value] = df[DataSchema.CATEGORY.value]
+    def translate(category: str) -> str:
+        return i18n.t(f"category.{category}")
+
+    categories: "pd.Series[str]" = df[DataSchema.CATEGORY.value]
+    translated_categories: "pd.Series[str]" = categories.apply(translate)
+    df[DataSchema.CATEGORY.value] = translated_categories
     return df
 
 
