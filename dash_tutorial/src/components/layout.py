@@ -31,7 +31,7 @@ def create_layout(app: Dash, data: DataSource) -> html.Div:
                 ],
             ),
             bar_chart.render(app),
-            pie_chart.render(app),
+            pie_chart.render(app, data),
             dcc.Store(id=ids.RECORDS),
         ],
     )

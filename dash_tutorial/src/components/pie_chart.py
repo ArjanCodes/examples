@@ -1,30 +1,22 @@
-import i18n
-import pandas as pd
-import plotly.graph_objects as go
-from dash import Dash, dcc, html
+from dash import Dash, html
 from dash.dependencies import Input, Output
-from src.data.loader import DataSchema
 
+from ..data.source import DataSource
 from . import ids
 
 
-def render(app: Dash) -> html.Div:
+def render(app: Dash, source: DataSource) -> html.Div:
     @app.callback(
         Output(ids.PIE_CHART, "children"),
-        Input(ids.RECORDS, "data"),
+        [
+            Input(ids.YEAR_DROPDOWN, "value"),
+            Input(ids.MONTH_DROPDOWN, "value"),
+            Input(ids.CATEGORY_DROPDOWN, "value"),
+        ],
     )
-    def update_pie_chart(pivot_table_records: list[dict[str, float]]) -> html.Div:
-        if len(pivot_table_records) == 0:
-            return html.Div(i18n.t("general.no_data"))
-        pivot_table = pd.DataFrame(pivot_table_records)
-        pie = go.Pie(
-            labels=pivot_table.loc[:, DataSchema.CATEGORY.value],
-            values=pivot_table.loc[:, DataSchema.AMOUNT.value],
-            hole=0.5,
-        )
-        fig = go.Figure(data=[pie])
-        fig.update_layout(margin={"t": 40, "b": 0, "l": 0, "r": 0})
-        fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
-        return html.Div(dcc.Graph(figure=fig))
+    def update_pie_chart(
+        years: list[str], months: list[str], categories: list[str]
+    ) -> html.Div:
+        return source.create_pie_chart(years, months, categories, hole_fraction=0.5)
 
     return html.Div(id=ids.PIE_CHART)

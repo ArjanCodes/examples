@@ -2,9 +2,13 @@ import functools
 from dataclasses import dataclass
 from typing import Callable, Optional, cast
 
+import i18n
 import numpy as np
 import pandas as pd
+import plotly.graph_objects as go
+from dash import dcc, html
 
+from ..data.loader import DataSchema
 from .loader import DataSchema
 
 ComposableFunction = Callable[[pd.DataFrame], pd.DataFrame]
@@ -20,11 +24,18 @@ def create_month_column(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
+    # df[DataSchema.CATEGORY.value] = df[DataSchema.CATEGORY.value]
+    return df
+
+
 def compose(*functions: ComposableFunction) -> ComposableFunction:
     return functools.reduce(lambda f, g: lambda x: g(f(x)), functions)
 
 
-preprocessor = compose(create_year_column, create_month_column)
+preprocessor = compose(
+    create_year_column, create_month_column, translate_category_language
+)
 
 
 @dataclass
@@ -35,6 +46,29 @@ class DataSource:
     def __post_init__(self) -> None:
         if self._preprocessor is not None:
             self._data = self._preprocessor(self._data)
+
+    def create_pie_chart(
+        self,
+        years: list[str],
+        months: list[str],
+        categories: list[str],
+        hole_fraction: float = 0.5,
+    ) -> html.Div:
+        filtered_source = self.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"))
+
+        pie = go.Pie(
+            labels=filtered_source.all_categories,
+            values=filtered_source.all_amounts,
+            hole=hole_fraction,
+        )
+
+        fig = go.Figure(data=[pie])
+        fig.update_layout(margin={"t": 40, "b": 0, "l": 0, "r": 0})
+        fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
+
+        return html.Div(dcc.Graph(figure=fig))
 
     def filter(
         self,
@@ -53,6 +87,14 @@ class DataSource:
         mask = year_mask & month_mask & category_mask
         filtered_data = self._data.loc[mask]
         return DataSource(filtered_data)
+
+    @property
+    def data(self) -> pd.DataFrame:
+        return self._data
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return self._data.shape
 
     @property
     def category_table(self) -> list[dict[str, str | float]]:
@@ -78,6 +120,10 @@ class DataSource:
     @property
     def all_categories(self) -> list[str]:
         return self._data[DataSchema.CATEGORY.value].tolist()
+
+    @property
+    def all_amounts(self) -> list[str]:
+        return self._data[DataSchema.AMOUNT.value].tolist()
 
     @property
     def years(self) -> list[str]:
