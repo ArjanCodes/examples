@@ -13,15 +13,15 @@ def render(app: Dash, data: DataSource) -> html.Div:
         Input(ids.SELECT_ALL_YEARS_BUTTON, "n_clicks"),
     )
     def select_all_years(_: int) -> list[str]:
-        return data.years
+        return data.unique_years
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.year")),
             dcc.Dropdown(
                 id=ids.YEAR_DROPDOWN,
-                options=to_dropdown_options(data.years),
-                value=data.years,
+                options=to_dropdown_options(data.unique_years),
+                value=data.unique_years,
                 multi=True,
             ),
             html.Button(
