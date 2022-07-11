@@ -1,6 +1,6 @@
 import functools
 from dataclasses import dataclass
-from typing import Callable, Literal, Optional, cast
+from typing import Callable, Literal, Optional
 
 import i18n
 import numpy as np
@@ -53,6 +53,53 @@ class DataSource:
         if self._preprocessor is not None:
             self._data = self._preprocessor(self._data)
 
+    def filter(
+        self,
+        years: Optional[list[str]] = None,
+        months: Optional[list[str]] = None,
+        categories: Optional[list[str]] = None,
+    ) -> "DataSource":
+        year_mask = np.isin(self.all_years, self.all_years if years is None else years)
+        month_mask = np.isin(
+            self.all_months, self.all_months if months is None else months
+        )
+        category_mask = np.isin(
+            self.all_categories,
+            self.all_categories if categories is None else categories,
+        )
+        mask = year_mask & month_mask & category_mask
+        filtered_data = self._data.loc[mask]
+        return DataSource(filtered_data)
+
+    def create_bar_chart(
+        self,
+        years: list[str],
+        months: list[str],
+        categories: list[str],
+        orientation: Literal["h", "v"] = "h",
+    ) -> html.Div:
+        filtered_source = self.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"))
+
+        x = DataSchema.AMOUNT.value
+        y = DataSchema.CATEGORY.value
+        if orientation == "v":
+            x, y = y, x
+
+        fig = px.bar(
+            filtered_source.create_pivot_table(),
+            x=x,
+            y=y,
+            color=DataSchema.CATEGORY.value,
+            orientation=orientation,
+            labels={
+                DataSchema.CATEGORY.value: i18n.t("general.category"),
+                DataSchema.AMOUNT.value: i18n.t("general.amount"),
+            },
+        )
+        return html.Div(dcc.Graph(figure=fig))
+
     def create_pie_chart(
         self,
         years: list[str],
@@ -76,36 +123,6 @@ class DataSource:
 
         return html.Div(dcc.Graph(figure=fig))
 
-    def create_bar_chart(
-        self,
-        years: list[str],
-        months: list[str],
-        categories: list[str],
-        orientation: Literal["h", "v"] = "h",
-    ) -> html.Div:
-        # TODO: repeated code to return no data
-        filtered_source = self.filter(years, months, categories)
-        if filtered_source.shape[0] == 0:
-            return html.Div(i18n.t("general.no_data"))
-
-        x = DataSchema.AMOUNT.value
-        y = DataSchema.CATEGORY.value
-        if orientation == "v":
-            x, y = y, x
-
-        fig = px.bar(
-            filtered_source.create_pivot_table(),
-            x=x,
-            y=y,
-            color=DataSchema.CATEGORY.value,
-            orientation=orientation,
-            labels={
-                DataSchema.CATEGORY.value: i18n.t("general.category"),
-                DataSchema.AMOUNT.value: i18n.t("general.amount"),
-            },
-        )
-        return html.Div(dcc.Graph(figure=fig))
-
     def create_pivot_table(self) -> pd.DataFrame:
         pt = self._data.pivot_table(
             values=[DataSchema.AMOUNT.value],
@@ -116,24 +133,6 @@ class DataSource:
         )
         return pt.reset_index().sort_values(DataSchema.AMOUNT.value, ascending=False)
 
-    def filter(
-        self,
-        years: Optional[list[str]] = None,
-        months: Optional[list[str]] = None,
-        categories: Optional[list[str]] = None,
-    ) -> "DataSource":
-        year_mask = np.isin(self.all_years, self.all_years if years is None else years)
-        month_mask = np.isin(
-            self.all_months, self.all_months if months is None else months
-        )
-        category_mask = np.isin(
-            self.all_categories,
-            self.all_categories if categories is None else categories,
-        )
-        mask = year_mask & month_mask & category_mask
-        filtered_data = self._data.loc[mask]
-        return DataSource(filtered_data)
-
     @property
     def data(self) -> pd.DataFrame:
         return self._data
@@ -141,19 +140,6 @@ class DataSource:
     @property
     def shape(self) -> tuple[int, int]:
         return self._data.shape
-
-    @property
-    def category_table(self) -> list[dict[str, str | float]]:
-        transactions_pivot_table = self._data.pivot_table(
-            values=[DataSchema.AMOUNT.value],
-            index=[DataSchema.CATEGORY.value],
-            aggfunc="sum",
-            fill_value=0,
-            dropna=False,
-        ).reset_index()
-
-        pivot_table_records = transactions_pivot_table.to_dict(orient="records")
-        return cast(list[dict[str, str | float]], pivot_table_records)
 
     @property
     def all_years(self) -> list[str]:
@@ -172,13 +158,13 @@ class DataSource:
         return self._data[DataSchema.AMOUNT.value].tolist()
 
     @property
-    def years(self) -> list[str]:
+    def unique_years(self) -> list[str]:
         return sorted(set(self.all_years), key=int)
 
     @property
-    def months(self) -> list[str]:
+    def unique_months(self) -> list[str]:
         return sorted(set(self.all_months), key=int)
 
     @property
-    def categories(self) -> list[str]:
+    def unique_categories(self) -> list[str]:
         return sorted(set(self.all_categories))
