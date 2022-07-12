@@ -17,15 +17,15 @@ def render(app: Dash, data: DataSource) -> html.Div:
         ],
     )
     def select_all_categories(years: list[str], months: list[str], _: int) -> list[str]:
-        return data.filter(years=years, months=months).categories
+        return data.filter(years=years, months=months).unique_categories
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.category")),
             dcc.Dropdown(
                 id=ids.CATEGORY_DROPDOWN,
-                options=to_dropdown_options(data.categories),
-                value=data.categories,
+                options=to_dropdown_options(data.unique_categories),
+                value=data.unique_categories,
                 multi=True,
                 placeholder=i18n.t("general.select"),
             ),

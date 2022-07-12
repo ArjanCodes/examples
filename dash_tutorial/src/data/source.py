@@ -1,10 +1,15 @@
 import functools
 from dataclasses import dataclass
-from typing import Callable, Optional, cast
+from typing import Callable, Literal, Optional
 
+import i18n
 import numpy as np
 import pandas as pd
+import plotly.express as px
+import plotly.graph_objects as go
+from dash import dcc, html
 
+from ..data.loader import DataSchema
 from .loader import DataSchema
 
 ComposableFunction = Callable[[pd.DataFrame], pd.DataFrame]
@@ -20,11 +25,23 @@ def create_month_column(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
+def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
+    def translate(category: str) -> str:
+        return i18n.t(f"category.{category}")
+
+    categories: "pd.Series[str]" = df[DataSchema.CATEGORY.value]
+    translated_categories: "pd.Series[str]" = categories.apply(translate)
+    df[DataSchema.CATEGORY.value] = translated_categories
+    return df
+
+
 def compose(*functions: ComposableFunction) -> ComposableFunction:
     return functools.reduce(lambda f, g: lambda x: g(f(x)), functions)
 
 
-preprocessor = compose(create_year_column, create_month_column)
+preprocessor = compose(
+    create_year_column, create_month_column, translate_category_language
+)
 
 
 @dataclass
@@ -54,18 +71,75 @@ class DataSource:
         filtered_data = self._data.loc[mask]
         return DataSource(filtered_data)
 
-    @property
-    def category_table(self) -> list[dict[str, str | float]]:
-        transactions_pivot_table = self._data.pivot_table(
+    def create_bar_chart(
+        self,
+        years: list[str],
+        months: list[str],
+        categories: list[str],
+        orientation: Literal["h", "v"] = "h",
+    ) -> html.Div:
+        filtered_source = self.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"))
+
+        x = DataSchema.AMOUNT.value
+        y = DataSchema.CATEGORY.value
+        if orientation == "v":
+            x, y = y, x
+
+        fig = px.bar(
+            filtered_source.create_pivot_table(),
+            x=x,
+            y=y,
+            color=DataSchema.CATEGORY.value,
+            orientation=orientation,
+            labels={
+                DataSchema.CATEGORY.value: i18n.t("general.category"),
+                DataSchema.AMOUNT.value: i18n.t("general.amount"),
+            },
+        )
+        return html.Div(dcc.Graph(figure=fig))
+
+    def create_pie_chart(
+        self,
+        years: list[str],
+        months: list[str],
+        categories: list[str],
+        hole_fraction: float = 0.5,
+    ) -> html.Div:
+        filtered_source = self.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"))
+
+        pie = go.Pie(
+            labels=filtered_source.all_categories,
+            values=filtered_source.all_amounts,
+            hole=hole_fraction,
+        )
+
+        fig = go.Figure(data=[pie])
+        fig.update_layout(margin={"t": 40, "b": 0, "l": 0, "r": 0})
+        fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
+
+        return html.Div(dcc.Graph(figure=fig))
+
+    def create_pivot_table(self) -> pd.DataFrame:
+        pt = self._data.pivot_table(
             values=[DataSchema.AMOUNT.value],
             index=[DataSchema.CATEGORY.value],
             aggfunc="sum",
             fill_value=0,
             dropna=False,
-        ).reset_index()
+        )
+        return pt.reset_index().sort_values(DataSchema.AMOUNT.value, ascending=False)
 
-        pivot_table_records = transactions_pivot_table.to_dict(orient="records")
-        return cast(list[dict[str, str | float]], pivot_table_records)
+    @property
+    def data(self) -> pd.DataFrame:
+        return self._data
+
+    @property
+    def shape(self) -> tuple[int, int]:
+        return self._data.shape
 
     @property
     def all_years(self) -> list[str]:
@@ -80,13 +154,17 @@ class DataSource:
         return self._data[DataSchema.CATEGORY.value].tolist()
 
     @property
-    def years(self) -> list[str]:
+    def all_amounts(self) -> list[str]:
+        return self._data[DataSchema.AMOUNT.value].tolist()
+
+    @property
+    def unique_years(self) -> list[str]:
         return sorted(set(self.all_years), key=int)
 
     @property
-    def months(self) -> list[str]:
+    def unique_months(self) -> list[str]:
         return sorted(set(self.all_months), key=int)
 
     @property
-    def categories(self) -> list[str]:
+    def unique_categories(self) -> list[str]:
         return sorted(set(self.all_categories))

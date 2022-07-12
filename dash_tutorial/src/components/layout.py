@@ -1,22 +1,16 @@
-from dash import Dash, dcc, html
+from dash import Dash, html
 from src.components import (
     bar_chart,
     category_dropdown,
     month_dropdown,
     pie_chart,
-    record_store,
     year_dropdown,
 )
 
 from ..data.source import DataSource
-from . import ids
 
 
 def create_layout(app: Dash, data: DataSource) -> html.Div:
-    # initialize the record store
-    record_store.initialize(app, data)
-
-    # create the layout
     return html.Div(
         className="app-div",
         children=[
@@ -30,8 +24,7 @@ def create_layout(app: Dash, data: DataSource) -> html.Div:
                     category_dropdown.render(app, data),
                 ],
             ),
-            bar_chart.render(app),
-            pie_chart.render(app),
-            dcc.Store(id=ids.RECORDS),
+            bar_chart.render(app, data),
+            pie_chart.render(app, data),
         ],
     )
