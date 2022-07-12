@@ -1,5 +1,3 @@
-from typing import Callable
-
 import i18n
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output

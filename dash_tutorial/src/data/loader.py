@@ -1,12 +1,13 @@
-import enum
-from datetime import datetime
+from functools import reduce
+from typing import Callable
 
-import babel.dates
+import i18n
 import pandas as pd
 
+Preprocessor = Callable[[pd.DataFrame], pd.DataFrame]
 
-@enum.unique
-class DataSchema(enum.Enum):
+
+class DataSchema:
     AMOUNT = "amount"
     CATEGORY = "category"
     DATE = "date"
@@ -14,29 +15,75 @@ class DataSchema(enum.Enum):
     YEAR = "year"
 
 
-def convert_locale(
-    dates: "pd.Series[str]",
-    locale: str = "en",
-    datetime_fmt: str = "%m-%b",
-    babel_fmt: str = "MM-MMM",
-) -> "pd.Series[str]":
+def create_year_column(df: pd.DataFrame) -> pd.DataFrame:
+    df[DataSchema.YEAR] = df[DataSchema.DATE].dt.year.astype(str)
+    return df
+
+
+def create_month_column(df: pd.DataFrame) -> pd.DataFrame:
+    df[DataSchema.MONTH] = df[DataSchema.DATE].dt.month.astype(str)
+    return df
+
+
+def convert_date_locale(
+    df: pd.DataFrame,
+) -> pd.DataFrame:
+    months = [
+        "january",
+        "february",
+        "march",
+        "april",
+        "may",
+        "june",
+        "july",
+        "august",
+        "september",
+        "october",
+        "november",
+        "december",
+    ]
+
     def date_repr(date_str: str) -> str:
-        date = datetime.strptime(date_str, datetime_fmt)
-        return babel.dates.format_date(date, format=babel_fmt, locale=locale)
+        return i18n.t(f"datetime.{months[int(date_str) - 1]}")
+        # date = datetime.strptime(date_str, datetime_fmt)
+        # return babel.dates.format_date(date, format=babel_fmt, locale=locale)
 
-    return dates.apply(date_repr)
+    df[DataSchema.MONTH].apply(date_repr)
+    return df
 
 
-def load_transaction_data(path: str, locale: str) -> pd.DataFrame:
+def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
+    print("Translate category language")
+
+    def translate(category: str) -> str:
+        return i18n.t(f"category.{category}")
+
+    categories: "pd.Series[str]" = df[DataSchema.CATEGORY]
+    translated_categories: "pd.Series[str]" = categories.apply(translate)
+    df[DataSchema.CATEGORY] = translated_categories
+    return df
+
+
+def compose(*functions: Preprocessor) -> Preprocessor:
+    return reduce(lambda f, g: lambda x: g(f(x)), functions)
+
+
+def load_transaction_data(path: str) -> pd.DataFrame:
+    # load the data from the CSV file
     data = pd.read_csv(
         path,
         dtype={
-            DataSchema.AMOUNT.value: float,
-            DataSchema.CATEGORY.value: str,
-            DataSchema.MONTH.value: str,
-            DataSchema.YEAR.value: str,
+            DataSchema.AMOUNT: float,
+            DataSchema.CATEGORY: str,
+            DataSchema.MONTH: str,
+            DataSchema.YEAR: str,
         },
-        parse_dates=[DataSchema.DATE.value],
+        parse_dates=[DataSchema.DATE],
     )
-    data[DataSchema.MONTH.value] = convert_locale(data[DataSchema.MONTH.value], locale)
-    return data
+    preprocessor = compose(
+        create_year_column,
+        create_month_column,
+        convert_date_locale,
+        translate_category_language,
+    )
+    return preprocessor(data)

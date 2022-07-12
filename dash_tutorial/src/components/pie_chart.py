@@ -1,11 +1,13 @@
-from dash import Dash, html
+import i18n
+import plotly.graph_objects as go
+from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
 
 from ..data.source import DataSource
 from . import ids
 
 
-def render(app: Dash, source: DataSource) -> html.Div:
+def render(app: Dash, source: DataSource, hole_fraction: float = 0.5) -> html.Div:
     @app.callback(
         Output(ids.PIE_CHART, "children"),
         [
@@ -17,6 +19,20 @@ def render(app: Dash, source: DataSource) -> html.Div:
     def update_pie_chart(
         years: list[str], months: list[str], categories: list[str]
     ) -> html.Div:
-        return source.create_pie_chart(years, months, categories, hole_fraction=0.5)
+        filtered_source = source.filter(years, months, categories)
+        if filtered_source.shape[0] == 0:
+            return html.Div(i18n.t("general.no_data"), id=ids.PIE_CHART)
+
+        pie = go.Pie(
+            labels=filtered_source.all_categories,
+            values=filtered_source.all_amounts,
+            hole=hole_fraction,
+        )
+
+        fig = go.Figure(data=[pie])
+        fig.update_layout(margin={"t": 40, "b": 0, "l": 0, "r": 0})
+        fig.update_traces(hovertemplate="%{label}<br>$%{value:.2f}<extra></extra>")
+
+        return html.Div(dcc.Graph(figure=fig), id=ids.PIE_CHART)
 
     return html.Div(id=ids.PIE_CHART)
