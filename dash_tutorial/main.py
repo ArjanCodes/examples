@@ -18,7 +18,7 @@ def main() -> None:
     i18n.load_path.append("locale")
 
     # load the data and create the data manager
-    data = load_transaction_data(DATA_PATH)
+    data = load_transaction_data(DATA_PATH, LOCALE)
     data = DataSource(data)
 
     app = Dash(external_stylesheets=[BOOTSTRAP])

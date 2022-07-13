@@ -1,6 +1,8 @@
+import datetime as dt
 from functools import reduce
 from typing import Callable
 
+import babel.dates
 import i18n
 import pandas as pd
 
@@ -25,36 +27,15 @@ def create_month_column(df: pd.DataFrame) -> pd.DataFrame:
     return df
 
 
-def convert_date_locale(
-    df: pd.DataFrame,
-) -> pd.DataFrame:
-    months = [
-        "january",
-        "february",
-        "march",
-        "april",
-        "may",
-        "june",
-        "july",
-        "august",
-        "september",
-        "october",
-        "november",
-        "december",
-    ]
+def convert_date_locale(df: pd.DataFrame, locale: str) -> pd.DataFrame:
+    def date_repr(date: dt.date) -> str:
+        return babel.dates.format_date(date, format="MMMM", locale=locale)
 
-    def date_repr(date_str: str) -> str:
-        return i18n.t(f"datetime.{months[int(date_str) - 1]}")
-        # date = datetime.strptime(date_str, datetime_fmt)
-        # return babel.dates.format_date(date, format=babel_fmt, locale=locale)
-
-    df[DataSchema.MONTH].apply(date_repr)
+    df[DataSchema.MONTH] = df[DataSchema.DATE].apply(date_repr)
     return df
 
 
 def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
-    print("Translate category language")
-
     def translate(category: str) -> str:
         return i18n.t(f"category.{category}")
 
@@ -68,7 +49,7 @@ def compose(*functions: Preprocessor) -> Preprocessor:
     return reduce(lambda f, g: lambda x: g(f(x)), functions)
 
 
-def load_transaction_data(path: str) -> pd.DataFrame:
+def load_transaction_data(path: str, locale: str) -> pd.DataFrame:
     # load the data from the CSV file
     data = pd.read_csv(
         path,
@@ -83,7 +64,7 @@ def load_transaction_data(path: str) -> pd.DataFrame:
     preprocessor = compose(
         create_year_column,
         create_month_column,
-        convert_date_locale,
+        lambda df: convert_date_locale(df, locale),
         translate_category_language,
     )
     return preprocessor(data)

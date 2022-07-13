@@ -50,11 +50,11 @@ class DataSource:
 
     @property
     def all_years(self) -> list[str]:
-        return self._data[DataSchema.DATE].dt.year.astype(str).tolist()
+        return self._data[DataSchema.YEAR].tolist()
 
     @property
     def all_months(self) -> list[str]:
-        return self._data[DataSchema.DATE].dt.month.astype(str).tolist()
+        return self._data[DataSchema.MONTH].tolist()
 
     @property
     def all_categories(self) -> list[str]:
@@ -70,7 +70,7 @@ class DataSource:
 
     @property
     def unique_months(self) -> list[str]:
-        return sorted(set(self.all_months), key=int)
+        return sorted(set(self.all_months))
 
     @property
     def unique_categories(self) -> list[str]:
