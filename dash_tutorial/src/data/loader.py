@@ -1,5 +1,5 @@
 import datetime as dt
-from functools import reduce
+from functools import partial, reduce
 from typing import Callable
 
 import babel.dates
@@ -39,9 +39,7 @@ def translate_category_language(df: pd.DataFrame) -> pd.DataFrame:
     def translate(category: str) -> str:
         return i18n.t(f"category.{category}")
 
-    categories: "pd.Series[str]" = df[DataSchema.CATEGORY]
-    translated_categories: "pd.Series[str]" = categories.apply(translate)
-    df[DataSchema.CATEGORY] = translated_categories
+    df[DataSchema.CATEGORY] = df[DataSchema.CATEGORY].apply(translate)
     return df
 
 
@@ -64,7 +62,7 @@ def load_transaction_data(path: str, locale: str) -> pd.DataFrame:
     preprocessor = compose(
         create_year_column,
         create_month_column,
-        lambda df: convert_date_locale(df, locale),
+        partial(convert_date_locale, locale=locale),
         translate_category_language,
     )
     return preprocessor(data)

@@ -32,7 +32,7 @@ class DataSource:
 
     def create_pivot_table(self) -> pd.DataFrame:
         pt = self._data.pivot_table(
-            values=[DataSchema.AMOUNT],
+            values=DataSchema.AMOUNT,
             index=[DataSchema.CATEGORY],
             aggfunc="sum",
             fill_value=0,
