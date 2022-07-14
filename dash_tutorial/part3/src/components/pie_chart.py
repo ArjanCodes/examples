@@ -7,7 +7,7 @@ from ..data.source import DataSource
 from . import ids
 
 
-def render(app: Dash, source: DataSource, hole_fraction: float = 0.5) -> html.Div:
+def render(app: Dash, source: DataSource) -> html.Div:
     @app.callback(
         Output(ids.PIE_CHART, "children"),
         [
@@ -26,7 +26,7 @@ def render(app: Dash, source: DataSource, hole_fraction: float = 0.5) -> html.Di
         pie = go.Pie(
             labels=filtered_source.all_categories,
             values=filtered_source.all_amounts,
-            hole=hole_fraction,
+            hole=0.5,
         )
 
         fig = go.Figure(data=[pie])

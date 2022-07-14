@@ -7,21 +7,21 @@ from . import ids
 from .dropdown_helper import to_dropdown_options
 
 
-def render(app: Dash, data: DataSource) -> html.Div:
+def render(app: Dash, source: DataSource) -> html.Div:
     @app.callback(
         Output(ids.YEAR_DROPDOWN, "value"),
         Input(ids.SELECT_ALL_YEARS_BUTTON, "n_clicks"),
     )
     def select_all_years(_: int) -> list[str]:
-        return data.unique_years
+        return source.unique_years
 
     return html.Div(
         children=[
             html.H6(i18n.t("general.year")),
             dcc.Dropdown(
                 id=ids.YEAR_DROPDOWN,
-                options=to_dropdown_options(data.unique_years),
-                value=data.unique_years,
+                options=to_dropdown_options(source.unique_years),
+                value=source.unique_years,
                 multi=True,
             ),
             html.Button(
