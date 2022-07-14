@@ -54,8 +54,7 @@ def load_transaction_data(path: str, locale: str) -> pd.DataFrame:
         dtype={
             DataSchema.AMOUNT: float,
             DataSchema.CATEGORY: str,
-            DataSchema.MONTH: str,
-            DataSchema.YEAR: str,
+            DataSchema.DATE: str,
         },
         parse_dates=[DataSchema.DATE],
     )
