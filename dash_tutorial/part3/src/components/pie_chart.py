@@ -20,7 +20,7 @@ def render(app: Dash, source: DataSource, hole_fraction: float = 0.5) -> html.Di
         years: list[str], months: list[str], categories: list[str]
     ) -> html.Div:
         filtered_source = source.filter(years, months, categories)
-        if filtered_source.shape[0] == 0:
+        if not filtered_source.row_count:
             return html.Div(i18n.t("general.no_data"), id=ids.PIE_CHART)
 
         pie = go.Pie(

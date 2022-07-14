@@ -1,4 +1,3 @@
-import numpy as np
 import pandas as pd
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
@@ -8,9 +7,8 @@ from . import ids
 
 
 def render(app: Dash, data: pd.DataFrame) -> html.Div:
-    all_years: list[str] = data[DataSchema.YEAR].tolist()
-    all_months: list[str] = data[DataSchema.MONTH].tolist()
-    unique_categories: list[str] = sorted(set(data[DataSchema.CATEGORY].tolist()))
+    all_categories: list[str] = data[DataSchema.CATEGORY].tolist()
+    unique_categories: list[str] = sorted(set(all_categories))
 
     @app.callback(
         Output(ids.CATEGORY_DROPDOWN, "value"),
@@ -21,10 +19,7 @@ def render(app: Dash, data: pd.DataFrame) -> html.Div:
         ],
     )
     def select_all_categories(years: list[str], months: list[str], _: int) -> list[str]:
-        year_mask = np.isin(all_years, all_years if years is None else years)
-        month_mask = np.isin(all_months, all_months if months is None else months)
-        mask = year_mask & month_mask
-        filtered_data = data.loc[mask]
+        filtered_data = data.query("year in @years and month in @months")
         return sorted(set(filtered_data[DataSchema.CATEGORY].tolist()))
 
     return html.Div(

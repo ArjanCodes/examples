@@ -1,7 +1,8 @@
+from __future__ import annotations
+
 from dataclasses import dataclass
 from typing import Optional
 
-import numpy as np
 import pandas as pd
 
 from ..data.loader import DataSchema
@@ -17,17 +18,16 @@ class DataSource:
         years: Optional[list[str]] = None,
         months: Optional[list[str]] = None,
         categories: Optional[list[str]] = None,
-    ) -> "DataSource":
-        year_mask = np.isin(self.all_years, self.all_years if years is None else years)
-        month_mask = np.isin(
-            self.all_months, self.all_months if months is None else months
+    ) -> DataSource:
+        if years is None:
+            years = self.unique_years
+        if months is None:
+            months = self.unique_months
+        if categories is None:
+            categories = self.unique_categories
+        filtered_data = self._data.query(
+            "year in @years and month in @months and category in @categories"
         )
-        category_mask = np.isin(
-            self.all_categories,
-            self.all_categories if categories is None else categories,
-        )
-        mask = year_mask & month_mask & category_mask
-        filtered_data = self._data.loc[mask]
         return DataSource(filtered_data)
 
     def create_pivot_table(self) -> pd.DataFrame:
@@ -41,12 +41,8 @@ class DataSource:
         return pt.reset_index().sort_values(DataSchema.AMOUNT, ascending=False)
 
     @property
-    def data(self) -> pd.DataFrame:
-        return self._data
-
-    @property
-    def shape(self) -> tuple[int, int]:
-        return self._data.shape
+    def row_count(self) -> int:
+        return self._data.shape[0]
 
     @property
     def all_years(self) -> list[str]:
