@@ -3,7 +3,6 @@ en:
   amount: Amount
   app_title: Financial Dashboard
   category: Category
-  hello_world: Hello, world!
   month: Month
   no_data: No data selected
   select: Select...

@@ -4,7 +4,6 @@ from dash_bootstrap_components.themes import BOOTSTRAP
 from src.components.layout import create_layout
 from src.data.loader import load_transaction_data
 
-DEBUG = False
 DATA_PATH = "./data/transactions.csv"
 
 
