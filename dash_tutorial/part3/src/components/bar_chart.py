@@ -2,8 +2,8 @@ import i18n
 import plotly.express as px
 from dash import Dash, dcc, html
 from dash.dependencies import Input, Output
-from dash_tutorial.part3.src.data.loader import DataSchema
 
+from ..data.loader import DataSchema
 from ..data.source import DataSource
 from . import ids
 
