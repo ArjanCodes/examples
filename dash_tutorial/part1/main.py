@@ -10,7 +10,7 @@ def main() -> None:
     app = Dash(external_stylesheets=[BOOTSTRAP])
     app.title = "Medal dashboard"
     app.layout = create_layout(app)
-    app.run_server(debug=DEBUG)
+    app.run()
 
 
 if __name__ == "__main__":

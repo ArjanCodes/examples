@@ -7,7 +7,6 @@ from src.data.loader import load_transaction_data
 from src.data.source import DataSource
 
 LOCALE = "nl"
-DEBUG = False
 DATA_PATH = "./data/transactions.csv"
 
 
@@ -24,7 +23,7 @@ def main() -> None:
     app = Dash(external_stylesheets=[BOOTSTRAP])
     app.title = i18n.t("general.app_title")
     app.layout = create_layout(app, data)
-    app.run_server(debug=DEBUG)
+    app.run()
 
 
 if __name__ == "__main__":
