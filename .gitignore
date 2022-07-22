@@ -7,3 +7,4 @@ htmlcov
 **/*.log
 configs/runs
 .hypothesis
+venv
