@@ -1,0 +1,6 @@
+name: cloud_run
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Google Cloud Run example
