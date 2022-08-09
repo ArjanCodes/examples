@@ -1,4 +1,5 @@
 import timeit
+from string import Template
 
 
 def perc_format():
@@ -19,24 +20,44 @@ def f_string():
     _ = f"{name} is from {country}."
 
 
+TEMPLATE = Template("$name is from $country.")
+
+
+def template():
+    name = "Arjan"
+    country = "The Netherlands"
+    _ = TEMPLATE.substitute(name=name, country=country)
+
+
 def main() -> None:
     print(
+        "perc_format:",
         timeit.timeit(
             perc_format,
             number=100000,
-        )
+        ),
     )
     print(
+        "str_format:",
         timeit.timeit(
             str_format,
             number=100000,
-        )
+        ),
     )
     print(
+        "template:",
+        timeit.timeit(
+            template,
+            number=100000,
+        ),
+    )
+
+    print(
+        "f-string:",
         timeit.timeit(
             f_string,
             number=100000,
-        )
+        ),
     )
 
 
