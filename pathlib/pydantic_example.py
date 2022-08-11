@@ -18,13 +18,11 @@ class Settings:
 
 def main() -> None:
     path = Path().cwd() / "settings.yaml"
-    try:
-        parsed_yaml = yaml.safe_load(path.read_text())
-        settings = PySettings(**parsed_yaml)
-        print(settings)
-        print(settings.path.parent)
-    except yaml.YAMLError as exc:
-        print(exc)
+    parsed_yaml = yaml.safe_load(path.read_text())
+    # settings = Settings(**parsed_yaml) # won't work
+    settings = PySettings(**parsed_yaml)
+    print(settings)
+    print(settings.path.parent)
 
 
 if __name__ == "__main__":
