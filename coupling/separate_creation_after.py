@@ -7,6 +7,24 @@ LOGIN = "admin"
 PASSWORD = "admin"
 
 
+def create_mime_multipart(
+    from_address: str,
+    to_address: str = DEFAULT_EMAIL,
+    subject: str = "No subject",
+    message: str = "",
+) -> MIMEMultipart:
+    msg = MIMEMultipart()
+    msg["From"] = from_address
+    msg["To"] = to_address
+    msg["Subject"] = subject
+    mime = MIMEText(
+        message,
+        "html" if message.lower().startswith("<!doctype html>") else "plain",
+    )
+    msg.attach(mime)
+    return msg
+
+
 class EmailClient:
     def __init__(
         self,
