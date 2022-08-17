@@ -1,8 +1,8 @@
 ## Introduction
 
-Have you heard of Infrastructure-as-Code? Today I'm going to talk about what it is and give you a few examples of how to use it. Will infrastructure-as-code change Devops forever? I have some thoughts about that. And a pretty crazy idea as well.
+Today I'm going to show you how to deploy an application to the cloud. Though cloud deployment can be daunting depending on the technology and type of cloud product you choose, in many cases it's actually not that hard. I'll show you a few really simple ways to do it, that are easy to get started with and don't require in-depth devops knowledge.
 
-I'm going to use Pulumi, which is an infrastructure-as-code platform, to create a cloud application. They're also the sponsor of this video, I'll talk more about them in a minute. But first, let's take a look at a code example.
+I'm going to use Pulumi, which is an infrastructure-as-code platform, to create a cloud application. They're also the sponsor of this video, I'll talk more about them later, and also talk about what infrastructure as code is, and why I think it's going to change the way we do cloud deployment. But first, let's take a look at a code example.
 
 ## Example
 
@@ -12,13 +12,13 @@ I'm going to use an example I've shown in a previous video. This is a simple API
 
 There are different ways to deploy services to the cloud. It's mostly trying to find a balance between simplicity and flexibility.
 
-The simplest way to deploy something to the cloud is by directy letting your cloud provider run your code and attach that to a URL. If you're using Google Cloud, this is called Google Cloud Functions. IOn Azure, it's called Azure Functions. If you're using AWS, it's called Lambda. It's really easy to setup, but you have very little control over how your code is run in terms of infrastructure. You don't use a Dockerfile in this case. You simply deploy your code and the cloud provider will setup a service that provides the application context.
+The simplest way to deploy something to the cloud is by directy letting your cloud provider run your code and attach that to a URL. If you're using Google Cloud, this is called Google Cloud Functions. In Azure, it's called Azure Functions. If you're using AWS, it's called Lambda. It's really easy to setup, but you have very little control over how your code is run in terms of infrastructure. You don't use a Dockerfile in this case. You simply deploy your code and the cloud provider will setup a service that provides the application context.
 
 If you want more control over how your code is run, you can also opt for running a container (built with Docker). Within Google Cloud, this is called Cloud Run. AWS has something similar called Fargate (which I don't have personal experience with). Microsoft Azure has Container Instances. This allows for more flexibility in how you want to run your code, but it's also a bit more complicated to setup since you need to create a Docker file, build an image, etc.
 
 If you need even more flexibility than this, you need full control over how to deal with services, containers, scaling, load balancing, and so on, you can create your own cloud environment (or cluster) run by a container orchestration system. The standard tool for this is Kubernetes. Unless you know exactly what you're doing and you have a good reason for needing this, I wouldn't recommend this option. One of the two previous options is way simpler to setup and in most cases, it's all you need. So, I won't cover Kubernetes in this video because that's a whole other ballgame but I'll show you a few examples of using Cloud Functions and Cloud Run to easily deploy your code to the cloud.
 
-Before we can start creating cloud applications, we need to setup Google Cloud.
+I'll show you a few examples of how to deploy to Google Cloud, but other cloud providers such as AWS or Azure have the same capability. Before we can start creating cloud applications, we need to setup Google Cloud.
 
 # GCloud
 
