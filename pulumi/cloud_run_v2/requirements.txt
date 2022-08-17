@@ -1,0 +1,3 @@
+pulumi
+pulumi-gcp
+pulumi-docker

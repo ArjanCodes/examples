@@ -1,10 +1,10 @@
-# Introduction
+## Introduction
 
 Have you heard of Infrastructure-as-Code? Today I'm going to talk about what it is and give you a few examples of how to use it. Will infrastructure-as-code change Devops forever? I have some thoughts about that. And a pretty crazy idea as well.
 
-I'm going to use Pulumi, which is an infrastructure-as-code platform, to create a cloud application. They're also the sponsor of this video, I'll talk more about them in a minute. But first, let's take a look at the example.
+I'm going to use Pulumi, which is an infrastructure-as-code platform, to create a cloud application. They're also the sponsor of this video, I'll talk more about them in a minute. But first, let's take a look at a code example.
 
-# Example
+## Example
 
 I'm going to use an example I've shown in a previous video. This is a simple API for retrieving information about YouTube channels. There's a Docker file that you can use to build and run this locally.
 
@@ -12,11 +12,11 @@ I'm going to use an example I've shown in a previous video. This is a simple API
 
 There are different ways to deploy services to the cloud. It's mostly trying to find a balance between simplicity and flexibility.
 
-The simplest way to deploy something to the cloud is by directy letting your cloud provider run your code and attach that to a URL. If you're using Google Cloud, this is called Google Cloud Functions. If you're using AWS, it's called Lambda. With this approach, you have very little control over how your code is run in terms of infrastructure, but it's also really easy to setup. You don't use a Dockerfile in this case. You simply deploy your code and the cloud provider will setup a service that provides the application context.
+The simplest way to deploy something to the cloud is by directy letting your cloud provider run your code and attach that to a URL. If you're using Google Cloud, this is called Google Cloud Functions. IOn Azure, it's called Azure Functions. If you're using AWS, it's called Lambda. It's really easy to setup, but you have very little control over how your code is run in terms of infrastructure. You don't use a Dockerfile in this case. You simply deploy your code and the cloud provider will setup a service that provides the application context.
 
 If you want more control over how your code is run, you can also opt for running a container (built with Docker). Within Google Cloud, this is called Cloud Run. AWS has something similar called Fargate (which I don't have personal experience with). Microsoft Azure has Container Instances. This allows for more flexibility in how you want to run your code, but it's also a bit more complicated to setup since you need to create a Docker file, build an image, etc.
 
-If you need even more flexibility than this, you can also create your own Kubernetes cluster and have full control over how to deal with services, containers, scaling, load balancing, and so on. Unless you know exactly what you're doing and you have a good reason for needing this, I recommend avoiding this option. One of the two previous options is way simpler to setup. I won't cover Kubernetes in this video but I'll show you a few examples of using Cloud Functions and Cloud Run.
+If you need even more flexibility than this, you need full control over how to deal with services, containers, scaling, load balancing, and so on, you can create your own cloud environment (or cluster) run by a container orchestration system. The standard tool for this is Kubernetes. Unless you know exactly what you're doing and you have a good reason for needing this, I wouldn't recommend this option. One of the two previous options is way simpler to setup and in most cases, it's all you need. So, I won't cover Kubernetes in this video because that's a whole other ballgame but I'll show you a few examples of using Cloud Functions and Cloud Run to easily deploy your code to the cloud.
 
 Before we can start creating cloud applications, we need to setup Google Cloud.
 
@@ -50,7 +50,15 @@ Show how to use cloud functions to create a simple channel API
 
 # Cloud run
 
-Next, show how to setup an application that relies on cloud run.
+Next, show how to setup an application that relies on cloud run. Create a second version showing the advantages of IaC:
+
+- We can now organize things into functions
+- Move configuration settings to constants (or to separate configuration files if you want)
+
+A note about inputs and outputs in Pulumi:
+
+- Inputs are values of type Input[T], a type that permits either a raw value of a given type (such as string, integer, boolean, list, map, and so on), an asynchronously computed value (i.e., a Promise or Task), or an output read from another resource’s properties.
+- Resource properties are outputs. Outputs are values of type Output[T], which behave very much like promises. This is necessary because outputs are not fully known until the infrastructure resource has actually completed provisioning, which happens asynchronously. Next to representing the values, outputs are also how Pulumi tracks dependencies between resources. This allows the system to determine which resources need to be updated if you change something in the code.
 
 ## Final tidbits
 
@@ -71,7 +79,7 @@ venv/bin/pip install -r requirements.txt
 
 I think Infrastructure-as-code is very interesting technology. In my opinion, this is the direction that Devops will go into.
 
-So where will this technology take us? I think a great next step would be to have a generic layer that allows us to define cloud resources independent of whether they're running on AWS, Google Cloud, Azure or any other type of cloud provider. I totally understand that this isn't there yet though. This is very new technology, and cloud providers are still figuring out what cloud infrastructure actually is. I mean, it's not that long ago that Kubernetes support was added to AWS. With infrastructure as code, defining a generic layer seems feasible. In my opinion, this is definitely going to come.
+So where will this technology take us? I think a great next step would be to have a generic layer that allows us to define cloud resources independent of whether they're running on AWS, Google Cloud, Azure or any other type of cloud provider. I totally understand that this isn't there yet though. This is very new technology, and cloud providers are still figuring out what cloud infrastructure actually is. I mean, it's not that long ago that Kubernetes wasn't the main technology used for container orchestration. That only started happening in 2018. With Kubernetes infrastructure as code, defining a generic layer seems feasible. In my opinion, this is definitely going to come.
 
 If we define what the cloud infrastructure is using Python code, how far can we take this? Here's a crazy idea. Suppose you have a machine learning algorithm that looks at infrastructure usage data from the past and predicts how many resources you're going to need and then write a Python application that automatically creates or destroys the resources in advance to minimize costs? Is that possible? Would that make sense? I'm curious to hear your thoughts about this, so let me know in the comments.
 
