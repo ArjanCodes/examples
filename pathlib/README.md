@@ -1,6 +1,10 @@
 # Pathlib tutorial
 
-If you're not using pathlib yet for anything related to dealing with files and folders, you're missing out. This video is a deep dive into the pathlib library, that was part of the Python 3.6 release. I'm not just going to talk about pathlib and the magic it performs - I'll also show you how the magic works so you can apply it to your own code, if you dare :).
+If you're not using pathlib yet for anything related to dealing with files and folders, you're missing out. This video is a deep dive into Python's pathlib library, that been available since Python 3.6.
+
+I'm not just going to talk about pathlib and what you can do with it, but also about how some of the magic behind the library works and how you can apply this same magic to your own code.
+
+If you want to learn more about how to design software from scratch, I have a free guide for you. You can get it at arjan.codes/designguide. It contains the 7 steps I take when I design new software, and hopefully it helps you avoid some of the mistakes I made in the past. I've tried to keep the guide short and to the point, so you can get the information quickly and apply it immediately to what you're doing. So, arjan.codes/designguide, and the link is also in the description of this video.
 
 ## Why not simply use strings
 
@@ -26,12 +30,16 @@ How does this work? It relies on a programming feature called operator overloadi
 
 Anyway, let's take a quick look at how you can do operator overloading in Python. (show example of operator overloading using a Point class - see `operator_overloading.py`).
 
+A remark about passing an int to something that's annotated as a float type. This is possible because float is treated as a special case. PEP 484 writes this: "when an argument is annotated as having type float, an argument of type int is acceptable". This special treatment is basically a shortcut. Arguments that can be a float or an int are quite common, so in this way you don't have to write "float | int" but you can simply write float and then it also accepts integer values.
+
+See also: https://peps.python.org/pep-0484/
+
 ## Pathlib and Pydantic
 
 It's quite common to set paths in configuration files, think of specifying the folder where your sample data is stored, where to output log files, and so on.
 
-You can use simple dataclasses to deal with config settings as I've shown in other videos, but then you don't have built-in support for processing and dealing with paths (in other words: paths are simply represented as strings, even if you define the dataclass instance variable as a path. (if you create a Settings instance instead of a PySettings instance in `pydantic_example.py`, it won't work correctly as the string is not transformed into a path). If you're using Pydantic, this is done automatically for you.
+You can use simple dataclasses to deal with config settings. If you want to learn more about dataclasses, check ou tthis video where I dive into dataclasses. Unfortunately, dataclasses don't have built-in support for processing and dealing with paths (in other words: paths are simply represented as strings, even if you define the dataclass instance variable as a path. (if you create a Settings instance instead of a PySettings instance in `pydantic_example.py`, it won't work correctly as the string is not transformed into a path). If you're using Pydantic, this is done automatically for you.
 
 ## Outro
 
-I hope you enjoyed this deeper dive into pathlib. If you did, give this video a like and consider subscribing to my channel if you want to learn more about software design and development. Thanks for watching, take care, and see you next time.
+I hope you enjoyed this deeper dive into pathlib. If you did, you might also like this video where I dive deeper into Python's string formatting capabilities. Give this video a like and consider subscribing to my channel if you want to learn more about software design and development. Thanks for watching, take care, and see you next time.

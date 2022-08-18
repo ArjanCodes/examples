@@ -83,4 +83,4 @@ So where will this technology take us? I think a great next step would be to hav
 
 If we define what the cloud infrastructure is using Python code, how far can we take this? Here's a crazy idea. Suppose you have a machine learning algorithm that looks at infrastructure usage data from the past and predicts how many resources you're going to need and then write a Python application that automatically creates or destroys the resources in advance to minimize costs? Is that possible? Would that make sense? I'm curious to hear your thoughts about this, so let me know in the comments.
 
-Anyway, I hope you enjoyed this video. Thanks again to Pulumi for sponsoring this video. Check them out via the link in the description. Thanks for watching, take care, and see you soon.
+Anyway, I hope you enjoyed this video. Thanks again to Pulumi for sponsoring this video. Check them out via the link in the description. If you want to learn the best practices for devops and how to best setup your cloud service, check out this video. Thanks for watching, take care, and see you soon.

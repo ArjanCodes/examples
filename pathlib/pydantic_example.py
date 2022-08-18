@@ -5,7 +5,7 @@ import pydantic
 import yaml
 
 
-class PySettings(pydantic.BaseModel):
+class PydanticSettings(pydantic.BaseModel):
     path: Path
     other: str
 
@@ -17,10 +17,10 @@ class Settings:
 
 
 def main() -> None:
-    path = Path().cwd() / "settings.yaml"
+    path = Path.cwd() / "settings.yaml"
     parsed_yaml = yaml.safe_load(path.read_text())
     # settings = Settings(**parsed_yaml) # won't work
-    settings = PySettings(**parsed_yaml)
+    settings = PydanticSettings(**parsed_yaml)
     print(settings)
     print(settings.path.parent)
 
