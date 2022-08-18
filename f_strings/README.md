@@ -18,6 +18,10 @@ In f-strings, the **str** dunder method is used by default to construct a string
 
 ## Date and time formatting
 
+Full list of date and time formatting codes: https://docs.python.org/3/library/datetime.html#strftime-and-strptime-format-codes.
+
+If you need better datetime formatting, there's a library called Pendulum: https://pendulum.eustace.io. If you want me to do a separate video about this, let me know in the comments!
+
 ## Debugging
 
 ## Multiline strings & comments

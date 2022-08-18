@@ -70,22 +70,27 @@ def main():
     print(f"Raw user (alternative): {repr(user)}.")
 
     # raw strings
-    name = "Fred"
-    print(f"He said his name is {name!r}.")
+    name = "Elon"
+    print(f"Who wants to buy Twitter? {name!r}.")
 
     #############################
     # Date/time formatting
     #############################
-    print(f"{datetime.datetime.now():%Y-%m-%d %H:%M:%S}")
-    print(f"{datetime.datetime.now():%H:%M:%S}")  # only time
+    today = datetime.datetime.now()
 
-    today = datetime.datetime.today()
-    print(f"{today:%y-%m-%d}")
-    # 2022-03-11
-    print(f"{today:%Y}")
-    # 2022
+    print(f"Simple date printing: {today}")
+    print(f"With formatting: {today:%Y-%m-%d %H:%M:%S.%f}")
+    print(f"{today:%H:%M:%S}")  # only time
+
+    print(f"{today:%y-%m-%d}")  # only date
+    print(f"{today:%D}")  # only date
+    print(f"{today:%Y}")  # only year
     print(f"Today is a {today:%A}")  # full weekday name
-    print(f"The date is {today:%A, %B %d, %Y}")
+    print(
+        f"The date is {today:%A, %B %D, %Y}"
+    )  # full weekday name, full month name, day, year
+    print(f"Locale appropriate date: {today:%x}")  # locale appropriate date
+    print(f"Locale appropriate time: {today:%X}")  # locale appropriate time
 
     # printing braces
     print(f"{{'Single Braces'}}")
