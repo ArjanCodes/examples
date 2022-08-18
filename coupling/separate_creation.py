@@ -3,27 +3,23 @@ from email.mime.text import MIMEText
 from smtplib import SMTP
 
 DEFAULT_EMAIL = "support@arjancodes.com"
-LOGIN = "admin"
-PASSWORD = "admin"
+LOGIN = "test"
+PASSWORD = "my_password"
 
 
 class EmailClient:
     def __init__(
         self,
         smtp_server: str,
-        login: str | None = None,
-        password: str | None = None,
-        name: str | None = None,
+        credentials: tuple[str, str] = (LOGIN, PASSWORD),
+        name: str = "",
         to_address: str = DEFAULT_EMAIL,
     ):
         self._server = SMTP()
         self._server._host = smtp_server  # type: ignore
         self._host, _port = smtp_server.split(":")
         self._port = int(_port)
-        if not login or not password:
-            self._login, self._password = LOGIN, PASSWORD
-        else:
-            self._login, self._password = login, password
+        self._login, self._password = credentials
         self.name = name
         self.to_address = to_address
 
@@ -38,15 +34,13 @@ class EmailClient:
     def send_message(
         self,
         from_address: str,
-        to_address: str,
+        to_address: str | None = None,
         subject: str = "No subject",
         message: str = "",
     ) -> None:
         msg = MIMEMultipart()
         msg["From"] = from_address
-        if not to_address:
-            to_address = self.to_address
-        msg["To"] = to_address
+        msg["To"] = to_address or self.to_address
         msg["Subject"] = subject
         mime = MIMEText(
             message,
@@ -55,5 +49,5 @@ class EmailClient:
         msg.attach(mime)
 
         self._connect()
-        self._server.sendmail(from_address, to_address, msg.as_string())
+        self._server.sendmail(msg["From"], msg["To"], msg.as_string())
         self._quit()

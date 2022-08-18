@@ -1,18 +1,19 @@
+from email.message import Message
 from email.mime.multipart import MIMEMultipart
 from email.mime.text import MIMEText
 from smtplib import SMTP
 
 DEFAULT_EMAIL = "support@arjancodes.com"
-LOGIN = "admin"
-PASSWORD = "admin"
+LOGIN = "test"
+PASSWORD = "my_password"
 
 
 def create_mime_multipart(
     from_address: str,
-    to_address: str = DEFAULT_EMAIL,
+    to_address: str | None = None,
     subject: str = "No subject",
     message: str = "",
-) -> MIMEMultipart:
+) -> Message:
     msg = MIMEMultipart()
     msg["From"] = from_address
     msg["To"] = to_address
@@ -29,19 +30,15 @@ class EmailClient:
     def __init__(
         self,
         smtp_server: SMTP,
-        login: str | None = None,
-        password: str | None = None,
-        name: str | None = None,
+        credentials: tuple[str, str] = (LOGIN, PASSWORD),
+        name: str = "",
         to_address: str = DEFAULT_EMAIL,
     ):
         self._server = smtp_server
         host, port = str(smtp_server._host).split(":")  # type: ignore
-        self._host: str = host
+        self._host = host
         self._port = int(port)
-        if not login or not password:
-            self._login, self._password = LOGIN, PASSWORD
-        else:
-            self._login, self._password = login, password
+        self._login, self._password = credentials
         self.name = name
         self.to_address = to_address
 
@@ -53,25 +50,9 @@ class EmailClient:
     def _quit(self) -> None:
         self._server.quit()
 
-    def send_message(
-        self,
-        from_address: str,
-        to_address: str,
-        subject: str = "No subject",
-        message: str = "",
-    ) -> None:
-        msg = MIMEMultipart()
-        msg["From"] = from_address
-        if not to_address:
-            to_address = self.to_address
-        msg["To"] = to_address
-        msg["Subject"] = subject
-        mime = MIMEText(
-            message,
-            "html" if message.lower().startswith("<!doctype html>") else "plain",
-        )
-        msg.attach(mime)
-
+    def send_message(self, msg: Message) -> None:
+        if not msg["To"]:
+            msg["To"] = self.to_address
         self._connect()
-        self._server.sendmail(from_address, to_address, msg.as_string())
+        self._server.sendmail(msg["From"], msg["To"], msg.as_string())
         self._quit()
