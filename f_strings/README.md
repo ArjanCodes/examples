@@ -1,6 +1,8 @@
 # The Ultimate Guide To F-strings
 
-In this video, I'm going to cover f-strings. I'm quite sure that at least one of the features I show you in this video is going to be new to you.
+F-strings in Python are incredibly powerful. And knowing how to use them and their formatting capabilities is going to make a huge difference in how easily you can create logging messages, or display information in a way that's easy to read. So that's why I'm diving into f-strings in this video and show you what you can do with them. And I'm quite sure that there's going to be something in this video that you didn't know about f-strings.
+
+You might use formatted strings already in your code, for example as part of your logging system to detect problems and fix bugs. In general, the skill of being able to quickly identify problems in your code is really important. If you want to learn how to do this, you should check out my free Code Diagnosis workshop where I teach you the most important things to look for when you want to quickly identify design problems in your code. It's based on my own experience reviewing code trying to do that efficiently while still finding the problems fast. You can sign up for the workshop at arjan.codes/diagnosis. It contains a ton of useful advice and practical code examples that you can apply right away to train your diagnosis skills. So, arjan.codes/diagnosis, the link is also in the description.
 
 F-strings have been introduced to Python in version 3.6. They allow you to do string interpolation, as an alternative to string formatting using the percentage operator, or the str.format method.
 
@@ -10,9 +12,9 @@ F-strings have been introduced to Python in version 3.6. They allow you to do st
 
 ## Repr vs Str
 
-The difference between str() and repr() is: The str() function returns a user-friendly description of an object. The repr() method returns a developer-friendly string representation of an object.
+The difference between str() and repr() is: The str() function returns a user-friendly description of an object. The repr() method returns a developer-friendly string representation of an object. If you're using dataclasses, the repr dunder method is generated automatically for you. If you want to learn more about dataclasses, click the link in the top to watch a video that shows you everything you need to know.
 
-In f-strings, the **str** function is used by default to construct a string of an object, but if you use the !r extension it calls the **repr** function instead.
+In f-strings, the **str** dunder method is used by default to construct a string representation of an object, but if you use the !r extension it calls the **repr** dunder method instead.
 
 ## Date and time formatting
 
@@ -34,4 +36,4 @@ To conclude, the main advantages of using Python f-strings are:
 
 In my opinion, there's no reason to still use the other formatting options. F-strings should cover all your formatting needs.
 
-I hope you enjoyed this video. If you did, give it a like and consider subscribing to my channel. Thanks for watching, take care, and see you soon.
+I hope you enjoyed this video. If you did, give it a like and consider subscribing to my channel. Next to string formatting Python has lots of other interesting features, like support for functional programming which is really cool. If you want to learn more, check out this video. Thanks for watching, take care, and see you soon.
