@@ -30,9 +30,9 @@ gcloud config set project <project_id>
 
 # Pulumi and Infrastructure-as-code
 
-I'm going to use Pulumi to create the cloud resources. Pulumi is a so-called infrastructure-as-code platform. What is that?
+I’m going to use Pulumi to create the cloud resources. Pulumi is an open-source infrastructure-as-code platform. What is that?
 
-If you have any experience creating and running cloud infrastructures, you probably know that it can become quite complicated and that there are many different kinds of settings to deal with. You may use YAML files to define resources, change settings directly with a CLI, or do it in a web-based interface. Pulumi provides an environment where you do all of this in code, using your favorite programming language. So instead of deal with YAML files, CLIs and web-based consoles, you write everything in code and Pulumi takes care of updating your cloud infrastructure to match your code. I definitely think you should give this a try. You can get started for free with Pulumi using this link [add pulumi.com link to the video] - you can also find it in the description of this video.
+If you have any experience creating and running cloud infrastructure, you probably know that it can become quite complicated and that there are many different kinds of settings to deal with. You may use YAML files to define resources, change settings directly with a CLI, or do it in a console. Pulumi provides a way to define resources in code, using your favorite programming languages, IDEs, and package managers. So instead of dealing with YAML configurations or manual workflows, you write everything in code and Pulumi takes care of provisioning resources to achieve the desired state of your infrastructure. It supports over 80 clouds and cloud native technologies like Kubernetes. I definitely think you should give this a try. You can get started for free with Pulumi using this link [add pulumi.com link to the video] - you can also find it in the description of this video.
 
 To get started, we need to obtain default application credentials that Pulumi needs to interact with the Google Cloud resources:
 
@@ -52,7 +52,7 @@ Show how to use cloud functions to create a simple channel API
 
 Next, show how to setup an application that relies on cloud run. Create a second version showing the advantages of IaC:
 
-- We can now organize things into functions
+- We can now organize things into functions (mention Component Resources: https://www.pulumi.com/docs/intro/concepts/resources/components/#authoring-a-new-component-resource)
 - Move configuration settings to constants (or to separate configuration files if you want)
 
 A note about inputs and outputs in Pulumi:
