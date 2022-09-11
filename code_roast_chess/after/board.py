@@ -1,7 +1,7 @@
 from dataclasses import dataclass, field
 from typing import Callable
 
-from .pieces import Piece, PieceType
+from .pieces import Color, Piece, PieceType
 
 Position = tuple[int, int]
 Grid = dict[Position, Piece]
@@ -19,11 +19,19 @@ def empty_board() -> Grid:
 class Board:
     pieces: Grid = field(default_factory=empty_board)
 
+    def place(self, piece: Piece) -> None:
+        self.pieces[(piece.x, piece.y)] = Piece
+
     def piece(self, x: int, y: int) -> Piece:
         return self.pieces[(x, y)]
 
     def empty(self, x: int, y: int) -> bool:
         return self.piece(x, y).type == PieceType.EMPTY
+
+    def find_king(self, color: Color) -> Piece:
+        for piece in self.pieces.values():
+            if piece.type == PieceType.KING and color == piece.color:
+                return piece
 
     def get_valid_moves(self, x: int, y: int) -> list[Position]:
         return MOVE_LISTS[self.piece(x, y)]

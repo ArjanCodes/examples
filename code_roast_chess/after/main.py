@@ -31,7 +31,7 @@ class GUI(tk.Frame):
 
     def init_game(self) -> None:
         self.game.reset_game()
-        self.game.populateWithFen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
+        self.game.populate_with_fen("rnbqkbnr/pppppppp/8/8/8/8/PPPPPPPP/RNBQKBNR")
         self.square_button: dict[int, tk.Button] = {}
         self.images = {}
         self.color_at_square = {}
@@ -153,7 +153,7 @@ class GUI(tk.Frame):
                 colornumber += 1
 
     def newgame(self):
-        self.game.STATUS = 1
+        self.game.status = 1
         self.init_game()
         self.draw_board()
         self.top.attributes("-disabled", False)
@@ -165,9 +165,9 @@ class GUI(tk.Frame):
         endwindow_pos_y = self.get_top_pos()[1]
         self.endwindow.geometry(f"250x100+{endwindow_pos_x}+{endwindow_pos_y}")
 
-        if self.game.STATUS == 3:
+        if self.game.status == 3:
             winner = "White wins!"
-        elif self.game.STATUS == 2:
+        elif self.game.status == 2:
             winner = "Black wins!"
 
         winner_label = tk.Label(self.endwindow, text=winner)
@@ -199,7 +199,7 @@ class GUI(tk.Frame):
 
         self.piece_to = [(-1, -1)] * 2
 
-        if self.game.STATUS != 1:
+        if self.game.status != 1:
             self.endscreen()
 
 

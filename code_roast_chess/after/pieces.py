@@ -1,3 +1,5 @@
+from __future__ import annotations
+
 from copy import deepcopy
 from dataclasses import dataclass
 from enum import Enum
@@ -29,6 +31,15 @@ PIECE_STR: dict[PieceType, tuple[str, str]] = {
     PieceType.KNIGHT: ("♘", "♞"),
 }
 
+FEN_MAP: dict[str, PieceType] = {
+    "p": PieceType.PAWN,
+    "r": PieceType.ROOK,
+    "b": PieceType.BISHOP,
+    "q": PieceType.QUEEN,
+    "k": PieceType.KING,
+    "n": PieceType.KNIGHT,
+}
+
 
 @dataclass
 class Piece:
@@ -40,10 +51,18 @@ class Piece:
     moves_made: int = 0
     last_moved: int = 0
 
+    @staticmethod
+    def from_fen(x: int, y: int, fen: str) -> Piece:
+        color = Color.WHITE if fen.isupper() else Color.BLACK
+        return Piece(x, y, color, type=FEN_MAP[fen])
+
     def move_to(self, x: int, y: int) -> None:
         self.x, self.y = x, y
         self.has_moved = True
         self.moves_made += 1
+
+    def promote_to_queen(self) -> None:
+        self.type = PieceType.QUEEN
 
     @property
     def image(self) -> str:

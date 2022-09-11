@@ -1,6 +1,6 @@
-# Pendulum
+# Arrows
 
-In this video I want to cover dealing with dates and time. I'll be using the Pendulum library.
+In this video I want to cover dealing with dates and time. I'll be using the Arrows library.
 
 Working with date and time data is one of the most challenging tasks in Data Science as well as programming in general. While dealing with different date formats, different time zones, daylight saving time, and whatnot, it can be difficult of keeping track of what days or times you are referencing.
 
@@ -37,3 +37,5 @@ The aware objects like datetime, date, and time have an additional optional attr
 Where are these timezones and daylight savings settings stored, you might wonder? Well, basically, all software in the world retrieves that information from a centralized timezone database. Which is currently maintained by one guy in California. It's a fascinating story, I don't have time to dive into it in this video, but there's a link in the description to an article on Medium that covers this story.
 
 (show timezone examples)
+
+https://arrow.readthedocs.io/en/latest/
