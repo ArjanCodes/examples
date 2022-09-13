@@ -6,20 +6,29 @@ Today I'm going to roast a Chess game.
 
 When I did these code roasts in the past I often had to cut them up in 2 or even 3 different parts for them not to be way too long. I've noticed that splitting videos up in parts doesn't work well on YouTube. The first part of a series often doesn't do well because quite a few of you wait until all the parts are out, which I totally understand. And then subsequent parts get lesser and lesser views because not everyone wants to watch the whole thing, which also makes sense. But this results in these videos performing really badly which on YouTube means less people are going to find the content. And that's a pity.
 
-So, this is an experiment. I am going to roast the code and provide a deep review because that's I think the part you learn the most from. And then instead of doing a full refactoring, I'm going to zoom in on some of the things I mention in the review and show you an alternative way of setting it up.
+So, here is an experiment. I am going to provide a detailed code review because that's I think the part you learn the most from. And then instead of doing a full refactoring which takes a lot of time, I'm going to zoom in on some of the things I mention in the review and show you an alternative way of setting it up. Let me know in the comments whether this works.
 
 # Analysis of the current code
 
-- in endscreen: no need to store winnerlabel in a member variable
-- don't forget to add type hints
-- the pos instance variable is actually not used anywhere, so you can remove it
+GUI.py:
+
+- rename this file to `main.py` so we know what the entry point of the application is
+- The class contains hardcoded values like a FEN string in `init_game` or the colors in the initializer. It's better to move these out of the class into constants so they're in one place which makes it easier to manage.
+- The super class initialization is done halfway the initializer. Do it either as the first line or as the last line. Also, don't call Frame.**init** but super().**init**. That way the super class init call isn't directly dependent on the Frame type.
+- commandHandler contains quite specific game logic. That doesn't belong in the GUI class.
+- in endscreen: no need to store endwindow, winnerlabel, retrybut in a member variable here. The end screen should probably be a separate class component. This makes the GUI class a bit shorter.
+- Use more precise type hints: if you write "list" as a type hint, also define what kind of list
+- Sometimes pos seems to be a list, sometimes a tuple. It's even the question whether you shouldn't simply use an x and a y value instead to keep things simple.
+
+pieces.py:
+
 - You're using inheritance to distinguish the various piece types. This might be nice to be able to override which piece has which valid moves. However, this also leads to loads of isinstance use, which makes the logic really hard to read. And if you ever decide that you want to use inheritance so that for example the queen can reuse some of the valid move computation from the rook or the bishop, you're in trouble because you also rely on inheritance to distinguish between the pieces themselves.
 - there's a lot of duplication in the piece subclasses
-- call GUI main so we know what the entry point of the application is
+- the pos instance variable is actually not used anywhere so you could remove it
 
 logic.py:
 
-- Instead of using integers like 0 or 1 to represent the colors, use enums. This make the code easier to read and you don't need a comment to explain what each value means.
+- Instead of using integers like 0 or 1 to represent the colors, use enums. This make the code easier to read and you don't need a comment to explain what each value means. Same for the `STATUS` variable (which should be lowercase since it's an instance variable).
 - populateWithFen has a lot of duplication. And also, this is a method that creates a board and pieces. It doesn't belong in the logic class.
 - In many methods (for example `check_for_check`), you're using 'y' for a piece and 'x' for an index. Don't do that, it's confusing. When I see x and y in a code, I expect them to be of the same type, and most often integers or floats.
 
@@ -33,9 +42,11 @@ Minor things:
 
 ## Refactor 1: Guard clauses
 
-Refactor `check_for_mate` to use guard clauses (see `check_for_mate.py`).
+Refactor `check_for_mate` to use guard clauses (see `refactoring_ideas/check_for_mate.py`).
 
 ## Refactor 2: change the Piece inheritance hierarchy to a single class
+
+(`refactoring_ideas/pieces.py`)
 
 - Create enums for the color and the piece types
 - Create a Piece dataclass
@@ -44,20 +55,28 @@ Refactor `check_for_mate` to use guard clauses (see `check_for_mate.py`).
 
 ## Refactor 3: create a Board class that has a useful methods
 
+(`refactoring_ideas/board.py`)
+
 - Create the necessary type definitions
 - Create the board class
 - Add a few useful methods such as place, piece, empty and find_king
 
 ## Refactor 4: Fill the board from a FEN string
 
+(`refactoring_ideas/board.py` and `refactoring_ideas/pieces.py`)
+
 - Now that we have Board and Piece classes, you can use a static method to create instances of them from a FEN string. This is much cleaner that doing it in the logic class.
 
-## Refactor 4: Split out the valid moves functions
+## Refactor 5: Split out the valid moves functions
 
-Show an example of how to do it for one piece: the rook.
+(`refactoring_ideas/moves.py` and `refactoring_ideas/board.py`)
+
+- Show an example of how to do it for one piece: the rook.
+- Add a dictionary to `board.py` to map the piece type to the function that gets the valid moves
+- Add a Board protocol class to `moves.py` to provide some separation.
 
 ## A few final discussion points
 
-- There's still a lot of duplication in the code that checks what the valid moves are. It's probably better to split this up more. For example, you could define types of moves (horizontal and vertical moves, diagonal moves, knight moves, etc.) and then each piece has a combination of these groups instead of computing it for every piece separately. You can then also use a single function to compute the valid moves.
+- There's still a lot of duplication in the code that checks what the valid moves are. It's probably better to split this up more. For example, you could define types of moves (horizontal and vertical moves, diagonal moves, knight moves, etc.) and then each piece has a combination of these groups instead of computing it for every piece separately. You can then also use a single function to compute the valid moves as it simply combines move groups in this case.
 
-- I didn't have time to dive deeper into the ChessLogic class. By moving to a separate Board class you can already simplify the logic a bit since it can use the methods from the Board class. Also because the Piece inheritance is no longer there, you don't need all those isinstance calls everywhere. I do think there's still more work to be done in this class though. The methods are quite long and should be split up. And things can probably be generalized more by rethinking how the logic is structured. If you have any suggestions, post them in the comment section.
+- I didn't have time to dive deeper into `move_piece` method. By moving to a separate Board class you can already simplify the logic a bit since it can use the methods from the Board class. Also because the Piece inheritance is no longer there, you don't need all those isinstance calls everywhere. There's still more work to be done in the ChessLogic class though. The methods are quite long and should be split up. And things can probably be generalized more by rethinking how the logic is structured. If you have any suggestions, post them in the comment section.
