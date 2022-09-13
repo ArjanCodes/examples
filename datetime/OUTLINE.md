@@ -1,7 +1,5 @@
 # Arrows
 
-In this video I want to cover dealing with dates and time. I'll be using the Arrows library.
-
 Working with date and time data is one of the most challenging tasks in Data Science as well as programming in general. While dealing with different date formats, different time zones, daylight saving time, and whatnot, it can be difficult of keeping track of what days or times you are referencing.
 
 The reason that programming with dates and times can be such a pain, is due to the fundamental disconnect between the ordered and regular fashion a computer program prefers its events to be, and how irregular and unordered ways in which humans tend to use dates and times.
@@ -10,11 +8,16 @@ One great example of such irregularity is daylight time saving, adapted by the U
 
 However, things might get more complicated if you factor in Time Zones into your projects. Ideally, timezones should follow straight lines along the longitudes, however, due to politics and historical reasons, these lines are seldom straight.
 
-Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. Before 1972, this time was called Greenwich Mean Time (GMT).
+Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. UTC stands for Universal Time Coordinated (UTC), or Coordinated Universal Time. Before 1972, this time was called Greenwich Mean Time (GMT), sometimes erroneously called Greenwich Meridian Time. And it's pronounced "grenitsch", not "green witch" - this is not the land of Oz, people!
 
-but is now referred to as Coordinated Universal Time or Universal Time Coordinated (UTC). It is a coordinated time scale, maintained by the Bureau International des Poids et Mesures (BIPM). It's not adjusted for daylight saving time so there's always twenty-four hours in a day. It is also known as "Z time" or "Zulu Time". Which sounds way cooler than UTC. Are you still with me?
+UTC is a coordinated time scale, maintained by the Bureau International des Poids et Mesures (BIPM). It's not adjusted for daylight saving time so there's always twenty-four hours in a day. It is also known as "Z time" or "Zulu Time". Which sounds way cooler than UTC. Are you still with me?
 
-Unix time is measured in seconds from January 1, 1970. You can easily view the current Unix time with a few lines of code in Python.
+Unix time is measured in seconds from January 1, 1970. You can easily view the current Unix time with a few lines of Python code.
+
+```python
+import time
+print(time.time())
+```
 
 # The year 2038 problem
 
@@ -38,4 +41,14 @@ Where are these timezones and daylight savings settings stored, you might wonder
 
 (show timezone examples)
 
-https://arrow.readthedocs.io/en/latest/
+# Datetime limitations
+
+There are some limitations to Python's datetime package:
+
+- Too many modules: datetime, time, calendar, dateutil, pytz and more
+- Too many types: date, time, datetime, tzinfo, timedelta, relativedelta, etc.
+- Timezones and timestamp conversions are verbose and unpleasant
+- Timezone naivety is the norm
+- Gaps in functionality: ISO 8601 parsing, timespans, humanization
+
+So, people have developed alternatives to datetime, packages such as Arrow, Delorean and Pendulum.
