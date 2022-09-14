@@ -29,7 +29,7 @@ So if you want to avoid catastrophic consequences to your critical systems in 20
 
 # Using dates and time in Python
 
-Show basic usage of dates and time in Python.
+Show basic usage of dates and time in Python (`datetime_basic.py`).
 
 # How to deal with Timezones
 
@@ -37,18 +37,40 @@ Date and Time objects can be broadly divided into two categories, mainly ‘Awar
 
 The aware objects like datetime, date, and time have an additional optional attribute to them, called the tzinfo. But tzinfo itself is an abstract class. To deal with these, you need to exactly know which methods are needed. Handling timezone problems are eased by the pytz module. Using this module we can deal with daylight savings time in locations that use it and cross-timezone conversions.
 
-Where are these timezones and daylight savings settings stored, you might wonder? Well, basically, all software in the world retrieves that information from a centralized timezone database. Which is currently maintained by one guy in California. It's a fascinating story, I don't have time to dive into it in this video, but there's a link in the description to an article on Medium that covers this story.
+Where are these timezones and daylight savings settings coming from, you might wonder? Well, basically, all software in the world retrieves that information from a centralized timezone database. Which is currently maintained by one guy in California. It's a fascinating story, I don't have time to dive into it in this video, but there's a link in the description to an article on Medium that covers this story.
 
-(show timezone examples)
+(show timezone examples - `datetime_tz.py`)
 
 # Datetime limitations
 
-There are some limitations to Python's datetime package:
+The built-in datetime package in Python is nice, but it has some limitations.
 
-- Too many modules: datetime, time, calendar, dateutil, pytz and more
-- Too many types: date, time, datetime, tzinfo, timedelta, relativedelta, etc.
-- Timezones and timestamp conversions are verbose and unpleasant
-- Timezone naivety is the norm
-- Gaps in functionality: ISO 8601 parsing, timespans, humanization
+First, there are lots of different modules and types: date, time, datetime, calendar, dateutil, tzinfo, timedelta, and more. It gets confusing pretty quickly if you need to do more advanced things with dates and times.
 
-So, people have developed alternatives to datetime, packages such as Arrow, Delorean and Pendulum.
+Timezone conversion with datetime is not bad, but you need to create a tzinfo object explicitly to convert a datetime to another timezone.
+
+By default, datetime is timezone-naive: it doesn't take timezones into account unless you explicitly indicate that it should.
+
+Over the past few years a lot of things have been improved like adding support for parsing ISO 8601 strings, but there are still some functionalities that are missing from datetime, in particular humanizing dates and timespans.
+
+So, over the years, people have developed alternatives to datetime, packages such as Arrow, Delorean and Pendulum. These packages generally offer a nicer interface than the standard datetime package. I won't go into detail for each of these packages since they all mostly try to solve the same limitations, but I am going to take a closer look at Pendulum.
+
+Pendulum provides a drop-in replacement for the datetime class, but adds simpler timezone handling, datetimes are timezone-aware by default, and it has a bunch of extra features such as localization, or being able to easily write a human-readable version of a timespan.
+
+Let's take a look at a few examples of how Pendulum works.
+
+# Show pendulum example
+
+See: `pendulum_example.py`
+
+# Final thoughts
+
+So, should everyone switch to a library like Pendulum? Well, it's nice, it adds very useful extra features. But, a couple of things to think about:
+
+1. Pendulum hasn't seen a new release for a while. The last version on GitHub was published over two years ago. This is always a risk with using external packages: are they being actively maintained, and for how long?
+
+2. The builtin datetime package is being worked on as well. There are only minor changes in the datetime package in Python 3.11, like a slightly more robust `fromisoformat` method, but as more functionality is added, you might not need an external package anymore. And then you potentially have to do a lot of refactoring work to move away from the external package. Though Pendulum does inherit directly from the datetime class, which reduces the risk somewhat.
+
+3. Do you really need the extra features? If you don't, then simply stick to the builtin datetime module. It's not perfect, but it's pretty good.
+
+Hope you enjoyed this video and that it gave you some food for thought. Thanks for watching, take care and see you next week.
