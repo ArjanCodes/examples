@@ -101,7 +101,7 @@ You have to make sure that when you buy the machine, it's future-proof so you do
   - If you just need a desktop: M1 mini has the same performance or even a bit better than the M1 Macbook Air due to the fan and it's pretty cheap.
   - If you need a bit more performance: M1 MacbookPro 14. It's more expensive, but it's also a way faster machine with the M1 Pro
 - What you definitely shouldn't buy:
-  - M1 Max (same CPU performance as the M1 Pro)
+  - M1 Max (same CPU performance as the M1 Pro). The reason I got this is because I do a lot of video editing. And the M1 Max has more powerful encoding and decoding chips. The SD Card reader is really use because all my cameras record on SD Cards. And I like the bigger screen because then I don't need a monitor at home when I'm editing videos (though 16" is not the same as working on a 24 of 27" monitor, it gets the job done)
   - M2 Macbook Air (it's a bit more performant than the M1 - but if you need performance and want a Mac, you should go for the 14" pro IMO) - too expensive for what you get
 
 In terms of specs:
