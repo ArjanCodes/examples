@@ -38,8 +38,6 @@ MacOS has really useful gestures and keyboard shortcuts. All the different keybo
 
 Another really great builtin tool is Spotlight. You can use this to quickly find stuff and launch apps.
 
-Window management on macOS is lacking. Not just lacking, it's pretty bad. But you can use a free tool called Rectangle to fix it.
-
 ### 3. Battery life
 
 If you're working on one of the Apple silicon based laptops, you'll have the best battery life in the industry. This is really handy if you're working remote and you don't have access to electricity. Apple's modern laptops will get you through the day comfortably.
@@ -92,7 +90,7 @@ You have to make sure that when you buy the machine, it's future-proof so you do
 
 - OS X creates dozens of hidden files like .DS_Store which can really be annoying if you work a lot with file processing.
 - To this date - can’t open an archive file. Instead, OS X insists on extracting it.
-- Window management. Ugh
+- Window management. Ugh. Window management on macOS is lacking. Not just lacking, it's pretty bad. But you can use a free tool called Rectangle to fix it.
 
 ## What mac should you buy as a developer?
 
