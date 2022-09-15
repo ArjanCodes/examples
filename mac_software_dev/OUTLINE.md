@@ -4,65 +4,57 @@ Is a Mac a good machine for software development? There's a few areas where I th
 
 This is the machine I use, a 16" M1 Max MacBook Pro. This is actually not the best option for software development, but I'll share later on why I still bought this.
 
-## Operating systems
+## Other operating systems
 
-Let's talk about operating systems
+Let's first talk about the other two main operating systems: Linux and Windows. Which OS you use for a large part comes down to personal preference.
 
-It all comes down to personal preference and the type of work you do.
-First, don't forget Linux. The vast majority of the Internet runs on Linux servers, for a lot of reasons:
-It's free - no point in paying a license fee for each server in a huge data center
-It's open-source, so you can customize everything
-It's designed to be fully operated by the command-line if you want - either locally or remotely. That works really well for managing a large fleet of servers.
-Programmers who work on a lot of back-end web server code often like macOS for their personal computer, because it's based on Unix and easily runs nearly all Linux software - combined with the fact that Apple makes great hardware, and everyday things like watching a video work a little easier on macOS than on Linux.
+The majority of services on the Internet run on Linux server, for a lot of reasons:
 
-However, Windows also has a lot of other advantages. If you're programming for the enterprise, Windows is still the king. Visual Studio is an amazingly good IDE, and the whole Microsoft development stack is fantastic. There are some amazing third-party tools for graphics, debugging, profiling, and so many other things - they do tend to be proprietary and expensive, but on the other hand they tend to be very clean, robust, well-documented, and easy-to-use
+- It's free, there's no point in paying a license fee for each server in a huge data center
+- With tooling like Docker, the images running in the cloud are mostly running some version of Linux.
+- Linux is designed to be operated by the command line: locally or remotely. Works well if you have to manage lots of servers.
 
-The Windows Subsystem for Linux and the recently added SSH on Windows add a lot of Linux functionality.
-Systems like Docker are obfuscating the Linux environment. Sure, many docker images are still based on Linux, but you can develop and deploy an application without ever being aware of it.
-.NET Core supporting Linux is further blurring the lines.
-You can easily use Visual Studio to write C#, build a Linux docker container, and deploy it without ever needing to touch Linux in any real way.
+Windows has other advantages. If you're programming enterprise applications, it's a great option with C#, .NET and the surrounding ecosystem. Visual Studio is great IDE. Though nowadays Visual Studio Code is a lot more popular than Visual Studio. More than twice as many people use it (show StackOverflow overlay).
 
-Shwo usage in StackOverflow survey: https://survey.stackoverflow.co/2022/#methodology
+Then you have Windows Subsystem for Linux. I haven't used this personally, but of course this adds a lot of Linux functionality to Windows.
+
+So, is there a winner? Well, if you look at the StackOverflow survey, you see that almost half of the software developers use Windows, about 40% use Linux, and about a third use macOS. Those percentages add up to more than 100%, but of course lots of developers use multiple OSes in their work.
+
+Show usage in StackOverflow survey: https://survey.stackoverflow.co/2022/#methodology
 
 ## Reasons why a Mac is good for software development
 
-### 1. The OS is based on Unix
+### 1. The OS is UNIX-compliant
 
-As a back-end dev, I always ask for a Linux laptop if it's available and a Windows laptop if not - MacOS is bsd rather than gnu, which means that shell scripts will usually run on both but will often give inconsistent results. For example, take curl - writing a curl on a Mac and then copying it to a Linux shell often fails in more complex use cases, particularly where mpf data is concerned. The base64, tr, and wc utilities don't even have all the same -options and base64 behaves differently by default. By contrast, I can use cygwin or wsl on Windows and get gnu-compliant utilities that don't collide with what comes installed with the OS.
+If you're doing a lot of backend development, macOS is actually a nice option. macOS is a UNIX 03-compliant operating system. macOS is also POSIX-compliant and therefore can handle ports of most Linux software. This is what the really awesome Homebrew package manager does.
 
-Long story short, macOS is built on top of Darwin, which is built around BSD, which is based on Unix and is also POSIX-compliant. For this reason, macOS is also POSIX-compliant and therefore can handle ports of most Linux software. Homebrew does this. It’s amazing.
+You also have nice apps such as iTerm2 terminal that works much better than the default one in macOS.
 
-Being Unix-based has some advantages. While Windows has mostly GUI tools with simple interfaces, macOS allows you to dive deeper with the terminal and use real shells like bash, fish, and zsh. Windows can do this to some extent with WSL, but it will never offer the same experience macOS does with its inferior GUI-centric infrastructure.
-
-Homebrew is a full package manager for macOS that works just like you’d expect. MacPorts is less so a drop-in replacement, and more so a repository of direct ports of Linux tools. iTerm2 is an amazing terminal that works much better than the default one provided by the OS.
+The hardware is generally good, except for a turds in the past like the 12 inch MacBook or the overheating Intel MacBook Pros. Also the OS is really well optimized for user-friendliness and creative workflows so doing your everyday work, or things like watching a movie or listening to music on a Mac is very pleasant.
 
 ### 2. Gestures & keyboard shortcuts
 
-MacOS has really useful gestures and keyboard shortcuts. All the different keyboard shortcuts make software development (which is keyboard-focused) a breeze. Spotlight is really great to quickly find stuff and launch apps.
+MacOS has really useful gestures and keyboard shortcuts. All the different keyboard shortcuts make software development (which is keyboard-focused) a breeze. I'm still regularly learning new keyboard shortcuts, so I'm quite far from being a complete keyboard wizard. I'm more of a keyboard hobbit I guess.
 
-Window management on macOS is lacking. But you can use a free tool called Rectangle to fix that.
+Another really great builtin tool is Spotlight. You can use this to quickly find stuff and launch apps.
+
+Window management on macOS is lacking. Not just lacking, it's pretty bad. But you can use a free tool called Rectangle to fix it.
 
 ### 3. Battery life
 
-IF you're working on one of the laptops, you'll have great battery life.
+If you're working on one of the Apple silicon based laptops, you'll have the best battery life in the industry. This is really handy if you're working remote and you don't have access to electricity. Apple's modern laptops will get you through the day comfortably.
 
 ### 4. iOS development & web development
 
-You need a Mac for iOS development. For doing web development, it's useful to have easy access to Safari (which needs to be tested because it doesn't use Chromium under the hood).
+You need a Mac for iOS development, unless you don't want your app to appear in the App Store for some reason. If you're doing web development, it's useful to have easy access to Safari. You need to test things on Safari. It doesn't use Chromium under the hood, so you will run into issues.
 
-Also: macOS has hovering scrollbars. Very minor, but I never liked Windows’ scrollbars, which cut into the content. macOS has scrollbars that hover above the content, disappearing when not in use.
+For example, a big difference is that macOS has hovering scrollbars. It's nice because the content can use a larger portion of the screen real estate. But it might break your web app's layout. And there are a bunch of smaller incompatibilities, especially on mobile where the visible section of the content resizes if you scroll down because the address bar disappears.
 
-### 5. macOS stays out of your way so you can get shit done.
+### 5. macOS stays out of your way
 
-One of my friends has a saying. It goes like this:
+For me, if I buy a new Mac machine, getting things ready for work is really easy. I don't need to install a bunch of drivers, uninstall lots of bloatware, copying over settings from the previous machine.
 
-“Anyone can buy a Windows machine and do whatever they want with it, but when you see someone with a Mac, they really mean business. You don’t just buy a Mac because they’re pretty. You buy a Mac to get shit done.”
-
-macOS has a huge getting-shit-done factor. While the newer laptops are arguably very lacking in hardware (and function keys, fuck you Apple), the software is still spot-on.
-
-Anyone who knows what they’re doing will spend hours upon hours configuring Windows. Removing spyware, disabling telemetry, uninstalling bloatware, and suppressing tracking. And that’s just removing things.
-
-Anyone who doesn’t know what they’re doing will spend a day every few weeks reinstalling Windows because it gets that bad. Yes, that happened to me. I learned the reinstalling Windows dance when I was 8 years old (possibly even earlier). I could give you a step-by-step walkthrough about how to use the installer without once looking at any documentation.
+I don't want to do all that stuff. I use my Mac for my business. So it needs to just work. I haven't used Windows for a while, so things have probably improved on that end as well, but a Mac simply feels effortless to me to get going quickly. Time is money.
 
 ## Sponsored section (SANDMARC)
 
@@ -92,7 +84,7 @@ Depending on the machine you get, it can be very expensive and you'll be paying 
 
 ### 5. Configurability
 
-You have a limited number of possible chip configurations. If you like customizing your machine, you're not going to be happy with a Mac. There's no way to upgrade things like RAM or harddrive later on. What you buy is what you get. Well, unless you buy the uber-uber expensive Mac Pro.
+You have a limited number of possible chip configurations. If you like customizing your machine, you're not going to be happy with a Mac. There's no way to upgrade things like RAM or harddrive later on. What you buy is what you get. Well, unless you buy the uber-uber expensive Mac Pro which is totally overkill for most software developers. And at the time of publishing this video, that still runs on Intel and is actually beaten in some tasks by the newer, and much cheaper Apple silicon Macs.
 
 You have to make sure that when you buy the machine, it's future-proof so you don't have to replace it within a few years. And then you pay Apple's prices for RAM and SSD storage.
 
