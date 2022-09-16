@@ -8,7 +8,7 @@ When I did these code roasts in the past I often had to cut them up in 2 or even
 
 So, here is an experiment. I am going to do a detailed code review because that's I think the part you learn the most from. But then instead of doing a full refactoring which takes a lot of time, I'm going to zoom in on some of the things I mention in the review and show you an alternative way of setting it up. I don't know if that works, it's an experiment. Let me know in the comments what you think.
 
-For me, doing these code roasts have also helped me become more critical of my own code. I really encourage you to do more code reviews. It's going to open your mind. I tell ya, the b-roll is getting out of hand. Now, how do you become better at this. You might want to check out my free workshop on Code Diagnosis that teaches you a three-factor framework that helps you focus on what's important. Go to arjan.codes/diagnosis to get access. The workshop demonstrates how it works by looking at code from existing Python packages that are used in production. You're probably using one of these packages yourself. So, arjan.codes/diagnosis, the link is also in the description of this video.
+For me, doing these code roasts have also helped me become more critical of my own code. I really encourage you to do more code reviews. It's going to open your mind. I tell ya, the b-roll on this channel is getting out of hand. Now, how do you become better at doing code reviews. You might want to check out my workshop on Code Diagnosis that teaches you a three-factor framework that helps you focus on what's important. Go to arjan.codes/diagnosis to get access for free. It's built on my own experience reviewing code and trying to make the process more efficient and more effective. The workshop demonstrates the framework by looking at code from existing Python packages that are used in production. You're probably using one of these packages yourself right now. So, arjan.codes/diagnosis, the link is also in the description of this video.
 
 Now, let's take a look at this chess game.
 
@@ -41,11 +41,10 @@ logic.py:
 
 - There are lots of Law of Demeter violations in this class. What is the Law of Demeter? It states that each unit of code should have only limited knowledge about other units. Here, your code needs to know details of the board data structure which makes it hard to read. On top of that, there are a bunch of isinstance calls that also require you to know the inheritance hierarchy.
 - In particular, `move_piece` is way too large and filled with these violations. As a result this method is very hard to understand and if there's a bug, you're going to have to spend a lot of time figuring out what is going on.
+- Use snake case to comply with Python's PEP8 style guide
 - The `check_for_mate` method is hard to read due to deep indentation. You can use guard clauses here to improve things.
 
-Minor things:
-
-- Use snake case to comply with Python's PEP8 style guide
+Let's get started with that. Before I show you how to do that, give this video a like if you're enjoying it so far. It helps other people find this video as well.
 
 ## Refactor 1: Guard clauses
 
@@ -73,6 +72,8 @@ Refactor `check_for_mate` to use guard clauses (see `refactoring_ideas/check_for
 (`refactoring_ideas/board.py` and `refactoring_ideas/pieces.py`)
 
 - Now that we have Board and Piece classes, you can use a static method to create instances of them from a FEN string. This is much cleaner that doing it in the logic class.
+
+By removing creation from the logic class, you're essentially separating creation from use, which is a great design principle to follow. A design pattern that helps with this is the Abstract Factory. If you want to learn more about that design pattern, I've put a link to a video that dives into the details at the top.
 
 ## Refactor 5: Split out the valid moves functions
 

@@ -8,18 +8,18 @@ One great example of such irregularity is daylight time saving, adapted by the U
 
 However, things might get more complicated if you factor in Time Zones into your projects. Ideally, timezones should follow straight lines along the longitudes, however, due to politics and historical reasons, these lines are seldom straight.
 
-Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours.
+Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. I'll talk more about UTC later.
 
 # Unix time (screencast)
 
-Unix time is measured in seconds from January 1st, 1970 UTC. I'll talk more about UTC later. You can easily view the current Unix time with a few lines of Python code.
+So, Unix time is measured in seconds from January 1st, 1970. You can easily view the current Unix time with a few lines of Python code.
 
 ```python
 import time
 print(time.time())
 ```
 
-# The year 2038 problem
+# The year 2038 problem (screencast)
 
 Here is an interesting fact about Unix time. Since most of the older operating systems are 32-bit, they store the Unix time in a 32-bit signed integer.
 
@@ -69,6 +69,8 @@ Let's take a look at how Pendulum works. But before I do that, I'd really apprec
 
 See: `pendulum_example.py`
 
+Localization is a topic all in itself. I'd like to cover it in more detail in the future, but I did a miniseries about creating a dashboard application where I also touch on localization. I've put a link to the first part of that series at the top.
+
 # Final thoughts
 
 So, should everyone switch to a library like Pendulum? Well, it's nice, it adds very useful extra features. But, a couple of things to think about:
@@ -79,4 +81,6 @@ So, should everyone switch to a library like Pendulum? Well, it's nice, it adds 
 
 3. Do you really need the extra features? If you don't, then simply stick to the builtin datetime module. It's not perfect, but it's pretty good.
 
-Hope you enjoyed this video and that it gave you some food for thought. Thanks for watching, take care and see you next week.
+Hope that this video and gave you some food for thought about dealing with dates and times. Next to datetime, Python has lots of other interesting packages as well. For example, pathlib is really interesting as well. If you want to learn more, check out this video.
+
+Thanks for watching, take care and see you next week.
