@@ -18,7 +18,8 @@ Now, let's take a look at this chess game.
 
 GUI.py:
 
-- rename this file to `main.py` so we know what the entry point of the application is
+- wildcard imports
+- rename this file to `main.py` so we know what the entry point of the application is. Or create a separate file main.py that then uses the GUI file.
 - The class contains hardcoded values like a FEN string in `init_game` or the colors in the initializer. It's better to move these out of the class into constants so they're in one place which makes it easier to manage.
 - The super class initialization is done halfway the initializer. Do it either as the first line or as the last line. Also, don't call Frame.**init** but super().**init**. That way the super class init call isn't directly dependent on the Frame type.
 - commandHandler contains quite specific game logic. That doesn't belong in the GUI class.
