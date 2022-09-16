@@ -4,11 +4,13 @@ Is a Mac a good machine for software development? There's a few areas where I th
 
 This is the machine I use, a 16" M1 Max MacBook Pro. This is actually not the best option for software development, but I'll share later on why I still bought this.
 
+Before we start though, I have something for you. It's a free guide to help you make better software design decisions in 7 steps. You can get it at arjan.codes/designguide. I've tried to keep the guide short and to the point, so you can get the information quickly and apply it immediately to what you're doing. So, arjan.codes/designguide. That link is also in the description of the video.
+
 ## Other operating systems
 
 Let's first talk about the other two main operating systems: Linux and Windows. Which OS you use for a large part comes down to personal preference.
 
-The majority of services on the Internet run on Linux server, for a lot of reasons:
+The majority of services on the Internet run on Linux servers, for a lot of reasons:
 
 - It's free, there's no point in paying a license fee for each server in a huge data center
 - With tooling like Docker, the images running in the cloud are mostly running some version of Linux.
@@ -20,7 +22,7 @@ Then you have Windows Subsystem for Linux. I haven't used this personally, but o
 
 So, is there a winner? Well, if you look at the StackOverflow survey, you see that almost half of the software developers use Windows, about 40% use Linux, and about a third use macOS. Those percentages add up to more than 100%, but of course lots of developers use multiple OSes in their work.
 
-Show usage in StackOverflow survey: https://survey.stackoverflow.co/2022/#methodology
+I have five reasons why I think macOS is a great option for software development. Before I dive into that, give this video a like, it helps others find my content on YouTube.
 
 ## Reasons why a Mac is good for software development
 
@@ -62,19 +64,21 @@ Before I dive into the reasons why you shouldn't buy a Mac for software developm
 
 ### 1. Developing games
 
-Lots of games are Windows-only. In the pas Mac was the only machine where you could run Linux, Windows and MacOS. With Apple Silicon it's no longer the case.
+Lots of games are Windows-only. Apple simply isn't optimized for gaming.
 
 ### 2. New Apple Silicon
 
-The new Apple Silicon is great in terms of power efficiency and speed. It also means that some software doesn't work perfectly yet or have caveats, like Docker. By default Docker Desktop (for apple silicon) will pull down arm64 images. However, you can specify the platform via a command line prompt or docker-compose.yml (ie (--platform=linux/amd64) . You can use mixed platforms simultaneously, docker will either emulate arm or virtualize x86 as necessary. If you're not careful, you might create a Docker image locally using arm64 and then try to run it in the cloud in Linux and it won't start. I know, because that actually happened to me.
+The new Apple Silicon is great in terms of power efficiency and speed. But that also means that some software doesn't work perfectly yet or have caveats, like Docker. By default Docker Desktop (for apple silicon) will pull down arm64 images. However, you can specify the platform via a command line prompt or docker-compose.yml (ie (--platform=linux/amd64) . You can use mixed platforms simultaneously, docker will either emulate arm or virtualize x86 as necessary. If you're not careful, you might create a Docker image locally using arm64 and then try to run it in the cloud in Linux and it won't start. I know, because that actually happened to me.
+
+In the past Mac was the only machine where you could run Linux, Windows and MacOS. With Apple Silicon it's no longer the case.
 
 ## 3. Peripherals (mainly an issue with M1)
 
-Users can connect just one additional monitor with the M1 MAcBook Air and Pro. This is not an issue on the M1 Pro/Max laptops. The M1 Mac Mini can connect up to two monitors. Though there are some workarounds using DisplayLink adapters and the USB-C port.
+Users can connect just one additional monitor with the M1 MacBook Air and Pro. This is not an issue on the M1 Pro/Max laptops. The M1 Mac Mini can connect up to two monitors. There are some workarounds using DisplayLink adapters and the USB-C port, but it's going to involve some work setting it up.
 
 ### 4. Pricing
 
-Depending on the machine you get, it can be very expensive and you'll be paying for lots of stuff that's not important purely for software development:
+Depending on the machine you get, it can be very expensive and you'll be paying for lots of stuff that's not important for software development:
 
 - Screen quality on laptops is great, but you'll probably use an external monitor anyway for coding
 - You're paying for media exporters that are built into the chip. If you're doing video editing, that's useful. For coding not so much.
@@ -82,24 +86,26 @@ Depending on the machine you get, it can be very expensive and you'll be paying 
 
 ### 5. Configurability
 
-You have a limited number of possible chip configurations. If you like customizing your machine, you're not going to be happy with a Mac. There's no way to upgrade things like RAM or harddrive later on. What you buy is what you get. Well, unless you buy the uber-uber expensive Mac Pro which is totally overkill for most software developers. And at the time of publishing this video, that still runs on Intel and is actually beaten in some tasks by the newer, and much cheaper Apple silicon Macs.
+You have a limited number of possible chip configurations. If you like customizing your machine, you're not going to be happy with a Mac. There's no way to upgrade things like RAM or harddisk later on. What you buy is what you get. Well, unless you buy the uber-uber expensive Mac Pro which is totally overkill for most software developers. And at the time of publishing this video, that still runs on Intel and is actually beaten in some tasks by the newer, and much cheaper Apple silicon Macs.
 
 You have to make sure that when you buy the machine, it's future-proof so you don't have to replace it within a few years. And then you pay Apple's prices for RAM and SSD storage.
 
 ### 6. BONUS: pedantic issues
 
-- OS X creates dozens of hidden files like .DS_Store which can really be annoying if you work a lot with file processing.
-- To this date - can’t open an archive file. Instead, OS X insists on extracting it.
-- Window management. Ugh. Window management on macOS is lacking. Not just lacking, it's pretty bad. But you can use a free tool called Rectangle to fix it.
+Here are a few bonus minor annoyances.
+
+- OS X creates dozens of hidden files like .DS_Store which can really be annoying if you work a lot with file processing, and they end up in your Git repositories if you forget to add it to your gitignore file.
+- To this date - macOS can’t open an archive file without extracting it. It's really annoying.
+- Window management. Ugh. It's lacking. Not just lacking, it's bad. But you can use a free tool called Rectangle that fixes it.
 
 ## What mac should you buy as a developer?
 
 - Machines that are a great option for software development are:
-  - M1 MacBook Air (a truly great laptop and great value at the price). M1 works great for software development (I've been using one for the past year to do pretty intense backend and web development)
-  - If you just need a desktop: M1 mini has the same performance or even a bit better than the M1 Macbook Air due to the fan and it's pretty cheap.
-  - If you need a bit more performance: M1 MacbookPro 14. It's more expensive, but it's also a way faster machine with the M1 Pro
+  - M1 MacBook Air (a truly great laptop and great value at the price). M1 works great for software development (I've been using one for the past year to do pretty intense backend and frontend development). It's awesome and now that the M2 Macbook is out, you find great deals on the M1 Macbook Airs.
+  - If you just need a desktop: M1 mini has the same performance or even a bit better than the M1 Macbook Air due to the fan and it's pretty cheap. And you get to pick your own monitor, keyboard and mouse.
+  - If you need a bit more performance: the 14" M1 MacbookPro is great. It's more expensive, but it's also a way faster machine with the M1 Pro chip.
 - What you definitely shouldn't buy:
-  - M1 Max (same CPU performance as the M1 Pro). The reason I got this is because I do a lot of video editing. And the M1 Max has more powerful encoding and decoding chips. The SD Card reader is really use because all my cameras record on SD Cards. And I like the bigger screen because then I don't need a monitor at home when I'm editing videos (though 16" is not the same as working on a 24 of 27" monitor, it gets the job done)
+  - M1 Max (same CPU performance as the M1 Pro - you pay more money for stuff you don't need). The reason I got this is because I do a lot of video editing. And the M1 Max has more powerful encoding and decoding chips. The SD Card reader is really useful because all my cameras record on SD Cards. And I like the bigger screen because then I don't need a monitor at home when I'm editing videos (though 16" is not the same as working on a 24 of 27" monitor, it gets the job done)
   - M2 Macbook Air (it's a bit more performant than the M1 - but if you need performance and want a Mac, you should go for the 14" pro IMO) - too expensive for what you get
 
 In terms of specs:
@@ -108,4 +114,6 @@ In terms of specs:
 - RAM: 8GB does the job, but it's shared, so personally I opted for 16GB. Especially if you want to run Docker containers locally, you'll be glad you went with 16GB.
 - Storage: 256GB is okay, but since the hardware is not replacable, only get this version if you're really, really sure you don't need the space. Personally, I recommend going for 512GB at least. If you're doing web development, that node_modules folder can get pretty large pretty quickly. Docker images can also be quite large, so be aware.
 
-Hope this video gave you some insight into whether you should buy a Mac for software development, and which one. If you want to learn more about my Mac setup and the apps I use - there's a few you definitely should know exist, check out this video next.
+Hope this video gave you some insight into whether you should buy a Mac for software development, and which one. If you want to learn more about my Mac setup and the apps I use - there's a few you definitely should know about, check out this video next. Thanks for watching, take care and see you soon.
+
+Show usage in StackOverflow survey: https://survey.stackoverflow.co/2022/#methodology

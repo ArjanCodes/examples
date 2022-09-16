@@ -1,14 +1,14 @@
 # A deep dive into dates and time in Python
 
-Working with date and time data is one of the most challenging tasks in Data Science as well as programming in general. While dealing with different date formats, different time zones, daylight saving time, and whatnot, it can be difficult of keeping track of what days or times you are referencing.
+Working with date and time data can be really challenging. With all the different date and time formats, ISO standards, different time zones, daylight saving, adjusting for time travelling with tachyon particles, it goes on and on.
 
-The reason that programming with dates and times can be such a pain, is due to the fundamental disconnect between the ordered and regular fashion a computer program prefers its events to be, and how irregular and unordered ways in which humans tend to use dates and times.
+Today, I want to take you through how Python's builtin datetime package works, talk about some of the alternatives out there to help make dealing with dates and times easier, and whether those alternatives are actually necessary.
 
-One great example of such irregularity is daylight time saving, adapted by the United States and Canada. What they essentially do is set the clock forward one hour on the Second Sunday of March, and set back one hour on the First Sunday in November.
+Learning about these things helps you become a better software engineer, and hone your critical thinking skills. If you want to take this a step further, I have a free workshop for you that teaches you how to diagnose existing code and quickly see what the main problems are. It's one of the most important things to get good at, especially as you start moving into a more senior position. You can get access to the workshop by going to arjan.codes/diagnosis. The workshop is organized around three factors and contains loads of code examples, also from well-known Python packages. Just grab it for free at Arjan.codes/diagnosis, the link is also in the description.
 
-However, things might get more complicated if you factor in Time Zones into your projects. Ideally, timezones should follow straight lines along the longitudes, however, due to politics and historical reasons, these lines are seldom straight.
+Why is dealing with dates and times such a pain? It's a dichotomy between on the one hand computer software which tends to ordered and structured and generic and on the other hand the quite unstructured way we deal with dates and times. Things are never the same. Some years don't have the same number of days because they're a leap year. Months don't have the same number of days. Each day doesn't have the same number of hours if you consider daylight time saving. Not all countries have daylight time saving, and those that do may apply daylight time saving at a different moment. Then we have time zones which are not divided by longitudal geodesics due to political and historical reasons. In short, it's a mess.
 
-Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. I'll talk more about UTC later.
+In our little computer bubble we do have some kind of standard way of representing dates and time. Most computer system count time starting from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. What's UTC? I'll talk more about that in a minute.
 
 # Unix time (screencast)
 
@@ -41,9 +41,11 @@ Show basic usage of dates and time in Python (`datetime_basic.py`).
 
 Date and Time objects can be broadly divided into two categories, mainly ‘Aware‘ and ‘Naive‘. In simple words, if an object contains the timezone information it is Aware, or else, Naive.
 
-The aware objects like datetime, date, and time have an additional optional attribute to them, called the tzinfo. But tzinfo itself is an abstract class. To deal with these, you need to exactly know which methods are needed. Handling timezone problems are eased by the pytz module. Using this module we can deal with daylight savings time in locations that use it and cross-timezone conversions.
+In Python, objects like datetime have an optional property tzinfo that contains the time zone information. By default datetime is timezone naive, so this object isn't set to anything. If you want timezone-aware datetimes, you need a module that can deal with all the issues related to timezones that I mentioned earlier. In Python, we have the pytz package for this. It's not built into python, you have to add it as a dependency.
 
-Where are these timezones and daylight savings settings coming from, you might wonder? Well, basically, all software in the world retrieves that information from a centralized timezone database. Which is currently maintained by one guy in California. It's a fascinating story, I don't have time to dive into it in this video, but there's a link in the description to an article on Medium that covers this story.
+You might wonder where all these timezone and daylight savings settings come from. Basically, most software in the world retrieves that information from a centralized timezone database. Which is currently maintained by one guy in California (well, kinda). It's a fascinating story, I don't have time to dive into it in this video, but there's a link in the description to an article on Medium if you want to read more about it.
+
+Now let's take a look at some examples of how to deal with timezones in Python.
 
 (show timezone examples - `datetime_tz.py`)
 
@@ -57,13 +59,13 @@ Timezone conversion with datetime is not bad, but you need to create a tzinfo ob
 
 By default, datetime is timezone-naive: it doesn't take timezones into account unless you explicitly indicate that it should.
 
-Over the past few years a lot of things have been improved like adding support for parsing ISO 8601 strings, but there are still some functionalities that are missing from datetime, in particular humanizing dates and timespans.
+Now, over the past few years a lot of things have been improved in the datetime package like adding support for parsing ISO 8601 strings, but there are still some functionalities missing, such as humanizing dates and durations.
 
-So, over the years, people have developed alternatives to datetime, packages such as Arrow, Delorean and Pendulum. These packages generally offer a nicer interface than the standard datetime package. I won't go into detail for each of these packages since they all mostly try to solve the same limitations, but I am going to take a closer look at Pendulum.
+People have developed alternative packages that deal with dates and times such as Arrow, Delorean and Pendulum. These packages generally offer a nicer interface than the standard datetime package. I won't go into detail for each of these packages since they all mostly try to solve the same limitations, but I am going to take a closer look at Pendulum today.
 
 Pendulum provides a drop-in replacement for the datetime class, but adds simpler timezone handling, datetimes are timezone-aware by default, and it has a bunch of extra features such as localization, or being able to easily write a human-readable version of a timespan.
 
-Let's take a look at how Pendulum works. But before I do that, I'd really appreciate if you would take the "time" to hit the like button if you're enjoying this video so far. It's going to help YouTube recommend my content to others as well.
+Let's take a look at how Pendulum works. But before I do that, I'd really appreciate if you would take the "time" to hit the like button if you're enjoying this video so far. It's going to help YouTube recommend my content to others.
 
 # Show pendulum example
 
@@ -73,14 +75,14 @@ Localization is a topic all in itself. I'd like to cover it in more detail in th
 
 # Final thoughts
 
-So, should everyone switch to a library like Pendulum? Well, it's nice, it adds very useful extra features. But, a couple of things to think about:
+So, should everyone switch to a package like Pendulum? Well, it's nice, it adds very useful extra features. But, here are a couple of things to think about:
 
-1. Pendulum hasn't seen a new release for a while. The last version on GitHub was published over two years ago. This is always a risk with using external packages: are they being actively maintained, and for how long?
+1. Pendulum hasn't seen a new release for a while. The last version on GitHub was published over two years ago. This is always a risk with using external packages in production code, you have to consider whether they're being actively maintained, and for how long?
 
-2. The builtin datetime package is being worked on as well. There are only minor changes in the datetime package in Python 3.11, like a slightly more robust `fromisoformat` method, but as more functionality is added, you might not need an external package anymore. And then you potentially have to do a lot of refactoring work to move away from the external package. Though Pendulum does inherit directly from the datetime class, which reduces the risk somewhat.
+2. The builtin datetime package is being worked on as well. There are only minor changes in that package in Python 3.11, like a slightly more robust `fromisoformat` method, but as more functionality is added, you might not need an external package anymore. And then you potentially have to do a lot of refactoring work to move away from the external package. Though Pendulum does inherit directly from the datetime class, which reduces that risk somewhat.
 
-3. Do you really need the extra features? If you don't, then simply stick to the builtin datetime module. It's not perfect, but it's pretty good.
+3. Do you really need the extra features? If you don't, then simply stick to the builtin datetime pakcage. It's not perfect, but it's pretty good.
 
-Hope that this video and gave you some food for thought about dealing with dates and times. Next to datetime, Python has lots of other interesting packages as well. For example, pathlib is really interesting as well. If you want to learn more, check out this video.
+Hope that this video gave you some food for thought about dealing with dates and times in your own code. Next to datetime, Python has lots of other interesting packages as well. For example, pathlib. If you want to learn more about dealing with paths, check out this video.
 
 Thanks for watching, take care and see you next week.
