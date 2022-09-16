@@ -1,4 +1,4 @@
-# Arrows
+# A deep dive into dates and time in Python
 
 Working with date and time data is one of the most challenging tasks in Data Science as well as programming in general. While dealing with different date formats, different time zones, daylight saving time, and whatnot, it can be difficult of keeping track of what days or times you are referencing.
 
@@ -8,11 +8,11 @@ One great example of such irregularity is daylight time saving, adapted by the U
 
 However, things might get more complicated if you factor in Time Zones into your projects. Ideally, timezones should follow straight lines along the longitudes, however, due to politics and historical reasons, these lines are seldom straight.
 
-Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours UTC. UTC stands for Universal Time Coordinated (UTC), or Coordinated Universal Time. Before 1972, this time was called Greenwich Mean Time (GMT), sometimes erroneously called Greenwich Meridian Time. And it's pronounced "grenitsch", not "green witch" - this is not the land of Oz, people!
+Most of the computers count time from an arbitrary point in time called the Unix epoch: January 1st, 1970, at 00:00:00 hours.
 
-UTC is a coordinated time scale, maintained by the Bureau International des Poids et Mesures (BIPM). It's not adjusted for daylight saving time so there's always twenty-four hours in a day. It is also known as "Z time" or "Zulu Time". Which sounds way cooler than UTC. Are you still with me?
+# Unix time (screencast)
 
-Unix time is measured in seconds from January 1, 1970. You can easily view the current Unix time with a few lines of Python code.
+Unix time is measured in seconds from January 1st, 1970 UTC. I'll talk more about UTC later. You can easily view the current Unix time with a few lines of Python code.
 
 ```python
 import time
@@ -27,7 +27,13 @@ You already know where this is going if you are familiar with the Y2K Problem. S
 
 So if you want to avoid catastrophic consequences to your critical systems in 2038, make sure that you update them to use a 64-bit OS somewhere within the next 15 years. If you're planning to still run a critical system on a 32-bit OS in 2038 though, can you please fire yourself? The world thanks you.
 
-# Using dates and time in Python
+# UTC
+
+As I mentioned earlier, Unix time is expressed in the UTC timezone. UTC stands for Universal Time Coordinated (UTC), or Coordinated Universal Time. Before 1972, this time was called Greenwich Mean Time (GMT), sometimes erroneously called Greenwich Meridian Time. And it's pronounced "grenitsch", not "green witch" - unless you live in the land of Oz.
+
+UTC is a coordinated time scale, maintained by the Bureau International des Poids et Mesures (BIPM). It's not adjusted for daylight saving time so there's always twenty-four hours in a day. It is also known as "Z time" or "Zulu Time". Which sounds way cooler than UTC. Let's take a look at how we deal with dates and times in Python.
+
+# Using dates and time in Python (screencast)
 
 Show basic usage of dates and time in Python (`datetime_basic.py`).
 
@@ -57,7 +63,7 @@ So, over the years, people have developed alternatives to datetime, packages suc
 
 Pendulum provides a drop-in replacement for the datetime class, but adds simpler timezone handling, datetimes are timezone-aware by default, and it has a bunch of extra features such as localization, or being able to easily write a human-readable version of a timespan.
 
-Let's take a look at a few examples of how Pendulum works.
+Let's take a look at how Pendulum works. But before I do that, I'd really appreciate if you would take the "time" to hit the like button if you're enjoying this video so far. It's going to help YouTube recommend my content to others as well.
 
 # Show pendulum example
 
