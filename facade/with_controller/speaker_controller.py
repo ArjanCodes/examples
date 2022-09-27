@@ -3,7 +3,7 @@ from message.helper import Message as Msg
 from network.connection import Connection
 
 
-def send_msg_to_speaker(service: IOTService, speaker_id: str, msg: str) -> None:
+def send_msg_to_speaker(msg: str, service: IOTService, speaker_id: str) -> None:
     # create a connection to the smart speaker
     speaker_ip, speaker_port = service.get_device(speaker_id).connection_info()
     speaker_connection = Connection(speaker_ip, speaker_port)
