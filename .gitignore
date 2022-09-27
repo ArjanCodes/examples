@@ -8,3 +8,4 @@ htmlcov
 configs/runs
 .hypothesis
 venv
+.env
