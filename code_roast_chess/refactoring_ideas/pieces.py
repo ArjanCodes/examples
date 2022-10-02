@@ -53,7 +53,7 @@ class Piece:
     @staticmethod
     def from_fen(x: int, y: int, fen: str) -> Piece:
         color = Color.WHITE if fen.isupper() else Color.BLACK
-        return Piece(x, y, color, type=FEN_MAP[fen])
+        return Piece(x, y, color, type=FEN_MAP[fen.lower()])
 
     def move_to(self, x: int, y: int) -> None:
         self.x, self.y = x, y
