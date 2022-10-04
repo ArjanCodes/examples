@@ -5,9 +5,8 @@ from network.connection import Connection
 
 
 class IOTFacade:
-    def __init__(self) -> None:
-        # create the service
-        self.service = IOTService()
+    def __init__(self, service: IOTService) -> None:
+        self.service = service
         # create the speaker device
         smart_speaker = SmartSpeakerDevice()
         self.speaker_id = self.service.register_device(smart_speaker)
