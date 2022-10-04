@@ -1,52 +1,55 @@
+import tkinter as tk
 from pathlib import Path
-from tkinter import BOTH, END, Button, Frame, Menu, Text, Tk, filedialog, messagebox
+from tkinter import filedialog, messagebox
 from typing import Callable
 
 DEFAULT_FILENAME = "untitled.txt"
 
 
-class WorsePad(Frame):
+class WorsePad(tk.Tk):
     def __init__(
         self, post_event: Callable[[str], None], show_save_button: bool = True
     ) -> None:
-        super().__init__(Tk())
-        self.master.title("Worsepad")
-        self.master.geometry("400x250+300+300")
+        super().__init__()
+        self.title("Worsepad")
+        self.geometry("400x250+300+300")
         self.file_path = Path.cwd() / DEFAULT_FILENAME
         self.show_save_button = show_save_button
         self.post_event = post_event
         self.create_ui()
 
     def create_ui(self) -> None:
-        menubar = Menu(self.master)
-        self.master.config(menu=menubar)
+        menubar = tk.Menu(self)
+        self.config(menu=menubar)
 
-        file_menu = Menu(menubar)
-        file_menu.add_command(label="Open", command=self.on_open)
-        file_menu.add_command(label="Clear", command=self.on_clear)
-        file_menu.add_command(label="Save", command=self.on_save)
-        file_menu.add_command(label="Exit", command=self.quit)
+        file_menu = tk.Menu(menubar)
+        for label, command in (
+            ("Open", self.on_open),
+            ("Clear", self.on_clear),
+            ("Save", self.on_save),
+            ("Exit", self.quit),
+        ):
+            file_menu.add_command(label=label, command=command)
+
         menubar.add_cascade(label="File", menu=file_menu)
 
-        self.master.title("Worsepad")
-        self.pack(fill=BOTH, expand=1)
+        frame = tk.Frame(self)
+        frame.pack(fill=tk.BOTH, expand=1)
 
         if self.show_save_button:
-            self.save_button = Button(
-                self, text="Save", command=self.on_save_button_clicked
-            )
-            self.save_button.pack(fill=BOTH, expand=1)
+            save_button = tk.Button(frame, text="Save", command=self.on_save)
+            save_button.pack(anchor="e", padx=5, pady=5)
 
-        self.text = Text(self)
-        self.text.pack(fill=BOTH, expand=1)
+        self.text = tk.Text(frame)
+        self.text.pack(fill=tk.BOTH, expand=1)
 
-        result = messagebox.askquestion(
+        result: str = messagebox.askquestion(  # type: ignore
             "Privacy check",
             "Do you want to share usage statistics with us?",
             icon="warning",
         )
         if result == "no":
-            self.post_event = lambda x: None
+            self.post_event: Callable[[str], None] = lambda _: None
 
     def on_open(self) -> None:
         file_str = filedialog.askopenfilename(title="Select file")
@@ -57,15 +60,15 @@ class WorsePad(Frame):
         self.file_path = Path(file_str)
         text_content = self.file_path.read_text(encoding="latin-1")
 
-        self.text.delete(1.0, END)
-        self.text.insert(END, text_content)
+        self.on_clear()
+        self.text.insert(tk.END, text_content)
 
     def on_clear(self) -> None:
-        self.text.delete(1.0, END)
-
-    def on_save_button_clicked(self) -> None:
-        self.post_event("save_button_clicked")
-        self.on_save()
+        self.text.delete(1.0, tk.END)
 
     def on_save(self) -> None:
-        self.file_path.write_text(self.text.get(1.0, END), encoding="latin-1")
+        self.post_event("save_button_clicked")
+        self.save()
+
+    def save(self) -> None:
+        self.file_path.write_text(self.text.get(1.0, tk.END), encoding="latin-1")

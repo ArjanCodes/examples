@@ -40,7 +40,7 @@ def dijkstra(graph: Graph, index: int = 0) -> list[float]:
 
 
 def main() -> None:
-    graph = [
+    graph: list[list[float]] = [
         [0, 4, 0, 0, 0, 0, 0, 8, 0],
         [4, 0, 8, 0, 0, 0, 0, 11, 0],
         [0, 8, 0, 7, 0, 4, 0, 0, 2],

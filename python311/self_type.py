@@ -1,6 +1,6 @@
 from dataclasses import dataclass
 from enum import Enum
-from typing import Self
+from typing import Self, Type
 
 
 class PieceType(Enum):
@@ -46,10 +46,10 @@ class Piece:
     color: Color = Color.NONE
     type: PieceType = PieceType.EMPTY
 
-    @staticmethod
-    def from_fen(x: int, y: int, fen: str) -> Self:
+    @classmethod
+    def from_fen(cls: Type[Self], x: int, y: int, fen: str) -> Self:
         color = Color.WHITE if fen.isupper() else Color.BLACK
-        return Piece(x, y, color, type=FEN_MAP[fen.lower()])
+        return cls(x, y, color, type=FEN_MAP[fen.lower()])
 
     def promote_to_queen(self) -> None:
         self.type = PieceType.QUEEN

@@ -1,7 +1,3 @@
-import json
-from dataclasses import dataclass
-from pathlib import Path
-
 from dotenv import load_dotenv
 
 from event import post_event
