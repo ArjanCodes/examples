@@ -17,20 +17,26 @@ class Device(Protocol):
     def connection_info(self) -> tuple[str, int]:
         ...
 
+    def status_update(self) -> str:
+        ...
+
 
 class IOTService:
     def __init__(self):
-        self.devices: dict[str, Device] = {}
+        self._devices: dict[str, Device] = {}
 
     def register_device(self, device: Device) -> str:
         device.connect()
         device_id = generate_id()
-        self.devices[device_id] = device
+        self._devices[device_id] = device
         return device_id
 
     def unregister_device(self, device_id: str) -> None:
-        self.devices[device_id].disconnect()
-        del self.devices[device_id]
+        self._devices[device_id].disconnect()
+        del self._devices[device_id]
 
     def get_device(self, device_id: str) -> Device:
-        return self.devices[device_id]
+        return self._devices[device_id]
+
+    def devices(self) -> dict[str, Device]:
+        return self._devices

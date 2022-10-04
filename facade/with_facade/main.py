@@ -1,10 +1,15 @@
+from functools import partial
+
 from gui import SmartApp
-from speaker import Speaker
+from iot_controller import get_status, power_speaker
+from iot_facade import IOTFacade
 
 
 def main() -> None:
-    speaker_facade = Speaker()
-    app = SmartApp(speaker_facade.send_message)
+    iot = IOTFacade()
+    power_speaker_fn = partial(power_speaker, iot=iot)
+    get_status_fn = partial(get_status, iot=iot)
+    app = SmartApp(power_speaker_fn, get_status_fn)
     app.mainloop()
 
 

@@ -1,3 +1,4 @@
+import logging
 import tkinter as tk
 
 from iot.devices import SmartSpeakerDevice
@@ -7,6 +8,7 @@ from network.connection import Connection
 
 OFF_TEXT = "Speaker OFF"
 ON_TEXT = "Speaker ON"
+STATUS_UPDATE_TEXT = "Status Update"
 
 
 class SmartApp(tk.Tk):
@@ -29,9 +31,17 @@ class SmartApp(tk.Tk):
         self.toggle_button = tk.Button(
             self, text=OFF_TEXT, width=10, command=self.toggle
         )
-        self.toggle_button.pack(pady=10)
+        self.get_status_button = tk.Button(
+            self, text=STATUS_UPDATE_TEXT, width=10, command=self.display_status
+        )
+        self.status_label = tk.Label(self, text="")
+        self.toggle_button.pack()
+        self.get_status_button.pack()
+        self.status_label.pack()
 
     def toggle(self) -> None:
+        logging.info(f"Toggle speaker {self.speaker_id} with status {self.speaker_on}")
+
         self.speaker_on = not self.speaker_on
         self.toggle_button.config(text=ON_TEXT if self.speaker_on else OFF_TEXT)
 
@@ -51,8 +61,19 @@ class SmartApp(tk.Tk):
         speaker_connection.send(message.b64)
         speaker_connection.disconnect()
 
+        logging.info(f"Speaker {self.speaker_id} status: {self.speaker_on}")
+
+    def display_status(self) -> None:
+        logging.info(f"Display status for IOT devices.")
+        status = ""
+        for device_id, device in self.service.devices().items():
+            status += f"{device_id}: {device.status_update()}"
+        self.status_label.config(text=status)
+        logging.info(f"Status: {status}")
+
 
 def main():
+    logging.basicConfig(level=logging.INFO)
     app = SmartApp()
     app.mainloop()
 
