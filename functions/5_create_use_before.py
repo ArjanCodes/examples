@@ -1,6 +1,9 @@
+import logging
+
+
 class StripePaymentHandler:
     def handle_payment(self, amount: int) -> None:
-        print(f"Charging ${amount/100:.2f} using Stripe")
+        logging.info(f"Charging ${amount/100:.2f} using Stripe")
 
 
 PRICES = {
@@ -13,13 +16,14 @@ PRICES = {
 
 def order_food(items: list[str]) -> None:
     total = sum(PRICES[item] for item in items)
-    print(f"Your order is ${total/100:.2f}.")
+    logging.info(f"Order total is ${total/100:.2f}.")
     payment_handler = StripePaymentHandler()
     payment_handler.handle_payment(total)
-    print("Thanks for your business!")
+    logging.info("Order completed.")
 
 
 def main() -> None:
+    logging.basicConfig(level=logging.INFO)
     order_food(["burger", "fries", "drink"])
 
 

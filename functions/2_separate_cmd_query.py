@@ -21,31 +21,28 @@ class Customer:
     name: str
     phone: str
     cc_number: str
-    expiry_month: int
-    expiry_year: int
-    card_valid: bool = False
+    cc_exp_month: int
+    cc_exp_year: int
+    cc_valid: bool = False
 
 
-def validate_card(cc_number: str, expiry_month: int, expiry_year: int) -> bool:
+def validate_card(customer: Customer) -> bool:
     return (
-        luhn_checksum(cc_number)
-        and datetime(expiry_year, expiry_month, 1) > datetime.now()
+        luhn_checksum(customer.cc_number)
+        and datetime(customer.cc_exp_year, customer.cc_exp_month, 1) > datetime.now()
     )
 
 
 def main() -> None:
-    # valid card example: 1249190007575069
     alice = Customer(
         name="Alice",
         phone="2341",
         cc_number="1249190007575069",
-        expiry_month=1,
-        expiry_year=2023,
+        cc_exp_month=1,
+        cc_exp_year=2024,
     )
-    alice.card_valid = validate_card(
-        alice.cc_number, alice.expiry_month, alice.expiry_year
-    )
-    print(f"Is Alice's card valid? {alice.card_valid}")
+    alice.cc_valid = validate_card(alice)
+    print(f"Is Alice's card valid? {alice.cc_valid}")
     print(alice)
 
 

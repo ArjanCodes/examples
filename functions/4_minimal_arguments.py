@@ -1,5 +1,6 @@
 from dataclasses import dataclass
 from datetime import datetime
+from typing import Protocol
 
 
 def luhn_checksum(card_number: str) -> bool:
@@ -19,8 +20,8 @@ def luhn_checksum(card_number: str) -> bool:
 @dataclass
 class Card:
     number: str
-    expiry_month: int
-    expiry_year: int
+    exp_month: int
+    exp_year: int
     valid: bool = False
 
 
@@ -32,22 +33,32 @@ class Customer:
     card_valid: bool = False
 
 
-def validate_card(card: Card) -> bool:
+class CardInfo(Protocol):
+    @property
+    def number(self) -> str:
+        ...
+
+    @property
+    def exp_month(self) -> int:
+        ...
+
+    @property
+    def exp_year(self) -> int:
+        ...
+
+
+def validate_card(card: CardInfo) -> bool:
     return (
         luhn_checksum(card.number)
-        and datetime(card.expiry_year, card.expiry_month, 1) > datetime.now()
+        and datetime(card.exp_year, card.exp_month, 1) > datetime.now()
     )
 
 
 def main() -> None:
-    # valid card example: 1249190007575069
-    alice = Customer(
-        name="Alice",
-        phone="2341",
-        card=Card(number="1249190007575069", expiry_month=1, expiry_year=2023),
-    )
-    alice.card_valid = validate_card(alice.card)
-    print(f"Is Alice's card valid? {alice.card.valid}")
+    card = Card(number="1249190007575069", exp_month=1, exp_year=2024)
+    alice = Customer(name="Alice", phone="2341", card=card)
+    card.valid = validate_card(card)
+    print(f"Is Alice's card valid? {card.valid}")
     print(alice)
 
 
