@@ -1,9 +1,16 @@
 import tkinter as tk
-
-from presenter import Presenter
+from typing import Protocol
 
 TITLE = "To Do List"
 DELETE_BTN_TXT = "Delete"
+
+
+class Presenter(Protocol):
+    def handle_add_task(self, task: str) -> None:
+        ...
+
+    def handle_delete_task(self, index: int) -> None:
+        ...
 
 
 class TodoList(tk.Tk):

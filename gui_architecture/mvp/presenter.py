@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+from dataclasses import dataclass
 from typing import Protocol
 
 from model import Model
@@ -16,12 +17,10 @@ class View(Protocol):
         ...
 
 
+@dataclass
 class Presenter:
-    def __init__(self, model: Model, view: View) -> None:
-        self.model = model
-        self.view = view
-        self.view.init_ui(self)
-        self.view.update_task_list(self.model.get_tasks())
+    model: Model
+    view: View
 
     def handle_add_task(self, task: str) -> None:
         self.model.add_task(task)
@@ -32,4 +31,6 @@ class Presenter:
         self.view.update_task_list(self.model.get_tasks())
 
     def run(self) -> None:
+        self.view.init_ui(self)
+        self.view.update_task_list(self.model.get_tasks())
         self.view.mainloop()
