@@ -41,10 +41,10 @@ class TodoList(tk.Tk):
         )
         self.del_task_button.pack(side=tk.TOP, anchor=tk.NE)
 
-    def bind_delete_task(self, callback: Callable[[Any], None]) -> None:
-        self.del_task_button.config(command=callback)
+    def bind_delete_task(self, callback: Callable[[tk.Event], None]) -> None:
+        self.del_task_button.bind("<Button-1>", callback)
 
-    def bind_add_task(self, callback: Callable[[Any], None]) -> None:
+    def bind_add_task(self, callback: Callable[[tk.Event], None]) -> None:
         self.my_entry.bind("<Return>", callback)
 
     def get_entry_text(self) -> str:
