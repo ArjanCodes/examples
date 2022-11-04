@@ -16,8 +16,7 @@ class Controller:
         self.view.update_task_list()
 
     def delete_task(self, event=None) -> None:
-        index = self.view.get_selected_task_index()
-        self.model.delete_task(index)
+        self.model.delete_task(self.view.selected_task)
         self.view.update_task_list()
 
     def run(self) -> None:

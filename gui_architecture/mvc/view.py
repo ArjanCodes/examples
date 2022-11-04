@@ -53,8 +53,9 @@ class TodoList(tk.Tk):
     def clear_entry(self) -> None:
         self.my_entry.delete(0, "end")
 
-    def get_selected_task_index(self) -> int:
-        return self.task_list.curselection()[0]
+    @property
+    def selected_task(self) -> str:
+        return self.task_list.get(self.task_list.curselection())
 
     def on_select_task(self, event=None) -> None:
         self.del_task_button.config(state=tk.NORMAL)

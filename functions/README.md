@@ -26,6 +26,12 @@ The next two points are spin-offs of the first point. The `validate_card` functi
 
 In general, make sure that a function either retrieves information (does a query) or performs an action (a command), but not both. This is a principle called the Command-Query Separation principle, which was thought by Bertrand Meyer, he’s French. He’s the one who came up with the idea of Design by Contract, he originated the Open-Closed Principle and he also created a programming language called Eiffel. Of course, he’s French. Makes a lot of sense. What doesn’t make sense at all is that a Dutch guy created a programming language called Python. There are no Pythons in the Netherlands! He should have called it Tulip. Or Cheese. Or Prostitute. It’s a missed opportunity.
 
+def update_item_matching(thing): # update some item that lives in a collection
+for item in collection:
+if matches(item, thing):
+update(item)
+break
+
 **Make the function only return a value and store it in the customer object in the main function.**
 
 ## 3. Only request information you actually need

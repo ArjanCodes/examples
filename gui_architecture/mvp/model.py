@@ -1,26 +1,22 @@
-from dataclasses import dataclass, field
+import sqlite3
 
 
-def init_task_list() -> list[str]:
-    return [
-        "Process email inbox",
-        "Write blog post",
-        "Prepare video scripts",
-        "Tax accounting",
-        "Prepare presentation",
-        "Go to the gym",
-    ]
-
-
-@dataclass
 class Model:
-    task_list: list[str] = field(default_factory=init_task_list)
+    def __init__(self) -> None:
+        self.connection = sqlite3.connect("tasks.db")
+        self.cursor = self.connection.cursor()
+        self.cursor.execute("create table if not exists tasks (title text)")
 
     def add_task(self, task: str) -> None:
-        self.task_list.append(task)
+        self.cursor.execute("insert into tasks values (?)", (task,))
+        self.connection.commit()
 
-    def delete_task(self, index: int) -> None:
-        del self.task_list[index]
+    def delete_task(self, task: str) -> None:
+        self.cursor.execute("delete from tasks where title = ?", (task,))
+        self.connection.commit()
 
     def get_tasks(self) -> list[str]:
-        return self.task_list.copy()
+        tasks: list[str] = []
+        for row in self.cursor.execute("select title from tasks"):
+            tasks.append(row[0])
+        return tasks
