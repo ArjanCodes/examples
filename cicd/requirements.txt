@@ -1,0 +1,6 @@
+pulumi
+pulumi-gcp
+fastapi
+pydantic
+uvicorn
+watchfiles
