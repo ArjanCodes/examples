@@ -1,6 +1,6 @@
-name: cloud_func
+name: channel_api
 runtime:
   name: python
   options:
     virtualenv: venv
-description: A minimal Google Cloud Python Pulumi program
+description: A simple YouTube channel API running as a Google Cloud Function.

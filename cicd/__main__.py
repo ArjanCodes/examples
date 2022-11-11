@@ -11,7 +11,7 @@ from pulumi_gcp import cloudfunctions, storage
 PATH_TO_SOURCE_CODE = "./functions"
 
 # We will store the source code to the Cloud Function in a Google Cloud Storage bucket.
-bucket = storage.Bucket("cf_demo_bucket", location="US", force_destroy=True)
+bucket = storage.Bucket("channel_api_bucket", location="US", force_destroy=True)
 
 # The Cloud Function source code itself needs to be zipped up into an
 # archive, which we create using the pulumi.AssetArchive primitive.
@@ -26,7 +26,7 @@ archive = pulumi.AssetArchive(assets=assets)
 # Create the single Cloud Storage object, which contains all of the function's
 # source code. ("main.py" and "requirements.txt".)
 source_archive_object = storage.BucketObject(
-    "eta_demo_object",
+    "channel_api",
     name=f"main.py-{time.time()}",
     bucket=bucket.name,
     source=archive,
@@ -35,8 +35,8 @@ source_archive_object = storage.BucketObject(
 # Create the Cloud Function, deploying the source we just uploaded to Google
 # Cloud Storage.
 fxn = cloudfunctions.Function(
-    "eta_demo_function",
-    entry_point="hello_name",
+    "channel_api",
+    entry_point="channel_api",
     region="us-central1",
     runtime="python310",
     source_archive_bucket=bucket.name,
