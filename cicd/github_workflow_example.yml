@@ -1,0 +1,40 @@
+name: Pulumi
+on:
+  push:
+    branches:
+      - main
+jobs:
+  update:
+    name: Update Channel API
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: Configure gcloud credentials
+        uses: "google-github-actions/auth@v1"
+        with:
+          credentials_json: ${{ secrets.GCS_SA_KEY }}
+
+      - name: Setup gcloud / gsutil
+        uses: google-github-actions/setup-gcloud@v1
+        with:
+          project_id: ${{ secrets.GCS_PROJECT }}
+
+      - name: Setup Python
+        uses: actions/setup-python@v4
+        with:
+          python-version: 3.10.8
+          cache: pip
+
+      - name: Install requirements
+        run: pip install -r requirements.txt
+
+      - name: Run tests
+        run: python -B -m pytest
+
+      - uses: pulumi/actions@v3
+        with:
+          command: up
+          stack-name: dev
+        env:
+          PULUMI_ACCESS_TOKEN: ${{ secrets.PULUMI_ACCESS_TOKEN }}
