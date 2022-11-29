@@ -2,21 +2,18 @@ from dataclasses import dataclass
 from typing import Iterable
 
 
-@dataclass
+@dataclass(frozen=True)
 class LineItem:
     price: int
     quantity: int
 
-    def total(self) -> int:
+    def total_price(self) -> int:
         return self.price * self.quantity
-
-    def __hash__(self) -> int:
-        return hash((self.price, self.quantity))
 
 
 def print_totals(items: Iterable[LineItem]) -> None:
     for item in items:
-        print(item.total())
+        print(item.total_price())
 
 
 def main() -> None:

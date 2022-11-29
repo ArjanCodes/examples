@@ -1,36 +1,54 @@
 import unittest
 
 import hypothesis.strategies as st
-from hypothesis.stateful import Bundle, RuleBasedStateMachine, precondition, rule
+import pytest
+from hypothesis.stateful import RuleBasedStateMachine, precondition, rule
 from order import LineItem, Order
 
 
 class OrderTest(RuleBasedStateMachine):
-    line_items: Bundle[LineItem] = Bundle("line_items")
-
     def __init__(self) -> None:
         super().__init__()
         self.order = Order("John Doe", [])
+        self.line_items: list[LineItem] = []
 
     @rule(
-        target=line_items,
         description=st.text(),
         price=st.integers(),
         quantity=st.integers(),
     )
-    def create_line_item(self, description: str, price: int, quantity: int) -> LineItem:
-        return LineItem(description, price, quantity)
+    def create_line_item(self, description: str, price: int, quantity: int) -> None:
+        self.line_items.append(LineItem(description, price, quantity))
 
-    @rule(line_item=line_items)
-    def add_line_item_to_order(self, line_item: LineItem) -> None:
+    @precondition(lambda self: len(self.line_items) > 0)
+    @rule(data=st.data())
+    def add_line_item_to_order(self, data: st.SearchStrategy) -> None:
+        line_item = data.draw(st.sampled_from(self.line_items))
         self.order.add_line_item(line_item)
 
-    @rule(line_item=line_items)
-    def remove_line_item_from_order(self, line_item: LineItem) -> None:
+    # only try to remove line items if there are any in the order
+    @precondition(lambda self: len(self.order.line_items) > 0)
+    @rule(data=st.data())
+    def remove_line_item_from_order(self, data: st.SearchStrategy) -> None:
+        line_item = data.draw(st.sampled_from(self.order.line_items))
         self.order.remove_line_item(line_item)
 
-    @rule(line_item=line_items, quantity=st.integers())
-    def update_line_item_quantity(self, line_item: LineItem, quantity: int) -> None:
+    # check that removing a line item that is not in the order raises an exception
+    @precondition(
+        lambda self: len(self.order.line_items) == 0 and len(self.line_items) > 0
+    )
+    @rule(data=st.data())
+    def remove_line_item_from_order_raises_exception(
+        self, data: st.SearchStrategy
+    ) -> None:
+        line_item = data.draw(st.sampled_from(self.line_items))
+        with pytest.raises(ValueError):
+            self.order.remove_line_item(line_item)
+
+    @precondition(lambda self: len(self.line_items) > 0)
+    @rule(data=st.data(), quantity=st.integers())
+    def update_line_item_quantity(self, data: st.SearchStrategy, quantity: int) -> None:
+        line_item = data.draw(st.sampled_from(self.line_items))
         self.order.update_li_quantity(line_item, quantity)
 
     @rule()

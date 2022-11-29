@@ -1,14 +1,14 @@
 def main() -> None:
 
     countries = ("Germany", "France", "Italy", "Spain", "Portugal", "Greece")
-    my_iterator = iter(countries)
+    country_iterator = iter(countries)
 
-    print(next(my_iterator))
-    print(next(my_iterator))
-    print(next(my_iterator))
-    print(next(my_iterator))
-    print(next(my_iterator))
-    print(next(my_iterator))
+    print(next(country_iterator))
+    print(next(country_iterator))
+    print(next(country_iterator))
+    print(next(country_iterator))
+    print(next(country_iterator))
+    print(next(country_iterator))
     # print(next(my_iterator))  # this raises a StopIteration exception
 
     # alternatively, we can use a for loop
@@ -17,14 +17,14 @@ def main() -> None:
 
     # a for loop creates an iterator object and executes the next() method for each iteration
     # behind the scenes, the for loop is equivalent to the following code:
-    my_iterator = iter(countries)
+    country_iterator = iter(countries)
     while True:
         try:
-            item = next(my_iterator)
+            country = next(country_iterator)
         except StopIteration:
             break
         else:
-            print(item)
+            print(country)
 
     # you can also call iter with a sentinel value
     # this is useful when you want to iterate over a stream of data
