@@ -1,2 +1,3 @@
 config:
   gcp:project: arjancodes-pulumi
+  gcp:region: us-central1
