@@ -38,10 +38,23 @@ class OrderTest(RuleBasedStateMachine):
         lambda self: len(self.order.line_items) == 0 and len(self.line_items) > 0
     )
     @rule(data=st.data())
-    def remove_line_item_from_order_raises_exception(
+    def remove_line_item_from_empty_order_raises_exception(
         self, data: st.SearchStrategy
     ) -> None:
         line_item = data.draw(st.sampled_from(self.line_items))
+        with pytest.raises(ValueError):
+            self.order.remove_line_item(line_item)
+
+    # check that removing a line item that is not in the order raises an exception
+    @precondition(
+        lambda self: any(x not in self.order.line_items for x in self.line_items)
+    )
+    @rule(data=st.data())
+    def remove_line_item_from_order_raises_exception(
+        self, data: st.SearchStrategy
+    ) -> None:
+        unordered_items = [x for x in self.line_items if x not in self.order.line_items]
+        line_item = data.draw(st.sampled_from(unordered_items))
         with pytest.raises(ValueError):
             self.order.remove_line_item(line_item)
 
