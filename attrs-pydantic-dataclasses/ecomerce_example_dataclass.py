@@ -75,10 +75,21 @@ def main() -> None:
         tax_percent=0.11,
     )
 
+    expensive_mango = Product(
+        name="Mango",
+        category="Fruit",
+        shipping_weight=4.0,
+        unit_price=8.0,
+        tax_percent=0.20,
+    )
+
     order = Order(creation_date=date.today(), status="openned")
 
     order.add_item(banana)
     order.add_item(mango)
+    order.add_item(expensive_mango)
+
+    print(f"Comparison bewteen mango and expensive mango: {mango == expensive_mango}")
 
     print(f"Total order price: U$ {order.calculate_total()}")
     print(f"Subtotal order price: U$ {order.calculate_sub_total()}")
