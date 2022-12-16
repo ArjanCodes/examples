@@ -18,14 +18,9 @@ class Product(BaseModel):
 
     name: str
     category: str
-    shipping_weight: confloat(gt=0)  # Validation of weight field
-    unit_price: confloat(gt=0)  # Validation of price field
-    tax_percent: confloat(ge=0, le=1)  # Validation of percentage field
-
-    # Pydantic has this feature of typing and validation at the same time.
-    # This 'con' comes from constrain to validate the field input.
-    # Other typing validations can be found here:
-    # https://pydantic-docs.helpmanual.io/usage/types/#pydantic-types
+    shipping_weight: confloat(gt=0)
+    unit_price: confloat(gt=0)
+    tax_percent: confloat(ge=0, le=1)
 
 
 class Order(BaseModel):
@@ -62,7 +57,7 @@ class Order(BaseModel):
 
 
 if __name__ == "__main__":
-    # pydantic only accepts keyword arguments.
+
     henry = Customer(name="Henrique", city="Sao Jose do Rio Preto", country="Brazil")
 
     banana = Product(

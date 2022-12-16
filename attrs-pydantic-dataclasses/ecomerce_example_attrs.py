@@ -6,16 +6,12 @@ from attrs import define, field, validators
 
 
 def positive_number(instance, attribute, value):
-    # The validators used must have those three arguments
-    # https://www.attrs.org/en/stable/init.html#validators
     """Custom check whether an attribute of an instance has a positive value assingned."""
     if value <= 0:
         raise ValueError(f"{attribute} must be greater then zero.")
 
 
 def percentage_value(instance, attribute, value):
-    # The validators used must have those three arguments
-    # https://www.attrs.org/en/stable/init.html#validators
     """Custom check whether an attribute of an instance has a percentage assigned."""
     if not 0 < value < 1:
         raise ValueError(f"{attribute} must be between zero and one.")
@@ -47,7 +43,7 @@ class Product:
     )
 
 
-@define(kw_only=True)  # This enforces the class to use keyword only arguments!
+@define(kw_only=True)
 class Order:
     """Order in ecommerce website."""
 
@@ -83,7 +79,6 @@ class Order:
 
 if __name__ == "__main__":
 
-    # attrs doesn't enforce keyword only arguments
     henry = Customer("Henrique", "Sao Jose do Rio Preto", "Brazil")
 
     banana = Product(
@@ -102,7 +97,6 @@ if __name__ == "__main__":
         tax_percent=0.11,
     )
 
-    # keywords are mandatory just when kw_only are set in @define decorator
     order = Order(date=date.today(), status="openned", customer=henry)
 
     order.add_item(banana)
