@@ -30,16 +30,16 @@ def percentage_value(instance: P, attribute: str, value: float) -> None:
 class Product:
     """Product in ecommerce chart."""
 
-    name: str
-    category: str
+    name: str = field(eq=str.lower)
+    category: str = field(eq=str.lower)
     shipping_weight: float = field(
-        validator=[validators.instance_of(float), positive_number]
+        validator=[validators.instance_of(float), positive_number], eq=False
     )
     unit_price: float = field(
-        validator=[validators.instance_of(float), positive_number]
+        validator=[validators.instance_of(float), positive_number], eq=False
     )
     tax_percent: float = field(
-        validator=[validators.instance_of(float), percentage_value]
+        validator=[validators.instance_of(float), percentage_value], eq=False
     )
 
 

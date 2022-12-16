@@ -8,11 +8,11 @@ from datetime import date
 class Product:
     """Product in ecommerce chart."""
 
-    name: str
-    category: str
-    shipping_weight: float
-    unit_price: float
-    tax_percent: float
+    name: str = field(compare=True)
+    category: str = field(compare=True)
+    shipping_weight: float = field(compare=False)
+    unit_price: float = field(compare=False)
+    tax_percent: float = field(compare=False)
 
     def __post_init__(self) -> None:
         if self.unit_price < 0:
