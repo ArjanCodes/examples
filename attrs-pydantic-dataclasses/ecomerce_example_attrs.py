@@ -38,9 +38,9 @@ class Product:
 class Order:
     """Order in ecommerce website."""
 
-    date: date
     status: str
-    products: list[Product] = field(factory=list)
+    creation_date: date = date.today()
+    products: list[Product] = field(default_factory=list)
 
     def add_item(self, product: Product):
         """Insert one product into order."""

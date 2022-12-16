@@ -2,7 +2,6 @@
 
 from dataclasses import dataclass, field
 from datetime import date
-from typing import List
 
 
 @dataclass
@@ -30,9 +29,9 @@ class Product:
 class Order:
     """Order in ecommerce website."""
 
-    date: date
     status: str
-    products: List[Product] = field(default_factory=list)
+    creation_date: date = date.today()
+    products: list[Product] = field(default_factory=list)
 
     def add_item(self, product: Product):
         """Insert one product into order."""
@@ -76,7 +75,7 @@ def main():
         tax_percent=0.11,
     )
 
-    order = Order(date=date.today(), status="openned")
+    order = Order(creation_date=date.today(), status="openned")
 
     order.add_item(banana)
     order.add_item(mango)

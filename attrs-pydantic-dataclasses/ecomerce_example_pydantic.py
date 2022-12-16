@@ -18,8 +18,8 @@ class Product(BaseModel):
 class Order(BaseModel):
     """Order in ecommerce website."""
 
-    date: date
     status: str
+    creation_date: date = date.today()
     products: list[Product] = Field(default_factory=list)
 
     def add_item(self, product: Product):
