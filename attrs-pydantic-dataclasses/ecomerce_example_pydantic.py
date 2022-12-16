@@ -5,14 +5,6 @@ from datetime import date
 from pydantic import BaseModel, Field, confloat
 
 
-class Customer(BaseModel):
-    """Customer's information"""
-
-    name: str
-    city: str
-    country: str
-
-
 class Product(BaseModel):
     """Product in ecommerce chart."""
 
@@ -28,7 +20,6 @@ class Order(BaseModel):
 
     date: date
     status: str
-    customer: Customer
     products: list[Product] = Field(default_factory=list)
 
     def add_item(self, product: Product):
@@ -58,8 +49,6 @@ class Order(BaseModel):
 
 if __name__ == "__main__":
 
-    henry = Customer(name="Henrique", city="Sao Jose do Rio Preto", country="Brazil")
-
     banana = Product(
         name="banana",
         category="fruit",
@@ -76,7 +65,7 @@ if __name__ == "__main__":
         tax_percent=0.11,
     )
 
-    order = Order(date=date.today(), status="openned", customer=henry)
+    order = Order(date=date.today(), status="openned")
 
     order.add_item(banana)
     order.add_item(mango)

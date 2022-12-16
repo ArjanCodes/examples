@@ -18,15 +18,6 @@ def percentage_value(instance, attribute, value):
 
 
 @define
-class Customer:
-    """Customer's information"""
-
-    name: str
-    city: str
-    country: str
-
-
-@define
 class Product:
     """Product in ecommerce chart."""
 
@@ -49,7 +40,6 @@ class Order:
 
     date: date
     status: str
-    customer: Customer
     products: list[Product] = field(factory=list)
 
     def add_item(self, product: Product):
@@ -79,8 +69,6 @@ class Order:
 
 if __name__ == "__main__":
 
-    henry = Customer("Henrique", "Sao Jose do Rio Preto", "Brazil")
-
     banana = Product(
         name="banana",
         category="fruit",
@@ -97,7 +85,7 @@ if __name__ == "__main__":
         tax_percent=0.11,
     )
 
-    order = Order(date=date.today(), status="openned", customer=henry)
+    order = Order(date=date.today(), status="openned")
 
     order.add_item(banana)
     order.add_item(mango)
