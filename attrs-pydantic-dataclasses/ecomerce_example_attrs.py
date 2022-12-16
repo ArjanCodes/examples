@@ -49,7 +49,7 @@ class Order:
 
     status: str
     creation_date: date = date.today()
-    products: list[Product] = field(default_factory=list)
+    products: list[Product] = field(factory=list)
 
     def add_item(self, product: Product) -> None:
         """Insert one product into order."""
