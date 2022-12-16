@@ -49,8 +49,7 @@ class Order:
         return sum((p.shipping_weight for p in self.products))
 
 
-if __name__ == "__main__":
-
+def main():
     banana = Product(
         name="banana",
         category="fruit",
@@ -76,3 +75,7 @@ if __name__ == "__main__":
     print(f"Subtotal order price: U$ {order.calculate_sub_total()}")
     print(f"Value paid in taxes: U$ {order.calculate_tax()}")
     print(f"Total weight order: {order.total_weight}")
+
+
+if __name__ == "__main__":
+    main()
