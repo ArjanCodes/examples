@@ -101,7 +101,7 @@ def main() -> None:
         tax_percent=0.20,
     )
 
-    order = Order(date=date.today(), status="openned")
+    order = Order(creation_date=date.today(), status="openned")
 
     order.add_item(banana)
     order.add_item(mango)
