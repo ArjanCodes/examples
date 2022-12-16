@@ -5,7 +5,7 @@ from datetime import date
 from attrs import define, field, validators
 
 
-def positive_number(instance, attribute, value):
+def positive_number(instance, attribute, value) -> None:
     """Custom check whether an attribute of an instance has a positive value assingned."""
     if value <= 0:
         raise ValueError(f"{attribute} must be greater then zero.")
@@ -42,32 +42,32 @@ class Order:
     creation_date: date = date.today()
     products: list[Product] = field(default_factory=list)
 
-    def add_item(self, product: Product):
+    def add_item(self, product: Product) -> None:
         """Insert one product into order."""
         self.products.append(product)
 
-    def calculate_sub_total(self):
+    def calculate_sub_total(self) -> float:
         """Total order price without taxes."""
         subtotal = sum((p.unit_price for p in self.products))
         return round(subtotal, 2)
 
-    def calculate_tax(self):
+    def calculate_tax(self) -> float:
         """Total paid in taxes."""
         taxes = sum((p.unit_price * p.tax_percent for p in self.products))
         return round(taxes, 2)
 
-    def calculate_total(self):
+    def calculate_total(self) -> float:
         """Total order price considering taxes."""
         total = self.calculate_sub_total() + self.calculate_tax()
         return round(total, 2)
 
     @property
-    def total_weight(self):
+    def total_weight(self) -> float:
         """Total weight of order."""
         return sum((p.shipping_weight for p in self.products))
 
 
-def main():
+def main() -> None:
     banana = Product(
         name="banana",
         category="fruit",
