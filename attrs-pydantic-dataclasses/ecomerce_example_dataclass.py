@@ -15,6 +15,16 @@ class Product:
     unit_price: float
     tax_percent: float
 
+    def __post_init__(self) -> None:
+        if self.unit_price < 0:
+            raise ValueError("unit_price attribute must greater then zero.")
+
+        if self.shipping_weight < 0:
+            raise ValueError("shipping_weight attribute must greater then zero.")
+
+        if not 0 < self.tax_percent < 1:
+            raise ValueError("tax_percent attribute must be between zero and one.")
+
 
 @dataclass
 class Order:
