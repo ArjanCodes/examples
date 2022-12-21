@@ -1,14 +1,18 @@
 """Ecommerce modeling with attrs example."""
 
+from __future__ import annotations
+
 from datetime import date
 from typing import TypeVar
 
 from attrs import define, field, validators
 
-P = TypeVar("P")
+Attribute = TypeVar("Attribute", str)
 
 
-def positive_number(instance: P, attribute: str, value: float) -> None:
+def positive_number(
+    instance: Product, attribute: Attribute, value: int | float
+) -> None:
     """Custom check whether an attribute of an instance has a positive value assingned."""
     class_name = instance.__class__.__name__
     if value <= 0:
@@ -17,7 +21,7 @@ def positive_number(instance: P, attribute: str, value: float) -> None:
         )
 
 
-def percentage_value(instance: P, attribute: str, value: float) -> None:
+def percentage_value(instance: Product, attribute: str, value: float) -> None:
     """Custom check whether an attribute of an instance has a percentage assigned."""
     class_name = instance.__class__.__name__
     if not 0 < value < 1:
