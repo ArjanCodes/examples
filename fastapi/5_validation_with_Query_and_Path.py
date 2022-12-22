@@ -71,8 +71,8 @@ def add_item(item: Item) -> dict[str, Item]:
     return {"added": item}
 
 
-# We can place further restrictions on allowed arguments by using the Query class.
-# In this case we are setting a lower bound for valid values.
+# We can place further restrictions on allowed arguments by using the Query and Path classes.
+# In this case we are setting a lower bound for valid values and a minimal and maximal length for the name.
 @app.put("/update/{item_id}")
 def update(
     item_id: int = Path(ge=0),
