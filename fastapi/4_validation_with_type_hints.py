@@ -3,7 +3,8 @@ from pydantic import BaseModel
 
 app = FastAPI()
 
-
+# Inheriting from Pydantic's BaseModels gives us built-in validation.
+# Even if we were to use a regular @dataclass validation would still work (FastAPI converts it to Pydantic internally)
 class Item(BaseModel):
     name: str
     price: float
