@@ -31,7 +31,7 @@ def index() -> dict[str, dict[int, Item]]:
 
 
 @app.get("/items/{item_id}")
-def query_item_by_id(item_id: int = Path(ge=0)) -> Item:
+def query_item_by_id(item_id: int) -> Item:
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
 
@@ -75,8 +75,8 @@ def add_item(item: Item) -> dict[str, Item]:
 # In this case we are setting a lower bound for valid values.
 @app.put("/update/{item_id}")
 def update(
-    item_id: int,
-    name: str | None = None,
+    item_id: int = Path(ge=0),
+    name: str | None = Query(defaut=None, min_length=1, max_length=8),
     price: float | None = Query(default=None, gt=0.0),
     count: int | None = Query(default=None, ge=0),
 ):
