@@ -42,7 +42,7 @@ def query_item_by_id(item_id: int) -> Item:
 
 # With the type hints in place, FastAPI returns an error message when we supply arguments of an incorrect type.
 # Without them, we no longer have this validation.
-Selection = dict[str, str | int | float | Category]  # dictionary containing the users query arguments
+Selection = dict[str, str | int | float | Category]  # dictionary containing the user's query arguments
 @app.get("/items/")
 def query_item_by_parameters(
         name: str | None = None, price: float | None = None, count: int | None = None, category: Category | None = None
