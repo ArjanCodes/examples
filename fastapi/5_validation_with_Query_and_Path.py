@@ -80,6 +80,8 @@ def update(
     price: float | None = Query(default=None, gt=0.0),
     count: int | None = Query(default=None, ge=0),
 ):
+    if item_id not in items:
+        HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
     if all(info is None for info in (name, price, count)):
         raise HTTPException(
             status_code=400, detail="No parameters provided for update."

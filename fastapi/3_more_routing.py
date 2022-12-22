@@ -82,6 +82,8 @@ def update(
     count: int | None = None,
 ) -> dict[str, Item]:
 
+    if item_id not in items:
+        HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
     if all(info is None for info in (name, price, count)):
         raise HTTPException(
             status_code=400, detail="No parameters provided for update."
