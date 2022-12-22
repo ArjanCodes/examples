@@ -19,24 +19,27 @@ items = {
 
 
 @app.get("/")
-def index():
+def index() -> dict[str, dict[int, Item]]:
     return {"items": items}
 
 
 @app.get("/items/{item_id}")
-def query_item_by_id(item_id: int):
+def query_item_by_id(item_id: int) -> Item:
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
 
     return items[item_id]
 
 
-# If we remove type hints FastAPI will not validate these parameters anymore.
-# With the type hints in place, FastAPI would return an error message when parameters of an incorrect type are supplied.
+# With the type hints in place, FastAPI returns an error message when we supply arguments of an incorrect type.
 # Without them, we no longer have this validation.
+Selection = dict[str, str | int | float]  # dictionary containing the users query arguments
 @app.get("/items/")
-def query_item_by_parameters(name=None, price=None, count=None):
+def query_item_by_parameters(
+        name: str | None = None, price: float | None = None, count: int | None = None
+) -> dict[str,  Selection | list[Item]]:
     def check_item(item: Item):
+        """Check if the item matches the query arguments from the outer scope."""
         if name is not None and item.name != name:
             return False
         if price is not None and item.price != price:
@@ -53,7 +56,7 @@ def query_item_by_parameters(name=None, price=None, count=None):
 
 
 @app.post("/")
-def add_item(item: Item):
+def add_item(item: Item) -> dict[str, Item]:
     if item.id in items:
         HTTPException(status_code=400, detail=f"Item with {item.id=} already exists.")
 
@@ -85,7 +88,7 @@ def update(
 
 
 @app.delete("/delete/{item_id}")
-def delete_item(item_id: int):
+def delete_item(item_id: int) -> dict[str, Item]:
     if item_id not in items:
         raise HTTPException(
             status_code=404, detail=f"Item with {item_id=} does not exist."

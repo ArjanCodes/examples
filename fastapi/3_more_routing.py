@@ -19,13 +19,13 @@ items = {
 
 
 @app.get("/")
-def index():
+def index() -> dict[str, dict[int, Item]]:
 
     return {"items": items}
 
 
 @app.get("/items/{item_id}")
-def query_item_by_id(item_id: int):
+def query_item_by_id(item_id: int) -> Item:
 
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
@@ -33,11 +33,13 @@ def query_item_by_id(item_id: int):
     return items[item_id]
 
 
+Selection = dict[str, str | int | float]  # dictionary containing the users query arguments
 @app.get("/items/")
 def query_item_by_parameters(
-    name: str | None = None, price: float | None = None, count: int | None = None
-):
+        name: str | None = None, price: float | None = None, count: int | None = None
+) -> dict[str,  Selection | list[Item]]:
     def check_item(item: Item):
+        """Check if the item matches the query arguments from the outer scope."""
         if name is not None and item.name != name:
             return False
         if price is not None and item.price != price:
@@ -54,7 +56,7 @@ def query_item_by_parameters(
 
 
 @app.post("/")
-def add_item(item: Item):
+def add_item(item: Item) -> dict[str, Item]:
 
     if item.id in items:
         HTTPException(status_code=400, detail=f"Item with {item.id=} already exists.")
@@ -69,7 +71,7 @@ def update(
     name: str | None = None,
     price: float | None = None,
     count: int | None = None,
-):
+) -> dict[str, Item]:
 
     if all(info is None for info in (name, price, count)):
         raise HTTPException(
@@ -88,7 +90,7 @@ def update(
 
 
 @app.delete("/delete/{item_id}")
-def delete_item(item_id: int):
+def delete_item(item_id: int) -> dict[str, Item]:
 
     if item_id not in items:
         raise HTTPException(

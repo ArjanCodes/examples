@@ -19,14 +19,14 @@ items = {
 
 
 @app.get("/")
-def index():
+def index() -> dict[str, dict[int, Item]]:
     return {"items": items}
 
 
 # Path parameters can be specified with {} directly in the path (similar to f-string syntax)
 # These parameters will be forwarded to the decorated function as keyword arguments.
 @app.get("/items/{item_id}")
-def query_item_by_id(item_id: int):
+def query_item_by_id(item_id: int) -> Item:
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
 
@@ -35,11 +35,13 @@ def query_item_by_id(item_id: int):
 
 # Function parameters that are not path parameters can be specified as query parameters in the URL
 # Here we can query items like this /items?count=20
+Selection = dict[str, str | int | float]  # dictionary containing the users query arguments
 @app.get("/items/")
 def query_item_by_parameters(
-    name: str | None = None, price: float | None = None, count: int | None = None
-):
+        name: str | None = None, price: float | None = None, count: int | None = None
+) -> dict[str,  Selection | list[Item]]:
     def check_item(item: Item):
+        """Check if the item matches the query arguments from the outer scope."""
         if name is not None and item.name != name:
             return False
         if price is not None and item.price != price:

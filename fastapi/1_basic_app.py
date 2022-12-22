@@ -21,5 +21,5 @@ items = {
 # FastAPI handles JSON serialization and deserialization for us.
 # We can simply use built-in python and Pydantic types, in this case dict[int, Item].
 @app.get("/")
-def index():
+def index() -> dict[str, dict[int, Item]]:
     return {"items": items}
