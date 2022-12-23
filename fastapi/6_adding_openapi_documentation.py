@@ -46,7 +46,7 @@ def query_item_by_id(item_id: int) -> Item:
     return items[item_id]
 
 
-Selection = dict[str, str | int | float | Category]  # dictionary containing the user's query arguments
+Selection = dict[str, str | int | float | Category | None]  # dictionary containing the user's query arguments
 @app.get("/items/")
 def query_item_by_parameters(
         name: str | None = None, price: float | None = None, count: int | None = None, category: Category | None = None
