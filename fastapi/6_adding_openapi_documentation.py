@@ -78,9 +78,10 @@ def add_item(item: Item) -> dict[str, Item]:
     items[item.id] = item
     return {"added": item}
 
-
+# The 'responses' keyword allows you to specify which responses a user can expect from this endpoint.
+@app.put("/update/{item_id}", responses={404: {"description": "Item not found"},
+                                         400: {"description": "No arguments specified"}})
 # The Query and Path classes also allow us to add documentation to query and path parameters.
-@app.put("/update/{item_id}")
 def update(
     item_id: int = Path(title="Item ID", description="Unique integer that specifies an item.", ge=0),
     name: str | None = Query(title="Name", description="New name of the item.", default=None, min_length=1, max_length=8),
