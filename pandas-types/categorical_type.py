@@ -37,7 +37,7 @@ def calculate_percentage_difference(inicial: pd.Series, final: pd.Series) -> pd.
     return (final - inicial) / inicial * 100
 
 
-def main():
+def main() -> None:
     customers_before_type_conversion = read_raw_dataset()
     print("--- Types before conversion ---")
     print(customers_before_type_conversion.dtypes, end="\n\n")
