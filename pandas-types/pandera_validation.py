@@ -18,10 +18,6 @@ def remove_metadata_information(path: Path, filename: str) -> pd.DataFrame:
     return df_out
 
 
-def convert_types(mapping: dict[str, str], dataframe: pd.DataFrame) -> pd.DataFrame:
-    return dataframe.astype(mapping)
-
-
 def main() -> None:
     dataset_path = Path("pandas-types").absolute() / "datasets"
     filename = "netherlands_airports.csv"
