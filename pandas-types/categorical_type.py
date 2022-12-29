@@ -6,14 +6,14 @@ import pandas as pd
 def read_raw_dataset() -> pd.DataFrame:
     """Reads the Olist e-commerce customers dataset."""
     dataset_path = Path("pandas-types").absolute() / "datasets"
-    df = pd.read_csv(dataset_path / "olist_customers_dataset.csv")
-    return df
+    customers = pd.read_csv(dataset_path / "olist_customers_dataset.csv")
+    return customers
 
 
-def calculate_memory_usage(df: pd.DataFrame) -> pd.Series:
+def calculate_memory_usage(df_input: pd.DataFrame) -> pd.Series:
     """Returns the real memory usage of a DataFrame including object types."""
 
-    memory_usage = df.memory_usage(deep=True)
+    memory_usage = df_input.memory_usage(deep=True)
     print("--- Memory consumption ---")
     print(memory_usage, end="\n\n")
 
