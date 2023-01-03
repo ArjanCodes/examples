@@ -97,7 +97,7 @@ def main() -> None:
         tax_percent=0.20,
     )
 
-    order = Order(creation_date=date.today(), status=OrderStatus.OPEN)
+    order = Order(status=OrderStatus.OPEN)
     for product in [banana, mango, expensive_mango]:
         order.add_product(product)
 
