@@ -1,13 +1,15 @@
-"""Ecommerce modeling with dataclass example."""
-
 from dataclasses import dataclass, field
 from datetime import date
+from enum import StrEnum, auto
+
+
+class OrderStatus(StrEnum):
+    OPEN = auto()
+    CLOSED = auto()
 
 
 @dataclass
 class Product:
-    """Product in ecommerce chart."""
-
     name: str = field(compare=True)
     category: str = field(compare=True)
     shipping_weight: float = field(compare=False)
@@ -27,32 +29,30 @@ class Product:
 
 @dataclass
 class Order:
-    """Order in ecommerce website."""
-
-    status: str
+    status: OrderStatus
     creation_date: date = date.today()
     products: list[Product] = field(default_factory=list)
 
-    def add_item(self, product: Product) -> None:
-        """Insert one product into order."""
+    def add_product(self, product: Product) -> None:
         self.products.append(product)
 
-    def calculate_sub_total(self) -> int:
-        """Total order price without taxes."""
+    @property
+    def sub_total(self) -> int:
         return sum((p.unit_price for p in self.products))
 
-    def calculate_tax(self) -> float:
-        """Total paid in taxes."""
-        return sum((p.unit_price * p.tax_percent for p in self.products))
-
-    def calculate_total(self) -> float:
-        """Total order price considering taxes."""
-        return self.calculate_sub_total() + self.calculate_tax()
+    @property
+    def tax(self) -> float:
+        return sum(
+            (product.unit_price * product.tax_percent for product in self.products)
+        )
 
     @property
-    def total_weight(self) -> float:
-        """Total weight of order."""
-        return sum((p.shipping_weight for p in self.products))
+    def total_price(self) -> float:
+        return self.sub_total + self.tax
+
+    @property
+    def total_shipping_weight(self) -> float:
+        return sum((product.shipping_weight for product in self.products))
 
 
 def main() -> None:
@@ -80,18 +80,15 @@ def main() -> None:
         tax_percent=0.20,
     )
 
-    order = Order(creation_date=date.today(), status="openned")
+    order = Order(creation_date=date.today(), status=OrderStatus.OPEN)
+    for product in [banana, mango, expensive_mango]:
+        order.add_product(product)
 
-    order.add_item(banana)
-    order.add_item(mango)
-    order.add_item(expensive_mango)
-
-    print(f"Comparison bewteen mango and expensive mango: {mango == expensive_mango}")
-
-    print(f"Total order price: ${order.calculate_total()/100:.2f}")
-    print(f"Subtotal order price: ${order.calculate_sub_total()/100:.2f}")
-    print(f"Value paid in taxes: ${order.calculate_tax()/100:.2f}")
-    print(f"Total weight order: {order.total_weight} kg")
+    print(f"Comparison between mango and expensive mango: {mango == expensive_mango}")
+    print(f"Total order price: ${order.total_price/100:.2f}")
+    print(f"Subtotal order price: ${order.sub_total/100:.2f}")
+    print(f"Value paid in taxes: ${order.tax/100:.2f}")
+    print(f"Total weight order: {order.total_shipping_weight} kg")
 
 
 if __name__ == "__main__":

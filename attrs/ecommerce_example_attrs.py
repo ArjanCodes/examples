@@ -1,17 +1,18 @@
-"""Ecommerce modeling with attrs example."""
-
 from __future__ import annotations
 
 from datetime import date
-from typing import TypeVar
+from enum import StrEnum, auto
 
-from attrs import define, field, validators
+from attrs import Attribute, define, field, validators
 
-Attribute = TypeVar("Attribute", bound=str)
+
+class OrderStatus(StrEnum):
+    OPEN = auto()
+    CLOSED = auto()
 
 
 def positive_number(
-    instance: Product, attribute: Attribute, value: int | float
+    instance: type, attribute: Attribute[str], value: int | float
 ) -> None:
     """Custom check whether an attribute of an instance has a positive value assingned."""
     class_name = instance.__class__.__name__
@@ -21,10 +22,10 @@ def positive_number(
         )
 
 
-def percentage_value(instance: Product, attribute: str, value: float) -> None:
+def percentage_value(instance: type, attribute: Attribute[str], value: float) -> None:
     """Custom check whether an attribute of an instance has a percentage assigned."""
     class_name = instance.__class__.__name__
-    if not 0 < value < 1:
+    if not 0 <= value <= 1:
         raise ValueError(
             f"{class_name} {attribute.name} attribute must be between 0 and 1."
         )
@@ -32,8 +33,6 @@ def percentage_value(instance: Product, attribute: str, value: float) -> None:
 
 @define
 class Product:
-    """Product in ecommerce chart."""
-
     name: str = field(eq=str.lower)
     category: str = field(eq=str.lower)
     shipping_weight: float = field(
@@ -49,31 +48,27 @@ class Product:
 
 @define(kw_only=True)
 class Order:
-    """Order in ecommerce website."""
-
-    status: str
+    status: OrderStatus
     creation_date: date = date.today()
     products: list[Product] = field(factory=list)
 
-    def add_item(self, product: Product) -> None:
-        """Insert one product into order."""
+    def add_product(self, product: Product) -> None:
         self.products.append(product)
 
-    def calculate_sub_total(self) -> int:
-        """Total order price without taxes."""
+    @property
+    def sub_total(self) -> int:
         return sum((p.unit_price for p in self.products))
 
-    def calculate_tax(self) -> float:
-        """Total paid in taxes."""
+    @property
+    def tax(self) -> float:
         return sum((p.unit_price * p.tax_percent for p in self.products))
 
-    def calculate_total(self) -> float:
-        """Total order price considering taxes."""
-        return self.calculate_sub_total() + self.calculate_tax()
+    @property
+    def total_price(self) -> float:
+        return self.sub_total + self.tax
 
     @property
-    def total_weight(self) -> float:
-        """Total weight of order."""
+    def total_shipping_weight(self) -> float:
         return sum((p.shipping_weight for p in self.products))
 
 
@@ -102,18 +97,15 @@ def main() -> None:
         tax_percent=0.20,
     )
 
-    order = Order(creation_date=date.today(), status="openned")
+    order = Order(creation_date=date.today(), status=OrderStatus.OPEN)
+    for product in [banana, mango, expensive_mango]:
+        order.add_product(product)
 
-    order.add_item(banana)
-    order.add_item(mango)
-    order.add_item(expensive_mango)
-
-    print(f"Comparison bewteen mango and expensive mango: {mango == expensive_mango}")
-
-    print(f"Total order price: ${order.calculate_total()/100:.2f}")
-    print(f"Subtotal order price: ${order.calculate_sub_total()/100:.2f}")
-    print(f"Value paid in taxes: ${order.calculate_tax()/100:.2f}")
-    print(f"Total weight order: {order.total_weight} kg")
+    print(f"Comparison between mango and expensive mango: {mango == expensive_mango}")
+    print(f"Total order price: ${order.total_price/100:.2f}")
+    print(f"Subtotal order price: ${order.sub_total/100:.2f}")
+    print(f"Value paid in taxes: ${order.tax/100:.2f}")
+    print(f"Total weight order: {order.total_shipping_weight} kg")
 
 
 if __name__ == "__main__":
