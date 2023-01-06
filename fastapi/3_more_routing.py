@@ -1,13 +1,15 @@
 from enum import Enum
-from fastapi import FastAPI, HTTPException
+
 from pydantic import BaseModel
+
+from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
 
 class Category(Enum):
-    TOOLS = 'tools'
-    CONSUMABLES = 'consumables'
+    TOOLS = "tools"
+    CONSUMABLES = "consumables"
 
 
 class Item(BaseModel):
@@ -40,22 +42,28 @@ def query_item_by_id(item_id: int) -> Item:
     return items[item_id]
 
 
-Selection = dict[str, str | int | float | Category | None]  # dictionary containing the user's query arguments
+Selection = dict[
+    str, str | int | float | Category | None
+]  # dictionary containing the user's query arguments
+
+
 @app.get("/items/")
 def query_item_by_parameters(
-        name: str | None = None, price: float | None = None, count: int | None = None, category: Category | None = None
-) -> dict[str,  Selection | list[Item]]:
+    name: str | None = None,
+    price: float | None = None,
+    count: int | None = None,
+    category: Category | None = None,
+) -> dict[str, Selection | list[Item]]:
     def check_item(item: Item):
         """Check if the item matches the query arguments from the outer scope."""
-        if name is not None and item.name != name:
-            return False
-        if price is not None and item.price != price:
-            return False
-        if count is not None and item.count != count:
-            return False
-        if category is not None and item.category is not category:
-            return False
-        return True
+        return all(
+            (
+                name is None or item.name == name,
+                price is None or item.price == price,
+                count is None or item.count != count,
+                category is None or item.category is category,
+            )
+        )
 
     selection = [item for item in items.values() if check_item(item)]
     return {
