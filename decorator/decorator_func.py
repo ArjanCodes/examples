@@ -1,4 +1,5 @@
 import logging
+from math import sqrt
 from time import perf_counter
 from typing import Any, Callable
 
@@ -28,7 +29,7 @@ def benchmark(func: Callable[..., Any]) -> Callable[..., Any]:
 def is_prime(number: int) -> bool:
     if number < 2:
         return False
-    for element in range(2, number):
+    for element in range(2, sqrt(number) + 1):
         if number % element == 0:
             return False
     return True
