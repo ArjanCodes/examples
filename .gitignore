@@ -9,3 +9,9 @@ configs/runs
 .hypothesis
 venv
 .env
+
+.idea
+.pytest_cache
+*.egg-info
+build
+dist
