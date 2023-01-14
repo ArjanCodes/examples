@@ -33,17 +33,18 @@ class Sale:
     items: list[SaleLineItem] = field(default_factory=list)
     time: datetime = field(default=datetime.now())
 
-    def calculate_total_price(self) -> int:
+    @property
+    def total_price(self) -> int:
         return sum((line.quantity * line.product.price for line in self.items))
 
     def add_line_item(self, product: ProductDescription, quantity: int) -> None:
         self.items.append(SaleLineItem(product, quantity))
 
-    def calculate_payment(self, payment_methd) -> float:
+    def total_discounted_price(self, payment_methd) -> float:
         if isinstance(payment_methd, Cash):
-            return self.calculate_total_price() * (1 - payment_methd.discount)
+            return self.total_price * (1 - payment_methd.discount)
         elif isinstance(payment_methd, CreditCard):
-            return self.calculate_total_price() * (1 + payment_methd.tax)
+            return self.total_price * (1 + payment_methd.tax)
 
 
 def main() -> None:
@@ -60,10 +61,10 @@ def main() -> None:
     sale.add_line_item(product=headset, quantity=2)
     sale.add_line_item(product=keyboard, quantity=3)
 
-    print(f"Total price of sale: ${sale.calculate_total_price() / 100:.2f}")
+    print(f"Total price of sale: ${sale.total_price / 100:.2f}")
 
     credit_card = CreditCard("123456789")
-    print(f"Final value paid: ${sale.calculate_payment(credit_card) / 100:.2f}")
+    print(f"Final value paid: ${sale.total_discounted_price(credit_card) / 100:.2f}")
 
 
 if __name__ == "__main__":
