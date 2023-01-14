@@ -48,7 +48,6 @@ class Customer:
 
 
 def main() -> None:
-
     # Usage
     henry = Customer(since=date(2023, 1, 1))
     henry_discount = Discount(henry)
