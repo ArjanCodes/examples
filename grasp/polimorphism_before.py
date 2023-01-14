@@ -9,13 +9,13 @@ class Converter:
     formula: Formula
 
     def convert(self):
-        self.formula.calculate()
+        self.formula.apply_conversion()
 
 
 @dataclass
 class Formula(ABC):
     @abstractmethod
-    def calculate(self):
+    def apply_conversion(self):
         raise NotImplementedError("Subclass should implement calculate method.")
 
 
@@ -23,7 +23,7 @@ class Formula(ABC):
 class InchesToCentimeters(Formula):
     input_value: float
 
-    def calculate(self):
+    def apply_conversion(self):
         output_value = self.input_value * 2.54
         print(f"{self.input_value} inches becomes {output_value:.4f} centimeters.")
 
@@ -32,7 +32,7 @@ class InchesToCentimeters(Formula):
 class MilesToKilometers(Formula):
     input_value: float
 
-    def calculate(self):
+    def apply_conversion(self):
         output_value = self.input_value * 1.609
         print(f"{self.input_value} miles becomes {output_value:.4f} kilometers.")
 
@@ -41,7 +41,7 @@ class MilesToKilometers(Formula):
 class PoundsToKilograms(Formula):
     input_value: float
 
-    def calculate(self):
+    def apply_conversion(self):
         output_value = self.input_value / 2.205
         print(f"{self.input_value} pounds becomes {output_value:.4f} kilograms.")
 
