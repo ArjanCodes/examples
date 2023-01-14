@@ -1,5 +1,6 @@
 from dataclasses import dataclass, field
 from datetime import datetime
+from typing import Protocol
 
 
 @dataclass(kw_only=True)
@@ -17,15 +18,26 @@ class SaleLineItem:
         return self.quantity * self.product.price
 
 
+class PaymentMethod(Protocol):
+    def net_price(self, total_price: int) -> int:
+        ...
+
+
 @dataclass
-class Cash:
-    discount: float = 0.1
+class Cash(PaymentMethod):
+    percentage: float = 0.1
+
+    def net_price(self, total_price: int) -> int:
+        return total_price * (1 - self.percentage)
 
 
 @dataclass
 class CreditCard:
     number: str
-    tax: float = 0.05
+    percentage: float = 0.05
+
+    def net_price(self, total_price: int) -> int:
+        return total_price * (1 + self.percentage)
 
 
 @dataclass
@@ -40,13 +52,8 @@ class Sale:
     def add_line_item(self, product: ProductDescription, quantity: int) -> None:
         self.items.append(SaleLineItem(product, quantity))
 
-    def total_discounted_price(self, payment_methd) -> int:
-
-        if isinstance(payment_methd, Cash):
-            return self.total_price * (1 - payment_methd.discount)
-
-        elif isinstance(payment_methd, CreditCard):
-            return self.total_price * (1 + payment_methd.tax)
+    def total_discounted_price(self, payment_methd: PaymentMethod) -> int:
+        return payment_methd.net_price(self.total_price)
 
 
 def main() -> None:
