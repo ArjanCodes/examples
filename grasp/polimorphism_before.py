@@ -1,62 +1,47 @@
 from __future__ import annotations
 
-from abc import ABC, abstractmethod
 from dataclasses import dataclass
+from enum import Enum, auto
+
+
+class ConversionType(Enum):
+    """Types of unit conversion."""
+
+    INCHES_TO_CM = auto()
+    MILES_TO_KM = auto()
+    POUNDS_TO_KG = auto()
 
 
 @dataclass
 class Converter:
-    formula: Formula
+    type: ConversionType
 
-    def convert(self):
-        self.formula.apply_conversion()
+    def convert(self, input_value: float):
+        """Converts the input value into an output depending on specified conversion type."""
+        if self.type == ConversionType.INCHES_TO_CM:
+            output_value = input_value * 2.54
+            print(f"{input_value} inches becomes {output_value:.4f} centimeters.")
 
+        elif self.type == ConversionType.MILES_TO_KM:
+            output_value = input_value * 1.609
+            print(f"{input_value} miles becomes {output_value:.4f} kilometers.")
 
-@dataclass
-class Formula(ABC):
-    @abstractmethod
-    def apply_conversion(self):
-        raise NotImplementedError("Subclass should implement calculate method.")
-
-
-@dataclass
-class InchesToCentimeters(Formula):
-    input_value: float
-
-    def apply_conversion(self):
-        output_value = self.input_value * 2.54
-        print(f"{self.input_value} inches becomes {output_value:.4f} centimeters.")
-
-
-@dataclass
-class MilesToKilometers(Formula):
-    input_value: float
-
-    def apply_conversion(self):
-        output_value = self.input_value * 1.609
-        print(f"{self.input_value} miles becomes {output_value:.4f} kilometers.")
-
-
-@dataclass
-class PoundsToKilograms(Formula):
-    input_value: float
-
-    def apply_conversion(self):
-        output_value = self.input_value / 2.205
-        print(f"{self.input_value} pounds becomes {output_value:.4f} kilograms.")
+        elif self.type == ConversionType.POUNDS_TO_KG:
+            output_value = input_value / 2.205
+            print(f"{input_value} pounds becomes {output_value:.4f} kilograms.")
 
 
 def main():
-    input_value = 40
+    input_value = 1
 
-    inches_to_cm_conv = Converter(InchesToCentimeters(input_value))
-    inches_to_cm_conv.convert()
+    inches_to_cm_conv = Converter(type=ConversionType.INCHES_TO_CM)
+    inches_to_cm_conv.convert(input_value)
 
-    pounds_to_kilo = Converter(MilesToKilometers(input_value))
-    pounds_to_kilo.convert()
+    miles_to_km = Converter(type=ConversionType.MILES_TO_KM)
+    miles_to_km.convert(input_value)
 
-    pounds_to_kilo = Converter(PoundsToKilograms(input_value))
-    pounds_to_kilo.convert()
+    pounds_to_kg = Converter(type=ConversionType.POUNDS_TO_KG)
+    pounds_to_kg.convert(input_value)
 
 
 if __name__ == "__main__":
