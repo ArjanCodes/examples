@@ -1,13 +1,10 @@
 from dataclasses import dataclass, field
 from datetime import datetime
-from typing import TypeVar
-
-Cents = TypeVar("Cents", bound=int)
 
 
 @dataclass
 class ProductDescription:
-    price: Cents
+    price: int
     description: str
 
 
