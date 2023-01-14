@@ -4,7 +4,7 @@ from dataclasses import dataclass
 from datetime import date
 
 YEAR = 360
-HALF_YEAR = int(YEAR / 2)
+HALF_YEAR = YEAR // 2
 
 
 @dataclass
