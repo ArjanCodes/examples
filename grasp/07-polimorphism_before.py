@@ -31,7 +31,7 @@ class Converter:
             print(f"{input_value} pounds becomes {output_value:.4f} kilograms.")
 
 
-def main():
+def main() -> None:
     input_value = 1
 
     inches_to_cm_conv = Converter(type=ConversionType.INCHES_TO_CM)

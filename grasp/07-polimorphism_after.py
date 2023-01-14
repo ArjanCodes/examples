@@ -49,7 +49,7 @@ class PoundsToKilograms(Formula):
         print(f"{input_value} pounds becomes {output_value:.4f} kilograms.")
 
 
-def main():
+def main() -> None:
     input_value = 40
 
     inches_to_cm_converter = Converter(InchesToCentimeters())
