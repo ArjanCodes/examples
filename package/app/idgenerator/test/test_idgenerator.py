@@ -1,24 +1,49 @@
 import unittest
-from ..src.idgenerator import IdGenerator
+import string
+from ..src.idgenerator import (
+    generate_password,
+    generate_guid,
+    generate_credit_card_number,
+    generate_object_id,
+    generate_pin_number,
+)
+from ..src.utils import luhn_checksum
 
 
-class IdGeneratorTest(unittest.TestCase):
+class GeneratorTest(unittest.TestCase):
+    def test_generate_password(self) -> None:
+        pwd = generate_password(length=6)
+        self.assertTrue(
+            (any(char.isupper() for char in pwd))
+            and (any(char.islower() for char in pwd))
+            and (any(char in string.punctuation for char in pwd))
+            and (any(char in string.digits for char in pwd))
+        )
+        self.assertRaises(AssertionError, generate_password, length=5)
 
-    def setUp(self) -> None:
-        self.id_length = 25
+    def test_generate_guid(self) -> None:
+        guid = generate_guid()
+        parts = guid.split("-")
+        self.assertTrue(len(parts) == 5)
+        criteria = [char in string.hexdigits for part in parts for char in part]
+        self.assertTrue(all(criteria))
+        self.assertTrue(len(parts[0]) == 8)
+        self.assertTrue(len(parts[1]) == 4)
+        self.assertTrue(len(parts[2]) == 4)
+        self.assertTrue(len(parts[3]) == 4)
+        self.assertTrue(len(parts[4]) == 12)
 
-    def test_generate_numeric_id(self) -> None:
-        num_id = IdGenerator(id_length=self.id_length).generate_numeric_id()
-        assert (len(num_id) == self.id_length)
-        assert (all(char.isdigit() for char in num_id))
+    def test_generate_credit_card_number(self) -> None:
+        number = generate_credit_card_number()
+        self.assertTrue(luhn_checksum(number))
 
-    def test_generate_alphanumeric_id(self) -> None:
-        alphanum_id = IdGenerator(id_length=self.id_length).generate_alphanumeric_id()
-        assert (len(alphanum_id) == self.id_length)
-        assert (all(char.isalpha() for char in alphanum_id))
+    def test_generate_pin_number(self) -> None:
+        self.assertTrue(len(generate_pin_number(length=4)) == 4)
+        self.assertTrue(
+            all(digits in string.digits for digits in generate_pin_number(length=4))
+        )
 
-    def test_generate_mixed_id(self) -> None:
-        mixed_id = IdGenerator(id_length=self.id_length).generate_mixed_id()
-        assert (len(mixed_id) == self.id_length)
-        assert (any(char.isalpha() for char in mixed_id))
-        assert (any(char.isalnum() for char in mixed_id))
+    def test_generate_object_id(self) -> None:
+        objid = generate_object_id()
+        self.assertTrue(len(str(objid)) == 24)
+        self.assertTrue(all(char in string.hexdigits for char in str(objid)))
