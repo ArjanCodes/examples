@@ -23,7 +23,6 @@ setup(
         "Programming Language :: Python :: 3.10",
         "Operating System :: OS Independent",
     ],
-    # Numpy is not really needed, just for demo purposes
     install_requires=["bson >= 0.5.10"],
     extras_require={
         "dev": ["pytest>=7.0", "twine>=4.0.2"],
