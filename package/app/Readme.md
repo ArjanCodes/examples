@@ -4,7 +4,9 @@ A package used to generate random ids of variable lengths and types.
 ## How to use
 _After installing the package use following import:_ <br>
 
-**from idgenerator.src.idgenerator import IdGenerator**
+**from idgenerator.src.idgenerator import generate_password,generate_guid,generate_credit_card_number,
+    generate_pin_number,
+    generate_object_id**
 
 _Then use following commands:_
 
