@@ -8,8 +8,12 @@ _After installing the package use following import:_ <br>
 
 _Then use following commands:_
 
-**num_id = IdGenerator(choose id length here).generate_numeric_id()
-<br>
-alnum_id = IdGenerator(choose id length here).generate_alphanumeric_id()
-<br>
-mixed_id = IdGenerator(choose id length here).generate_mixed_id()**
+**password = generate_password(length= 'your_desired_length')<br>**
+
+**guid = generate_guid()<br>**
+
+**credit_card_number = generate_credit_card_number(length='your_desired_length') <br>**
+
+**pin = generate_pin_number(length='your_desired_length') <br>**
+
+**objid = generate_object_id() <br>**
