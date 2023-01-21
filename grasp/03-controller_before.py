@@ -122,7 +122,11 @@ class App(tk.Tk):
         self.product_list.yview(tk.END)
 
 
-if __name__ == "__main__":
+def main() -> None:
     model = Model()
     app = App(model)
     app.mainloop()
+
+
+if __name__ == "__main__":
+    main()
