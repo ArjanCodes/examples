@@ -1,8 +1,8 @@
-def digits_of(number_sequence):
+def digits_of(number_sequence: str) -> list[int]:
     return [int(digit) for digit in str(number_sequence)]
 
 
-def luhn_checksum(card_number):
+def luhn_checksum(card_number: str) -> bool:
     digits = digits_of(card_number)
     odd_digits = digits[-1::-2]
     even_digits = digits[-2::-2]
@@ -10,4 +10,4 @@ def luhn_checksum(card_number):
     checksum += sum(odd_digits)
     for d in even_digits:
         checksum += sum(digits_of(d * 2))
-    return True if checksum % 10 == 0 else False
+    return checksum % 10 == 0

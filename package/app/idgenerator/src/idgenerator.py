@@ -53,13 +53,12 @@ def generate_credit_card_number(length: int = 8) -> str:
     return number
 
 
-def generate_pin_number(length: str = 4) -> None:
+def generate_pin_number(length: int = 4) -> str:
     """
     A credit/debit card pin generator. The pin number can only contain digits.
 
     """
-    pin = "".join(random.choices(string.digits, k=length))
-    return pin
+    return "".join(random.choices(string.digits, k=length))
 
 
 def generate_object_id() -> str:
@@ -73,4 +72,4 @@ def generate_object_id() -> str:
           - a 3-byte counter, starting with a random value.
 
     """
-    return bson.ObjectId()
+    return str(bson.ObjectId())

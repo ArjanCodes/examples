@@ -45,5 +45,5 @@ class GeneratorTest(unittest.TestCase):
 
     def test_generate_object_id(self) -> None:
         objid = generate_object_id()
-        self.assertTrue(len(str(objid)) == 24)
-        self.assertTrue(all(char in string.hexdigits for char in str(objid)))
+        self.assertTrue(len(objid) == 24)
+        self.assertTrue(all(char in string.hexdigits for char in objid))
