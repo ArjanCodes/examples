@@ -1,10 +1,10 @@
 import random
 import string
 from dataclasses import dataclass, field
-from enum import Enum, auto
+from enum import StrEnum, auto
 
 
-class Brand(Enum):
+class Brand(StrEnum):
     """Represents a vehicle brand."""
 
     VOLKSWAGEN_ID3 = auto()
@@ -15,20 +15,12 @@ class Brand(Enum):
 
 @dataclass
 class VehicleInfo:
-    """Vehicle detailed information."""
-
     brand: Brand
     electric: bool
     catalogue_price: int
 
     @property
     def tax(self) -> float:
-        """Calculate the tax paid acoording to the vehicle type (eletric or not)
-        Returns
-        -------
-        float
-            _description_
-        """
         tax_percentage = 0.02 if self.electric else 0.05
         return tax_percentage * self.catalogue_price
 
@@ -37,11 +29,11 @@ class VehicleInfo:
         print(f"Payable tax: {self.tax}")
 
 
+@dataclass
 class Vehicle:
-    def __init__(self, id, license_plate, info):
-        self.id = id
-        self.license_plate = license_plate
-        self.info = info
+    id: str
+    license_plate: str
+    info: VehicleInfo
 
     def print(self):
         print(f"Id: {self.id}")
@@ -63,39 +55,32 @@ class VehicleRegistry:
     def add_vehicle_info(
         self, brand: Brand, electric: bool, catalogue_price: int
     ) -> None:
-        """Adds a vehicle to the vehicles portifolio."""
         self.vehicle_info[brand] = VehicleInfo(brand, electric, catalogue_price)
 
-    def generate_vehicle_id(self, length: int):
-        """Generates a random vehicle id."""
+    def generate_vehicle_id(self, length: int) -> str:
         return "".join(random.choices(string.ascii_uppercase, k=length))
 
-    def generate_vehicle_license(self, id: str):
-        """Generates a random vehicle license plate."""
+    def generate_vehicle_license(self, id: str) -> str:
         first_two_digits = id[:2]
         middle_two_digits = "".join(random.choices(string.digits, k=2))
         last_two_digits = "".join(random.choices(string.ascii_uppercase, k=2))
 
         return f"{first_two_digits}-{middle_two_digits}-{last_two_digits}"
 
-    def create_vehicle(self, brand: Brand):
-        """Creates a vehicle object with id and license plate."""
+    def create_vehicle(self, brand: Brand) -> Vehicle:
         vehicle_id = self.generate_vehicle_id(12)
         license_plate = self.generate_vehicle_license(vehicle_id)
         return Vehicle(vehicle_id, license_plate, self.vehicle_info[brand])
 
 
-class Application:
-    def register_vehicle(self, brand: Brand):
-        registry = VehicleRegistry()
-
-        vehicle = registry.create_vehicle(brand)
-        vehicle.print()
+def register_vehicle(brand: Brand):
+    registry = VehicleRegistry()
+    vehicle = registry.create_vehicle(brand)
+    vehicle.print()
 
 
 def main() -> None:
-    app = Application()
-    app.register_vehicle(Brand.VOLKSWAGEN_ID3)
+    register_vehicle(Brand.VOLKSWAGEN_ID3)
 
 
 if __name__ == "__main__":

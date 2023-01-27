@@ -10,7 +10,7 @@ class Converter:
 
     formula: Formula
 
-    def convert(self, input_value) -> None:
+    def convert(self, input_value: float) -> None:
         self.formula.apply_conversion(input_value)
 
 

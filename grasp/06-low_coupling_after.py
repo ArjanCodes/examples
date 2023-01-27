@@ -34,11 +34,11 @@ class PaymentMethod(Protocol):
 class Cash(PaymentMethod):
     """Payment method using cash."""
 
-    percentage: float = 0.1
+    discount_perc: float = 0.1
 
     def net_price(self, total_price: int) -> int:
         """Returns price with discount applied."""
-        return total_price * (1 - self.percentage)
+        return int(total_price * (1 - self.discount_perc))
 
 
 @dataclass
@@ -46,11 +46,11 @@ class CreditCard:
     """Payment method using credit card."""
 
     number: str
-    percentage: float = 0.05
+    fee_perc: float = 0.05
 
     def net_price(self, total_price: int) -> int:
-        """Returns price with tax applied."""
-        return total_price * (1 + self.percentage)
+        """Returns price with fee applied."""
+        return int(total_price * (1 + self.fee_perc))
 
 
 @dataclass

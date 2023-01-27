@@ -9,11 +9,11 @@ class PersistentStorage:
 
     storage: dict[str, int] = field(default_factory=dict)
 
-    def save(self, key, data) -> None:
+    def save(self, key: str, value: int) -> None:
         """Add a record to the storage."""
-        self.storage[key] = data
+        self.storage[key] = value
 
-    def load(self, key) -> int:
+    def load(self, key: str) -> int:
         """Get and amout from the storage."""
         return self.storage[key]
 
@@ -41,7 +41,7 @@ class PaymentHandler:
 
     persistent_storage: PersistentStorage
 
-    def handle_payment(self, payment):
+    def handle_payment(self, payment: Payment) -> None:
         """Apply payment and store it at the end."""
         payment.pay()
         self.persistent_storage.save(datetime.now().isoformat(), payment.amount)

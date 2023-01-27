@@ -53,12 +53,12 @@ class Sale:
         """Adds an product to the sale line."""
         self.items.append(SaleLineItem(product, quantity))
 
-    def total_discounted_price(self, payment_methd) -> float:
+    def total_discounted_price(self, payment_method: Cash | CreditCard) -> float:
         """Calculates the net price of sale."""
-        if isinstance(payment_methd, Cash):
-            return self.total_price * (1 - payment_methd.discount)
-        elif isinstance(payment_methd, CreditCard):
-            return self.total_price * (1 + payment_methd.tax)
+        if isinstance(payment_method, Cash):
+            return self.total_price * (1 - payment_method.discount)
+        else:
+            return self.total_price * (1 + payment_method.tax)
 
 
 def main() -> None:

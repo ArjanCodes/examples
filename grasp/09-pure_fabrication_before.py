@@ -9,8 +9,7 @@ class Payment:
 
     storage: dict[str, int] = field(default_factory=dict)
 
-    def pay(self, amount) -> None:
-        """Process payment within an value."""
+    def pay(self, amount: int) -> None:
         # code to process payment
         print("Payment processed.")
         self.storage[datetime.now().isoformat()] = amount
