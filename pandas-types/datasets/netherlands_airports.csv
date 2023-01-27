@@ -1,0 +1,92 @@
+id,ident,type,name,latitude_deg,longitude_deg,elevation_ft,continent,iso_country,iso_region,municipality,scheduled_service,gps_code,iata_code,local_code,home_link,wikipedia_link,keywords,score,last_updated
+"#meta +id","#meta +code","#loc +airport +type","#loc +airport +name","#geo +lat","#geo +lon","#geo +elevation +ft","#region +continent +code","#country +code +iso2","#adm1 +code +iso","#loc +municipality +name","#status +scheduled","#loc +airport +code +gps","#loc +airport +code +iata","#loc +airport +code +local","#meta +url +airport","#meta +url +wikipedia","#meta +keywords","#meta +score","#date +updated"
+2513,EHAM,large_airport,"Amsterdam Airport Schiphol",52.308601,4.76389,-11,EU,NL,NL-NH,Amsterdam,1,EHAM,AMS,,http://www.schiphol.nl/,https://en.wikipedia.org/wiki/Amsterdam_Airport_Schiphol,,1093275,2018-09-14T06:20:40+00:00
+2518,EHEH,large_airport,"Eindhoven Airport",51.4500999451,5.37452983856,74,EU,NL,NL-NB,Eindhoven,1,EHEH,EIN,,http://www.eindhovenairport.nl/,http://en.wikipedia.org/wiki/Eindhoven_Airport,"Welschap Airport",1275,2011-10-05T23:33:44+00:00
+2524,EHRD,medium_airport,"Rotterdam The Hague Airport",51.956902,4.43722,-15,EU,NL,NL-ZH,Rotterdam,1,EHRD,RTM,,,http://en.wikipedia.org/wiki/Rotterdam_Airport,,1050,2016-10-26T12:53:40+00:00
+2515,EHBK,medium_airport,"Maastricht Aachen Airport",50.911701,5.77014,375,EU,NL,NL-LI,Maastricht,1,EHBK,MST,,,http://en.wikipedia.org/wiki/Maastricht_Aachen_Airport,,1275,2019-01-13T21:19:04+00:00
+2522,EHLE,medium_airport,"Lelystad Airport",52.4603,5.52722,-13,EU,NL,NL-FL,Lelystad,0,EHLE,LEY,,https://www.lelystadairport.nl/,http://en.wikipedia.org/wiki/Lelystad_Airport,,325,2018-04-08T08:22:03+00:00
+2519,EHGG,medium_airport,"Eelde Airport",53.1197013855,6.57944011688,17,EU,NL,NL-DR,Groningen,1,EHGG,GRQ,,,http://en.wikipedia.org/wiki/Groningen_Airport_Eelde,,975,2011-10-05T23:35:44+00:00
+28123,EHMZ,small_airport,"Midden-Zeeland Airport",51.5121994019,3.73111009598,6,EU,NL,NL-ZL,Middelburg,0,EHMZ,,,http://www.zeeland-airport.nl/,http://en.wikipedia.org/wiki/Midden-Zeeland_Airport,,50,2011-10-01T12:25:18+00:00
+28128,EHTX,small_airport,"Texel Airfield",53.115299,4.83361,2,EU,NL,NL-NH,Texel,0,EHTX,,,http://www.texelairport.nl/,http://en.wikipedia.org/wiki/Texel_International_Airport,,50,2019-02-18T02:12:02+00:00
+28126,EHTE,small_airport,"Teuge Airport",52.2447013855,6.04666996002,17,EU,NL,NL-GE,Deventer,0,EHTE,,,http://www.teuge-airport.nl/,http://en.wikipedia.org/wiki/Teuge_Airport,"Teuge, Apeldoorn, Deventer",50,2009-10-20T13:37:05+00:00
+2526,EHTW,medium_airport,"Twente Airport",52.275833,6.889167,114,EU,NL,NL-OV,Enschede,0,EHTW,ENS,,https://www.twente-airport.nl/,http://en.wikipedia.org/wiki/Enschede_Airport_Twente,,250,2017-12-04T12:38:15+00:00
+28120,EHAL,small_airport,"Ameland Airfield",53.451698,5.67722,11,EU,NL,NL-FR,Ameland,0,EHAL,,,http://www.ehal.nl/,http://en.wikipedia.org/wiki/Ameland_Airport,Aachen,50,2019-02-18T02:11:29+00:00
+28122,EHHV,small_airport,"Hilversum Airfield",52.191898,5.14694,3,EU,NL,NL-NH,Hilversum,0,EHHV,,,http://www.ehhv.nl/,http://en.wikipedia.org/wiki/Hilversum_Airport,Gooi,50,2019-02-18T02:07:06+00:00
+28124,EHSE,small_airport,"Seppe Airfield",51.554699,4.5525,30,EU,NL,NL-NB,Hoeven,0,EHSE,,,http://www.seppe-airport.com/,http://en.wikipedia.org/wiki/Seppe_Airport,,50,2019-02-18T02:05:48+00:00
+2516,EHDL,medium_airport,"Deelen Air Base",52.0606,5.87306,158,EU,NL,NL-GE,Arnhem,0,EHDL,,,,http://en.wikipedia.org/wiki/Deelen_Air_Base,QAR,250,2017-01-07T12:13:34+00:00
+2514,EHBD,medium_airport,"Budel Airport",51.2552986145,5.60138988495,114,EU,NL,NL-NB,Weert,0,EHBD,,,http://www.kempenairport.nl/,http://en.wikipedia.org/wiki/Kempen_Airport,"Kempen Airport, Budel Aerodrome",250,2011-10-01T12:51:23+00:00
+28121,EHHO,small_airport,"Hoogeveen Airport",52.730800628699996,6.51610994339,40,EU,NL,NL-DR,Hoogeveen,0,EHHO,,,http://www.vliegveldhoogeveen.nl/pages/whiterings_indexpag.html,http://en.wikipedia.org/wiki/Hoogeveen_Airport,,50,2011-10-01T12:18:13+00:00
+2517,EHDR,small_airport,"Drachten Airport",53.1192016602,6.12972021103,14,EU,NL,NL-FR,Drachten,0,EHDR,,,,http://en.wikipedia.org/wiki/Drachten_Airfield,,50,2011-10-05T23:39:29+00:00
+2525,EHSB,closed,"Soesterberg Air Base",52.1273002625,5.27618980408,66,EU,NL,NL-UT,Soesterberg,1,EHSB,UTC,,,http://en.wikipedia.org/wiki/Soesterberg_Air_Base,"ACvZ, Amsterdamsche Club voor Zweefvliegen",975,2009-10-20T14:07:53+00:00
+2521,EHKD,medium_airport,"De Kooy Airport",52.92340087890625,4.780620098114014,3,EU,NL,NL-NH,"Den Helder",0,EHKD,DHR,,,http://en.wikipedia.org/wiki/De_Kooy,,300,2009-03-21T16:38:00+00:00
+28127,EHTL,small_airport,"Terlet Glider Field",52.057201,5.92444,276,EU,NL,NL-GE,Terlet,0,EHTL,,,http://www.terlet.nl/,http://en.wikipedia.org/wiki/Terlet_Airfield,"terlet, szt, gezc, Stichting Zweefvliegers Terlet, Gelderse Zweefvliegclub, De Thermiekbel",50,2016-07-07T02:00:37+00:00
+2527,EHVB,closed,"Valkenburg Naval Air Base",52.166099548300004,4.41794013977,1,EU,NL,NL-ZH,Leiden,0,EHVB,LID,,,http://en.wikipedia.org/wiki/Valkenburg_Naval_Air_Base,,500,2012-03-23T04:19:14+00:00
+46371,EHOW,small_airport,"Oostwold Airport",53.209758,7.036519,3,EU,NL,NL-GR,,0,EHOW,,,http://www.oostwold-airport.nl/,https://en.wikipedia.org/wiki/Oostwold_Airport,,0,2016-06-01T05:30:41+00:00
+299528,NL-0041,closed,"Wieringermeer Glider Field",52.820556,4.926389,-15,EU,NL,NL-NH,,0,,,,,,,0,2019-01-03T13:12:16+00:00
+299514,NL-0033,small_airport,"Langeveld Glider Field",52.297778,4.513611,10,EU,NL,NL-ZH,Noordwijk,0,,,,http://www.kzc.nl/,,,0,2016-04-27T11:40:42+00:00
+2529,EHWO,medium_airport,"Woensdrecht Air Base",51.4491,4.34203,63,EU,NL,NL-NB,"Bergen Op Zoom",0,EHWO,WOE,,http://www.defensie.nl/luchtmacht/luchtmachtbases/woensdrecht/,http://en.wikipedia.org/wiki/Woensdrecht_Air_Base,BZM,575,2016-12-27T06:56:17+00:00
+2523,EHLW,medium_airport,"Leeuwarden Air Base",53.228599548339844,5.760560035705566,3,EU,NL,NL-FR,Leeuwarden,0,EHLW,LWR,,http://www.defensie.nl/luchtmacht/luchtmachtbases/leeuwarden/,http://en.wikipedia.org/wiki/Leeuwarden_Air_Base,,250,2009-02-21T16:13:52+00:00
+312620,NL-0045,closed,"Eindhoven Heliport",51.423731,5.47449,,EU,NL,NL-NB,,0,,,,,,,0,2014-08-08T08:14:56+00:00
+299530,NL-0043,closed,"Bergen Airfield",52.6472222222,4.69222222222,-3,EU,NL,NL-NH,Alkmaar,0,,,,,,,0,2011-10-02T00:27:30+00:00
+299529,NL-0042,closed,"Buiksloot Airfield",52.4072222222,4.89527777778,7,EU,NL,NL-NH,Amsterdam,0,,,,,,,0,2012-11-17T14:10:32+00:00
+299510,NL-0029,small_airport,"Glider Field Castricum",52.5366666667,4.62666666667,20,EU,NL,NL-NH,Castricum,0,,,,,,,0,2011-10-01T01:00:38+00:00
+299511,NL-0030,small_airport,"Glider Field De Voorst",52.6847222222,5.91055555556,,EU,NL,NL-FL,"De Voorst",0,,,,,,,0,2015-08-29T10:09:06+00:00
+301012,NL-0044,closed,"Ypenburg Airbase",52.041111,4.356944,,EU,NL,NL-ZH,"Den Haag",0,EHYP,,,,http://en.wikipedia.org/wiki/Ypenburg_Airport,,0,2012-03-23T05:31:44+00:00
+43713,NL-0018,heliport,"Leids Universitair Medisch Centrum Heliport",52.166255950927734,4.477972030639648,40,EU,NL,NL-ZH,Leiden,0,,,,,,EH0014,0,2009-03-21T16:38:36+00:00
+45159,NL-0023,small_airport,"Maldens Vlak Glider field",51.785259,5.88099,89,EU,NL,NL-GE,Malden,0,,,,http://www.nijac.nl/?pid=11,,"NijAC, gliding, Nijmegen, Groesbeek",0,2015-11-13T04:26:01+00:00
+43712,NL-0017,heliport,"Erasmus Medisch Centrum Heliport",51.90999984741211,4.470832824707031,30,EU,NL,NL-ZH,Rotterdam,0,,,,,,EH0018,0,2009-03-21T16:38:34+00:00
+43715,NL-0020,heliport,"Medisch Centrum Rijnmond. Locatie Zuid Heliport",51.885555267333984,4.503056049346924,4,EU,NL,NL-ZH,Rotterdam,0,,,,,,EH0019,0,2009-03-21T16:38:40+00:00
+299517,NL-0036,small_airport,"Veendam Glider Site",53.0844444444,6.823611111110001,,EU,NL,NL-GR,Veendam,0,,,,,,,0,2011-10-01T06:07:00+00:00
+43704,NL-0009,heliport,"Maxima Medisch Centrum Heliport",51.404998779296875,5.419722080230713,62,EU,NL,NL-NB,Veldhoven,0,,,,,,EH0025,0,2009-03-21T16:38:18+00:00
+43208,EHYP,heliport,"IJmuiden Heliport",52.469799,4.5933,1,EU,NL,NL-NH,Ĳmuiden,0,EHYP,,,,http://en.wikipedia.org/wiki/IJmuiden_Heliport,,0,2016-09-22T17:55:39+00:00
+2528,EHVK,medium_airport,"Volkel Air Base",51.657222,5.7077778,72,EU,NL,NL-NB,Uden,0,EHVK,,,http://www.defensie.nl/luchtmacht/luchtmachtbases/volkel/,http://en.wikipedia.org/wiki/Volkel_Air_Base,"The Hague",500,2016-09-28T04:52:50+00:00
+2520,EHGR,medium_airport,"Gilze Rijen Air Base",51.56740188598633,4.931829929351807,49,EU,NL,NL-NB,Breda,0,EHGR,GLZ,,http://www.defensie.nl/luchtmacht/luchtmachtbases/gilze-rijen/,http://en.wikipedia.org/wiki/Gilze-Rijen_Air_Base,,375,2009-02-21T16:12:28+00:00
+29212,EHMC,heliport,"Air Operations Control Station Nieuw Milligen",52.223172725400005,5.7678222656199996,171,EU,NL,NL-GE,"Nieuw Milligen",0,EHMC,,,http://www.defensie.nl/luchtmacht/luchtmachtbases/aocs_nieuw_milligen/,http://en.wikipedia.org/wiki/Air_Operations_Control_Station_Nieuw-Milligen,,50,2009-10-20T12:29:44+00:00
+28125,EHST,small_airport,"Stadskanaal Airfield",52.9986,7.02278,14,EU,NL,NL-GR,Stadskanaal,0,EHST,,,http://www.ulv.nl/,http://en.wikipedia.org/wiki/Stadskanaal_Airfield,,50,2019-02-18T02:06:23+00:00
+29211,EHDP,medium_airport,"De Peel Air Base",51.51729965209961,5.855720043182373,98,EU,NL,NL-LI,Venray,0,EHDP,,,http://www.defensie.nl/luchtmacht/luchtmachtbases/de_peel/,http://en.wikipedia.org/wiki/De_Peel_Air_Base,,50,2009-02-21T16:19:30+00:00
+299521,NL-0039,closed,"Havelte Airport",52.7838888889,6.2375,36,EU,NL,NL-DR,,0,,,,,,,0,2011-10-01T13:49:45+00:00
+299522,NL-0040,closed,"Peest Airport",53.05,6.5,32,EU,NL,NL-DR,,0,,,,,,,0,2011-10-01T14:21:07+00:00
+315183,NL-0048,heliport,"TT Circuit Assen Helipad",52.96013,6.525208,,EU,NL,NL-DR,,0,,,,,,,0,2015-08-15T09:53:39+00:00
+315182,NL-0047,heliport,"Keteloog Helipad",52.59254,5.73863,,EU,NL,NL-FL,,0,,,,,,,0,2015-08-15T09:52:03+00:00
+326437,NL-0049,small_airport,"To Be Deleted",0,0,,EU,NL,NL-GE,,0,,,,,,,0,2018-10-02T03:55:05+00:00
+329142,NL-0051,heliport,HeliAir,52.1245219,5.7356178,,EU,NL,NL-GE,,0,,,,http://heliair.nl,,,0,2018-08-30T14:51:44+00:00
+312621,NL-0046,heliport,"Helihaven P. van Zutphen",51.535422,5.378821,,EU,NL,NL-NB,,0,,,,,,,0,2014-08-08T09:05:25+00:00
+327602,NL-0050,medium_airport,"Amsterdam Airport Schiphol",52.281602,4.790039,,EU,NL,NL-NH,,1,,,,,,,0,2018-05-05T06:45:28+00:00
+329917,NL-0052,small_airport,"Zweefvliegveld Noordkop",52.89512,5.004628,3,EU,NL,NL-NH,,0,,,,http://www.zweef.nl,,,0,2019-01-03T13:22:02+00:00
+322080,EHHW,heliport,"Buitengaats / BG-OHVS2",54.03688536,6.04183256,,EU,NL,NL-U-A,,0,EHHW,,,,,,0,2017-02-07T03:08:27+00:00
+43207,EHHA,heliport,"Amsterdam Heliport",52.4146250808,4.804801940920001,1,EU,NL,NL-NH,Amsterdam,0,EHHA,,,http://www.amsterdamheliport.com/,http://en.wikipedia.org/wiki/Amsterdam_Heliport,,0,2011-10-02T00:42:10+00:00
+43707,NL-0012,heliport,"Vu Medisch Centrum Heliport",52.33433532714844,4.8591108322143555,12,EU,NL,NL-NH,Amsterdam,0,,,,,,EH0001,0,2009-03-21T16:38:24+00:00
+299515,NL-0034,small_airport,"Aeroclub Nistelrode",51.683333333300006,5.549444444440001,30,EU,NL,NL-NB,Bernheze,0,,,,http://www.acnistelrode.nl/index.html,,,0,2011-10-01T03:48:19+00:00
+43706,NL-0011,heliport,"Rode Kruis Ziekenhuis Heliport",52.4791374206543,4.651556015014648,68,EU,NL,NL-NH,Beverwijk,0,,,,,,EH0002,0,2009-03-21T16:38:22+00:00
+320814,EH58,heliport,"Brunssum Joint Force Command Heliport",50.9437,6.0052,356,EU,NL,NL-LI,Brunssum,0,EH58,,EH58,,,,0,2016-10-15T12:37:31+00:00
+324007,EHDB,small_airport,"[Duplicate] KNMI",52.099541,5.176417,,EU,NL,NL-UT,"De Bilt",0,EHDB,,,,,,0,2017-06-21T11:28:49+00:00
+43714,NL-0019,heliport,"Mc Haaglanden. Locatie Westeinde Heliport",52.07400894165039,4.300278186798096,22,EU,NL,NL-ZH,"Den Haag",0,,,,,,EH0005,0,2009-03-21T16:38:38+00:00
+43698,NL-0003,heliport,"Ziekenhuis Talma Sionsberg Heliport",53.319637298583984,5.9930830001831055,4,EU,NL,NL-FR,Dokkum,0,,,,,,EH0007,0,2009-03-21T16:38:06+00:00
+43711,NL-0016,heliport,"Albert Schweitzer Ziekenhuis. Locatie Amstelwijck Heliport",51.776344299316406,4.651111125946045,6,EU,NL,NL-ZH,Dordrecht,0,,,,,,EH0030,0,2009-03-21T16:38:32+00:00
+299509,NL-0028,small_airport,"Glider Field Biddinghuizen",52.4291666667,5.67416666667,-20,EU,NL,NL-FL,Dronten,0,,,,,,,0,2011-10-01T00:45:39+00:00
+299506,NL-0025,heliport,"Lukkien Heliport",52.0224444444,5.62394444444,50,EU,NL,NL-GE,Ede,0,,,,,http://en.wikipedia.org/wiki/Lukkien_Heliport,,0,2012-01-08T21:57:25+00:00
+299513,NL-0032,heliport,"Heli Holland Heliport",52.8033333333,6.95722222222,39,EU,NL,NL-DR,"Emmer- Compascuum",0,,,,,http://en.wikipedia.org/wiki/Heli_Holland,,0,2012-01-08T22:22:12+00:00
+43709,NL-0014,heliport,"Medisch Spectrum Twente Heliport",52.215476989746094,6.891250133514404,130,EU,NL,NL-OV,Enschede,0,,,,,,EH0008,0,2009-03-21T16:38:28+00:00
+43716,NL-0021,heliport,"Oosterschelde Ziekenhuis Heliport",51.48480224609375,3.9105000495910645,1,EU,NL,NL-ZL,Goes,0,,,,,,EH0009,0,2009-03-21T16:38:42+00:00
+43701,NL-0006,heliport,"Universitair Medisch Centrum Heliport",53.22173309326172,6.576056003570557,80,EU,NL,NL-GR,Groningen,0,,,,,,EH0010,0,2009-03-21T16:38:12+00:00
+43697,NL-0002,heliport,"Medisch Centrum Leeuwarden. Locatie Zuid Heliport",53.188507080078125,5.8028059005737305,1,EU,NL,NL-FR,Leeuwarden,0,,,,,,EH0013,0,2009-03-21T16:38:04+00:00
+299211,EHDS,small_airport,"Aero Club Salland",52.4683333333,6.33333333333,10,EU,NL,NL-OV,Lemelerveld,0,EHDS,,,http://aeroclubsalland.nl/,http://nl.wikipedia.org/wiki/Aero_Club_Salland,"Dalfsen Gliders",0,2011-08-21T13:00:03+00:00
+43702,NL-0007,heliport,"Maastricht Universitair Medisch Centrum Heliport",50.834442138671875,5.712500095367432,165,EU,NL,NL-LI,Maastricht,0,,,,,,EH0015,0,2009-03-21T16:38:14+00:00
+316445,EHND,small_airport,"Vliegveld Numansdorp",51.7530556,4.4552778,3,EU,NL,NL-ZH,Numansdorp,0,EHND,,,,,,0,2015-11-29T04:13:31+00:00
+299516,NL-0035,small_airport,"Glider site Schinveld",50.980833333300005,5.998611111110001,180,EU,NL,NL-LI,Onderbanken,0,,,,,,,0,2011-10-01T04:35:41+00:00
+43209,EHTP,heliport,"Maasvlakte Heliport",51.95940017700195,4.090000152587891,3,EU,NL,NL-ZH,Rotterdam,0,EHTP,,,,http://en.wikipedia.org/wiki/Maasvlakte_Heliport,,0,2009-03-21T16:38:00+00:00
+299512,NL-0031,small_airport,"Haamstede Airfield",51.7088888889,3.7122222222200003,15,EU,NL,NL-ZL,Schouwen-Duiveland,0,,,,,,,0,2011-10-01T01:47:12+00:00
+43696,NL-0001,heliport,"Antonius Ziekenhuis Heliport",53.03475952149999,5.639972209929999,14,EU,NL,NL-FR,Sneek,0,,,,,,EH0020,0,2012-10-16T17:32:10+00:00
+43717,NL-0022,heliport,"Ziekenhuis Zeeuws-Vlaanderen. Locatie De Honte Heliport",51.30833435058594,3.862499952316284,6,EU,NL,NL-ZL,Terneuzen,0,,,,,,EH0021,0,2009-03-21T16:38:44+00:00
+299508,NL-0027,small_airport,"Axel Glider Airfield",51.2555555556,3.89138888889,20,EU,NL,NL-ZL,Terneuzen,0,,,,,,,0,2011-10-01T00:25:19+00:00
+43700,NL-0005,heliport,"Ziekenhuis Rivierenland Heliport",51.88972091674805,5.413888931274414,16,EU,NL,NL-GE,Tiel,0,,,,,,EH0022,0,2009-03-21T16:38:10+00:00
+43705,NL-0010,heliport,"St. Elisabeth Ziekenhuis Heliport",51.53889083862305,5.104722023010254,49,EU,NL,NL-NB,Tilburg,0,,,,,,EH0023,0,2009-03-21T16:38:20+00:00
+43710,NL-0015,heliport,"Universitair Medisch Centrum Utrecht Heliport",52.086769104003906,5.181416988372803,91,EU,NL,NL-UT,Utrecht,0,,,,,,EH0024,0,2009-03-21T16:38:30+00:00
+43703,NL-0008,heliport,"Viecuri Medisch Centrum Voor Noord-Limburg Heliport",51.358333587646484,6.152500152587891,58,EU,NL,NL-LI,Venlo,0,,,,,,EH0026,0,2009-03-21T16:38:16+00:00
+299507,NL-0026,closed,"TrafficPort Venlo Airport",51.393056,6.062778,75,EU,NL,NL-LI,Venlo,0,,,,http://www.trafficport.nl/airport.htm,http://en.wikipedia.org/wiki/TrafficPort_Venlo,,0,2018-07-08T07:49:09+00:00
+299518,NL-0037,small_airport,"Venlo Airfield",51.3630555556,6.216111111110001,145,EU,NL,NL-LI,Venlo,0,,,,,,,0,2011-10-01T06:33:46+00:00
+299519,NL-0038,closed,"Venlo-Herongen Airport",51.3686111111,6.21194444444,135,EU,NL,NL-LI,Venlo,0,,,,,,,0,2011-10-01T06:52:44+00:00
+43210,EHVL,heliport,"Vlieland Heliport",53.29666519165039,5.0858330726623535,37,EU,NL,NL-FR,Vlieland,0,EHVL,,,,http://en.wikipedia.org/wiki/Vlieland_Heliport,,0,2009-02-21T16:30:40+00:00
+299505,NL-0024,small_airport,"Middenmeer Aerodrome",52.815368824100005,5.0216960907,-14,EU,NL,NL-NH,Wieringermeer,0,,,,http://www.vliegclubwieringermeer.nl/,http://en.wikipedia.org/wiki/Middenmeer_Aerodrome,,0,2012-11-17T09:23:58+00:00
+43699,NL-0004,heliport,"Streekziekenhuis Koningin Beatrix Heliport",51.97972106933594,6.700277805328369,110,EU,NL,NL-GE,Winterswijk,0,,,,,,EH0028,0,2009-03-21T16:38:08+00:00
+43708,NL-0013,heliport,"Isala Klinieken. Locatie Sophia Heliport",52.51387405395508,6.127999782562256,6,EU,NL,NL-OV,Zwolle,0,,,,,,EH0029,0,2009-03-21T16:38:26+00:00
