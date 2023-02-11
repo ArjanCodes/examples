@@ -5,7 +5,7 @@ import pandas as pd
 
 def read_raw_dataset() -> pd.DataFrame:
     """Reads the Olist e-commerce customers dataset."""
-    dataset_path = Path("pandas-types").absolute() / "datasets"
+    dataset_path = Path().absolute() / "datasets"
     customers = pd.read_csv(dataset_path / "olist_customers_dataset.csv")
     return customers
 

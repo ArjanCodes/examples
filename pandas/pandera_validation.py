@@ -1,9 +1,10 @@
 from datetime import datetime
 from pathlib import Path
 
-import pandas as pd
 import pandera as pa
 from pandera.errors import SchemaError
+
+import pandas as pd
 
 
 def read_airports_dataset(path: Path, filename: str) -> pd.DataFrame:
@@ -19,7 +20,7 @@ def remove_metadata_information(path: Path, filename: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    dataset_path = Path("pandas-types").absolute() / "datasets"
+    dataset_path = Path().absolute() / "datasets"
     filename = "netherlands_airports.csv"
 
     airports_wrong_type_infer = read_airports_dataset(dataset_path, filename)

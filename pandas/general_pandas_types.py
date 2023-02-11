@@ -19,7 +19,7 @@ def remove_metadata_information(path: Path, filename: str) -> pd.DataFrame:
 
 
 def main() -> None:
-    dataset_path = Path("pandas-types").absolute() / "datasets"
+    dataset_path = Path().absolute() / "datasets"
     filename = "netherlands_airports.csv"
 
     airports_wrong_type_infer = read_airports_dataset(dataset_path, filename)
