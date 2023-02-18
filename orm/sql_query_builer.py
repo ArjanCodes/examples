@@ -20,7 +20,7 @@ def main() -> None:
         )
     )
 
-    con = sqlite3.connect("orm/database/sample_database.db")
+    con = sqlite3.connect("database/sample_database.db")
 
     cur = con.cursor()
 
