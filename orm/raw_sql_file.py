@@ -1,25 +1,21 @@
 import sqlite3
 from pathlib import Path
 
-from jinja2 import Template
-from pyparsing import Any
 
-
-def read_sql_query(sql_path: Path, **sql_kwargs: dict[str, Any]) -> str:
-    """Parse parameters to a template SQL file."""
-    sql_template = Path(sql_path).read_text()
-    template = Template(sql_template)
-    return template.render(**sql_kwargs)
+def read_sql_query(sql_path: Path) -> str:
+    """Read SQL file as string."""
+    return Path(sql_path).read_text()
 
 
 def main() -> None:
     con = sqlite3.connect("database/sample_database.db")
 
+    number_of_top_customers = (10,)
     cur = con.cursor()
 
-    raw_sql = read_sql_query("sql/top_customers.sql", number_of_top_customers=10)
+    raw_sql = read_sql_query("sql/top_customers.sql")
 
-    for row in cur.execute(raw_sql):
+    for row in cur.execute(raw_sql, number_of_top_customers):
         print(row)
 
 

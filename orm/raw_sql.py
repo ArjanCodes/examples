@@ -6,9 +6,9 @@ def main() -> None:
 
     cur = con.cursor()
 
-    number_of_top_customers = 10
+    number_of_top_customers = (10,)
 
-    raw_sql = f"""
+    raw_sql = """
 	SELECT 
 		c.id, 
 		c.first_name, 
@@ -17,10 +17,10 @@ def main() -> None:
 	LEFT JOIN Customer c ON i.customer_id = c.id
 	GROUP BY c.id, c.first_name
 	ORDER BY total DESC
-	LIMIT {number_of_top_customers};
+	LIMIT ?;
 	"""
 
-    for row in cur.execute(raw_sql):
+    for row in cur.execute(raw_sql, number_of_top_customers):
         print(row)
 
 
