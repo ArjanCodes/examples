@@ -7,14 +7,14 @@ customer = Table("Customer")
 query = (
     Query.from_(invoice)
     .left_join(customer)
-    .on(invoice.CustomerId == customer.CustomerId)
-    .groupby(customer.CustomerId, customer.FirstName)
-    .orderby(functions.Sum(invoice.Total), order=Order.desc)
+    .on(invoice.customer_id == customer.id)
+    .groupby(customer.id, customer.first_name)
+    .orderby(functions.Sum(invoice.total), order=Order.desc)
     .limit(10)
     .select(
-        customer.CustomerId,
-        customer.FirstName,
-        functions.Sum(invoice.Total).as_("Total"),
+        customer.id,
+        customer.first_name,
+        functions.Sum(invoice.total).as_("total"),
     )
 )
 

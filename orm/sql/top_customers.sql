@@ -1,9 +1,9 @@
 SELECT 
-	c.CustomerId, 
-	c.FirstName, 
-	SUM(i.Total) AS Total
+	c.id, 
+	c.first_name, 
+	SUM(i.total) AS total
 FROM Invoice i 
-LEFT JOIN Customer c ON i.CustomerId = c.CustomerId
-GROUP BY c.CustomerId, c.FirstName
-ORDER BY TOTAL DESC
+LEFT JOIN Customer c ON i.customer_id = c.id
+GROUP BY c.id, c.first_name
+ORDER BY total DESC
 LIMIT {{number_of_top_customers}};

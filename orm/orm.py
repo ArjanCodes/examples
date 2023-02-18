@@ -14,46 +14,46 @@ class Base(DeclarativeBase):
 class Customer(Base):
     __tablename__ = "Customer"
 
-    CustomerId: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
-    FirstName: Mapped[str] = mapped_column(String(40))
-    LastName: Mapped[Optional[str]] = mapped_column(String(20))
-    Company: Mapped[str] = mapped_column(String(80))
-    Address: Mapped[str] = mapped_column(String(70))
-    City: Mapped[str] = mapped_column(String(40))
-    State: Mapped[str] = mapped_column(String(40))
-    Country: Mapped[str] = mapped_column(String(40))
-    PostalCode: Mapped[str] = mapped_column(String(10))
-    Phone: Mapped[str] = mapped_column(String(24))
-    Fax: Mapped[str] = mapped_column(String(24))
-    Email: Mapped[str] = mapped_column(String(60), nullable=False)
-    SupportRepId: Mapped[int] = mapped_column(Integer())
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
+    first_name: Mapped[str] = mapped_column(String(40))
+    last_name: Mapped[Optional[str]] = mapped_column(String(20))
+    company: Mapped[str] = mapped_column(String(80))
+    address: Mapped[str] = mapped_column(String(70))
+    city: Mapped[str] = mapped_column(String(40))
+    state: Mapped[str] = mapped_column(String(40))
+    country: Mapped[str] = mapped_column(String(40))
+    postal_code: Mapped[str] = mapped_column(String(10))
+    phone: Mapped[str] = mapped_column(String(24))
+    fax: Mapped[str] = mapped_column(String(24))
+    email: Mapped[str] = mapped_column(String(60), nullable=False)
+    support_id: Mapped[int] = mapped_column(Integer())
 
     def __repr__(self) -> str:
         return (
-            f"CustomerId(CustomerId={self.CustomerId!r}, "
-            f"FirstName={self.FirstName!r}, "
-            f"LastName={self.LastName!r})"
+            f"Customer(id={self.id!r}, "
+            f"first_name={self.first_name!r}, "
+            f"last_name={self.LastName!r})"
         )
 
 
 class Invoice(Base):
     __tablename__ = "Invoice"
 
-    InvoiceId: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
-    CustomerId: Mapped[int] = mapped_column(Integer(), nullable=False)
-    InvoiceDate: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
-    BillingAddress: Mapped[str] = mapped_column(String(70))
-    BillingCity: Mapped[str] = mapped_column(String(40))
-    BillingState: Mapped[str] = mapped_column(String(40))
-    BillingCountry: Mapped[str] = mapped_column(String(40))
-    BillingPostalCode: Mapped[str] = mapped_column(String(10))
-    Total: Mapped[int] = mapped_column(Integer(), nullable=False)
+    id: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
+    customer_id: Mapped[int] = mapped_column(Integer(), nullable=False)
+    date: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
+    billing_address: Mapped[str] = mapped_column(String(70))
+    billing_city: Mapped[str] = mapped_column(String(40))
+    billing_state: Mapped[str] = mapped_column(String(40))
+    billing_country: Mapped[str] = mapped_column(String(40))
+    billing_postal_code: Mapped[str] = mapped_column(String(10))
+    total: Mapped[int] = mapped_column(Integer(), nullable=False)
 
     def __repr__(self) -> str:
         return (
-            f"Invoice(InvoiceId={self.InvoiceId!r}, "
-            f"CustomerId={self.CustomerId!r}, "
-            f"InvoiceDate={self.InvoiceDate!r})"
+            f"Invoice(id={self.id!r}, "
+            f"customer_id={self.customer_id!r}, "
+            f"date={self.date!r})"
         )
 
 
@@ -63,13 +63,13 @@ engine = create_engine(rf"sqlite:///{db_path}")
 session = Session(engine)
 stmt = (
     select(
-        Customer.CustomerId,
-        Customer.FirstName,
-        func.sum(Invoice.Total).label("Total"),
+        Customer.id,
+        Customer.first_name,
+        func.sum(Invoice.total).label("Total"),
     )
-    .join(Invoice, Customer.CustomerId == Invoice.CustomerId)
-    .group_by(Customer.CustomerId, Customer.FirstName)
-    .order_by(func.sum(Invoice.Total).label("Total").desc())
+    .join(Invoice, Customer.id == Invoice.customer_id)
+    .group_by(Customer.id, Customer.first_name)
+    .order_by(func.sum(Invoice.total).label("Total").desc())
     .limit(10)
 )
 
