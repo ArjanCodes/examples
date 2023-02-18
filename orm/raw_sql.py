@@ -2,11 +2,13 @@ import sqlite3
 
 
 def main() -> None:
+    number_of_top_customers = int(
+        input("How many top customers do you want to query? ")
+    )
+
     con = sqlite3.connect("database/sample_database.db")
 
     cur = con.cursor()
-
-    number_of_top_customers = (10,)
 
     raw_sql = """
 	SELECT 
@@ -20,7 +22,7 @@ def main() -> None:
 	LIMIT ?;
 	"""
 
-    for row in cur.execute(raw_sql, number_of_top_customers):
+    for row in cur.execute(raw_sql, (number_of_top_customers,)):
         print(row)
 
 

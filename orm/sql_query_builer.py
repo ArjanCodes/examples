@@ -4,6 +4,10 @@ from pypika import Order, Query, Table, functions
 
 
 def main() -> None:
+    number_of_top_customers = int(
+        input("How many top customers do you want to query? ")
+    )
+
     invoice = Table("Invoice")
     customer = Table("Customer")
     query = (
@@ -12,7 +16,7 @@ def main() -> None:
         .on(invoice.customer_id == customer.id)
         .groupby(customer.id, customer.first_name)
         .orderby(functions.Sum(invoice.total), order=Order.desc)
-        .limit(10)
+        .limit(number_of_top_customers)
         .select(
             customer.id,
             customer.first_name,

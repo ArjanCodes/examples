@@ -10,12 +10,15 @@ def read_sql_query(sql_path: Path) -> str:
 def main() -> None:
     con = sqlite3.connect("database/sample_database.db")
 
-    number_of_top_customers = (10,)
+    number_of_top_customers = int(
+        input("How many top customers do you want to query? ")
+    )
+
     cur = con.cursor()
 
     raw_sql = read_sql_query("sql/top_customers.sql")
 
-    for row in cur.execute(raw_sql, number_of_top_customers):
+    for row in cur.execute(raw_sql, (number_of_top_customers,)):
         print(row)
 
 

@@ -58,6 +58,10 @@ class Invoice(Base):
 
 
 def main() -> None:
+    number_of_top_customers = int(
+        input("How many top customers do you want to query? ")
+    )
+
     db_path = Path("database/sample_database.db").absolute()
 
     engine = create_engine(rf"sqlite:///{db_path}")
@@ -71,7 +75,7 @@ def main() -> None:
         .join(Invoice, Customer.id == Invoice.customer_id)
         .group_by(Customer.id, Customer.first_name)
         .order_by(func.sum(Invoice.total).label("Total").desc())
-        .limit(10)
+        .limit(number_of_top_customers)
     )
 
     for customer in session.execute(stmt):
