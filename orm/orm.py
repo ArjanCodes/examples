@@ -58,7 +58,7 @@ class Invoice(Base):
 
 
 def main() -> None:
-    db_path = Path("orm\database\sample_database.db").absolute()
+    db_path = Path("orm/database/sample_database.db").absolute()
 
     engine = create_engine(rf"sqlite:///{db_path}")
     session = Session(engine)

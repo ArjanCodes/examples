@@ -2,7 +2,7 @@ import sqlite3
 
 
 def main() -> None:
-    con = sqlite3.connect(r"orm\database\sample_database.db")
+    con = sqlite3.connect("orm/database/sample_database.db")
 
     cur = con.cursor()
 
