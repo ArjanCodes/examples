@@ -4,7 +4,7 @@ from typing import Optional
 
 from sqlalchemy import create_engine, func, select
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column
-from sqlalchemy.types import DateTime, Integer, Numeric, String
+from sqlalchemy.types import DateTime, Integer, String
 
 
 class Base(DeclarativeBase):
@@ -14,7 +14,7 @@ class Base(DeclarativeBase):
 class Customer(Base):
     __tablename__ = "Customer"
 
-    CustomerId: Mapped[int] = mapped_column(primary_key=True, nullable=False)
+    CustomerId: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
     FirstName: Mapped[str] = mapped_column(String(40))
     LastName: Mapped[Optional[str]] = mapped_column(String(20))
     Company: Mapped[str] = mapped_column(String(80))
@@ -39,17 +39,15 @@ class Customer(Base):
 class Invoice(Base):
     __tablename__ = "Invoice"
 
-    InvoiceId: Mapped[int] = mapped_column(
-        primary_key=True, nullable=False
-    )  # INTEGER  NOT NULL,
-    CustomerId: Mapped[int] = mapped_column(nullable=False)
+    InvoiceId: Mapped[int] = mapped_column(Integer(), primary_key=True, nullable=False)
+    CustomerId: Mapped[int] = mapped_column(Integer(), nullable=False)
     InvoiceDate: Mapped[datetime] = mapped_column(DateTime(), nullable=False)
     BillingAddress: Mapped[str] = mapped_column(String(70))
     BillingCity: Mapped[str] = mapped_column(String(40))
     BillingState: Mapped[str] = mapped_column(String(40))
     BillingCountry: Mapped[str] = mapped_column(String(40))
     BillingPostalCode: Mapped[str] = mapped_column(String(10))
-    Total: Mapped[float] = mapped_column(Numeric(10, 2), nullable=False)
+    Total: Mapped[int] = mapped_column(Integer(), nullable=False)
 
     def __repr__(self) -> str:
         return (
