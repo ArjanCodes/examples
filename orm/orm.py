@@ -57,21 +57,26 @@ class Invoice(Base):
         )
 
 
-db_path = Path("orm\database\sample_database.db").absolute()
+def main() -> None:
+    db_path = Path("orm\database\sample_database.db").absolute()
 
-engine = create_engine(rf"sqlite:///{db_path}")
-session = Session(engine)
-stmt = (
-    select(
-        Customer.id,
-        Customer.first_name,
-        func.sum(Invoice.total).label("Total"),
+    engine = create_engine(rf"sqlite:///{db_path}")
+    session = Session(engine)
+    stmt = (
+        select(
+            Customer.id,
+            Customer.first_name,
+            func.sum(Invoice.total).label("Total"),
+        )
+        .join(Invoice, Customer.id == Invoice.customer_id)
+        .group_by(Customer.id, Customer.first_name)
+        .order_by(func.sum(Invoice.total).label("Total").desc())
+        .limit(10)
     )
-    .join(Invoice, Customer.id == Invoice.customer_id)
-    .group_by(Customer.id, Customer.first_name)
-    .order_by(func.sum(Invoice.total).label("Total").desc())
-    .limit(10)
-)
 
-for customer in session.execute(stmt):
-    print(customer)
+    for customer in session.execute(stmt):
+        print(customer)
+
+
+if __name__ == "__main__":
+    main()

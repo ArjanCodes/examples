@@ -1,22 +1,28 @@
 import sqlite3
 
-con = sqlite3.connect(r"orm\database\sample_database.db")
 
-cur = con.cursor()
+def main() -> None:
+    con = sqlite3.connect(r"orm\database\sample_database.db")
 
-number_of_top_customers = 10
+    cur = con.cursor()
 
-raw_sql = f"""
-SELECT 
-	c.id, 
-	c.first_name, 
-	SUM(i.total) AS total
-FROM Invoice i 
-LEFT JOIN Customer c ON i.customer_id = c.id
-GROUP BY c.id, c.first_name
-ORDER BY total DESC
-LIMIT {number_of_top_customers};
-"""
+    number_of_top_customers = 10
 
-for row in cur.execute(raw_sql):
-    print(row)
+    raw_sql = f"""
+	SELECT 
+		c.id, 
+		c.first_name, 
+		SUM(i.total) AS total
+	FROM Invoice i 
+	LEFT JOIN Customer c ON i.customer_id = c.id
+	GROUP BY c.id, c.first_name
+	ORDER BY total DESC
+	LIMIT {number_of_top_customers};
+	"""
+
+    for row in cur.execute(raw_sql):
+        print(row)
+
+
+if __name__ == "__main__":
+    main()
