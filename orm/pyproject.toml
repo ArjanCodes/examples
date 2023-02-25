@@ -2,7 +2,7 @@
 name = "orm"
 version = "0.1.0"
 description = "Code examples for explaining ORM, raw SQL and SQL builder"
-authors = ["Henrique Branco <henrique.ajnbranco@gmail.com>"]
+authors = ["Author <author@email.com>"]
 readme = "README.md"
 
 [tool.poetry.dependencies]
