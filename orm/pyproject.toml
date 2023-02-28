@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "orm"
+version = "0.1.0"
+description = "Code examples for explaining ORM, raw SQL and SQL builder"
+authors = ["Author <author@email.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+sqlalchemy = "^2.0.4"
+pypika = "^0.48.9"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
