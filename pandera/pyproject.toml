@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "pandera-validation"
+version = "0.0.1"
+description = "An example of pandas type hints and pandera validation"
+authors = ["Your Name <you@example.com>"]
+license = "MIT"
+readme = "README.md"
+packages = [{include = "pandera_validation"}]
+
+[tool.poetry.dependencies]
+python = "^3.9"
+pandas = "^1.5.3"
+pandera = "^0.13.4"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
