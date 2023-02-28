@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "idgenerator_test"
+version = "0.0.12"
+description = "An id generator that generated various types and lengths ids"
+authors = ["ArjanCodes"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.9"
+bson = "^0.5.10"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.2.1"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
