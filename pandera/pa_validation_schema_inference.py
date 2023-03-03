@@ -1,12 +1,12 @@
 from pathlib import Path
-from typing import Union
 
 import pandas as pd
 import pandera as pa
 
+from altered_schema import schema
 
-def retrieve_retail_products(path: Union[Path, str]) -> pd.DataFrame:
-    """Read procuts info as a pandas dataframe."""
+
+def retrieve_retail_products(path: Path) -> pd.DataFrame:
     return pd.read_csv(path)
 
 
@@ -15,14 +15,10 @@ def main() -> None:
 
     products = retrieve_retail_products(dataset_path / "online_retail.csv")
 
-    products_infered_schema = pa.infer_schema(products)
+    products_inferred_schema = pa.infer_schema(products)
 
-    with open("infered_schema.py", "w") as file:
-        file.write(products_infered_schema.to_script())
-
-    # Change the infered schema from infered_schema.py according to specifics needs
-    # and save it to altered_schema.py
-    from altered_schema import schema
+    with open("inferred_schema.py", "w") as file:
+        file.write(products_inferred_schema.to_script())
 
     try:
         schema.validate(products, lazy=True)

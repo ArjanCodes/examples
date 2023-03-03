@@ -1,20 +1,18 @@
 from datetime import datetime
 from pathlib import Path
-from typing import Union
 
 import pandas as pd
-
 import pandera as pa
-from pandera.typing import Series
+from pandera.typing import DataFrame, Series
 
 
 class OutputSchema(pa.SchemaModel):
     """Schema for retail products dataset."""
 
-    InvoiceNo: Series[pd.StringDtype]
-    StockCode: Series[pd.StringDtype] = pa.Field(nullable=True)
-    Description: Series[pd.StringDtype] = pa.Field(nullable=True)
-    Quantity: Series[int]
+    InvoiceNo: Series[str]
+    StockCode: Series[str] = pa.Field(nullable=True)
+    Description: Series[str] = pa.Field(nullable=True)
+    Quantity: Series[int] = pa.Field(ge=1)
     InvoiceDate: Series[datetime]
     UnitPrice: Series[float]
     CustomerID: Series[float] = pa.Field(nullable=True)
@@ -22,10 +20,7 @@ class OutputSchema(pa.SchemaModel):
 
 
 @pa.check_types(lazy=True)
-def retrieve_retail_products(
-    path: Union[Path, str]
-) -> pa.typing.DataFrame[OutputSchema]:
-    """Read procuts info as a pandas dataframe."""
+def retrieve_retail_products(path: Path) -> DataFrame[OutputSchema]:
     return pd.read_csv(path)
 
 
