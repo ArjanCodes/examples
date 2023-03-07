@@ -2,7 +2,7 @@ import sqlite3
 from pathlib import Path
 
 
-def read_sql_query(sql_path: Path) -> str:
+def read_sql_query(sql_path: str) -> str:
     """Read SQL file as string."""
     return Path(sql_path).read_text()
 
@@ -18,7 +18,9 @@ def main() -> None:
 
     raw_sql = read_sql_query("sql/top_customers.sql")
 
-    for row in cur.execute(raw_sql, (number_of_top_customers,)):
+    placeholder = {"limit": number_of_top_customers}
+
+    for row in cur.execute(raw_sql, placeholder):
         print(row)
 
 
