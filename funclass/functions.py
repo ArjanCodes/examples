@@ -10,8 +10,8 @@ def cumulative_count(column_name: str, field_sep=None) -> Counter:
 
     print(f"--- Analysing frequencies of {column_name} --- ")
 
-    with open("data/survey_results_public.csv", "r", encoding="utf-8") as f:
-        csv_reader = csv.DictReader(f)
+    with open("data/survey_results_public.csv", "r", encoding="utf-8") as csv_file:
+        csv_reader = csv.DictReader(csv_file)
         counter = Counter()
         for line in csv_reader:
             if field_sep:
