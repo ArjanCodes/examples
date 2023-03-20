@@ -18,12 +18,6 @@ Transaction = tuple[TransactionType, datetime, int]
 class InsufficientBalanceError(Exception):
     """When an operations in or between bank acount results in negative balance."""
 
-    def __init__(self, msg="Insufficient balance."):
-        self.msg = msg
-
-    def __str__(self):
-        return repr(self.msg)
-
 
 class BankAccount:
     """Represents a real bank account."""
