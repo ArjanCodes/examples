@@ -23,8 +23,8 @@ class BankAccount:
     """Represents a real bank account."""
 
     def __init__(self, initial_balance: int = 0) -> None:
-        self._balance = initial_balance
-        self._transaction_history = []
+        self._balance: int = initial_balance
+        self._transaction_history: list[Transaction] = []
 
     def deposit(self, amount: int) -> None:
         """Insert money into account."""
@@ -63,9 +63,6 @@ class BankAccount:
             self._balance -= amount
             other._balance += amount
             self._transaction_history.append(
-                (TransactionType.TRANSFER, timestamp, amount)
-            )
-            other._transaction_history.append(
                 (TransactionType.TRANSFER, timestamp, amount)
             )
         else:
