@@ -88,7 +88,7 @@ class BankAccount:
 
 
 def main() -> None:
-    """Show operations within and between bank accounts."""
+    """Execute operations within and between two bank accounts."""
 
     account1 = BankAccount(initial_balance=100)
     account2 = BankAccount(initial_balance=500)

@@ -5,6 +5,7 @@ from collections import Counter
 from typing import Optional, Union
 
 StringCounter = Counter[str]
+FieldSep = Optional[Union[str, None]]
 
 
 def cumulative_count(
@@ -27,14 +28,14 @@ def cumulative_count(
     return counter
 
 
-def sum_total_respondents(counter: StringCounter):
+def sum_total_respondents(counter: StringCounter) -> int:
     """Calculate the total respondents including the absent ones."""
 
     # In Python 3.10 there is the counter.total() method that simplify a lot the next line!
     return sum(counter[element] for element in counter)
 
 
-def show_frequencies(counter: StringCounter):
+def show_frequencies(counter: StringCounter) -> None:
     """Prints the absolute and relative frequency for each possible answer, including NA answers."""
 
     total_respondents = sum_total_respondents(counter)
@@ -47,14 +48,14 @@ def show_frequencies(counter: StringCounter):
     print("\n")
 
 
-def show_all_answers(counter: StringCounter):
+def show_all_answers(counter: StringCounter) -> None:
     """Prints all answered possibilities for a question in survey, including NA answers."""
 
     print("The possible answers found within the dataset are:")
     print(f"{';'.join(list(counter))}\n")
 
 
-def analyze_frequencies(column_name: str, field_sep: Optional[Union[str, None]] = None):
+def analyze_frequencies(column_name: str, field_sep: FieldSep = None) -> None:
     """Process the entire frequency analyzis on a column."""
 
     target = cumulative_count(column_name=column_name, field_sep=field_sep)
@@ -64,6 +65,7 @@ def analyze_frequencies(column_name: str, field_sep: Optional[Union[str, None]] 
 
 def main() -> None:
     """Analyse remote work and languages answers."""
+
     analyze_frequencies(column_name="RemoteWork")
     analyze_frequencies(column_name="LanguageHaveWorkedWith", field_sep=";")
 
