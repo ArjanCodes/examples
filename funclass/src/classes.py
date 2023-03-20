@@ -1,3 +1,5 @@
+"""Bank account operations using OOP."""
+
 from __future__ import annotations
 
 from datetime import datetime
@@ -86,6 +88,8 @@ class BankAccount:
 
 
 def main() -> None:
+    """Show operations within and between bank accounts."""
+
     account1 = BankAccount(initial_balance=100)
     account2 = BankAccount(initial_balance=500)
 
