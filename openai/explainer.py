@@ -31,9 +31,10 @@ def get_code_info(question: str, code: str) -> str:
 
 
 retrieve_code_language = partial(
-    get_code_info, question="Can you explain me in what language was this code written?"
+    get_code_info,
+    question="Can you explain to me in what language this code is written?",
 )
 
 retrieve_code_explanation = partial(
-    get_code_info, question="Can you explain me what this code base does?"
+    get_code_info, question="Can you explain to me what this code base does?"
 )
