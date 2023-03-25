@@ -1,0 +1,10 @@
+site_name: Bank Account System
+
+theme:
+  name: "material"
+
+plugins:
+  - mkdocstrings
+
+nav:
+  - Overview: index.md

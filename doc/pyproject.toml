@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "doc"
+version = "0.1.0"
+description = "Improve code documentation examples"
+authors = ["Arjan <hi@arjancodes.com>"]
+license = "MTI"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+mkdocs = "^1.4.2"
+mkdocs-material = "^9.1.4"
+mkdocstrings = "^0.20.0"
+mkdocstrings-python = "^0.8.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
