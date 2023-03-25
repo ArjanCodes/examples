@@ -16,8 +16,8 @@ def cumulative_count(
         counter: StringCounter = Counter()
         for line in csv_reader:
             if field_sep:
-                splited_line = line[column_name].split(field_sep)
-                for element in splited_line:
+                splitted_line = line[column_name].split(field_sep)
+                for element in splitted_line:
                     counter[element] += 1
             else:
                 counter[line[column_name]] += 1
