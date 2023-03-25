@@ -1,5 +1,3 @@
-"""Performs Stack Overflow 2022 survey analysis using functional programming."""
-
 import csv
 from collections import Counter
 from typing import Optional, Union
@@ -11,8 +9,6 @@ FieldSep = Optional[Union[str, None]]
 def cumulative_count(
     column_name: str, field_sep: Optional[Union[str, None]] = None
 ) -> StringCounter:
-    """Cumulative count of anwswers for specific column in Stack Overflow survey."""
-
     print(f"--- Analysing frequencies of {column_name} --- ")
 
     with open("data/survey_results_public.csv", "r", encoding="utf-8") as csv_file:
@@ -29,15 +25,11 @@ def cumulative_count(
 
 
 def sum_total_respondents(counter: StringCounter) -> int:
-    """Calculate the total respondents including the absent ones."""
-
     # In Python 3.10 there is the counter.total() method that simplify a lot the next line!
     return sum(counter[element] for element in counter)
 
 
 def show_frequencies(counter: StringCounter) -> None:
-    """Prints the absolute and relative frequency for each possible answer, including NA answers."""
-
     total_respondents = sum_total_respondents(counter)
 
     for possibility, freq in counter.most_common():
@@ -49,23 +41,17 @@ def show_frequencies(counter: StringCounter) -> None:
 
 
 def show_all_answers(counter: StringCounter) -> None:
-    """Prints all answered possibilities for a question in survey, including NA answers."""
-
     print("The possible answers found within the dataset are:")
     print(f"{';'.join(list(counter))}\n")
 
 
 def analyze_frequencies(column_name: str, field_sep: FieldSep = None) -> None:
-    """Process the entire frequency analyzis on a column."""
-
     target = cumulative_count(column_name=column_name, field_sep=field_sep)
     show_all_answers(target)
     show_frequencies(target)
 
 
 def main() -> None:
-    """Analyse remote work and languages answers."""
-
     analyze_frequencies(column_name="RemoteWork")
     analyze_frequencies(column_name="LanguageHaveWorkedWith", field_sep=";")
 
