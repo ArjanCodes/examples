@@ -1,14 +1,14 @@
 from __future__ import annotations
 
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum, auto
 
 
-class TransactionType(Enum):
+class TransactionType(StrEnum):
 
-    DEPOSIT = "deposit"
-    WITHDRAWAL = "withdrawal"
-    TRANSFER = "transfer"
+    DEPOSIT = auto()
+    WITHDRAWAL = auto()
+    TRANSFER = auto()
 
 
 Transaction = tuple[TransactionType, datetime, int]
