@@ -30,24 +30,20 @@ class BankAccount:
         )
 
     def withdraw(self, amount: int) -> None:
-        if self._sufficient_balance(amount):
-            self._balance -= amount
-            self._transaction_history.append(
-                (TransactionType.WITHDRAWAL, datetime.now(), amount)
-            )
-        else:
+        if not self._sufficient_balance(amount):
             raise InsufficientBalanceError
+        self._balance -= amount
+        self._transaction_history.append(
+            (TransactionType.WITHDRAWAL, datetime.now(), amount)
+        )
 
     def transfer(self, other: BankAccount, amount: int) -> None:
-        if self._sufficient_balance(amount):
-            timestamp = datetime.now()
-            self._balance -= amount
-            other._balance += amount
-            self._transaction_history.append(
-                (TransactionType.TRANSFER, timestamp, amount)
-            )
-        else:
+        if not self._sufficient_balance(amount):
             raise InsufficientBalanceError
+        timestamp = datetime.now()
+        self._balance -= amount
+        other._balance += amount
+        self._transaction_history.append((TransactionType.TRANSFER, timestamp, amount))
 
     def _sufficient_balance(self, amount: int) -> bool:
         return amount <= self._balance
