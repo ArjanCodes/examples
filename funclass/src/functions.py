@@ -1,19 +1,13 @@
 import csv
 from collections import Counter
-from typing import Optional, Union
-
-StringCounter = Counter[str]
-FieldSep = Optional[Union[str, None]]
 
 
-def cumulative_count(
-    column_name: str, field_sep: Optional[Union[str, None]] = None
-) -> StringCounter:
+def cumulative_count(column_name: str, field_sep: str | None = None) -> Counter[str]:
     print(f"--- Analysing frequencies of {column_name} --- ")
 
     with open("data/survey_results_public.csv", "r", encoding="utf-8") as csv_file:
         csv_reader = csv.DictReader(csv_file)
-        counter: StringCounter = Counter()
+        counter = Counter()
         for line in csv_reader:
             if field_sep:
                 splitted_line = line[column_name].split(field_sep)
@@ -24,12 +18,12 @@ def cumulative_count(
     return counter
 
 
-def sum_total_respondents(counter: StringCounter) -> int:
+def sum_total_respondents(counter: Counter[str]) -> int:
     # In Python 3.10 there is the counter.total() method that simplify a lot the next line!
     return sum(counter[element] for element in counter)
 
 
-def show_frequencies(counter: StringCounter) -> None:
+def show_frequencies(counter: Counter[str]) -> None:
     total_respondents = sum_total_respondents(counter)
 
     for possibility, freq in counter.most_common():
@@ -40,12 +34,12 @@ def show_frequencies(counter: StringCounter) -> None:
     print("\n")
 
 
-def show_all_answers(counter: StringCounter) -> None:
+def show_all_answers(counter: Counter[str]) -> None:
     print("The possible answers found within the dataset are:")
     print(f"{';'.join(list(counter))}\n")
 
 
-def analyze_frequencies(column_name: str, field_sep: FieldSep = None) -> None:
+def analyze_frequencies(column_name: str, field_sep: str | None = None) -> None:
     target = cumulative_count(column_name=column_name, field_sep=field_sep)
     show_all_answers(target)
     show_frequencies(target)
