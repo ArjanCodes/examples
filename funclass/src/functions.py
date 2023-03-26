@@ -1,20 +1,27 @@
 import csv
 from collections import Counter
+from csv import DictReader
+from pathlib import Path
+
+ROOT = Path().absolute()
+DATA = ROOT / "data"
+
+FILENAME = "survey_results_public.csv"
 
 
-def cumulative_count(column_name: str, field_sep: str | None = None) -> Counter[str]:
+def cumulative_count(
+    column_name: str, file: DictReader, field_sep: str | None = None
+) -> Counter[str]:
     print(f"--- Analysing frequencies of {column_name} --- ")
-
-    with open("data/survey_results_public.csv", "r", encoding="utf-8") as csv_file:
-        csv_reader = csv.DictReader(csv_file)
-        counter = Counter()
-        for line in csv_reader:
-            if field_sep:
-                splitted_line = line[column_name].split(field_sep)
-                for element in splitted_line:
-                    counter[element] += 1
-            else:
-                counter[line[column_name]] += 1
+    counter = Counter()
+    for line in file:
+        if field_sep:
+            splitted_line = line[column_name].split(field_sep)
+            for element in splitted_line:
+                counter[element] += 1
+        else:
+            counter[line[column_name]] += 1
+    del counter[column_name]
     return counter
 
 
@@ -32,15 +39,25 @@ def show_all_answers(counter: Counter[str]) -> None:
     print(f"{';'.join(list(counter))}\n")
 
 
-def analyze_frequencies(column_name: str, field_sep: str | None = None) -> None:
-    target = cumulative_count(column_name=column_name, field_sep=field_sep)
+def analyze_frequencies(
+    column_name: str, file: DictReader, field_sep: str | None = None
+) -> None:
+    target = cumulative_count(column_name=column_name, file=file, field_sep=field_sep)
     show_all_answers(target)
     show_frequencies(target)
 
 
 def main() -> None:
-    analyze_frequencies(column_name="RemoteWork")
-    analyze_frequencies(column_name="LanguageHaveWorkedWith", field_sep=";")
+    with open(DATA / FILENAME, "r", encoding="utf-8") as csv_file:
+        csv_reader = csv.DictReader(csv_file)
+        analyze_frequencies(column_name="RemoteWork", file=csv_reader)
+
+        # the analysis should run again starting from the first line, not from header.
+        csv_file.seek(1)
+
+        analyze_frequencies(
+            column_name="LanguageHaveWorkedWith", file=csv_reader, field_sep=";"
+        )
 
 
 if __name__ == "__main__":
