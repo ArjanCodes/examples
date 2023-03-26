@@ -18,18 +18,11 @@ def cumulative_count(column_name: str, field_sep: str | None = None) -> Counter[
     return counter
 
 
-def sum_total_respondents(counter: Counter[str]) -> int:
-    # In Python 3.10 there is the counter.total() method that simplify a lot the next line!
-    return sum(counter[element] for element in counter)
-
-
 def show_frequencies(counter: Counter[str]) -> None:
-    total_respondents = sum_total_respondents(counter)
-
     for possibility, freq in counter.most_common():
         print(
             f"{possibility: <36} -> {freq: <5} |",
-            f"{round(freq /  total_respondents * 100, 2)}%",
+            f"{round(freq /  counter.total() * 100, 2)}%",
         )
     print("\n")
 
