@@ -1,0 +1,13 @@
+[tool.poetry]
+name = "classguide"
+version = "0.0.1"
+authors = ["ArjanCodes <hi@arjancodes.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
