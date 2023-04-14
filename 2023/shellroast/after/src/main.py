@@ -10,10 +10,7 @@ from time import sleep
 from colorama import Fore as f
 from UtilPackage.Algorithms import ENCODING, HASHING
 from UtilPackage.EncodingApi import DECODE, ENCODE, EncodingManager
-from UtilPackage.HashingApi import (
-    Hasher,
-)  # Hasher(HashingFunc: callable, s: str | bytes) -> str:
-from UtilPackage.Shell import Command, Shell
+from UtilPackage.Shell import shell_input
 
 DOC = f"""{f.YELLOW}
 	Author: Hossin azmoud (Moody0101)
@@ -56,8 +53,9 @@ def hash_val(args: list[str]) -> None:
         print(f"Unknown algorithm name: {hashing_algo}.")
         print(HASHING["Doc"])
         return
-
-    print(Hasher(HASHING[cleaned_hasher_name], text))
+    encoded_text = text.encode()
+    hashed_text: str = HASHING[cleaned_hasher_name](encoded_text).hexdigest()
+    print(hashed_text)
 
 
 def decode(args: list[str]) -> None:
@@ -107,18 +105,16 @@ COMMANDS = {
 }
 
 
-def execute(command: Command) -> None:
-    if command.CMD in COMMANDS:
-        COMMANDS[command.CMD](command.argv)
+def execute(command: str, arguments: list[str]) -> None:
+    if command in COMMANDS:
+        COMMANDS[command](arguments)
 
 
 def main() -> None:
     print(DOC)
-    shell = Shell()
     while True:
-        command = shell.shellInput()
-        if command:
-            execute(command)
+        command, arguments = shell_input()
+        execute(command, arguments)
 
 
 if __name__ == "__main__":
