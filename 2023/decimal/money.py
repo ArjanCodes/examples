@@ -13,9 +13,8 @@ class Money:
         return cls(int(amount * 100), currency_symbol)
 
     def __str__(self):
-        dollars = self.amount_cents // 100
-        cents = self.amount_cents % 100
-        return f"{self.currency_symbol}{dollars}.{cents:02d}"
+        amount = self.amount_cents / 100
+        return f"{self.currency_symbol}{amount:.2f}"
 
     def __add__(self, other: Self) -> Self:
         if isinstance(other, Money):
