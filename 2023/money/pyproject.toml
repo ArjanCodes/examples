@@ -1,0 +1,16 @@
+[tool.poetry]
+name = "money"
+version = "0.1.0"
+description = "Handling  monetary values in Python"
+authors = ["Arjan <hi@arjancodes.com>"]
+license = "MTI"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.11"
+numpy = "^1.24.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
