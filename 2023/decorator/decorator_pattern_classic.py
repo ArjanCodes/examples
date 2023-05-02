@@ -7,7 +7,7 @@ from time import perf_counter
 def is_prime(number: int) -> bool:
     if number < 2:
         return False
-    for element in range(2, sqrt(number) + 1):
+    for element in range(2, int(sqrt(number)) + 1):
         if number % element == 0:
             return False
     return True
