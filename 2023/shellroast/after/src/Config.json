@@ -1,0 +1,11 @@
+{
+	"ALGORITHMS": [
+		"a85",
+		"base16",
+		"base32",
+		"base32Hex",
+		"base64",
+		"base85",
+		"hexlify"
+	]
+}

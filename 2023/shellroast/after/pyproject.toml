@@ -1,0 +1,30 @@
+[tool.poetry]
+name = "shellroast"
+version = "0.0.1"
+description=""
+authors = ["Arjan <hi@arjancodes.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.10"
+cffi = "^1.15.1"
+colorama = "^0.4.6"
+cryptography = "^40.0.2"
+pycparser = "^2.21"
+
+
+[tool.poetry.group.dev.dependencies]
+pylint = "^2.17.0"
+black = "^23.1.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.pylint."MESSAGES CONTROL"]
+disable=[
+    "missing-class-docstring", 
+    "missing-function-docstring", 
+    "missing-module-docstring"
+]
