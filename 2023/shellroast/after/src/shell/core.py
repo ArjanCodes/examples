@@ -20,6 +20,10 @@ def parse_command_string(command_string: str) -> tuple[str, list[str]]:
     # Split the input string into a list of strings at each space character
     command_parts = command_string.split()
 
+    # If the command is empty, return an empty command and an empty list of arguments
+    if not command_parts:
+        return "", []
+
     # Extract the command (the first element in the list) and the arguments (the rest of the list)
     command = command_parts[0].lower().strip()
     arguments = [part.strip() for part in command_parts[1:]]

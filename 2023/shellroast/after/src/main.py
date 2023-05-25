@@ -1,5 +1,5 @@
 """
-Author: Hossin azmoud (Moody0101)
+HEDShell
 Date: 10/18/2022
 LICENCE: MIT
 Language: Python3.10
@@ -22,8 +22,7 @@ from shell.api import (
 from shell.core import add_command, run_shell
 
 STARTUP_DOC = f"""{f.YELLOW}
-    Author: Hossin azmoud (Moody0101)
-    Date: 10/18/2022
+    HEDShell
     LICENCE: MIT
     Language: {f.CYAN}Python3.10{f.YELLOW}
     Description: A tool to hash, encode, decode text
