@@ -44,7 +44,7 @@ def convert_text_to_mp3(message: str, voice_name: str, mp3_filename: str) -> Non
 
     text_to_speech_response = requests.post(
         f"{BASE_URL}/v1/text-to-speech/{voice_id}/stream",
-        params={"voice_id": voice_id, "xi-api-key": API_KEY},
+        headers={"voice_id": voice_id, "xi-api-key": API_KEY},
         json=payload,
         timeout=5,
     )
@@ -54,7 +54,7 @@ def convert_text_to_mp3(message: str, voice_name: str, mp3_filename: str) -> Non
         print("Trying again, the API maybe busy...")
         text_to_speech_response = requests.post(
             f"{BASE_URL}/v1/text-to-speech/{voice_id}/stream",
-            params={"voice_id": voice_id, "xi-api-key": API_KEY},
+            headers={"voice_id": voice_id, "xi-api-key": API_KEY},
             json=payload,
             timeout=5,
         )
