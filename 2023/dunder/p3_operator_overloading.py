@@ -14,7 +14,7 @@ class Vector:
         return self.x == other.x and self.y == other.y
 
     def __str__(self) -> str:
-        return f"({self.x}, {self.y})"
+        return f"Vector({self.x}, {self.y})"
 
 
 def main() -> None:
@@ -22,7 +22,7 @@ def main() -> None:
     b = Vector(3, 4)
     d = Vector(1, 2)
     c = a + b
-    print(c)  # Output: (4, 6)
+    print(c)  # Output: Vector(4, 6)
     print(a == b)  # Output: False
     print(a == d)  # Output: True
 

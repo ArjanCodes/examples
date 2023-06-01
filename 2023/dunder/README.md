@@ -35,7 +35,7 @@ Like I said before, overriding dunder (double underscore) methods can be powerfu
 2. Violating the principle of least astonishment: Dunder methods should follow intuitive and expected behavior. If your implementation significantly deviates from the typical behavior associated with a dunder method, it can lead to confusion and make your code harder to reason about. Stick to conventions and established patterns unless you have a compelling reason to deviate from them.
    1. Overriding the new dunder method seems like a cool “trick”, but it’s actually really confusing since creating an object now returns an object of a different type (see example _c2_)
 3. Performance considerations: Overriding certain dunder methods can impact the performance of your code. For example, overriding **`__eq__`** inappropriately can lead to unexpected behavior in sets or dictionaries. Consider the performance implications and potential trade-offs before overriding these methods.
-   1. Using a hash function to make comparison easier impacts performance by over a factor 10! (see example _c3_)
+   1. If you rely on the repr method to compare objects, this can have a major impact on performance! (see example _c3_ where its a factor 10 times slower)
 4. Code readability and maintainability: Overuse or misuse of dunder methods can make your code less readable and harder to maintain. Be mindful of the complexity you introduce when overriding dunder methods and ensure that it improves the clarity and maintainability of your code. Always ask yourself the question whether you really need to override the method.
    1. I don’t have a specific example for this one - it’s more generic advice. Reviewers: if you have a specific idea to demonstrate this, let me know!
 

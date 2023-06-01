@@ -1,16 +1,17 @@
 import timeit
+from typing import Self
 
 
 class Point:
-    def __init__(self, x, y):
+    def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
 
-    def __eq__(self, other):
-        return hash(self) == hash(other)
+    def __eq__(self, other: Self) -> bool:
+        return str(self) == str(other)
 
-    def __hash__(self):
-        return hash((self.x, self.y))
+    def __repr__(self):
+        return f"Point({self.x}, {self.y})"
 
 
 def main() -> None:

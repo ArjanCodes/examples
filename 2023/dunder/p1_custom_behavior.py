@@ -4,12 +4,12 @@ class Point:
         self.y = y
 
     def __str__(self):
-        return f"({self.x}, {self.y})"
+        return f"Point({self.x}, {self.y})"
 
 
 def main() -> None:
     p = Point(3, 4)
-    print(p)  # Output: (3, 4)
+    print(p)  # Output: Point(3, 4)
 
 
 if __name__ == "__main__":

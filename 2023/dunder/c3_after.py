@@ -1,13 +1,13 @@
-from typing import List
 import timeit
+from typing import Self
 
 
 class Point:
-    def __init__(self, x: int, y: int):
+    def __init__(self, x: int, y: int) -> None:
         self.x = x
         self.y = y
 
-    def __eq__(self, other):
+    def __eq__(self, other: Self) -> bool:
         return self.x == other.x and self.y == other.y
 
 
