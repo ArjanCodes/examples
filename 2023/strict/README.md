@@ -7,16 +7,18 @@
 ## Being strict
 
 - What I mean by being strict is that you’re mindful of what kind of data your functions or methods work with as well as that you’re precise in defining the scope of what your functions or methods actually need.
-- Mistake 1: Being precise when defining what arguments a function expects
+- Mistake 1: Asking more data than you actually need
   - only ask for what you actually need, nothing more (example 1)
     - consequence: function is highly coupled to a data structure (Geolocation) while that’s not needed, that makes reusing the function harder
+    - Law of Demeter is often a symptom of this
+    - "You wanted a banana but what you got was a gorilla holding the banana and the entire jungle." - https://www.johndcook.com/blog/2011/07/19/you-wanted-banana/"
+- Mistake 2: Being too specific when you specify the type of data you need
   - if you add type annotations, make sure you they are appropriate (example 2)
     - for example, don’t use list if you can use Iterable & don’t use a type like str if Sized is enough
     - consequence: you’re artificially limiting yourself, `count` can now only be used with lists of strings, and not with tuples of lists for example
-- Mistake 2: Being strict in terms of the type of data you can handle
+- Mistake 3: Not being specific enough in terms of the type of data you can handle or that your function returns.
   - only accept one type for arguments. For example, only accept strings, not numbers or strings or booleans or dictionaries, etc (example 3)
     - consequence: a) if you write tests, you need to now cover all of these cases, and b) refactoring the code later could be hard because you won’t be able to deal with all the cases anymore, or you might introduce bugs because of too much allowed flexibility
-- Mistake 3: Being strict in terms of the kind of things your function or method returns
   - return one specific thing, if something is wrong, use an exception (example 3)
     - consequence: whenever you call the function, you need to take into account the possibility of getting a different result, so it leads to more code (and probably more duplication as well since you need to do that everywhere)
   - also share tip on defining custom Exception classes with data
