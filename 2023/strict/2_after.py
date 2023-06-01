@@ -24,13 +24,21 @@ class URI:
         )
 
 
-def to_uri(s: str) -> URI:
+def to_uri_from_int(s: int) -> URI:
+    return to_uri(str(s).encode())
+
+
+def to_uri_from_string(s: str) -> URI:
+    return to_uri(s.encode())
+
+
+def to_uri(s: bytes) -> URI:
     if len(s) < 2:
         raise URITooShortError(s)
     return URI(
         scheme="data",
         authority="",
-        path=f"text/plain;charset=us-ascii;base64,{b64encode(s.encode()).decode()}",
+        path=f"text/plain;charset=us-ascii;base64,{b64encode(s).decode()}",
         query="",
         fragment="",
     )
@@ -38,7 +46,7 @@ def to_uri(s: str) -> URI:
 
 def main() -> None:
     uri_data = input("Enter data to encode: ")
-    uri = to_uri(uri_data)
+    uri = to_uri_from_string(uri_data)
     print(uri)
 
 
