@@ -31,7 +31,7 @@ Joel Grus wrote a famous talk, [I don't like notebooks](https://www.youtube.com/
 - Windows
   - (????)
 
-Once JupyterLab opens, you should be able to click on `nb1_notebook_basics.ipynb`.
+Once JupyterLab opens, you should be able to click on `nb0_getting_started_with_notebooks.ipynb`.
 
 ## Once in the notebook
 
