@@ -6,6 +6,7 @@ from langchain.chat_models import ChatOpenAI
 from langchain.prompts.chat import (
     ChatPromptTemplate,
     HumanMessagePromptTemplate,
+    SystemMessagePromptTemplate,
 )
 from dotenv import load_dotenv
 
@@ -13,8 +14,10 @@ load_dotenv()
 
 OPENAI_MODEL = "gpt-3.5-turbo"
 OPENAI_API_KEY = os.environ.get("OPENAI_API_KEY")
-PROMPT_COUNTRY_INFO = """
+PROMPT_SYSTEM = """
     You are a RESTful API that only responds in JSON.
+    """
+PROMPT_COUNTRY_INFO = """
     Tell me what the capital is of {country}. If you don't know the country, make up a capital name.
     The JSON response should an object with a field called "capital" containing the capital of the country.
     """
@@ -35,8 +38,9 @@ def to_json(json_str: str) -> object:
 def main():
     # setup the chat model
     llm = ChatOpenAI(openai_api_key=OPENAI_API_KEY, model_name=OPENAI_MODEL)
+    system_message = SystemMessagePromptTemplate.from_template(template=PROMPT_SYSTEM)
     message = HumanMessagePromptTemplate.from_template(template=PROMPT_COUNTRY_INFO)
-    chat_prompt = ChatPromptTemplate.from_messages([message])
+    chat_prompt = ChatPromptTemplate.from_messages([system_message, message])
 
     # get user input
     country = input("Enter the name of a country: ")
@@ -48,7 +52,6 @@ def main():
     json_data: dict[str, Any] = to_json(result.content)
 
     # print the response
-    print(json_data)
     capital = json_data.get("capital", "Unknown")
     print(f"The capital of {country} is {capital}.")
 
