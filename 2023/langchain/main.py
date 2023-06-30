@@ -46,7 +46,6 @@ def main():
     chat_prompt_with_values = chat_prompt.format_prompt(
         country=country_name, format_instructions=parser.get_format_instructions()
     )
-    print(chat_prompt_with_values.to_messages())
     output = llm(chat_prompt_with_values.to_messages())
     country = parser.parse(output.content)
 
