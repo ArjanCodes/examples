@@ -2,12 +2,14 @@ import os
 from functools import partial
 
 import openai
+from litellm import completion
 
 openai.api_key = os.getenv("OPENAI_API_KEY")
 
 
 def send_question(question: str) -> dict:
-    return openai.ChatCompletion.create(
+    # use any of the supported models listed here: https://litellm.readthedocs.io/en/latest/supported/
+    return completion(
         model="gpt-3.5-turbo",
         messages=[
             {"role": "system", "content": "You are a developer."},
