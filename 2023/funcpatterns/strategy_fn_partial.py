@@ -1,5 +1,6 @@
 import random
 from typing import Callable
+from functools import partial
 
 
 def bubble_sort(data: list[int]) -> list[int]:
@@ -42,7 +43,8 @@ def context(strategy: SortFn, data: list[int]) -> list[int]:
 
 
 def main() -> None:
-    print(context(bubble_sort, [1, 5, 3, 4, 2]))  # Using Bubble Sort
+    bubble_sort_context = partial(context, bubble_sort)
+    print(bubble_sort_context([1, 5, 3, 4, 2]))  # Using Bubble Sort
     print(context(quick_sort, [1, 5, 3, 4, 2]))  # Using Quick Sort
 
 

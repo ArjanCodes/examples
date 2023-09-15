@@ -1,4 +1,5 @@
 from abc import ABC, abstractmethod
+import random
 
 
 class SortStrategy(ABC):
@@ -42,16 +43,22 @@ class Context:
     def set_strategy(self, strategy: SortStrategy):
         self._strategy = strategy
 
-    def sort(self, data: list[int]) -> list[int]:
+    def execute(self, data: list[int]) -> list[int]:
+        # multiply each element by 2
+        data = [item * 2 for item in data]
+
+        # add a random number to each element
+        data = [item + random.randint(-10, 10) for item in data]
+
         return self._strategy.sort(data)
 
 
 def main() -> None:
     context = Context(BubbleSortStrategy())
-    print(context.sort([1, 5, 3, 4, 2]))  # Using Bubble Sort
+    print(context.execute([1, 5, 3, 4, 2]))  # Using Bubble Sort
 
     context.set_strategy(QuickSortStrategy())
-    print(context.sort([1, 5, 3, 4, 2]))  # Using Quick Sort
+    print(context.execute([1, 5, 3, 4, 2]))  # Using Quick Sort
 
 
 if __name__ == "__main__":
