@@ -4,7 +4,6 @@ from sqlalchemy.orm import sessionmaker
 from main import (
     app,
     Base,
-    Item,
 )  # Import the app, Base, and Item from your main.py file
 import pytest
 
@@ -23,11 +22,11 @@ engine = create_engine(
 TestingSessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
 
 
-@pytest.fixture()
-def test_db():
-    Base.metadata.create_all(bind=engine)
-    yield
-    Base.metadata.drop_all(bind=engine)
+# @pytest.fixture()
+# def test_db():
+#     Base.metadata.create_all(bind=engine)
+#     yield
+#     Base.metadata.drop_all(bind=engine)
 
 
 # Dependency to override the get_db dependency in the main app
@@ -49,11 +48,17 @@ def test_create_item():
     assert data["name"] == "Test Item"
     assert data["description"] == "This is a test item"
     assert "id" in data
-    return data["id"]
 
 
 def test_read_item():
-    item_id = test_create_item()  # Create an item and get its ID
+    # Create an item
+    response = client.post(
+        "/items/", json={"name": "Test Item", "description": "This is a test item"}
+    )
+    assert response.status_code == 200, response.text
+    data = response.json()
+    item_id = data["id"]
+
     response = client.get(f"/items/{item_id}")
     assert response.status_code == 200, response.text
     data = response.json()
@@ -63,7 +68,7 @@ def test_read_item():
 
 
 def test_update_item():
-    item_id = test_create_item()  # Create an item and get its ID
+    item_id = 1
     response = client.put(
         f"/items/{item_id}",
         json={"name": "Updated Item", "description": "This is an updated item"},
@@ -76,7 +81,7 @@ def test_update_item():
 
 
 def test_delete_item():
-    item_id = test_create_item()  # Create an item and get its ID
+    item_id = 1
     response = client.delete(f"/items/{item_id}")
     assert response.status_code == 200, response.text
     data = response.json()
