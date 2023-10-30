@@ -1,10 +1,9 @@
-from contextlib import asynccontextmanager
 from typing import Optional
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
-from sqlalchemy import create_engine, String
-from sqlalchemy.orm import sessionmaker, Session, DeclarativeBase, Mapped, mapped_column
+from sqlalchemy.orm import Session
 from pydantic import BaseModel
+from db.core import DBItem, get_db
 
 
 class Item(BaseModel):
@@ -23,45 +22,14 @@ class ItemUpdate(BaseModel):
     description: Optional[str]
 
 
-DATABASE_URL = "sqlite:///test.db"
+router = APIRouter(
+    prefix="/items",
+)
 
 
-class Base(DeclarativeBase):
-    pass
-
-
-class DBItem(Base):
-    __tablename__ = "items"
-
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    name: Mapped[str] = mapped_column(String(30))
-    description: Mapped[Optional[str]]
-
-
-engine = create_engine(DATABASE_URL)
-SessionLocal = sessionmaker(autocommit=False, autoflush=False, bind=engine)
-
-
-# Dependency to get the database session
-def get_db():
-    database = SessionLocal()
-    try:
-        yield database
-    finally:
-        database.close()
-
-
-@asynccontextmanager
-async def lifespan(_: FastAPI):
-    Base.metadata.create_all(bind=engine)
-    yield
-
-
-app = FastAPI(lifespan=lifespan)
-
-
-@app.post("/items")
+@router.post("")
 def create_item(item: ItemCreate, db: Session = Depends(get_db)) -> Item:
+    print(item)
     db_item = DBItem(**item.model_dump())
     db.add(db_item)
     db.commit()
@@ -69,7 +37,7 @@ def create_item(item: ItemCreate, db: Session = Depends(get_db)) -> Item:
     return Item(**db_item.__dict__)
 
 
-@app.get("/items/{item_id}")
+@router.get("/{item_id}")
 def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
     db_item = db.query(DBItem).filter(DBItem.id == item_id).first()
     if db_item is None:
@@ -77,7 +45,7 @@ def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
     return Item(**db_item.__dict__)
 
 
-@app.put("/items/{item_id}")
+@router.put("/{item_id}")
 def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -> Item:
     db_item = db.query(DBItem).filter(DBItem.id == item_id).first()
     if db_item is None:
@@ -89,7 +57,7 @@ def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -
     return Item(**db_item.__dict__)
 
 
-@app.delete("/items/{item_id}")
+@router.delete("/{item_id}")
 def delete_item(item_id: int, db: Session = Depends(get_db)) -> Item:
     db_item = db.query(DBItem).filter(DBItem.id == item_id).first()
     if db_item is None:
