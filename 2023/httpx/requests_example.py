@@ -1,6 +1,6 @@
 from typing import Any
-import requests
 import time
+import requests
 
 BASE_URL = "https://httpbin.org"
 

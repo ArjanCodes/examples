@@ -6,38 +6,40 @@ import httpx
 BASE_URL = "https://httpbin.org"
 
 
-async def fetch_get() -> Any:
-    async with httpx.AsyncClient() as client:
-        response = await client.get(f"{BASE_URL}/get")
-        return response.json()
+async def fetch_get(client: httpx.AsyncClient) -> Any:
+    response = await client.get(f"{BASE_URL}/get")
+    return response.json()
 
 
-async def fetch_post():
+async def fetch_post(client: httpx.AsyncClient):
     data_to_post = {"key": "value"}
-    async with httpx.AsyncClient() as client:
-        response = await client.post(f"{BASE_URL}/post", json=data_to_post)
-        return response.json()
+    response = await client.post(f"{BASE_URL}/post", json=data_to_post)
+    return response.json()
 
 
-async def fetch_put():
+async def fetch_put(client: httpx.AsyncClient):
     data_to_put = {"key": "updated_value"}
-    async with httpx.AsyncClient() as client:
-        response = await client.put(f"{BASE_URL}/put", json=data_to_put)
-        return response.json()
+    response = await client.put(f"{BASE_URL}/put", json=data_to_put)
+    return response.json()
 
 
-async def fetch_delete():
-    async with httpx.AsyncClient() as client:
-        response = await client.delete(f"{BASE_URL}/delete")
-        return response.json()
+async def fetch_delete(client: httpx.AsyncClient):
+    response = await client.delete(f"{BASE_URL}/delete")
+    return response.json()
 
 
 async def main():
     # record the starting time
     start = time.perf_counter()
 
-    tasks = [fetch_get(), fetch_post(), fetch_put(), fetch_delete()]
-    results = await asyncio.gather(*tasks)
+    async with httpx.AsyncClient() as client:
+        tasks = [
+            fetch_get(client),
+            fetch_post(client),
+            fetch_put(client),
+            fetch_delete(client),
+        ]
+        results = await asyncio.gather(*tasks)
 
     for result in results:
         print(result)
