@@ -2,6 +2,7 @@ from visualizers.plot import visualize_plot
 from visualizers.console import visualize_console
 from rules import birth_rule, lonely_death_rule, stay_alive_rule, over_populate_rule
 from game import Game
+from grid import Grid
 
 ROWS = 20
 COLS = 20
@@ -12,13 +13,14 @@ OUTPUT_TYPE = "visualizer"  # console | visualizer
 
 
 def main() -> None:
-    game = Game(ROWS, COLS, RULES)
+    grid = Grid(ROWS, COLS)
+    grid.set_cell(0, 0, 1)
+    grid.set_cell(1, 3, 1)
+    grid.set_cell(2, 1, 1)
+    grid.set_cell(2, 2, 1)
+    grid.set_cell(2, 3, 1)
 
-    game.grid.grid[0][2] = 1
-    game.grid.grid[1][3] = 1
-    game.grid.grid[2][1] = 1
-    game.grid.grid[2][2] = 1
-    game.grid.grid[2][3] = 1
+    game = Game(grid, RULES)
 
     if OUTPUT_TYPE == "visualizer":
         visualize_plot(game, GENERATIONS, SLEEP_TIME)

@@ -1,8 +1,16 @@
 class Grid:
-    def __init__(self, rows: int, cols: int) -> None:
+    def __init__(
+        self, rows: int, cols: int, init_state: list[list[int]] | None = None
+    ) -> None:
         self.rows = rows
         self.cols = cols
-        self.grid = [[0] * self.cols for _ in range(self.rows)]
+        if init_state:
+            self.grid = init_state
+        else:
+            self.grid = [[0] * self.cols for _ in range(self.rows)]
+
+    def set_cell(self, row: int, col: int, value: int) -> None:
+        self.grid[row][col] = value
 
     def is_cell_in_bounds(self, row: int, col: int) -> bool:
         return 0 <= row < self.rows and 0 <= col < self.cols
@@ -16,6 +24,15 @@ class Grid:
             self.is_alive(row + off_y, col + off_x) for off_y, off_x in offsets
         ].count(True)
 
+    @property
+    def raw(self) -> list[list[int]]:
+        return self.grid.copy()
+
     def __str__(self):
         rows = ["  ".join(map(str, row)) for row in self.grid]
         return "\n".join(rows)
+
+    def __iter__(self):
+        for row in range(self.rows):
+            for col in range(self.cols):
+                yield row, col, self.grid[row][col]

@@ -45,3 +45,8 @@ def test_alive_neighbors_for_corner_cell(grid: Grid) -> None:
     grid.grid[0][1] = 1
     grid.grid[1][0] = 1
     assert grid.alive_neighbors(0, 0) == 2
+
+
+def test_grid_set_cell(grid: Grid) -> None:
+    grid.set_cell(1, 1, 1)
+    assert grid.grid[1][1] == 1
