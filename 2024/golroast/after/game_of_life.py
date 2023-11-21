@@ -1,36 +1,6 @@
-import time
-
-
-class BirthRule:
-    @staticmethod
-    def apply(cell, live_neighbors):
-        if cell == 0 and live_neighbors == 3:
-            return 1
-        return None
-
-
-class LonelyDeathRule:
-    @staticmethod
-    def apply(cell, live_neighbors):
-        if cell == 1 and live_neighbors < 2:
-            return 0
-        return None
-
-
-class StayAliveRule:
-    @staticmethod
-    def apply(cell, live_neighbors):
-        if cell == 1 and 2 <= live_neighbors <= 3:
-            return 1
-        return None
-
-
-class OverPopulateRule:
-    @staticmethod
-    def apply(cell, live_neighbors):
-        if cell == 1 and live_neighbors > 3:
-            return 0
-        return None
+from visualizers.plot import visualize_plot
+from visualizers.console import visualize_console
+from rules import BirthRule, LonelyDeathRule, StayAliveRule, OverPopulateRule
 
 
 class Grid:
@@ -99,15 +69,9 @@ def main():
     game.grid.grid[2][3] = 1
 
     if config["output_type"] == "visualizer":
-        from visualizer import visualize
-
-        visualize(game, config["generations"], config["sleep_time"])
+        visualize_plot(game, config["generations"], config["sleep_time"])
     elif config["output_type"] == "console":
-        for generation in range(1, config["generations"] + 1):
-            game.update()
-            print(f"Generation {generation}:\n")
-            print(game.grid)
-            time.sleep(config["sleep_time"])
+        visualize_console(game, config["generations"], config["sleep_time"])
 
 
 if __name__ == "__main__":

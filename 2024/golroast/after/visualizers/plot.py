@@ -1,10 +1,9 @@
 import matplotlib.pyplot as plt
-import numpy as np
 
 
-def visualize(game, generations, sleep_time):
+def visualize_plot(game, generations, sleep_time):
     fig, ax = plt.subplots()
-    game_display = ax.imshow(game.grid.grid, cmap='gray_r')
+    game_display = ax.imshow(game.grid.grid, cmap="gray_r")
 
     ax.set_xticks([])
     ax.set_yticks([])

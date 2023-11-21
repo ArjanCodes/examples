@@ -1,5 +1,5 @@
 import pytest
-from ..game_of_life import Grid
+from game_of_life import Grid
 
 
 @pytest.fixture

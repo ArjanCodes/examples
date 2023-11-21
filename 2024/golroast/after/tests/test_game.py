@@ -1,4 +1,4 @@
-from ..game_of_life import (
+from game_of_life import (
     BirthRule,
     LonelyDeathRule,
     StayAliveRule,

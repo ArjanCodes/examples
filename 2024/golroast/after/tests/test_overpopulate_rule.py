@@ -1,4 +1,4 @@
-from ..game_of_life import OverPopulateRule
+from rules import OverPopulateRule
 
 
 def test_over_populate_rule_with_alive_cell_and_four_live_neighbors():

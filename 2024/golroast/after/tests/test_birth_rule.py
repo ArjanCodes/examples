@@ -1,4 +1,4 @@
-from ..game_of_life import BirthRule
+from rules import BirthRule
 
 
 def test_birth_rule_with_dead_cell_and_three_live_neighbors():

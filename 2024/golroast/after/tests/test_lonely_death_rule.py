@@ -1,4 +1,4 @@
-from ..game_of_life import LonelyDeathRule
+from rules import LonelyDeathRule
 
 
 def test_lonely_death_rule_with_alive_cell_and_one_live_neighbor():
