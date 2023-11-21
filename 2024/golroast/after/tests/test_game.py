@@ -1,12 +1,7 @@
-from game_of_life import (
-    BirthRule,
-    LonelyDeathRule,
-    StayAliveRule,
-    OverPopulateRule,
-    Game,
-)
+from game import Game
+from rules import birth_rule, lonely_death_rule, stay_alive_rule, over_populate_rule
 
-RULES = [BirthRule, LonelyDeathRule, StayAliveRule, OverPopulateRule]
+RULES = [birth_rule, lonely_death_rule, stay_alive_rule, over_populate_rule]
 
 
 def test_grid_1() -> None:

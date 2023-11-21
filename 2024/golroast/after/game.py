@@ -1,8 +1,10 @@
+from typing import Callable
 from grid import Grid
 
+type Rule = Callable[[int, int], int | None]
 
 class Game:
-    def __init__(self, rows, cols, rules=None):
+    def __init__(self, rows: int, cols: int, rules: list[Rule] | None = None):
         self.grid = Grid(rows, cols)
         self.rules = rules if rules else []
 
@@ -15,7 +17,7 @@ class Game:
 
                 new_cell = None
                 for rule in self.rules:
-                    result = rule.apply(cell, alive_neighbors)
+                    result = rule(cell, alive_neighbors)
                     if result is not None:
                         new_cell = result
                         break
