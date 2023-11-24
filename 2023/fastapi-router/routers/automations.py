@@ -1,6 +1,7 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
-from db.core import DatabaseService, NotFoundError
+from sqlalchemy.orm import Session
+from db.core import get_db, NotFoundError
 from db.automations import (
     Automation,
     AutomationCreate,
@@ -19,16 +20,14 @@ router = APIRouter(
 
 @router.post("")
 def create_automation(
-    automation: AutomationCreate, db: DatabaseService = Depends(DatabaseService)
+    automation: AutomationCreate, db: Session = Depends(get_db)
 ) -> Automation:
-    db_automation = create_db_automation(automation, next(db.get_session()))
+    db_automation = create_db_automation(automation, db)
     return Automation(**db_automation.__dict__)
 
 
 @router.get("/{automation_id}")
-def read_automation(
-    automation_id: int, db: DatabaseService = Depends(DatabaseService)
-) -> Automation:
+def read_automation(automation_id: int, db: Session = Depends(get_db)) -> Automation:
     try:
         db_automation = read_db_automation(automation_id, db)
     except NotFoundError as e:
@@ -40,7 +39,7 @@ def read_automation(
 def update_automation(
     automation_id: int,
     automation: AutomationUpdate,
-    db: DatabaseService = Depends(DatabaseService),
+    db: Session = Depends(get_db),
 ) -> Automation:
     try:
         db_automation = update_db_automation(automation_id, automation, db)
@@ -50,9 +49,7 @@ def update_automation(
 
 
 @router.delete("/{automation_id}")
-def delete_item(
-    automation_id: int, db: DatabaseService = Depends(DatabaseService)
-) -> Automation:
+def delete_item(automation_id: int, db: Session = Depends(get_db)) -> Automation:
     try:
         db_automation = delete_db_automation(automation_id, db)
     except NotFoundError as e:
