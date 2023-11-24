@@ -5,6 +5,10 @@ from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
 DATABASE_URL = "sqlite:///test.db"
 
 
+class NotFoundError(Exception):
+    pass
+
+
 class Base(DeclarativeBase):
     pass
 

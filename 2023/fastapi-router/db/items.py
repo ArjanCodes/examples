@@ -1,13 +1,8 @@
 from typing import Optional
-from sqlalchemy.orm import Session
 from pydantic import BaseModel
 from sqlalchemy import String
 from sqlalchemy.orm import Mapped, mapped_column, Session
-from .core import Base
-
-
-class NotFoundError(Exception):
-    pass
+from .core import Base, NotFoundError
 
 
 class Item(BaseModel):

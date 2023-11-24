@@ -1,12 +1,10 @@
 from fastapi import APIRouter, HTTPException
 from fastapi.params import Depends
-from sqlalchemy.orm import Session
-from db.core import DatabaseService
-from db.items_operations import (
+from db.core import DatabaseService, NotFoundError
+from db.items import (
     Item,
     ItemCreate,
     ItemUpdate,
-    NotFoundError,
     read_db_item,
     create_db_item,
     update_db_item,
@@ -28,27 +26,29 @@ def create_item(
 
 
 @router.get("/{item_id}")
-def read_item(item_id: int, db: Session) -> Item:
+def read_item(item_id: int, db: DatabaseService = Depends(DatabaseService)) -> Item:
     try:
         db_item = read_db_item(item_id, db)
     except NotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404) from e
     return Item(**db_item.__dict__)
 
 
 @router.put("/{item_id}")
-def update_item(item_id: int, item: ItemUpdate, db: Session) -> Item:
+def update_item(
+    item_id: int, item: ItemUpdate, db: DatabaseService = Depends(DatabaseService)
+) -> Item:
     try:
         db_item = update_db_item(item_id, item, db)
     except NotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404) from e
     return Item(**db_item.__dict__)
 
 
 @router.delete("/{item_id}")
-def delete_item(item_id: int, db: Session) -> Item:
+def delete_item(item_id: int, db: DatabaseService = Depends(DatabaseService)) -> Item:
     try:
         db_item = delete_db_item(item_id, db)
     except NotFoundError as e:
-        raise HTTPException(status_code=404, detail=str(e))
+        raise HTTPException(status_code=404) from e
     return Item(**db_item.__dict__)
