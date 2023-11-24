@@ -10,7 +10,9 @@ from db.items import (
     create_db_item,
     update_db_item,
     delete_db_item,
+    read_db_automations_for_item,
 )
+from db.automations import Automation
 
 
 router = APIRouter(
@@ -31,6 +33,17 @@ def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
     except NotFoundError as e:
         raise HTTPException(status_code=404) from e
     return Item(**db_item.__dict__)
+
+
+@router.get("/{item_id}/automations")
+def read_item_automations(
+    item_id: int, db: Session = Depends(get_db)
+) -> list[Automation]:
+    try:
+        automations = read_db_automations_for_item(item_id, db)
+    except NotFoundError as e:
+        raise HTTPException(status_code=404) from e
+    return [Automation(**automation.__dict__) for automation in automations]
 
 
 @router.put("/{item_id}")

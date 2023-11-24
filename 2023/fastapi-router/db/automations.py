@@ -1,9 +1,7 @@
 from typing import Optional
 from pydantic import BaseModel
-from sqlalchemy import ForeignKey
-from sqlalchemy.orm import Mapped, mapped_column, relationship, Session
-from .core import Base, NotFoundError
-from .items import Item
+from sqlalchemy.orm import Session
+from .core import DBAutomation, NotFoundError
 
 
 class Automation(BaseModel):
@@ -18,17 +16,8 @@ class AutomationCreate(BaseModel):
 
 
 class AutomationUpdate(BaseModel):
-    item_id: Optional[int]
-    code: Optional[str]
-
-
-class DBAutomation(Base):
-    __tablename__ = "automations"
-
-    id: Mapped[int] = mapped_column(primary_key=True)
-    item_id: Mapped[int] = mapped_column(ForeignKey("items.id"))
-    item: Mapped[Item] = relationship()
-    code: Mapped[str]
+    item_id: Optional[int] = None
+    code: Optional[str] = None
 
 
 def read_db_automation(automation_id: int, session: Session) -> DBAutomation:
@@ -54,7 +43,7 @@ def update_db_automation(
     automation_id: int, automation: AutomationUpdate, session: Session
 ) -> DBAutomation:
     db_automation = read_db_automation(automation_id, session)
-    for key, value in automation.model_dump().items():
+    for key, value in automation.model_dump(exclude_none=True).items():
         setattr(db_automation, key, value)
     session.commit()
     session.refresh(db_automation)

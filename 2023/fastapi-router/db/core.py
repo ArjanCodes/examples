@@ -1,5 +1,6 @@
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, DeclarativeBase, Session
+from typing import Optional
+from sqlalchemy import create_engine, ForeignKey
+from sqlalchemy.orm import sessionmaker, DeclarativeBase, Mapped, mapped_column
 
 DATABASE_URL = "sqlite:///test.db"
 
@@ -10,6 +11,22 @@ class NotFoundError(Exception):
 
 class Base(DeclarativeBase):
     pass
+
+
+class DBItem(Base):
+    __tablename__ = "items"
+
+    id: Mapped[int] = mapped_column(primary_key=True, index=True)
+    name: Mapped[str]
+    description: Mapped[Optional[str]]
+
+
+class DBAutomation(Base):
+    __tablename__ = "automations"
+
+    id: Mapped[int] = mapped_column(primary_key=True)
+    item_id: Mapped[int] = mapped_column(ForeignKey("items.id"))
+    code: Mapped[str]
 
 
 engine = create_engine(DATABASE_URL)

@@ -1,32 +1,24 @@
 from typing import Optional
+from automation.run import run_automations
 from pydantic import BaseModel
-from sqlalchemy import String
-from sqlalchemy.orm import Mapped, mapped_column, Session
-from .core import Base, NotFoundError
+from sqlalchemy.orm import Session
+from .core import DBAutomation, DBItem, NotFoundError
 
 
 class Item(BaseModel):
     id: int
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
 
 
 class ItemCreate(BaseModel):
     name: str
-    description: Optional[str]
+    description: Optional[str] = None
 
 
 class ItemUpdate(BaseModel):
-    name: Optional[str]
-    description: Optional[str]
-
-
-class DBItem(Base):
-    __tablename__ = "items"
-
-    id: Mapped[int] = mapped_column(primary_key=True, index=True)
-    name: Mapped[str] = mapped_column(String(30))
-    description: Mapped[Optional[str]]
+    name: Optional[str] = None
+    description: Optional[str] = None
 
 
 def read_db_item(item_id: int, session: Session) -> DBItem:
@@ -36,20 +28,30 @@ def read_db_item(item_id: int, session: Session) -> DBItem:
     return db_item
 
 
+def read_db_automations_for_item(item_id: int, session: Session) -> list[DBAutomation]:
+    return session.query(DBAutomation).filter(DBAutomation.item_id == item_id).all()
+
+
 def create_db_item(item: ItemCreate, session: Session) -> DBItem:
-    db_item = DBItem(**item.model_dump())
+    db_item = DBItem(**item.model_dump(exclude_none=True))
     session.add(db_item)
     session.commit()
     session.refresh(db_item)
+
     return db_item
 
 
 def update_db_item(item_id: int, item: ItemUpdate, session: Session) -> DBItem:
     db_item = read_db_item(item_id, session)
-    for key, value in item.model_dump().items():
+    for key, value in item.model_dump(exclude_none=True).items():
         setattr(db_item, key, value)
     session.commit()
     session.refresh(db_item)
+
+    # get the automations
+    automations = read_db_automations_for_item(db_item.id, session)
+    run_automations(automations)
+
     return db_item
 
 
