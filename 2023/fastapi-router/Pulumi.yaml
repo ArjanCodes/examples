@@ -1,0 +1,6 @@
+name: automation_api
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: Automation API with Google Cloud Run
