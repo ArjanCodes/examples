@@ -10,6 +10,7 @@ fastapi = "^0.103.1"
 sqlalchemy = "^2.0.21"
 uvicorn = "^0.23.2"
 pytest = "^7.4.2"
+slowapi = "^0.1.8"
 
 
 [tool.poetry.group.dev.dependencies]

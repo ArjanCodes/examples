@@ -1,4 +1,5 @@
-from fastapi import APIRouter, HTTPException
+from .limiter import limiter
+from fastapi import APIRouter, HTTPException, Request
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
 from db.core import NotFoundError, get_db
@@ -21,13 +22,17 @@ router = APIRouter(
 
 
 @router.post("")
-def create_item(item: ItemCreate, db: Session = Depends(get_db)) -> Item:
+@limiter.limit("1/second")
+def create_item(
+    request: Request, item: ItemCreate, db: Session = Depends(get_db)
+) -> Item:
     db_item = create_db_item(item, db)
     return Item(**db_item.__dict__)
 
 
 @router.get("/{item_id}")
-def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
+@limiter.limit("1/second")
+def read_item(request: Request, item_id: int, db: Session = Depends(get_db)) -> Item:
     try:
         db_item = read_db_item(item_id, db)
     except NotFoundError as e:
@@ -36,8 +41,9 @@ def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
 
 
 @router.get("/{item_id}/automations")
+@limiter.limit("1/second")
 def read_item_automations(
-    item_id: int, db: Session = Depends(get_db)
+    request: Request, item_id: int, db: Session = Depends(get_db)
 ) -> list[Automation]:
     try:
         automations = read_db_automations_for_item(item_id, db)
@@ -47,7 +53,10 @@ def read_item_automations(
 
 
 @router.put("/{item_id}")
-def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -> Item:
+@limiter.limit("1/second")
+def update_item(
+    request: Request, item_id: int, item: ItemUpdate, db: Session = Depends(get_db)
+) -> Item:
     try:
         db_item = update_db_item(item_id, item, db)
     except NotFoundError as e:
@@ -56,7 +65,8 @@ def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -
 
 
 @router.delete("/{item_id}")
-def delete_item(item_id: int, db: Session = Depends(get_db)) -> Item:
+@limiter.limit("1/second")
+def delete_item(request: Request, item_id: int, db: Session = Depends(get_db)) -> Item:
     try:
         db_item = delete_db_item(item_id, db)
     except NotFoundError as e:
