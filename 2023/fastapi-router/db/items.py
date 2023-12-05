@@ -1,5 +1,5 @@
 from typing import Optional
-from automation.run import run_automations
+from .automation.run import run_automations
 from pydantic import BaseModel
 from sqlalchemy.orm import Session
 from .core import DBAutomation, DBItem, NotFoundError

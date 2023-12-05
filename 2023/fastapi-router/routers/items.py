@@ -1,4 +1,3 @@
-from .limiter import limiter
 from fastapi import APIRouter, HTTPException, Request
 from fastapi.params import Depends
 from sqlalchemy.orm import Session
@@ -14,6 +13,7 @@ from db.items import (
     read_db_automations_for_item,
 )
 from db.automations import Automation
+from .limiter import limiter
 
 
 router = APIRouter(
@@ -21,7 +21,7 @@ router = APIRouter(
 )
 
 
-@router.post("")
+@router.post("/")
 @limiter.limit("1/second")
 def create_item(
     request: Request, item: ItemCreate, db: Session = Depends(get_db)
