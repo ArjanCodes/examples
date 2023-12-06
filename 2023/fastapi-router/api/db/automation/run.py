@@ -1,9 +1,11 @@
-from db.core import DBAutomation
 import os
 import subprocess
 from pathlib import Path
-from pulumi import automation as auto
 import json
+
+from pulumi import automation as auto
+from ..core import DBAutomation
+
 
 STACK_NAME = "dev_auto"
 
@@ -44,13 +46,15 @@ def run_automations(automations: list[DBAutomation]):
 
         # Open main.template.py and replace {{code}} with automation.code
         os.chdir(Path(__file__).parent)
-        with open("code_runner/functions/main.template.py", "r", encoding="utf8") as f:
+        with open(
+            "../../../code_runner/functions/main.template.py", "r", encoding="utf8"
+        ) as f:
             template = f.read()
-        with open("code_runner/functions/main.py", "w", encoding="utf8") as f:
+        with open("../../../code_runner/functions/main.py", "w", encoding="utf8") as f:
             f.write(template.replace("{{code}}", automation.code))
 
         # define the working directory as the code_runner directory
-        work_dir = os.path.join(Path(__file__).parent, "code_runner")
+        work_dir = os.path.join(Path(__file__).parent, "../../../code_runner")
 
         prepare_virtual_environment(work_dir)
 
@@ -58,20 +62,9 @@ def run_automations(automations: list[DBAutomation]):
         stack = auto.create_or_select_stack(stack_name=STACK_NAME, work_dir=work_dir)
         print("successfully initialized stack")
 
-        # print("setting up config")
-        # stack.set_config("aws:region", auto.ConfigValue(value="us-west-2"))
-        # stack.set_config("voting-app:redis-password", auto.ConfigValue(value="my_password", secret=True))
-        # print("config set")
-
         print("refreshing stack")
         stack.refresh(on_output=print)
         print("refresh complete")
-
-        # if destroy:
-        #     print("destroying stack...")
-        #     stack.destroy(on_output=print)
-        #     print("stack destroy complete")
-        #     sys.exit()
 
         print("updating stack...")
         up_res = stack.up(on_output=print)
