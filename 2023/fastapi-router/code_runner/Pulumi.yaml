@@ -1,0 +1,6 @@
+name: code_runner
+runtime:
+  name: python
+  options:
+    virtualenv: venv
+description: A simple cloud function that can run some code

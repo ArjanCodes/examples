@@ -2,6 +2,7 @@ import os
 import subprocess
 from pathlib import Path
 import json
+import requests
 
 from pulumi import automation as auto
 from ..core import DBAutomation
@@ -46,12 +47,12 @@ def run_automations(automations: list[DBAutomation]):
 
         # Open main.template.py and replace {{code}} with automation.code
         os.chdir(Path(__file__).parent)
-        with open(
-            "../../../code_runner/functions/main.template.py", "r", encoding="utf8"
-        ) as f:
-            template = f.read()
-        with open("../../../code_runner/functions/main.py", "w", encoding="utf8") as f:
-            f.write(template.replace("{{code}}", automation.code))
+        # with open(
+        #     "../../../code_runner/functions/main.template.py", "r", encoding="utf8"
+        # ) as f:
+        #     template = f.read()
+        # with open("../../../code_runner/functions/main.py", "w", encoding="utf8") as f:
+        #     f.write(template.replace("{{code}}", automation.code))
 
         # define the working directory as the code_runner directory
         work_dir = os.path.join(Path(__file__).parent, "../../../code_runner")
@@ -62,13 +63,20 @@ def run_automations(automations: list[DBAutomation]):
         stack = auto.create_or_select_stack(stack_name=STACK_NAME, work_dir=work_dir)
         print("successfully initialized stack")
 
-        print("refreshing stack")
-        stack.refresh(on_output=print)
-        print("refresh complete")
-
         print("updating stack...")
         up_res = stack.up(on_output=print)
         print(
             f"update summary: \n{json.dumps(up_res.summary.resource_changes, indent=4)}"
         )
-        print(f"app url: {up_res.outputs['app-url'].value}")
+        function_url = up_res.outputs["fxn_url"].value
+
+        print(f"Function url: {up_res.outputs['fxn_url'].value}")
+
+        # Invoke the function
+        print("invoking function...")
+        response = requests.post(function_url, json={"code": automation.code})
+        print(f"function response: {response.text}")
+
+        # Destroy the stack, returning the final state of the stack.
+        print("destroying stack...")
+        stack.destroy(on_output=print)

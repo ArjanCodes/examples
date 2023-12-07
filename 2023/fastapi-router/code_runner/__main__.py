@@ -15,11 +15,13 @@ bucket = storage.Bucket("run_code_bucket", location="US", force_destroy=True)
 
 # The Cloud Function source code itself needs to be zipped up into an
 # archive, which we create using the pulumi.AssetArchive primitive.
-assets = {}
-for file in os.listdir(PATH_TO_SOURCE_CODE):
-    location = os.path.join(PATH_TO_SOURCE_CODE, file)
-    asset = pulumi.FileAsset(path=location)
-    assets[file] = asset
+assets = {
+    "main.py": pulumi.FileAsset(path="main.py"),
+}
+# for file in os.listdir(PATH_TO_SOURCE_CODE):
+#     location = os.path.join(PATH_TO_SOURCE_CODE, file)
+#     asset = pulumi.FileAsset(path=location)
+#     assets[file] = asset
 
 archive = pulumi.AssetArchive(assets=assets)
 
