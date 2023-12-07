@@ -43,17 +43,6 @@ def run_automations(automations: list[DBAutomation]):
         print(f"Running automation {automation.id}")
         print(f"Code: {automation.code}")
 
-        # change the working directory to the directory of this script
-
-        # Open main.template.py and replace {{code}} with automation.code
-        os.chdir(Path(__file__).parent)
-        # with open(
-        #     "../../../code_runner/functions/main.template.py", "r", encoding="utf8"
-        # ) as f:
-        #     template = f.read()
-        # with open("../../../code_runner/functions/main.py", "w", encoding="utf8") as f:
-        #     f.write(template.replace("{{code}}", automation.code))
-
         # define the working directory as the code_runner directory
         work_dir = os.path.join(Path(__file__).parent, "../../../code_runner")
 
@@ -74,7 +63,9 @@ def run_automations(automations: list[DBAutomation]):
 
         # Invoke the function
         print("invoking function...")
-        response = requests.post(function_url, json={"code": automation.code})
+        response = requests.post(
+            function_url, json={"code": automation.code}, timeout=60
+        )
         print(f"function response: {response.text}")
 
         # Destroy the stack, returning the final state of the stack.

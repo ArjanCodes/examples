@@ -1,4 +1,3 @@
-import os
 import time
 
 import pulumi
@@ -18,10 +17,6 @@ bucket = storage.Bucket("run_code_bucket", location="US", force_destroy=True)
 assets = {
     "main.py": pulumi.FileAsset(path="main.py"),
 }
-# for file in os.listdir(PATH_TO_SOURCE_CODE):
-#     location = os.path.join(PATH_TO_SOURCE_CODE, file)
-#     asset = pulumi.FileAsset(path=location)
-#     assets[file] = asset
 
 archive = pulumi.AssetArchive(assets=assets)
 
