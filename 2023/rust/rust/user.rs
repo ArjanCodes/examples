@@ -1,16 +1,15 @@
 struct User {
-    name: &'static str,
-    email: &'static str,
+    name: String,
+    email: String
 }
-
 impl User {
-    fn new(name: &'static str) -> User {
+    fn new(name: &str) -> User {
         User {
-            name,
-            email: &format!("{}@arjancodes.com", name),
+            name: name.to_string(),
+            email: format!("{}@arjancodes.com", name)
+        }
     }
 }
-
 fn main() {
     let user = User::new("Arjan");
     println!("Hello, {}!", user.name);
