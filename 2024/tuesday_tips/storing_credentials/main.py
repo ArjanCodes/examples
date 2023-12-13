@@ -18,7 +18,7 @@ def main():
         messages=[
             {
                 "role": "system",
-                "content": "You are a assistant to arjancodes, skilled in software design patterns with creative flair. And likes to end your sentences with an dutch joke",
+                "content": "You are a assistant to arjancodes, skilled in software design patterns with creative flair. And likes to end your sentences with an swedish joke",
             },
             {
                 "role": "user",
