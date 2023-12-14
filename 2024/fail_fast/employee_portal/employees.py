@@ -1,6 +1,5 @@
 from decimal import Decimal
 from string import Template
-from typing import Any
 from employee_portal.database.database import DatabaseConnector
 from employee_portal.position import Position
 
@@ -19,7 +18,6 @@ def create(
 
         query = template.substitute(name=name, position=position.value, salary=salary)
 
-        print(query)
         cursor.execute(query)
 
         conn.commit()
@@ -30,7 +28,7 @@ def create(
         connector.close_connection(conn)
 
 
-def index(connector: DatabaseConnector):
+def index(connector: DatabaseConnector) -> list[tuple[int, str, str, Decimal]]:
     conn = connector.connect(DATABASE)
     cursor = connector.create_cursor(conn)
     try:
@@ -46,7 +44,7 @@ def index(connector: DatabaseConnector):
         connector.close_connection(conn)
 
 
-def show(connector: DatabaseConnector, employee_id: int) -> tuple[Any, Any]:
+def show(connector: DatabaseConnector, employee_id: int) -> tuple[int, str, str, Decimal]:
     conn = connector.connect(DATABASE)
     cursor = connector.create_cursor(conn)
 
