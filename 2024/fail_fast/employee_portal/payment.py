@@ -19,7 +19,7 @@ class RedeemBuddyPayment(PaymentStrategy):
 
 # Context class that uses a PaymentStrategy
 class PaymentProcessor:
-    def __init__(self, payment_strategy: PaymentStrategy):
+    def __init__(self, payment_strategy: PaymentStrategy = RedeemBuddyPayment()):
         self.payment_strategy = payment_strategy
 
     def set_payment_strategy(self, payment_strategy: PaymentStrategy) -> None:
