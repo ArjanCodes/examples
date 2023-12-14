@@ -1,9 +1,8 @@
-from abc import ABC, abstractmethod
+from typing import Protocol
 from decimal import Decimal
 
-# Define the PaymentStrategy interface
-class PaymentStrategy(ABC):
-    @abstractmethod
+# Define the PaymentStrategy interface using Protocol
+class PaymentStrategy(Protocol):
     def process_payment(self, amount: Decimal) -> None:
         pass
 
