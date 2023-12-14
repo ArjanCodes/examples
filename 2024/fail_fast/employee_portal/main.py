@@ -12,7 +12,9 @@ from employee_portal.position import Position
 
 app = FastAPI()
 
-connector = SQLiteConnector()
+
+async def setup_db_connection() -> SQLiteConnector:
+    return SQLiteConnector()
 
 
 async def setup_payment_processor() -> PaymentProcessor:
@@ -20,18 +22,25 @@ async def setup_payment_processor() -> PaymentProcessor:
 
 
 @app.post("/employees/", response_model=None)
-def create_employee(name: str, position: Position, salary: Decimal):
+def create_employee(
+    name: str,
+    position: Position,
+    salary: Decimal,
+    connector: SQLiteConnector = Depends(setup_db_connection),
+):
     create(connector, name, position, salary)
     return {"message": "Record inserted successfully"}
 
 
 @app.get("/employees/", response_model=List[Tuple[Any, ...]])
-def read_employees():
+def read_employees(connector: SQLiteConnector = Depends(setup_db_connection)):
     return index(connector)
 
 
 @app.get("/employees/{employee_id}", response_model=Tuple[Any, ...])
-def read_employee(employee_id: int):
+def read_employee(
+    employee_id: int, connector: SQLiteConnector = Depends(setup_db_connection)
+):
     employee = show(connector, employee_id)
     if not employee:
         raise HTTPException(status_code=404, detail="Employee not found")
@@ -39,7 +48,13 @@ def read_employee(employee_id: int):
 
 
 @app.put("/employees/{employee_id}", response_model=None)
-def update_employee(employee_id: int, name: str, position: Position, salary: Decimal):
+def update_employee(
+    employee_id: int,
+    name: str,
+    position: Position,
+    salary: Decimal,
+    connector: SQLiteConnector = Depends(setup_db_connection),
+):
     existing_employee = show(connector, employee_id)
     if not existing_employee:
         raise HTTPException(status_code=404, detail="Employee not found")
@@ -49,7 +64,9 @@ def update_employee(employee_id: int, name: str, position: Position, salary: Dec
 
 
 @app.delete("/employees/{employee_id}", response_model=None)
-def delete_employee(employee_id: int):
+def delete_employee(
+    employee_id: int, connector: SQLiteConnector = Depends(setup_db_connection)
+):
     existing_employee = show(connector, employee_id)
     if not existing_employee:
         raise HTTPException(status_code=404, detail="Employee not found")
@@ -63,6 +80,7 @@ def pay_salary(
     employee_id: int,
     payment_method: str,
     payment_processor: PaymentProcessor = Depends(setup_payment_processor),
+    connector: SQLiteConnector = Depends(setup_db_connection),
 ):
     employee_info = show(connector, employee_id)
 
