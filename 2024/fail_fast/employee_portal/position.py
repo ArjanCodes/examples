@@ -1,7 +1,7 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class Position(Enum):
+class Position(StrEnum):
     SOFTWARE_ENGINEER = 'Software Engineer'
     DATA_SCIENTIST = 'Data Scientist'
     PROJECT_MANAGER = 'Project Manager'
