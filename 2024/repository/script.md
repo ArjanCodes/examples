@@ -18,7 +18,8 @@ This can spell trouble for larger applications, as data access becomes more comp
 - Explain that the repository pattern is not limited to databases, and that it can be used for many different kinds of data storage.
 - Explain that this is very useful when working with APIs, and other kinds of data sources, or where you have hybrid data storage solutions.
 - Explain that this can also be used to abstract away the way we access data, and can be used to create a more standardized way of accessing data.
-
+  
+### Ask users how they prefer to store their data.
 Warnings and Caveats (You *don't* have to include this section)
 - explain that for smaller applications, the repo pattern may not be necessary.
 - warn not to overcomplicate the implementation details when implementing the pattern
