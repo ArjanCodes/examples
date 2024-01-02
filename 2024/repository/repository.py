@@ -1,10 +1,9 @@
-from abc import ABC, abstractmethod
 from contextlib import contextmanager
 from sqlite3 import connect, Cursor
-from typing import Generator
+from typing import Generator, Protocol
 
 
-class Repository[RepoObject](ABC):
+class Repository[RepoObject](Protocol):
     def __init__(self, db_path: str):
         self.db_path = db_path
         self.create_table()
@@ -14,26 +13,20 @@ class Repository[RepoObject](ABC):
         with connect(self.db_path) as conn:
             yield conn.cursor()
 
-    @abstractmethod
-    def get(self, id_: int) -> RepoObject:
+    def get(self, id: int) -> RepoObject:
         ...
 
-    @abstractmethod
     def get_all(self) -> list[RepoObject]:
         ...
 
-    @abstractmethod
-    def add(self, entry: RepoObject) -> None:
-        ...
+    def add(self, *kwargs: object) -> None:
+        raise NotImplementedError
 
-    @abstractmethod
-    def update(self, entry: RepoObject) -> None:
-        ...
+    def update(self, id: int, **kwargs: object) -> None:
+        raise NotImplementedError
 
-    @abstractmethod
-    def delete(self, entry: RepoObject) -> None:
-        ...
+    def delete(self, id: int) -> None:
+        raise NotImplementedError
 
-    @abstractmethod
     def create_table(self) -> None:
-        ...
+        raise NotImplementedError
