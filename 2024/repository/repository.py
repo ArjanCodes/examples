@@ -19,7 +19,7 @@ class Repository[RepoObject](Protocol):
     def get_all(self) -> list[RepoObject]:
         ...
 
-    def add(self, *kwargs: object) -> None:
+    def add(self, **kwargs: object) -> None:
         raise NotImplementedError
 
     def update(self, id: int, **kwargs: object) -> None:
