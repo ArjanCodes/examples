@@ -1,5 +1,7 @@
 import sqlite3
 import contextlib
+from dataclasses import dataclass
+from typing import Optional
 
 
 @contextlib.contextmanager
@@ -8,11 +10,11 @@ def connect(db_path: str):
         yield conn.cursor()
 
 
+@dataclass
 class Post:
-    def __init__(self, title: str, content: str, id_: int = None):
-        self.title = title
-        self.content = content
-        self.id = id_
+    title: str
+    content: str
+    id: Optional[int] = None
 
     @classmethod
     def create_table(cls, db_path: str) -> None:
@@ -26,13 +28,13 @@ class Post:
             post = cursor.fetchone()
             if post is None:
                 raise ValueError(f"Post with id {post_id} does not exist")
-            return Post(title = post[1], content = post[2], id_ = post[0])
+            return Post(title = post[1], content = post[2], id = post[0])
 
     @classmethod
     def get_all_posts(cls, db_path: str) -> list['Post']:
         with connect(db_path) as cursor:
             cursor.execute("SELECT * FROM posts")
-            return [Post(title = row[1], content = row[2], id_ = row[0]) for row in cursor.fetchall()]
+            return [Post(title = row[1], content = row[2], id = row[0]) for row in cursor.fetchall()]
 
     @classmethod
     def add_post(cls, title, content, db_path: str) -> None:
@@ -51,3 +53,17 @@ class Post:
 
     def __repr__(self):
         return f"Post(title={self.title}, content={self.content}, id={self.id})"
+
+
+def main():
+    Post.create_table("posts.db")
+    Post.add_post("Hello", "World", "posts.db")
+    Post.add_post("Like", "This", "posts.db")
+    Post.add_post("Post", "Here", "posts.db")
+    
+    for post in Post.get_all_posts("posts.db"):
+        print(post)
+        
+        
+if __name__ == "__main__":
+    main()
