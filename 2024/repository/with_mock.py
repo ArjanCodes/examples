@@ -10,13 +10,13 @@ class MockPostRepository(Repository[Post]):
 
     def get(self, id_: int) -> Post:
         return self.posts[id_]
-    
+
     def get_all(self) -> list[Post]:
         return list(self.posts.values())
-    
+
     def add(self, entry: Post) -> None:
         self.posts[len(self.posts)] = entry
-    
+
     def update(self, entry: Post) -> None:
         if entry.id is None:
             raise ValueError("Cannot update a post without an id")
@@ -31,6 +31,7 @@ class MockPostRepository(Repository[Post]):
         """Since we are using a dictionary, we don't need to create a table"""
         pass
 
+
 def main():
     repo = MockPostRepository("../../posts.db")
     repo.add(Post("Hello", "World"))
@@ -41,12 +42,7 @@ def main():
     print(repo.get(1))
     repo.update(Post("Hello", "World", 1))
     print(repo.get(1))
-    
 
 
 if __name__ == "__main__":
     main()
-        
-
-
-

@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "repository"
+version = "0.0.1"
+description = ""
+authors = ["Arjan <hi@arjancodes.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+
+
+[tool.poetry.group.dev.dependencies]
+ruff = "^0.1.11"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
