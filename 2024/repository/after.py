@@ -1,15 +1,49 @@
+import contextlib
+import sqlite3
+from abc import ABC, abstractmethod
 from dataclasses import dataclass
-from repository import Repository
+from typing import Optional
 
 
 @dataclass
 class Post:
-    id: int
     title: str
     content: str
+    id: Optional[int] = None
+
+
+class Repository[T](ABC):
+    @abstractmethod
+    def get(self, id: int) -> T:
+        raise NotImplementedError
+
+    @abstractmethod
+    def get_all(self) -> list[T]:
+        raise NotImplementedError
+
+    @abstractmethod
+    def add(self, **kwargs: object) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def update(self, id: int, **kwargs: object) -> None:
+        raise NotImplementedError
+
+    @abstractmethod
+    def delete(self, id: int) -> None:
+        raise NotImplementedError
 
 
 class PostRepository(Repository[Post]):
+    def __init__(self, db_path: str) -> None:
+        self.db_path = db_path
+        self.create_table()
+
+    @contextlib.contextmanager
+    def connect(self):
+        with sqlite3.connect(self.db_path) as conn:
+            yield conn.cursor()
+
     def create_table(self) -> None:
         with self.connect() as cursor:
             cursor.execute(
@@ -72,9 +106,6 @@ class PostRepository(Repository[Post]):
     def delete(self, id: int) -> None:
         with self.connect() as cursor:
             cursor.execute("DELETE FROM posts WHERE id=?", (id,))
-
-    def __repr__(self):
-        return f"PostRepository(db_path={self.db_path})"
 
 
 def main() -> None:

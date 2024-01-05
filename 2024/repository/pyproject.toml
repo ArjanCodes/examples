@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "repository"
+name = "recording"
 version = "0.0.1"
 description = ""
 authors = ["Arjan <hi@arjancodes.com>"]
@@ -10,8 +10,8 @@ python = "^3.11"
 
 [tool.poetry.group.dev.dependencies]
 ruff = "^0.1.11"
+pytest = "^7.4.4"
 
 [build-system]
 requires = ["poetry-core"]
 build-backend = "poetry.core.masonry.api"
-

@@ -1,11 +1,11 @@
 import typing
+
+from after import Post
 from repository import Repository
-from post_repo import Post
 
 
 class MockPostRepository(Repository[Post]):
-    def __init__(self, db_path: str, posts: typing.Optional[dict[int, Post]] = None):
-        super().__init__(db_path)
+    def __init__(self, posts: typing.Optional[dict[int, Post]] = None):
         self.posts = posts or {}
 
     def get(self, id_: int) -> Post:
@@ -27,13 +27,9 @@ class MockPostRepository(Repository[Post]):
             raise ValueError("Cannot delete a post without an id")
         del self.posts[entry.id]
 
-    def create_table(self) -> None:
-        """Since we are using a dictionary, we don't need to create a table"""
-        pass
-
 
 def main():
-    repo = MockPostRepository("../../posts.db")
+    repo = MockPostRepository()
     repo.add(Post("Hello", "World"))
     repo.add(Post("Hello", "World"))
     repo.add(Post("Hello", "World"))

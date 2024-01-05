@@ -1,5 +1,5 @@
-import sqlite3
 import contextlib
+import sqlite3
 from dataclasses import dataclass
 from typing import Optional
 
@@ -58,9 +58,6 @@ class Post:
     def delete_post(cls, post_id: int, db_path: str) -> None:
         with connect(db_path) as cursor:
             cursor.execute("DELETE FROM posts WHERE id=?", (post_id,))
-
-    def __repr__(self):
-        return f"Post(title={self.title}, content={self.content}, id={self.id})"
 
 
 def main():
