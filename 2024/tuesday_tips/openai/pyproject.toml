@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "openai_api"
+version = "0.1.0"
+description = "Code examples showing what to consider when working with the openai api"
+authors = ["Andreas Bergman <andreas@arjancodes.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+openai = "^1.7.2"
+python-dotenv = "^1.0.0"
+tiktoken = "^0.5.2"
+ratelimiter = "^1.2.0.post0"
+
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^7.4.4"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
