@@ -5,7 +5,7 @@ from uuid import uuid4
 from fastapi import FastAPI
 from fastapi.responses import JSONResponse
 from fastapi.testclient import TestClient
-from pydantic import BaseModel, Field, field_serializer, UUID4
+from pydantic import BaseModel, EmailStr, Field, field_serializer, UUID4
 
 app = FastAPI()
 
@@ -15,6 +15,7 @@ class User(BaseModel):
     }
     __users__ = []
     name: str = Field(..., description="Name of the user")
+    email: EmailStr = Field(..., description="Email address of the user")
     friends: list[UUID4] = Field(default_factory=list, max_items=500, description="List of friends")
     blocked: list[UUID4] = Field(default_factory=list, max_items=500, description="List of blocked users")
     signup_ts: Optional[datetime] = Field(default_factory=datetime.now, description="Signup timestamp", kw_only = True)
@@ -44,7 +45,7 @@ async def get_user(user_id: UUID4) -> Union[User, JSONResponse]:
 def main():
     with TestClient(app) as client:
         for i in range(5):
-            response = client.post("/users", json={"name": f"User {i}"})
+            response = client.post("/users", json={"name": f"User {i}", "email": f"example{i}@arjancodes.com"})
             assert response.status_code == 200
             assert response.json()["name"] == f"User {i}", "The name of the user should be User {i}"
             assert response.json()["id"], "The user should have an id"
@@ -59,7 +60,7 @@ def main():
         assert response.status_code == 200, "Response code should be 200"
         assert len(response.json()) == 5, "There should be 5 users"
         
-        response = client.post("/users", json={"name": "User 5"})
+        response = client.post("/users", json={"name": "User 5", "email": "example5@arjancodes.com"})
         assert response.status_code == 200
         assert response.json()["name"] == "User 5", "The name of the user should be User 5"
         assert response.json()["id"], "The user should have an id"
@@ -78,7 +79,8 @@ def main():
         assert response.status_code == 404
         assert response.json()["message"] == "User not found", "We technically should not find this user"
 
-        
+        response = client.post("/users", json={"name": "User 6", "email": "wrong"})
+        assert response.status_code == 422, "The email address is should be invalid"
         
         
         
