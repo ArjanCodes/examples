@@ -1,8 +1,7 @@
 import enum
 import hashlib
 import re
-from typing import Union
-
+from typing import Any, Self
 from pydantic import (BaseModel, EmailStr, Field, field_serializer, field_validator, model_serializer, model_validator,
                       SecretStr)
 
@@ -45,7 +44,7 @@ class User(BaseModel):
 
     @field_validator('role', mode = "before")
     @classmethod
-    def validate_role(cls, v: Union[int, str, Role]):
+    def validate_role(cls, v: int | str | Role) -> Role:
         op = {
                 int : lambda x: Role(x),
                 str : lambda x: Role[x],
@@ -58,7 +57,7 @@ class User(BaseModel):
 
     @model_validator(mode = "before")
     @classmethod
-    def validate_user_pre(cls, v):
+    def validate_user_pre(cls, v: dict) -> dict:
         if "name" not in v or "password" not in v:
             raise ValueError('Name and password are required')
         if v['name'].casefold() in v['password'].casefold():
@@ -69,7 +68,7 @@ class User(BaseModel):
         return v
 
     @model_validator(mode = "after")
-    def validate_user_post(self, v):
+    def validate_user_post(self, v: Any) -> Self:
         if self.role == Role.Admin and self.name != 'Arjan':
             raise ValueError('Only Arjan can be an admin')
         return self

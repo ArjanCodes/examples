@@ -1,7 +1,6 @@
 import enum
 import hashlib
 import re
-from typing import Union
 
 from pydantic import (
     BaseModel,
@@ -42,14 +41,14 @@ class User(BaseModel):
 
     @field_validator('name')
     @classmethod
-    def validate_name(cls, v):
+    def validate_name(cls, v:str) -> str:
         if not VALID_NAME_REGEX.match(v):
             raise ValueError('Name is invalid, must contain only letters and be at least 2 characters long')
         return v
 
     @field_validator('role', mode = "before")
     @classmethod
-    def validate_role(cls, v: Union[int, str, Role]):
+    def validate_role(cls, v: int | str | Role) -> Role:
         op = {
                 int : lambda x: Role(x),
                 str : lambda x: Role[x],
@@ -62,7 +61,7 @@ class User(BaseModel):
 
     @model_validator(mode = "before")
     @classmethod
-    def validate_user(cls, v):
+    def validate_user(cls, v:dict) -> dict:
         if "name" not in v or "password" not in v:
             raise ValueError('Name and password are required')
         if v['name'].casefold() in v['password'].casefold():
@@ -73,7 +72,7 @@ class User(BaseModel):
         return v
 
 
-def validate(data):
+def validate(data: dict) -> dict)):
     try:
         user = User.model_validate(data)
         print(user)

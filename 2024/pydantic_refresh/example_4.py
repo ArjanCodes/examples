@@ -1,5 +1,5 @@
 from datetime import datetime
-from typing import Optional, Union
+from typing import Optional,  Any,  Self
 from uuid import uuid4
 
 from fastapi import FastAPI
