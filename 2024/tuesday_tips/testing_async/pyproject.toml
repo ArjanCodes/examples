@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "test-async-code"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Bergman <andreas@arjancodes.com>"]
+license = "MIT"
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+pytest-asyncio = "^0.23.4"
+aiohttp = "^3.9.2"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
