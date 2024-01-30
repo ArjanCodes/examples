@@ -1,5 +1,5 @@
 [tool.poetry]
-name = "credentials"
+name = "storing-credentials"
 version = "0.1.0"
 description = ""
 authors = ["Andreas Bergman <andreas@arjancodes.com>"]
