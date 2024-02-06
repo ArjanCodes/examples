@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "Pydantic refresh"
+version = "0.0.1"
+description = ""
+authors = ["Arjan"]
+
+[tool.poetry.dependencies]
+python = "^3.11"
+pydantic = {extras = ["email"], version = "^2.6.1"}
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+

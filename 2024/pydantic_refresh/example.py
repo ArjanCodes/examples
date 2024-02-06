@@ -1,14 +1,14 @@
-import re
 from enum import auto, IntFlag
 
 from pydantic import (
-    BaseModel, 
-    EmailStr, 
-    Field, 
-    field_validator, 
-    SecretStr, 
-    ValidationError
+    BaseModel,
+    EmailStr,
+    Field,
+    SecretStr,
+    ValidationError,
 )
+
+
 class Role(IntFlag):
     Author = auto()
     Editor = auto()
@@ -17,36 +17,41 @@ class Role(IntFlag):
 
 
 class User(BaseModel):
-    name: str = Field(examples=['Arjan'])
-    email: EmailStr = Field(examples=['example@arjancodes.com'], description='The email address of the user', frozen = True)
-    password: SecretStr = Field(examples=['Password123'], description='The password of the user')
-    role: Role = Field(default=None,  description='The role of the user')
+    name: str = Field(examples=["Arjan"])
+    email: EmailStr = Field(
+        examples=["example@arjancodes.com"],
+        description="The email address of the user",
+        frozen=True,
+    )
+    password: SecretStr = Field(
+        examples=["Password123"], description="The password of the user"
+    )
+    role: Role = Field(default=None, description="The role of the user")
 
-def validate(data: dict) -> User:
+
+def validate(data: dict) -> None:
     try:
         user = User.model_validate(data)
         print(user)
     except ValidationError as e:
-        print('User is invalid')
+        print("User is invalid")
         for error in e.errors():
             print(error)
-        
-def main():
+
+
+def main() -> None:
     good_data = {
-        'name': 'Arjan',
-        'email': 'example@arjancodes.com',
-        'password': 'Password123'
+        "name": "Arjan",
+        "email": "example@arjancodes.com",
+        "password": "Password123",
     }
-    
-    bad_data = {
-        'email': '<bad data>',
-        'password': '<bad data>'
-    }
+
+    bad_data = {"email": "<bad data>", "password": "<bad data>"}
 
     validate(good_data)
 
     validate(bad_data)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()
