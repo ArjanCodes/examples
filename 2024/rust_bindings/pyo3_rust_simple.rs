@@ -1,3 +1,5 @@
+// rustimport:pyo3
+
 use pyo3::prelude::*;
 
 #[pyclass]
