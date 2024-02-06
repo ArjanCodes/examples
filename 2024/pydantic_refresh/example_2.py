@@ -60,7 +60,7 @@ class User(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def validate_user(cls, v: dict) -> dict:
+    def validate_user(cls, v: dict[str, Any]) -> dict[str, Any]:
         if "name" not in v or "password" not in v:
             raise ValueError("Name and password are required")
         if v["name"].casefold() in v["password"].casefold():
@@ -82,8 +82,8 @@ def validate(data: dict[str, Any]) -> None:
         print(e)
 
 
-def main():
-    for example_name, data in dict(
+def main() -> None:
+    test_data = dict(
         good_data={
             "name": "Arjan",
             "email": "example@arjancodes.com",
@@ -115,7 +115,9 @@ def main():
             "email": "<bad data>",
             "password": "<bad data>",
         },
-    ).items():
+    )
+
+    for example_name, data in test_data.items():
         print(example_name)
         validate(data)
         print()

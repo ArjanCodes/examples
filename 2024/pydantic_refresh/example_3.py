@@ -43,7 +43,7 @@ class User(BaseModel):
     )
 
     @field_validator("name")
-    def validate_name(cls, v):
+    def validate_name(cls, v: str) -> str:
         if not VALID_NAME_REGEX.match(v):
             raise ValueError(
                 "Name is invalid, must contain only letters and be at least 2 characters long"
@@ -63,7 +63,7 @@ class User(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def validate_user_pre(cls, v: dict) -> dict:
+    def validate_user_pre(cls, v: dict[str, Any]) -> dict[str, Any]:
         if "name" not in v or "password" not in v:
             raise ValueError("Name and password are required")
         if v["name"].casefold() in v["password"].casefold():
@@ -83,11 +83,11 @@ class User(BaseModel):
 
     @field_serializer("role", when_used="json")
     @classmethod
-    def serialize_role(cls, v):
+    def serialize_role(cls, v) -> str:
         return v.name
 
     @model_serializer(mode="wrap", when_used="json")
-    def serialize_user(self, serializer, info) -> dict:
+    def serialize_user(self, serializer, info) -> dict[str, Any]:
         if not info.include and not info.exclude:
             return {"name": self.name, "role": self.role.name}
         return serializer(self)

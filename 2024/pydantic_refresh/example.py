@@ -1,4 +1,5 @@
 from enum import auto, IntFlag
+from typing import Any
 
 from pydantic import (
     BaseModel,
@@ -29,7 +30,7 @@ class User(BaseModel):
     role: Role = Field(default=None, description="The role of the user")
 
 
-def validate(data: dict) -> None:
+def validate(data: dict[str, Any]) -> None:
     try:
         user = User.model_validate(data)
         print(user)
@@ -45,11 +46,9 @@ def main() -> None:
         "email": "example@arjancodes.com",
         "password": "Password123",
     }
-
     bad_data = {"email": "<bad data>", "password": "<bad data>"}
 
     validate(good_data)
-
     validate(bad_data)
 
 
