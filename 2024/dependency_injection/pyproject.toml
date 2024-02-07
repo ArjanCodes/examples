@@ -1,0 +1,21 @@
+[tool.poetry]
+name = "Dependency injection"
+version = "0.1.0"
+description = ""
+authors = ["Your Name <you@example.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.109.0"
+inject = "^5.2.0"
+sqlalchemy = "^2.0.25"
+uvicorn = "^0.27.0.post1"
+httpx = "^0.26.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "python main.py"
