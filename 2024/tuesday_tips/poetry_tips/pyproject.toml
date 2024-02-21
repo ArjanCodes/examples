@@ -1,0 +1,14 @@
+[tool.poetry]
+name = "poetry-tips"
+version = "0.2.0"
+description = ""
+authors = ["Andreas Bergman <andreas@arjancodes.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
