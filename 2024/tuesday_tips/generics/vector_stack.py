@@ -1,10 +1,7 @@
-from typing import TypeVar
 from stack import Stack
 
-T = TypeVar('T', int, float)
 
-
-class VectorStack(Stack[T]):
+class VectorStack[T: (int, float)](Stack[T]):
     def __getitem__(self, index: int) -> T:
         return self._container[index]
 

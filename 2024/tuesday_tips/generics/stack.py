@@ -1,8 +1,7 @@
-from typing import Optional, TypeVar, Generic
+from typing import Optional
 
-T = TypeVar('T') 
 
-class Stack(Generic[T]):
+class Stack[T]:
     def __init__(self) -> None:
         self._container: list[T] = []
 
