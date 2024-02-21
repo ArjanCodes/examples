@@ -10,6 +10,7 @@ python = "^3.12"
 fastapi = "^0.104.1"
 httpx = "^0.25.2"
 hypercorn = "^0.15.0"
+uvicorn = "^0.27.1"
 
 
 [tool.poetry.group.dev.dependencies]
