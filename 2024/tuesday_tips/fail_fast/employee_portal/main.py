@@ -1,6 +1,6 @@
 from fastapi import Depends, FastAPI, HTTPException
 from decimal import Decimal
-from typing import Any, List, Tuple
+from typing import Any
 from employee_portal.database.database import SQLiteConnector
 from employee_portal.employees import create, delete, index, show, update
 from employee_portal.payment import (
@@ -32,12 +32,12 @@ def create_employee(
     return {"message": "Record inserted successfully"}
 
 
-@app.get("/employees/", response_model=List[Tuple[Any, ...]])
+@app.get("/employees/", response_model=list[tuple[Any, ...]])
 def read_employees(connector: SQLiteConnector = Depends(setup_db_connection)):
     return index(connector)
 
 
-@app.get("/employees/{employee_id}", response_model=Tuple[Any, ...])
+@app.get("/employees/{employee_id}", response_model=tuple[Any, ...])
 def read_employee(
     employee_id: int, connector: SQLiteConnector = Depends(setup_db_connection)
 ):
