@@ -37,11 +37,11 @@ class JSONHandler(SerializedFileHandler):
     
 def main():
     data = {'name': 'John Doe', 'age': 30}
-    pickle_writer = PickleHandler('../data.pkl')
+    pickle_writer = PickleHandler('data.pkl')
     pickle_writer.write(data)
     print(pickle_writer.read())
     
-    json_writer = JSONHandler('../data.json')
+    json_writer = JSONHandler('data.json')
     json_writer.write( data)
     print(json_writer.read())
     
