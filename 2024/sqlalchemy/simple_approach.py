@@ -13,18 +13,18 @@ user_table = sa.Table(
 )
 
 
-def insert_user(username, email):
+def insert_user(username:str, email:str) -> None:
     query = user_table.insert().values(username = username, email = email)
     connection.execute(query)
 
 
-def select_user(username):
+def select_user(username:str) -> sa.engine.Result:
     query = user_table.select().where(user_table.c.username == username)
     result = connection.execute(query)
     return result.fetchone()
 
 
-def main():
+def main() -> None:
     metadata.create_all(engine)
     insert_user("Arjan", "Arjan@arjancodes.com")
     print(select_user("Arjan"))
