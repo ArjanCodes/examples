@@ -1,11 +1,8 @@
-import atexit
-
 import sqlalchemy as sa
 
 engine = sa.create_engine('sqlite:///:memory:')
 connection = engine.connect()
 
-atexit.register(connection.close)
 metadata = sa.MetaData()
 
 user_table = sa.Table(
@@ -31,6 +28,7 @@ def main():
     metadata.create_all(engine)
     insert_user("Arjan", "Arjan@arjancodes.com")
     print(select_user("Arjan"))
+    connection.close()
 
 
 if __name__ == '__main__':
