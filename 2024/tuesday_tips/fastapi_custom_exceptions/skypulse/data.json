@@ -1,0 +1,66 @@
+{
+    "cities": [
+        {
+            "id": 1,
+            "name": "San Francisco",
+            "country": "USA",
+            "population": 881549
+        },
+        {
+            "id": 2,
+            "name": "Tokyo",
+            "country": "Japan",
+            "population": 13929286
+        },
+        {
+            "id": 3,
+            "name": "London",
+            "country": "UK",
+            "population": 8982000
+        }
+    ],
+    "weathers": [
+        {
+            "id": 1,
+            "city_id": 1,
+            "temperature": 15,
+            "humidity": 72,
+            "description": "Foggy in the morning"
+        },
+        {
+            "id": 2,
+            "city_id": 1,
+            "temperature": 18,
+            "humidity": 68,
+            "description": "Sunny in the afternoon"
+        },
+        {
+            "id": 3,
+            "city_id": 2,
+            "temperature": 25,
+            "humidity": 60,
+            "description": "Cloudy"
+        },
+        {
+            "id": 4,
+            "city_id": 2,
+            "temperature": 22,
+            "humidity": 65,
+            "description": "Light rain"
+        },
+        {
+            "id": 5,
+            "city_id": 3,
+            "temperature": 10,
+            "humidity": 81,
+            "description": "Overcast"
+        },
+        {
+            "id": 6,
+            "city_id": 3,
+            "temperature": 15,
+            "humidity": 77,
+            "description": "Partly cloudy"
+        }
+    ]
+}
