@@ -1,5 +1,5 @@
 from stack import Stack
-from vector_stack import VectorStack
+from numeric_stack import NumericStack
 
 
 def main() -> None:
@@ -9,11 +9,11 @@ def main() -> None:
 
     print(f"Stack of ints: {stack}")
 
-    vector_stack = VectorStack[int]()
+    numeric_stack = NumericStack[int]()
 
-    vector_stack.push(1)
+    numeric_stack.push(1)
 
-    print(f"Vector of ints: {vector_stack}")
+    print(f"Vector of ints: {numeric_stack}")
 
 
 if __name__ == "__main__":
