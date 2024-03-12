@@ -7,7 +7,7 @@ from loguru import logger
 from app.api.routes.router import base_router as router
 from app.exceptions.exceptions import (
     AuthenticationFailed,
-    BaseError,
+    SkyPulseApiError,
     EntityDoesNotExistError,
     InvalidOperationError,
     InvalidTokenError,
@@ -33,19 +33,21 @@ app.include_router(router, prefix=API_PREFIX)
 
 
 def create_exception_handler(
-    status_code: int, detail: str
-) -> Callable[[Request, BaseError], JSONResponse]:
-    async def exception_handler(_: Request, exc: BaseError) -> JSONResponse:
-        nonlocal detail
+    status_code: int, initial_detail: str
+) -> Callable[[Request, SkyPulseApiError], JSONResponse]:
+    detail = {"message": initial_detail}  # Using a dictionary to hold the detail
 
+    async def exception_handler(_: Request, exc: SkyPulseApiError) -> JSONResponse:
         if exc.message:
-            detail = exc.message
+            detail["message"] = exc.message
 
         if exc.name:
-            detail = f"{detail} [{exc.name}]"
+            detail["message"] = f"{detail['message']} [{exc.name}]"
 
         logger.error(exc)
-        return JSONResponse(status_code=status_code, content={"detail": detail})
+        return JSONResponse(
+            status_code=status_code, content={"detail": detail["message"]}
+        )
 
     return exception_handler
 
