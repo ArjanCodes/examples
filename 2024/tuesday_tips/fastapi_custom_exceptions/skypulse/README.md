@@ -9,7 +9,8 @@ API for getting historical weatcher events
 - Poetry (Python Package Manager)
 
 ## First time setup
-Run the following commands in sequence
+Run the following commands in sequence. Be in current root.
+`poetry install`
 `make up`
 `make migrate`
 
