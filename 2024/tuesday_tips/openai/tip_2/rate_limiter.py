@@ -2,13 +2,13 @@ import time
 from functools import wraps
 from typing import Any, Callable
 
+
 def rate_limit(max_calls: int, period: float = 1.0) -> Callable[[Any], Any]:
     def decorator(func: Callable[[Any], Any]) -> Callable[[Any], Any]:
         timestamps: list[float] = []
 
         @wraps(func)
-        def wrapper(*args: Any, **kwargs: Any)-> Any:
-
+        def wrapper(*args: Any, **kwargs: Any) -> Any:
             now = time.time()
             timestamps[:] = [t for t in timestamps if now - t < period]
 
@@ -22,4 +22,5 @@ def rate_limit(max_calls: int, period: float = 1.0) -> Callable[[Any], Any]:
                 return wrapper(*args, **kwargs)
 
         return wrapper
+
     return decorator

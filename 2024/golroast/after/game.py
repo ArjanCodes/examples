@@ -3,6 +3,7 @@ from grid import Grid
 
 type Rule = Callable[[int, int], int | None]
 
+
 class Game:
     def __init__(self, grid: Grid, rules: list[Rule] | None = None):
         self.grid = grid
@@ -21,9 +22,9 @@ class Game:
             alive_neighbors = self.grid.alive_neighbors(row, col)
             new_cell = self._apply_rules_to_cell(cell, alive_neighbors)
             new_grid.set_cell(row, col, new_cell)
-                
+
         self.grid = new_grid
-    
+
     def _apply_rules_to_cell(self, cell: int, alive_neighbors: int) -> int:
         for rule in self.rules:
             result = rule(cell, alive_neighbors)
@@ -31,6 +32,6 @@ class Game:
                 return result
 
         return cell
-    
+
     def __str__(self):
         return str(self.grid)

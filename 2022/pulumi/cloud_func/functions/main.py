@@ -15,6 +15,7 @@ with open("channels.json", encoding="utf8") as file:
     for channel_raw in channels_raw:
         channels[channel_raw["id"]] = channel_raw
 
+
 # Define the internal path, idiomatic Flask definition
 @app.route("/channels/<string:channel_id>", methods=["GET", "POST"])
 def name(channel_id: str):

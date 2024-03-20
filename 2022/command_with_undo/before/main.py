@@ -2,7 +2,6 @@ from banking.bank import Bank
 
 
 def main() -> None:
-
     # create a bank
     bank = Bank()
 

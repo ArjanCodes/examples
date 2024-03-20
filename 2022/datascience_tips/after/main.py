@@ -22,7 +22,6 @@ TRAIN_LABELS = pathlib.Path(f"{DATA_DIR}/train-labels-idx1-ubyte.gz")
 
 
 def main():
-
     # Model and Optimizer
     model = LinearNet()
     optimizer = torch.optim.Adam(model.parameters(), lr=LR)

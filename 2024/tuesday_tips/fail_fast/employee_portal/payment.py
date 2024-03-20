@@ -1,20 +1,24 @@
 from typing import Protocol
 from decimal import Decimal
 
+
 # Define the PaymentStrategy interface using Protocol
 class PaymentStrategy(Protocol):
     def process_payment(self, amount: Decimal) -> None:
         pass
+
 
 # Concrete implementation of PaymentStrategy for Credit Card payments
 class CreditCardPayment(PaymentStrategy):
     def process_payment(self, amount: Decimal) -> None:
         print(f"Processing credit card payment for ${amount}")
 
+
 # Concrete implementation of PaymentStrategy for PayPal payments
 class RedeemBuddyPayment(PaymentStrategy):
     def process_payment(self, amount: Decimal) -> None:
         print(f"Processing PeyPel payment for ${amount}")
+
 
 # Context class that uses a PaymentStrategy
 class PaymentProcessor:

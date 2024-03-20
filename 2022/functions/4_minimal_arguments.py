@@ -35,16 +35,13 @@ class Customer:
 
 class CardInfo(Protocol):
     @property
-    def number(self) -> str:
-        ...
+    def number(self) -> str: ...
 
     @property
-    def exp_month(self) -> int:
-        ...
+    def exp_month(self) -> int: ...
 
     @property
-    def exp_year(self) -> int:
-        ...
+    def exp_year(self) -> int: ...
 
 
 def validate_card(card: CardInfo) -> bool:

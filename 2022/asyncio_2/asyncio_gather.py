@@ -24,7 +24,6 @@ async def get_random_pokemon_name() -> str:
 
 
 async def main() -> None:
-
     # synchronous call
     time_before = perf_counter()
     for _ in range(20):

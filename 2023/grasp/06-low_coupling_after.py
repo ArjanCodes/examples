@@ -26,8 +26,7 @@ class SaleLineItem:
 class PaymentMethod(Protocol):
     """Payment method interface."""
 
-    def net_price(self, total_price: int) -> int:
-        ...
+    def net_price(self, total_price: int) -> int: ...
 
 
 @dataclass

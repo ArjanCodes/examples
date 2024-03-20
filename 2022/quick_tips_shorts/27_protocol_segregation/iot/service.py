@@ -4,11 +4,9 @@ from iot.message import Message, MessageType
 
 
 class Device(Protocol):
-    def check_status(self) -> None:
-        ...
+    def check_status(self) -> None: ...
 
-    def send_message(self, message_type: MessageType, data: str) -> None:
-        ...
+    def send_message(self, message_type: MessageType, data: str) -> None: ...
 
 
 class IOTService:

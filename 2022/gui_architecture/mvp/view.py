@@ -6,11 +6,9 @@ DELETE_BTN_TXT = "Delete"
 
 
 class Presenter(Protocol):
-    def handle_add_task(self, event=None) -> None:
-        ...
+    def handle_add_task(self, event=None) -> None: ...
 
-    def handle_delete_task(self, event=None) -> None:
-        ...
+    def handle_delete_task(self, event=None) -> None: ...
 
 
 class TodoList(tk.Tk):

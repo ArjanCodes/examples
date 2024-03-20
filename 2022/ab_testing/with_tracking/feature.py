@@ -11,7 +11,6 @@ class Config:
 
 
 def read_config() -> Config:
-
     api_key = os.getenv("GROWTHBOOK_KEY") or ""
     response = requests.get(
         f"https://cdn.growthbook.io/api/features/{api_key}", timeout=5

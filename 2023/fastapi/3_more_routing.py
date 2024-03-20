@@ -29,13 +29,11 @@ items = {
 
 @app.get("/")
 def index() -> dict[str, dict[int, Item]]:
-
     return {"items": items}
 
 
 @app.get("/items/{item_id}")
 def query_item_by_id(item_id: int) -> Item:
-
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
 
@@ -74,7 +72,6 @@ def query_item_by_parameters(
 
 @app.post("/")
 def add_item(item: Item) -> dict[str, Item]:
-
     if item.id in items:
         HTTPException(status_code=400, detail=f"Item with {item.id=} already exists.")
 
@@ -89,7 +86,6 @@ def update(
     price: float | None = None,
     count: int | None = None,
 ) -> dict[str, Item]:
-
     if item_id not in items:
         HTTPException(status_code=404, detail=f"Item with {item_id=} does not exist.")
     if all(info is None for info in (name, price, count)):
@@ -110,7 +106,6 @@ def update(
 
 @app.delete("/delete/{item_id}")
 def delete_item(item_id: int) -> dict[str, Item]:
-
     if item_id not in items:
         raise HTTPException(
             status_code=404, detail=f"Item with {item_id=} does not exist."

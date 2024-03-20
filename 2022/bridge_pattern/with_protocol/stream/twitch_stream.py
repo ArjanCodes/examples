@@ -7,7 +7,6 @@ from stream.device import StreamingDevice
 
 @dataclass
 class TwitchStreamingService:
-
     device: StreamingDevice
 
     def start_stream(self) -> str:

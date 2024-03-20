@@ -5,7 +5,6 @@ from enum import StrEnum, auto
 
 
 class TransactionType(StrEnum):
-
     DEPOSIT = auto()
     WITHDRAWAL = auto()
     TRANSFER = auto()
@@ -58,7 +57,6 @@ class BankAccount:
 
 
 def main() -> None:
-
     account1 = BankAccount(initial_balance=100)
     account2 = BankAccount(initial_balance=500)
 

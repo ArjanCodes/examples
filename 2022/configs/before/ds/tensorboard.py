@@ -11,7 +11,6 @@ from ds.utils import create_experiment_log_dir
 
 class TensorboardExperiment:
     def __init__(self, log_path: str, create: bool = True):
-
         log_dir = create_experiment_log_dir(root=log_path)
         self.stage = Stage.TRAIN
         self._validate_log_dir(log_dir, create=create)

@@ -48,7 +48,6 @@ class PaymentHandler:
 
 
 def main() -> None:
-
     persistent_storage = PersistentStorage()
     payment_handler = PaymentHandler(persistent_storage)
 

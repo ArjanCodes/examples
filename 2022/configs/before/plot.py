@@ -24,17 +24,17 @@ def main(dataset: str) -> None:
 
 def load(dataset: str) -> Tuple[np.ndarray, np.ndarray]:
     dataset = {
-        'train': {
-            'data': TRAIN_DATA,
-            'labels': TRAIN_LABELS,
+        "train": {
+            "data": TRAIN_DATA,
+            "labels": TRAIN_LABELS,
         },
-        'test': {
-            'data': TEST_DATA,
-            'labels': TEST_LABELS,
-        }
+        "test": {
+            "data": TEST_DATA,
+            "labels": TEST_LABELS,
+        },
     }[dataset]
-    data = load_image_data(dataset['data'])
-    labels = load_label_data(dataset['labels'])
+    data = load_image_data(dataset["data"])
+    labels = load_label_data(dataset["labels"])
     return data, labels
 
 
@@ -56,15 +56,15 @@ def plot(
     axes = axes.flatten()
 
     for ax in axes:
-        ax.imshow(next(data), cmap='Greys')
-        ax.text(1, 5, str(next(labels)), color='red', fontsize=15)
+        ax.imshow(next(data), cmap="Greys")
+        ax.text(1, 5, str(next(labels)), color="red", fontsize=15)
         ax.set_xticks([])
         ax.set_yticks([])
 
-    fig.suptitle(f'Dataset: {dataset}')
+    fig.suptitle(f"Dataset: {dataset}")
     plt.subplots_adjust(wspace=0, hspace=0)
     plt.show()
 
 
-if __name__ == '__main__':
-    main(dataset='train')  # 'train' or 'test'
+if __name__ == "__main__":
+    main(dataset="train")  # 'train' or 'test'

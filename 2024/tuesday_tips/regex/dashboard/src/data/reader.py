@@ -1,5 +1,6 @@
 import pandas as pd
 
+
 def load_json(file_path: str) -> pd.DataFrame:
     """
     Reads a JSON file and creates a pandas DataFrame.

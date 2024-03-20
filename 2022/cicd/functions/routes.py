@@ -5,6 +5,7 @@ from operations import get_channel
 # Define an internal Flask app
 app = Flask("internal")
 
+
 # Define the internal paths, idiomatic Flask definition
 @app.route("/channels/<string:channel_id>", methods=["GET", "POST"])
 def channel(channel_id: str):

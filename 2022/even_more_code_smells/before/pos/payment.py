@@ -8,11 +8,9 @@ class PaymentServiceConnectionError(Exception):
 
 
 class OrderRepository(Protocol):
-    def find_order(self, order_id: str) -> Order:
-        ...
+    def find_order(self, order_id: str) -> Order: ...
 
-    def compute_order_total_price(self, order: Order) -> int:
-        ...
+    def compute_order_total_price(self, order: Order) -> int: ...
 
 
 class StripePaymentProcessor:

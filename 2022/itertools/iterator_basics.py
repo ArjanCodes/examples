@@ -1,5 +1,4 @@
 def main() -> None:
-
     countries = ("Germany", "France", "Italy", "Spain", "Portugal", "Greece")
     country_iterator = iter(countries)
 

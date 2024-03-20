@@ -5,7 +5,6 @@ from typing import Callable
 
 @dataclass
 class TradingBot:
-
     buy_strategy: Callable[[list[int]], bool]
     sell_strategy: Callable[[list[int]], bool]
 

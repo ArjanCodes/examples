@@ -26,7 +26,6 @@ class AbstractDecorator(AbstractComponent):
 
 class ConcreteComponent(AbstractComponent):
     def execute(self, upper_bound: int) -> int:
-
         count = 0
         for number in range(upper_bound):
             if is_prime(number):

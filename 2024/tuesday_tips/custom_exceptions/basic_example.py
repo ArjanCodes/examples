@@ -13,6 +13,7 @@ class Person:
             raise ValueError("Age cannot be negative")
         self._age = value
 
+
 def main() -> None:
     try:
         person = Person("John")
@@ -20,6 +21,7 @@ def main() -> None:
         print(f"Name: {person.name}, age: {person.age}")
     except ValueError as error:
         print(f"Error occurred: {error}")
+
 
 if __name__ == "__main__":
     main()

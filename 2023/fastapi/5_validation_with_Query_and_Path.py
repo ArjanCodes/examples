@@ -108,7 +108,6 @@ def update(
 
 @app.delete("/delete/{item_id}")
 def delete_item(item_id: int) -> dict[str, Item]:
-
     if item_id not in items:
         raise HTTPException(
             status_code=404, detail=f"Item with {item_id=} does not exist."

@@ -16,8 +16,7 @@ PRICES = {
 
 
 class PaymentHandler(Protocol):
-    def handle_payment(self, amount: int) -> None:
-        ...
+    def handle_payment(self, amount: int) -> None: ...
 
 
 def order_food(items: list[str], payment_handler: PaymentHandler) -> None:

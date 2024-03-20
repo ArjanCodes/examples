@@ -1,6 +1,7 @@
 import abc
 import enum
 
+
 class Connection:
     def __init__(self):
         self.name = None
@@ -9,7 +10,11 @@ class Connection:
 
     @property
     def status(self):
-        return ConnectionStatus.CONNECTED if all([self.name, self.ip, self.port]) else ConnectionStatus.DISCONNECTED
+        return (
+            ConnectionStatus.CONNECTED
+            if all([self.name, self.ip, self.port])
+            else ConnectionStatus.DISCONNECTED
+        )
 
     def connect(self, name, ip, port):
         self.name = name
@@ -22,10 +27,10 @@ class Connection:
         self.port = None
 
     def send(self, message):
-        print(f'Sent {message} to {self.name} at {self.ip}:{self.port}')
+        print(f"Sent {message} to {self.name} at {self.ip}:{self.port}")
 
     def receive(self):
-        return f'Received message from {self.name} at {self.ip}:{self.port}'
+        return f"Received message from {self.name} at {self.ip}:{self.port}"
 
 
 class IOTDevice(abc.ABC):
@@ -63,17 +68,15 @@ class Light(IOTDevice):
         return self.connection.receive()
 
 
-
 class ConnectionStatus(enum.Enum):
     CONNECTED = 1
     DISCONNECTED = 2
 
 
-
-if __name__ == '__main__':
+if __name__ == "__main__":
     connection = Connection()
     print(connection.status)
-    connection.connect('Arjan', 'localhost', 8080)
+    connection.connect("Arjan", "localhost", 8080)
     print(connection.status)
     connection.disconnect()
     print(connection.status)

@@ -1,6 +1,6 @@
 """Bank account system that emulate bank account and operations betweem them."""
 
-from __future__ import annotations # * To allow type hints
+from __future__ import annotations  # * To allow type hints
 
 from datetime import datetime
 from enum import StrEnum, auto
@@ -17,12 +17,13 @@ class TransactionType(StrEnum):
 Transaction = tuple[TransactionType, datetime, int]
 
 
-class InsufficientBalanceError(Exception):
-    ...
+class InsufficientBalanceError(Exception): ...
+
 
 class BankAccount:
     """Represents a bank account entity."""
-    def __init__(self, initial_balance = 0) -> None:
+
+    def __init__(self, initial_balance=0) -> None:
         self._balance: int = initial_balance
         self._transaction_history: list[Transaction] = []
 
@@ -58,7 +59,6 @@ class BankAccount:
         self._transaction_history.append(
             (TransactionType.WITHDRAWAL, datetime.now(), amount)
         )
-            
 
     def transfer(self, other: BankAccount, amount: int) -> None:
         """Transfer money from this account to another one.
@@ -81,10 +81,7 @@ class BankAccount:
         self._balance -= amount
         other._balance += amount
         # ! Can't append operation at other instance class
-        self._transaction_history.append(
-            (TransactionType.TRANSFER, timestamp, amount)
-        )
-            
+        self._transaction_history.append((TransactionType.TRANSFER, timestamp, amount))
 
     def _sufficient_balance(self, amount: int) -> bool:
         """Check if the balance is non-negative.
@@ -99,7 +96,7 @@ class BankAccount:
         bool
             True if resulting balance is non-negative, false otherwhise.
         """
-     
+
         return amount <= self._balance
 
     @property
@@ -133,6 +130,7 @@ def main() -> None:
     account1.transfer(account2, 50)
 
     print(account1.balance)
+
 
 if __name__ == "__main__":
     main()

@@ -11,7 +11,6 @@ DATA_PATH = "./data/transactions.csv"
 
 
 def main() -> None:
-
     # set the locale and load the translations
     i18n.set("locale", LOCALE)
     i18n.load_path.append("locale")

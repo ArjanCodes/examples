@@ -4,6 +4,7 @@ type IntOrStr = int | str
 # A generic type alias
 type ListOrSet[T] = list[T] | set[T]
 
+
 class Box[T]:
     def __init__(self, item: T):
         self.item = item
@@ -14,9 +15,11 @@ class Box[T]:
     def set_item(self, new_item: T) -> None:
         self.item = new_item
 
+
 # generic function example
 def get_first_item[T](items: list[T]) -> T:
     return items[0]
+
 
 def main() -> None:
     # For integers

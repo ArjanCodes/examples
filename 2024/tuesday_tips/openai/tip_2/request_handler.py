@@ -5,7 +5,8 @@ from tip_1.encoding import get_number_of_tokens
 from models import MODEL_TOKEN_LIMITS, OpenAIModels
 from tip_2.rate_limiter import rate_limit
 
-@rate_limit(max_calls=2, period=5) 
+
+@rate_limit(max_calls=2, period=5)
 def send_request(query: str, model: OpenAIModels, client: OpenAI) -> str | None:
     response = client.chat.completions.create(
         model=model.value,
@@ -16,6 +17,7 @@ def send_request(query: str, model: OpenAIModels, client: OpenAI) -> str | None:
     )
 
     return response.choices[0].message.content
+
 
 def handle_request(query: str, model: OpenAIModels, client: OpenAI) -> str:
     number_of_tokens: int = get_number_of_tokens(query, model)

@@ -5,7 +5,6 @@ from pulumi_gcp import storage
 
 
 def main() -> None:
-
     # Create a GCP resource (Storage Bucket)
     bucket = storage.Bucket(
         "my-bucket",

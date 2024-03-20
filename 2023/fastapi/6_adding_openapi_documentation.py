@@ -12,6 +12,7 @@ app = FastAPI(
     version="0.1.0",
 )
 
+
 # Docstrings of classes will be reflected in the API documentation in the 'Schemas' section
 class Category(Enum):
     """Category of an item"""
@@ -104,23 +105,20 @@ def update(
     item_id: int = Path(
         title="Item ID", description="Unique integer that specifies an item.", ge=0
     ),
-    name: str
-    | None = Query(
+    name: str | None = Query(
         title="Name",
         description="New name of the item.",
         default=None,
         min_length=1,
         max_length=8,
     ),
-    price: float
-    | None = Query(
+    price: float | None = Query(
         title="Price",
         description="New price of the item in Euro.",
         default=None,
         gt=0.0,
     ),
-    count: int
-    | None = Query(
+    count: int | None = Query(
         title="Count",
         description="New amount of instances of this item in stock.",
         default=None,
@@ -147,7 +145,6 @@ def update(
 
 @app.delete("/delete/{item_id}")
 def delete_item(item_id: int) -> dict[str, Item]:
-
     if item_id not in items:
         raise HTTPException(
             status_code=404, detail=f"Item with {item_id=} does not exist."

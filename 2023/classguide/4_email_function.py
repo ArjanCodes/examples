@@ -11,8 +11,7 @@ PASSWORD = "password"
 
 
 class EmailSender(Protocol):
-    def __call__(self, to_email: str, subject: str, body: str) -> None:
-        ...
+    def __call__(self, to_email: str, subject: str, body: str) -> None: ...
 
 
 @lru_cache

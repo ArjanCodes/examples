@@ -23,10 +23,15 @@ payment_processor = PaymentProcessor(redeem_buddy_payment)
 @app.post("/employees/", response_model=None)
 def create_employee(name: str, position: Position, salary: Decimal):
     if not isinstance(salary, float):
-        raise HTTPException(status_code=400, detail="Salary type or value is incorrect. Use decimal")
-    
+        raise HTTPException(
+            status_code=400, detail="Salary type or value is incorrect. Use decimal"
+        )
+
     if salary < 0:
-        raise HTTPException(status_code=400, detail="Salary value is incorrect. Give an positive decimal value")
+        raise HTTPException(
+            status_code=400,
+            detail="Salary value is incorrect. Give an positive decimal value",
+        )
 
     create(connector, name, position, salary)
     return {"message": "Record inserted successfully"}
@@ -50,12 +55,17 @@ def update_employee(employee_id: int, name: str, position: Position, salary: Dec
     existing_employee = show(connector, employee_id)
     if not existing_employee:
         raise HTTPException(status_code=404, detail="Employee not found")
-    
+
     if not isinstance(salary, float):
-        raise HTTPException(status_code=400, detail="Salart type or value is incorrect. Use decimal")
-    
+        raise HTTPException(
+            status_code=400, detail="Salart type or value is incorrect. Use decimal"
+        )
+
     if salary < 0:
-        raise HTTPException(status_code=400, detail="Salart value is incorrect. Give an positive decimal value")
+        raise HTTPException(
+            status_code=400,
+            detail="Salart value is incorrect. Give an positive decimal value",
+        )
 
     update(connector, employee_id, name, position, salary)
     return {"message": f"Employee with ID {employee_id} updated successfully"}

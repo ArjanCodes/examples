@@ -94,7 +94,6 @@ def play_game(player_count: int, board: BattleshipBoard) -> None:
     won_game = False
 
     while total_guesses < GUESSES_COUNT * player_count:
-
         # determine the current player and the remaining guesses
         current_player = (total_guesses % player_count) + 1
         remaining_guesses = GUESSES_COUNT - total_guesses // player_count

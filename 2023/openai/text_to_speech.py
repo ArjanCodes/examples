@@ -30,7 +30,6 @@ def list_available_names() -> list[str]:
 
 
 def convert_text_to_mp3(message: str, voice_name: str, mp3_filename: str) -> None:
-
     voices_response = requests.get(
         f"{BASE_URL}/v1/voices", params={"xi-api-key": API_KEY}, timeout=5
     )

@@ -1,6 +1,7 @@
 """
 Basic example of a Trading bot with a strategy pattern.
 """
+
 import statistics
 from abc import ABC, abstractmethod
 from dataclasses import dataclass
@@ -27,7 +28,6 @@ class AverageTradingStrategy(TradingStrategy):
     window_size: int = 3
 
     def should_buy(self, prices: list[float]) -> bool:
-
         list_window = prices[-int(self.window_size) :]
         return prices[-1] < statistics.mean(list_window)
 

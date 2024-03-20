@@ -27,14 +27,14 @@ def generate_breadcrumbs(geolocation: Geolocation) -> dict[str, str]:
     breadcrumbs: dict[str, str] = {}
     main_url = "https://myapi.com"
     if geolocation.postal_code:
-        breadcrumbs[
-            "postal_code_url"
-        ] = f"{main_url}/postal_code/{geolocation.postal_code}/"
+        breadcrumbs["postal_code_url"] = (
+            f"{main_url}/postal_code/{geolocation.postal_code}/"
+        )
     if geolocation.city:
         city_slug = geolocation.city.lower().replace(" ", "-")
         breadcrumbs["city_url"] = f"{main_url}/region/{city_slug}/"
     if geolocation.province:
-        breadcrumbs[
-            "province_url"
-        ] = f"{main_url}/region/province/{geolocation.province.lower()}/"
+        breadcrumbs["province_url"] = (
+            f"{main_url}/region/province/{geolocation.province.lower()}/"
+        )
     return breadcrumbs

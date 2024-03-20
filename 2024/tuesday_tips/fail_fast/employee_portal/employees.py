@@ -5,6 +5,7 @@ from employee_portal.position import Position
 
 DATABASE = "./examples.db"
 
+
 def create(
     connector: DatabaseConnector, name: str, position: Position, salary: Decimal
 ):
@@ -44,7 +45,9 @@ def index(connector: DatabaseConnector) -> list[tuple[int, str, str, Decimal]]:
         connector.close_connection(conn)
 
 
-def show(connector: DatabaseConnector, employee_id: int) -> tuple[int, str, str, Decimal]:
+def show(
+    connector: DatabaseConnector, employee_id: int
+) -> tuple[int, str, str, Decimal]:
     conn = connector.connect(DATABASE)
     cursor = connector.create_cursor(conn)
 

@@ -19,7 +19,7 @@ def concatenate_sentences(sentences: list[str], limit: int) -> list[str]:
             extra_sentence = tmp.pop()
             text = "".join(tmp)
             concatenated_sentences.append(text)
-            tmp=[extra_sentence]
+            tmp = [extra_sentence]
 
     return concatenated_sentences
 
