@@ -21,10 +21,8 @@ def main() -> None:
 	ORDER BY total DESC
 	LIMIT :limit;
 	"""
-    
-	placeholder = {
-        "limit": number_of_top_customers
-	}
+
+    placeholder = {"limit": number_of_top_customers}
 
     for row in cur.execute(raw_sql, placeholder):
         print(row)
