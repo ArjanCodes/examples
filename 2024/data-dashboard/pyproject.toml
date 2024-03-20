@@ -1,0 +1,18 @@
+[tool.poetry]
+name = "Data dashboard"
+version = "0.1.0"
+description = ""
+authors = ["ArjanCoes <hi@arjancodes.com>"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+taipy = "^3.1.0"
+
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
+[tool.poetry.scripts]
+start = "python main.py"
