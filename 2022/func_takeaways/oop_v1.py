@@ -20,7 +20,6 @@ class Greeting:
 
 
 def main() -> None:
-
     name = input("Enter your name: ")
 
     greeting = Greeting()

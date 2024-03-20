@@ -8,8 +8,7 @@ class PaymentMethod(StrEnum):
 
 
 class Payment(Protocol):
-    def pay(self, amount: int) -> None:
-        ...
+    def pay(self, amount: int) -> None: ...
 
 
 class PaypalPayment:

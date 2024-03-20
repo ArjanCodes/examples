@@ -27,7 +27,6 @@ class VehicleRegistry:
 
 
 def register_vehicle(brand: Brand) -> None:
-
     registry = VehicleRegistry()
 
     vehicle_id = registry.generate_vehicle_id(12)

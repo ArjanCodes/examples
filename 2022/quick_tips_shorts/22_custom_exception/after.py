@@ -9,7 +9,6 @@ class VacationDaysShortageError(Exception):
 
 @dataclass
 class Employee:
-
     name: str
     vacation_days: int = 25
 

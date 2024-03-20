@@ -1,6 +1,6 @@
 """Bank account operations using OOP."""
 
-from __future__ import annotations # * To allow type hints
+from __future__ import annotations  # * To allow type hints
 
 from datetime import datetime
 from enum import StrEnum, auto
@@ -15,12 +15,12 @@ class TransactionType(StrEnum):
 Transaction = tuple[TransactionType, datetime, int]
 
 
-class InsufficientBalanceError(Exception):
-    ...
+class InsufficientBalanceError(Exception): ...
+
 
 class BankAccount:
     # TODO: insert docstring
-    def __init__(self, initial_balance = 0) -> None:
+    def __init__(self, initial_balance=0) -> None:
         self._balance = initial_balance
         self._transaction_history: list[Transaction] = []
 
@@ -71,6 +71,7 @@ def main() -> None:
     account1.transfer(account2, 50)
 
     print(account1.balance)
+
 
 if __name__ == "__main__":
     main()

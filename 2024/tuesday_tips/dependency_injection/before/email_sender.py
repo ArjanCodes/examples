@@ -34,8 +34,5 @@ class EmailSender:
             return email_sender.send_email(
                 to_address=to_address, subject=subject, body=body
             )
-        
 
-        return MailChimp().send_email(
-            to_address=to_address, subject=subject, body=body
-        )
+        return MailChimp().send_email(to_address=to_address, subject=subject, body=body)

@@ -7,10 +7,10 @@ import numpy as np
 ALLOWED_TYPES = {
     "UNSIGNED_BYTE": b"\x08",
     "SIGNED_BYTE": b"\x09",
-    "SHORT": b"\x0B",
-    "INT": b"\x0C",
-    "SINGLE": b"\x0D",
-    "DOUBLE": b"\x0E",
+    "SHORT": b"\x0b",
+    "INT": b"\x0c",
+    "SINGLE": b"\x0d",
+    "DOUBLE": b"\x0e",
 }
 
 

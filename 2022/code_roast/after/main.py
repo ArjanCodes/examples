@@ -7,7 +7,6 @@ from scrape.log import log_msg
 
 
 def main() -> None:
-
     # read the configuration settings from a JSON file
     config = read_config("./config.json")
 

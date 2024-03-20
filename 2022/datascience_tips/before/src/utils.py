@@ -3,19 +3,23 @@ from pathlib import Path
 
 def generate_tensorboard_experiment_directory(root: str, parents=True) -> str:
     root = Path(root).resolve()
-    child = create_from_missing(root) if not root.exists() else create_from_existing(root)
+    child = (
+        create_from_missing(root) if not root.exists() else create_from_existing(root)
+    )
     child.mkdir(parents=parents)
     return child.as_posix()
 
 
 def create_from_missing(root):
-    return root / '0'
+    return root / "0"
 
 
 def create_from_existing(root):
-    children = [int(c.name) for c in root.glob('*') if (c.is_dir() and c.name.isnumeric())]
+    children = [
+        int(c.name) for c in root.glob("*") if (c.is_dir() and c.name.isnumeric())
+    ]
     if is_first_experiment(children):
-        child = root / '0'
+        child = root / "0"
     else:
         child = root / increment_experiment_number(children)
     return child

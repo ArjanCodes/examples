@@ -52,7 +52,6 @@ def luhn_checksum(number):
 
 
 def main():
-
     print(luhn_checksum(1249190007575069))  # oops
     print(luhn_checksum_with_doc(1249190007575069))  # oops
 

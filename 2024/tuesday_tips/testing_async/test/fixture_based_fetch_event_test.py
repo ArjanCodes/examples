@@ -6,10 +6,12 @@ import pytest
 
 from fetch_event import fetch_event
 
+
 @pytest.fixture
 async def session():
     with patch("aiohttp.ClientSession") as mock:
         yield mock
+
 
 @pytest.fixture
 def event_loop():
@@ -18,10 +20,11 @@ def event_loop():
     yield loop
     loop.close()
 
+
 def test_fetch_event(session: ClientSession, event_loop: asyncio.AbstractEventLoop):
     results = event_loop.run_until_complete(fetch_event(session=session, event_id="1"))
     assert len(results) > 0
-    
+
 
 def test_fetch_multiple_events_with_custom_event_loop(
     session: ClientSession, event_loop: asyncio.AbstractEventLoop
@@ -29,4 +32,3 @@ def test_fetch_multiple_events_with_custom_event_loop(
     tasks = [fetch_event(session=session, event_id=str(i)) for i in range(1, 5)]
     results = event_loop.run_until_complete(asyncio.gather(*tasks))
     assert len(results) == 4
-

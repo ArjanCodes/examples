@@ -4,5 +4,4 @@ from stream.data import BufferData
 
 
 class StreamingDevice(Protocol):
-    def get_buffer_data(self) -> BufferData:
-        ...
+    def get_buffer_data(self) -> BufferData: ...

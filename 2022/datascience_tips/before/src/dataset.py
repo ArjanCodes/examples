@@ -2,7 +2,12 @@ import numpy as np
 import torch
 from torch.utils.data import Dataset, DataLoader
 
-from src.load_data import load_train_labels, load_train_data, load_test_data, load_test_labels
+from src.load_data import (
+    load_train_labels,
+    load_train_data,
+    load_test_data,
+    load_test_labels,
+)
 
 
 class MNIST(Dataset):
@@ -16,8 +21,10 @@ class MNIST(Dataset):
 
     def __init__(self, data: np.ndarray, targets: np.ndarray):
         if len(data) != len(targets):
-            raise ValueError('data and targets must be the same length. '
-                             f'{len(data)} != {len(targets)}')
+            raise ValueError(
+                "data and targets must be the same length. "
+                f"{len(data)} != {len(targets)}"
+            )
 
         self.data = data
         self.targets = targets

@@ -2,8 +2,7 @@ from typing import Protocol
 
 
 class PaymentHandler(Protocol):
-    def handle_payment(self, amount: int) -> None:
-        ...
+    def handle_payment(self, amount: int) -> None: ...
 
 
 class StripePaymentHandler:

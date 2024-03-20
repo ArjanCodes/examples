@@ -1,6 +1,7 @@
 """
 Basic example of a Vehicle registration system.
 """
+
 from dataclasses import dataclass
 from enum import Enum, auto
 from random import *
@@ -119,7 +120,6 @@ class VehicleRegistry:
 
 
 if __name__ == "__main__":
-
     # create a registry instance
     registry = VehicleRegistry()
 

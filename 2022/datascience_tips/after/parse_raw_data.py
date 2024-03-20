@@ -15,7 +15,7 @@ TEST_LABELS_RAW = pathlib.Path(f"{RAW_DATA}/t10k-labels-idx1-ubyte.gz")
 TRAIN_DATA_RAW = pathlib.Path(f"{RAW_DATA}/train-images-idx3-ubyte.gz")
 TRAIN_LABELS_RAW = pathlib.Path(f"{RAW_DATA}/train-labels-idx1-ubyte.gz")
 
-PROCESSED_DATA = './data/processed'
+PROCESSED_DATA = "./data/processed"
 TEST_DIR_PROCESSED = pathlib.Path(f"{PROCESSED_DATA}/test")
 TRAIN_DIR_PROCESSED = pathlib.Path(f"{PROCESSED_DATA}/tain")
 
@@ -25,12 +25,12 @@ def main():
     make_tree(TEST_DIR_PROCESSED, reset=True)
 
     save_dataset_to_png(
-        TRAIN_DIR_PROCESSED, 
-        zip(load_image_data(TRAIN_DATA_RAW), load_label_data(TRAIN_LABELS_RAW))
+        TRAIN_DIR_PROCESSED,
+        zip(load_image_data(TRAIN_DATA_RAW), load_label_data(TRAIN_LABELS_RAW)),
     )
     save_dataset_to_png(
-        TEST_DIR_PROCESSED, 
-        zip(load_image_data(TEST_DATA_RAW), load_label_data(TEST_LABELS_RAW))
+        TEST_DIR_PROCESSED,
+        zip(load_image_data(TEST_DATA_RAW), load_label_data(TEST_LABELS_RAW)),
     )
 
 
@@ -44,7 +44,7 @@ def make_tree(root: pathlib.Path, reset: bool = False) -> None:
 
 
 def reset_tree(root: pathlib.Path) -> None:
-    print('Resetting tree.')
+    print("Resetting tree.")
     shutil.rmtree(root, ignore_errors=True)
 
 
@@ -59,8 +59,8 @@ def save_xy_to_png(
     root: pathlib.Path, xy: Tuple[np.ndarray, np.ndarray], name: str
 ) -> None:
     x, y = xy
-    Image.fromarray(x).save(root / str(int(y)) / f'{name}.jpg')
+    Image.fromarray(x).save(root / str(int(y)) / f"{name}.jpg")
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

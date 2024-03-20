@@ -68,7 +68,6 @@ def create_noauth_iam_policy(service: gcp.cloudrun.Service) -> None:
 
 
 def main() -> None:
-
     # Create a private GCR repository.
     registry_url = create_registry(REGISTRY)
 

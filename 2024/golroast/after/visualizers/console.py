@@ -3,12 +3,10 @@ from typing import Protocol
 
 
 class Game(Protocol):
-    def update(self):
-        ...
+    def update(self): ...
 
     @property
-    def raw_grid(self) -> list[list[int]]:
-        ...
+    def raw_grid(self) -> list[list[int]]: ...
 
 
 def visualize_console(game: Game, generations: int, sleep_time: float):

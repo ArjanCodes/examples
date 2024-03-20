@@ -19,11 +19,9 @@ CONJURED = "Conjured Mana Cake"
 
 
 class ItemUpdater(Protocol):
-    def update_sell_in(self, item: Item) -> None:
-        ...
+    def update_sell_in(self, item: Item) -> None: ...
 
-    def update_quality(self, item: Item) -> None:
-        ...
+    def update_quality(self, item: Item) -> None: ...
 
 
 class DefaultItemUpdater:

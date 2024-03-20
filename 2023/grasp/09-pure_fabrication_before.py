@@ -20,7 +20,6 @@ class Payment:
 
 
 def main() -> None:
-
     payment = Payment()
 
     payment.pay(100)

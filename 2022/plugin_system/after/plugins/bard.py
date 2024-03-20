@@ -7,7 +7,6 @@ from game import factory
 
 @dataclass
 class Bard:
-
     name: str
     instrument: str = "flute"
 

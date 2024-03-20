@@ -11,8 +11,7 @@ def generate_id(length: int = 6) -> str:
 
 
 class PaymentProcessor(Protocol):
-    def process_payment(self, reference: str, price: int) -> None:
-        ...
+    def process_payment(self, reference: str, price: int) -> None: ...
 
 
 class POSSystem:

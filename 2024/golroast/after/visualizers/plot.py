@@ -3,12 +3,10 @@ import matplotlib.pyplot as plt
 
 
 class Game(Protocol):
-    def update(self):
-        ...
+    def update(self): ...
 
     @property
-    def raw_grid(self) -> list[list[int]]:
-        ...
+    def raw_grid(self) -> list[list[int]]: ...
 
 
 def visualize_plot(game: Game, generations: int, sleep_time: float):

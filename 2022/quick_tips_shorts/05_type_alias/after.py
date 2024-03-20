@@ -7,7 +7,6 @@ TradingStrategyFunction = Callable[[list[int]], bool]
 
 @dataclass
 class TradingBot:
-
     buy_strategy: TradingStrategyFunction
     sell_strategy: TradingStrategyFunction
 

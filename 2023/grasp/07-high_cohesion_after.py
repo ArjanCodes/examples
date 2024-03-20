@@ -43,7 +43,6 @@ class Vehicle:
 
 @dataclass
 class VehicleRegistry:
-
     vehicle_info: dict[Brand, VehicleInfo] = field(default_factory=dict)
 
     def __post_init__(self):

@@ -18,8 +18,7 @@ def create_from_missing(root: pathlib.Path) -> pathlib.Path:
 
 def create_from_existing(root: pathlib.Path) -> pathlib.Path:
     children = [
-        int(c.name) for c in root.glob("*")
-        if (c.is_dir() and c.name.isnumeric())
+        int(c.name) for c in root.glob("*") if (c.is_dir() and c.name.isnumeric())
     ]
     if is_first_experiment(children):
         child = create_from_missing(root)

@@ -1,5 +1,6 @@
 from pyo3_rust import Attachment, AttachmentType, Email
 
+
 def main():
     attachment = Attachment("attachment.txt", AttachmentType.File)
     print(attachment)
@@ -7,6 +8,6 @@ def main():
     print(email)
     email.send("Example@ArjanCodes.com")
 
- 
+
 if __name__ == "__main__":
     main()

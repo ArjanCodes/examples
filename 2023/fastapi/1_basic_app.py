@@ -6,8 +6,8 @@ app = FastAPI()
 
 
 class Category(Enum):
-    TOOLS = 'tools'
-    CONSUMABLES = 'consumables'
+    TOOLS = "tools"
+    CONSUMABLES = "consumables"
 
 
 class Item(BaseModel):

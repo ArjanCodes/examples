@@ -16,6 +16,7 @@ def run_command_v1(command: str) -> None:
         case other:
             print(f"Unknown command '{other}'.")
 
+
 def run_command_v2(command: str) -> None:
     match command.split():
         case ["load", filename]:
@@ -30,6 +31,7 @@ def run_command_v2(command: str) -> None:
             quit()
         case _:
             print(f"Unknown command '{command}'.")
+
 
 def run_command_v3(command: str) -> None:
     match command.split():
@@ -46,12 +48,14 @@ def run_command_v3(command: str) -> None:
         case _:
             print(f"Unknown command {command!r}.")
 
+
 @dataclass
 class Command:
     """Class that represents a command."""
-    
+
     command: str
     arguments: List[str]
+
 
 def run_command_v4(command: Command) -> None:
     match command:
@@ -59,7 +63,9 @@ def run_command_v4(command: Command) -> None:
             print(f"Loading filename {filename}.")
         case Command(command="save", arguments=[filename]):
             print(f"Saving filename {filename}.")
-        case Command(command="quit" | "exit" | "bye", arguments=["--force" | "-f", *rest]):
+        case Command(
+            command="quit" | "exit" | "bye", arguments=["--force" | "-f", *rest]
+        ):
             print("Sending SIGTERM to all processes and quitting the program.")
             quit()
         case Command(command="quit" | "exit" | "bye"):
@@ -84,5 +90,3 @@ def main() -> None:
 
 if __name__ == "__main__":
     main()
-
-

@@ -20,10 +20,12 @@ class Boat(Vehicle):
     def display(self) -> None:
         print(f"Boat model: {self.model}")
 
+
 class Plane(Vehicle):
     def display(self) -> None:
         print(f"Plane model: {self.model}")
-        
+
+
 class VehicleRegistry[V: Vehicle]:
     def __init__(self) -> None:
         self.vehicles: list[V] = []

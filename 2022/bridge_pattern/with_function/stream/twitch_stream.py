@@ -6,7 +6,6 @@ from stream.data import Buffer, generate_id
 
 @dataclass
 class TwitchStreamingService:
-
     buffer: Buffer
 
     def start_stream(self) -> str:

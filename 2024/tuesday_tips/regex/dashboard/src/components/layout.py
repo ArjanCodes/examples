@@ -20,7 +20,7 @@ def create_layout(app: Dash) -> html.Div:
             line_chart.render(app, data),
             html.Div(
                 className="cardbox",
-                children = [
+                children=[
                     html.Li(
                         id=key,
                         className="card",
@@ -30,7 +30,7 @@ def create_layout(app: Dash) -> html.Div:
                         ],
                     )
                     for key in data
-                ]
+                ],
             ),
         ],
     )

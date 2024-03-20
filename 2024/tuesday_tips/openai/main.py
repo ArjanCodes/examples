@@ -7,6 +7,7 @@ from tip_1.request_handler import handle_request
 
 load_dotenv()
 
+
 def main() -> None:
     client = initialize_openai_client()
 

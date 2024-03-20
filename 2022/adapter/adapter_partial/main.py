@@ -8,7 +8,6 @@ from xml_adapter import get_from_bs
 
 
 def main() -> None:
-
     with open("config.json", encoding="utf8") as file:
         config = json.load(file)
     with open("config.xml", encoding="utf8") as file:

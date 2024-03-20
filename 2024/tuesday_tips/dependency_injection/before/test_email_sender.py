@@ -1,5 +1,6 @@
 from email_sender import EmailSender, Service
 
+
 def test_send_email_mailchimp():
     email_sender = EmailSender()
     result = email_sender.send_email(

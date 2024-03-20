@@ -34,7 +34,6 @@ def fetch_terms_from_pubid(target: pd.DataFrame, scraper: Scraper) -> pd.DataFra
 
 
 def fetch_terms_from_pdf_files(config: ScrapeConfig) -> pd.DataFrame:
-
     search_terms = [
         path.join(config.paper_folder, file)
         for file in listdir(config.paper_folder)

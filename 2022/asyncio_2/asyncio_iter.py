@@ -22,7 +22,6 @@ async def next_pokemon(total: int) -> AsyncIterable[str]:
 
 
 async def main():
-
     # retrieve the next 10 pokemon names
     async for name in next_pokemon(10):
         print(name)

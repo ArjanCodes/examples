@@ -2,8 +2,7 @@ from typing import Protocol
 
 
 class DiagnosticsSource(Protocol):
-    def status_update(self) -> str:
-        ...
+    def status_update(self) -> str: ...
 
 
 def collect_diagnostics(device: DiagnosticsSource) -> None:

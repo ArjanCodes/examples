@@ -11,7 +11,6 @@ from game.character import GameCharacter
 
 @dataclass
 class Sorcerer:
-
     name: str
 
     def make_a_noise(self) -> None:
@@ -20,7 +19,6 @@ class Sorcerer:
 
 @dataclass
 class Wizard:
-
     name: str
 
     def make_a_noise(self) -> None:
@@ -29,7 +27,6 @@ class Wizard:
 
 @dataclass
 class Witcher:
-
     name: str
 
     def make_a_noise(self) -> None:

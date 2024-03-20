@@ -4,7 +4,6 @@ from banking.controller import BankController
 
 
 def main() -> None:
-
     # create a bank
     bank = Bank()
 

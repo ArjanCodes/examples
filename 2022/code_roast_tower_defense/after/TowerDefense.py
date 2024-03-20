@@ -444,7 +444,6 @@ class Infoboard:
         self.canvas.create_image(5, 5, image=self.towerImage, anchor=NW)
 
         if issubclass(displayTower.__class__, TargetingTower):
-
             self.currentButtons.append(TargetButton(26, 30, 35, 39, 0))
             self.canvas.create_text(
                 37, 28, text="> Health", font=("times", 12), fill="white", anchor=NW
@@ -719,7 +718,7 @@ class TrackingBullet(Projectile):
 
     def checkHit(self):
         if (
-            self.speed ** 2
+            self.speed**2
             > (self.x - (self.target.x)) ** 2 + (self.y - (self.target.y)) ** 2
         ):
             self.hit = True

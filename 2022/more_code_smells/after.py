@@ -1,6 +1,7 @@
 """
 Basic example of a Vehicle registration system.
 """
+
 import random
 import string
 from dataclasses import dataclass

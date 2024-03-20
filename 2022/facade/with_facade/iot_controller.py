@@ -3,11 +3,9 @@ from typing import Protocol
 
 
 class IOTFacade(Protocol):
-    def power_speaker(self, on: bool) -> None:
-        ...
+    def power_speaker(self, on: bool) -> None: ...
 
-    def get_status(self) -> str:
-        ...
+    def get_status(self) -> str: ...
 
 
 def get_status(iot: IOTFacade) -> str:

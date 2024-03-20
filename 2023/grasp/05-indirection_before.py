@@ -42,7 +42,6 @@ class Customer:
 
 
 def main() -> None:
-
     henry = Customer(since=date(2023, 1, 1))
     order1 = Order(henry)
     print(f"Henry got {order1.get_discount() * 100:.0f} % discount")

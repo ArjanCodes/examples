@@ -2,7 +2,6 @@ import pendulum
 
 
 def main() -> None:
-
     # Pendulum dates are timezone aware by default
     some_date = pendulum.datetime(2022, 10, 9, 18, 0, tz="UTC")
     print(some_date)

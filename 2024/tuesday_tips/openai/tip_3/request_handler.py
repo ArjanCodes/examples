@@ -9,10 +9,10 @@ from tip_2.rate_limiter import rate_limit
 from tip_3.timer import timer
 
 
-
 @rate_limit(max_calls=10, period=10)
-async def send_request_async(query: str, model: OpenAIModels, client: AsyncOpenAI) -> str | None:
-
+async def send_request_async(
+    query: str, model: OpenAIModels, client: AsyncOpenAI
+) -> str | None:
     response = await client.chat.completions.create(
         model=model.value,
         messages=[
@@ -21,7 +21,8 @@ async def send_request_async(query: str, model: OpenAIModels, client: AsyncOpenA
         ],
     )
 
-    return response.choices[0].message.content 
+    return response.choices[0].message.content
+
 
 @timer
 async def handle_request(query: str, model: OpenAIModels, client: AsyncOpenAI) -> str:
@@ -36,4 +37,3 @@ async def handle_request(query: str, model: OpenAIModels, client: AsyncOpenAI) -
         *(send_request_async(client=client, model=model, query=part) for part in parts)
     )
     return "".join(responses)
-

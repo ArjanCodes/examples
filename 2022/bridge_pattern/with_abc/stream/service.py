@@ -6,7 +6,6 @@ from stream.data import Buffer, BufferData
 
 @dataclass
 class StreamingService(ABC):
-
     devices: list[Buffer] = field(default_factory=list)
 
     def add_device(self, device: Buffer) -> None:
