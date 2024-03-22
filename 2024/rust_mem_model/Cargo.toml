@@ -1,0 +1,6 @@
+[package]
+name = "rust_mem_model"
+version = "0.1.0"
+edition = "2021"
+
+
