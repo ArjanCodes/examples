@@ -2,12 +2,13 @@
 name = "async-deep-dive"
 version = "0.1.0"
 description = ""
-authors = ["Your Name <you@example.com>"]
-readme = "README.md"
+authors = ["ArjanCodes"]
 
 [tool.poetry.dependencies]
 python = "^3.12"
 aiofiles = "^23.2.1"
+aiosqlite = "^0.17.0"
+aiohttp = "^3.8.1"
 
 
 [build-system]

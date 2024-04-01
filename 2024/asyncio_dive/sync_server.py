@@ -1,44 +1,46 @@
 import socket
 import time
+import logging
 
+logging.basicConfig(level=logging.INFO)
 class Server:
-    def __init__(self, host='127.0.0.1', port=5000):
+    def __init__(self, host:str='127.0.0.1', port:int=5000):
         self.host = host
         self.port = port
         self.server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-    def start(self):
+    def start(self) -> None:
         try:
             self.server_socket.bind((self.host, self.port))
             self.server_socket.listen(1)
-            print(f"Server started at http://{self.host}:{self.port}")
+            logging.info(f"Server started at http://{self.host}:{self.port}")
             self.accept_connections()
         finally:
             self.server_socket.close()
 
-    def accept_connections(self):
+    def accept_connections(self) -> None:
         while True:
             conn, addr = self.server_socket.accept()
             with conn:
-                print(f"Connected by {addr}")
+                logging.info(f"Connected by {addr}")
                 request_handler = RequestHandler(conn)
                 request_handler.process_request()
 
 class RequestHandler:
-    def __init__(self, conn):
+    def __init__(self, conn:socket.socket):
         self.conn = conn
 
     def process_request(self):
         request = self.conn.recv(1024).decode('utf-8')
-        print(f"Request: {request}")
+        logging.info(f"Request: {request}")
         self.handle_request(request)
-
-    def handle_request(self, request):
+        
+    def handle_request(self, request:str):
         path = self.get_path(request)
         response = self.generate_response(path)
         self.conn.sendall(response.encode())
 
-    def get_path(self, request):
+    def get_path(self, request:str):
         try:
             path = request.split(' ')[1]
             if path == '/':
@@ -47,7 +49,7 @@ class RequestHandler:
         except IndexError:
             return 'index.html'
 
-    def generate_response(self, path):
+    def generate_response(self, path:str):
         time.sleep(2)
         try:
             with open(path, 'r') as file:
@@ -58,9 +60,9 @@ class RequestHandler:
             response_header = "HTTP/1.1 404 Not Found\n\n"
         return response_header + response_body
 
+def main() -> None:
+    server = Server()
+    server.start()
+
 if __name__ == "__main__":
-    def main():
-        server = Server()
-        server.start()
-    
     main()
