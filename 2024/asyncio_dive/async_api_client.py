@@ -8,13 +8,13 @@ logging.basicConfig(level=logging.INFO)
 
 
 async def fetch_books(session: aiohttp.ClientSession) -> str:
-    async with session.get("http://127.0.0.1:5000/books") as response:
+    async with session.get("http://127.0.0.1:3000/books") as response:
         return await response.text()
 
 
 async def add_book(session: aiohttp.ClientSession, title: str, author: str) -> str:
     async with session.post(
-        "http://127.0.0.1:5000/books",
+        "http://127.0.0.1:3000/books",
         data=json.dumps({"title": title, "author": author}),
     ) as response:
         return await response.text()
@@ -22,14 +22,14 @@ async def add_book(session: aiohttp.ClientSession, title: str, author: str) -> s
 
 async def delete_book(session: aiohttp.ClientSession, title: str) -> str:
     async with session.delete(
-        f"http://127.0.0.1:5000/books", data=json.dumps({"title": title})
+        "http://127.0.0.1:3000/books", data=json.dumps({"title": title})
     ) as response:
         return await response.text()
 
 
 async def add_movie(session: aiohttp.ClientSession, title: str, director: str) -> str:
     async with session.post(
-        "http://127.0.0.1:5000/movies",
+        "http://127.0.0.1:3000/movies",
         data=json.dumps({"title": title, "director": director}),
     ) as response:
         return await response.text()
@@ -37,7 +37,7 @@ async def add_movie(session: aiohttp.ClientSession, title: str, director: str) -
 
 async def delete_movie(session: aiohttp.ClientSession, title: str) -> str:
     async with session.delete(
-        f"http://127.0.0.1:5000/movies", data=json.dumps({"title": title})
+        "http://127.0.0.1:3000/movies", data=json.dumps({"title": title})
     ) as response:
         return await response.text()
 

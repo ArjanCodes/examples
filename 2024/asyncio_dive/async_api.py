@@ -45,7 +45,7 @@ class Router:
 
 class AsyncAPIServer:
     def __init__(
-        self, host: str = "127.0.0.1", port: int = 5000, router: Optional[Router] = None
+        self, host: str = "127.0.0.1", port: int = 3000, router: Optional[Router] = None
     ):
         self.host = host
         self.port = port
