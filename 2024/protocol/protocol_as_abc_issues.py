@@ -17,11 +17,11 @@ class SerializedFileHandler(ABC):
         pass
 
     def write(self, data):
-        with open(self.filename, 'wb') as file:
+        with open(self.filename, "wb") as file:
             file.write(self.serialize(data))
 
     def read(self):
-        with open(self.filename, 'rb') as file:
+        with open(self.filename, "rb") as file:
             return self.deserialize(file.read())
 
 
@@ -60,12 +60,12 @@ def read(handler: Readable) -> dict:
 
 
 def main():
-    data = {'name': 'John Doe', 'age': 30}
-    pickle_writer = PickleHandler('../data.pkl')
+    data = {"name": "John Doe", "age": 30}
+    pickle_writer = PickleHandler("../data.pkl")
     write(pickle_writer, data)
     print(read(pickle_writer))
 
-    json_writer = JSONHandler('../data.json')
+    json_writer = JSONHandler("../data.json")
     write(json_writer, data)
     print(read(json_writer))
 
@@ -73,5 +73,5 @@ def main():
     assert isinstance(json_writer, Readable)
 
 
-if __name__ == '__main__':
+if __name__ == "__main__":
     main()

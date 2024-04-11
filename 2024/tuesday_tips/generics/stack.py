@@ -13,7 +13,7 @@ class Stack[T]:
 
     def pop(self) -> T:
         return self._container.pop()
-    
+
     def peek(self) -> Optional[T]:
         if self.is_empty():
             return None
@@ -21,6 +21,6 @@ class Stack[T]:
 
     def is_empty(self) -> bool:
         return self._container == []
-    
+
     def size(self) -> int:
         return len(self._container)
