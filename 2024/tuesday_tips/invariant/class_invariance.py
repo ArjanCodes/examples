@@ -11,9 +11,10 @@ class Chessboard:
     """
     Class Invariants:
         - The board dimensions are always 8x8 squares.
-        - Each player has exactly one king on the board at all times, until the king is checkmated or the game ends in a stalemate.
-        - A player can have multiple bishops on the same color square.
         - All pieces are positioned within the valid boundaries of the chessboard.
+        - Each player has exactly one king on the board at all times, until the king is checkmated or the game ends in a stalemate.
+        - A player can have at most one queen, two bishops, two knights, two rooks, and eight pawns in a standard game of chess.
+
     """
 
     def __init__(self):
