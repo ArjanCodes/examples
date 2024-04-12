@@ -1,8 +1,8 @@
 import os
 
+from chat import GPT3_TURBO, chatter
 from dotenv import load_dotenv
-
-from ainode import chat, compose, debug, embed, jinja_template, merge, parse_json
+from jinja_helper import process_template
 
 load_dotenv()
 
@@ -13,27 +13,30 @@ def main() -> None:
         raise ValueError(
             "No API key found. Please set your OPENAI_KEY in the .env file."
         )
-    chat_fn = chat(api_key)
+    chat_fn = chatter(api_key)
 
-    quiz = {
-        "question_count": 5,
-        "quiz_difficulty": "easy",
-        "quiz_type": "mix",
-        "text": "Software design principles.",
+    email = {
+        "customer_name": "Sally Smith",
+        "product": "Purple Widget",
+        "similar_product": "Orange Widget",
+        "tone_of_voice": "short and to the point, no fluffy language",
+        "ceo_name": "ArjanCodes",
     }
 
-    chain_fn = compose(
-        jinja_template("prompts/create_quiz.jinja"),
-        chat_fn,
-        debug,
-        parse_json,
-        embed("quiz"),
-        merge(quiz),
-        jinja_template("prompts/review_quiz.jinja"),
-        chat_fn,
-        debug,
-    )
-    chain_fn(quiz)
+    # create the email
+    email_template = process_template("prompts/create_unavailable_email.jinja", email)
+    email_v1 = chat_fn(email_template)
+    email["email_body"] = email_v1
+
+    print("Email v1:")
+    print(email_v1)
+
+    # review the email
+    review_template = process_template("prompts/review_email.jinja", email)
+    email_v2 = chat_fn(review_template)
+
+    print("Email v2:")
+    print(email_v2)
 
 
 if __name__ == "__main__":

@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "jinja2_example"
+version = "0.1.0"
+description = ""
+authors = ["ArjanCodes"]
+license = "MIT"
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+jinja2 = "^3.1.3"
+openai = "^1.17.0"
+
+[tool.poetry.group.dev.dependencies]
+pytest = "^8.0.0"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
