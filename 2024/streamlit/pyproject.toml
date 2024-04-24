@@ -1,13 +1,15 @@
 [tool.poetry]
-name = "streamlit-2024"
+name = "streamlit-tutorial"
 version = "0.1.0"
 description = ""
 authors = ["ArjanCodes"]
+package-mode = false
 
 [tool.poetry.dependencies]
 python = "^3.10"
 py_wanderer = "1.0.4"
 matplotlib = "3.8.4"
+streamlit = "^1.33.0"
 
 [build-system]
 requires = ["poetry-core"]
