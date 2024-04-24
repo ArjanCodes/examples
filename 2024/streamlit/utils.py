@@ -1,13 +1,13 @@
-import dataclasses
 import random
+from dataclasses import astuple, dataclass
 
-from py_wanderer import PathfindingAlgorithm, Heuristic, Maze, ALGORITHMS, HEURISTICS
+from py_wanderer import ALGORITHMS, HEURISTICS, Heuristic, Maze, PathfindingAlgorithm
 
 SolvingStrategy = tuple[PathfindingAlgorithm, Heuristic]
 SolvingStrategies = tuple[SolvingStrategy]
 
 
-@dataclasses.dataclass
+@dataclass
 class MazeConfig:
     seed: int
     width: int
@@ -17,15 +17,11 @@ class MazeConfig:
     solving_strategies: SolvingStrategies = ((ALGORITHMS[0], HEURISTICS[0]),)
 
     def __hash__(self):
-        return hash(dataclasses.astuple(self))
+        return hash(astuple(self))
 
 
 def generate_maze(
-        seed: int,
-        width: int,
-        height: int,
-        num_rooms: int,
-        room_size_range: tuple[int, int]
+    seed: int, width: int, height: int, num_rooms: int, room_size_range: tuple[int, int]
 ):
     width += width % 2 == 0
     height += height % 2 == 0
