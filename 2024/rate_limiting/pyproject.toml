@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "rate-limiting"
+version = "0.1.0"
+description = ""
+authors = ["ArjanCodes"]
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.110.2"
+slowapi = "^0.1.9"
+httpx = "^0.27.0"
+uvicorn = "^0.29.0"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
