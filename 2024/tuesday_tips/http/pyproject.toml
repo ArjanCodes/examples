@@ -1,0 +1,15 @@
+[tool.poetry]
+name = "http"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Bergman <andreas@arjancodes.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+llmbda-fastapi = "^0.0.20"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
