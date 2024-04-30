@@ -1,19 +1,17 @@
-from fastapi import FastAPI, HTTPException
-from sqlalchemy import create_engine
-from sqlalchemy.orm import sessionmaker, Session
-from fastapi import Depends
-
+from fastapi import Depends, FastAPI, HTTPException
 from operations import (
-    Item,
     Base,
-    NotFoundError,
+    Item,
     ItemCreate,
+    ItemUpdate,
+    NotFoundError,
     db_create_item,
     db_delete_item,
     db_read_item,
     db_update_item,
 )
-
+from sqlalchemy import create_engine
+from sqlalchemy.orm import Session, sessionmaker
 
 DATABASE_URL = "sqlite:///test.db"
 
@@ -51,7 +49,7 @@ def read_item(item_id: int, db: Session = Depends(get_db)) -> Item:
 
 
 @app.put("/items/{item_id}")
-def update_item(item_id: int, item: ItemCreate, db: Session = Depends(get_db)) -> Item:
+def update_item(item_id: int, item: ItemUpdate, db: Session = Depends(get_db)) -> Item:
     try:
         return db_update_item(item_id, item, db)
     except NotFoundError:
