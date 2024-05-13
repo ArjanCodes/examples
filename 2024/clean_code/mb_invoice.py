@@ -1,5 +1,5 @@
 from datetime import datetime
-from enum import Enum
+from enum import StrEnum
 from typing import Any, TypedDict
 
 from mb_core import post_moneybird_request
@@ -12,17 +12,13 @@ from settings import (
 BASE_CURRENCY = "eur"
 
 
-class ContactNotFoundError(Exception):
-    pass
-
-
-class InvoiceDelivery(Enum):
+class InvoiceDelivery(StrEnum):
     SKIP = "Skip"
     EMAIL = "Email"
     MANUAL = "Manual"
 
 
-class CreateInvoiceData(TypedDict):
+class InvoiceData(TypedDict):
     contact_id: int
     invoice_date: datetime
     prices_are_incl_tax: bool
@@ -33,23 +29,11 @@ class CreateInvoiceData(TypedDict):
     application_fee: float
 
 
-def get_mb_contact(contact_id: int):
-    return post_moneybird_request(f"contacts/{contact_id}", method="GET")
-
-
-def create_mb_invoice(data: CreateInvoiceData):
-    # find the moneybird contact associated with the email address
-    contact = get_mb_contact(data.get("contact_id", 0))
-    if not contact:
-        # we are not able to find a contact, so abort
-        raise ContactNotFoundError()
-
-    # construct the basic invoice data
-    invoice_date_str = data["invoice_date"].strftime("%Y-%m-%d")
+def create_mb_invoice(data: InvoiceData):
     invoice_data = {
         "contact_id": data["contact_id"],
-        "invoice_date": invoice_date_str,
-        "prices_are_incl_tax": True,
+        "invoice_date": data["invoice_date"].strftime("%Y-%m-%d"),
+        "prices_are_incl_tax": data["prices_are_incl_tax"],
         "currency": data["currency"],
         "first_due_interval": 0,
         "details_attributes": [
@@ -88,30 +72,25 @@ def create_transaction_for_invoice(
     # determine the amount
     amount = float(invoice.get("total_price_incl_tax", 0))
 
-    # determine the payment date
-    payment_date = invoice.get("invoice_date", datetime.today().isoformat())
-
     # create a financial statement with the transaction
     print(f"Creating transaction for {amount} {BASE_CURRENCY}.")
     financial_statement = create_financial_statement(
-        payment_date,
+        invoice["invoice_date"],
         amount,
         account_id,
         reference,
     )
 
     # return the financial mutation id
-    mutation_id = financial_statement["financial_mutations"][0]["id"]
+    mutation_id = int(financial_statement["financial_mutations"][0]["id"])
 
-    payment_data = {
+    return {
         "price": invoice["total_price_incl_tax"],
-        "payment_date": payment_date,
+        "payment_date": invoice["invoice_date"],
         "manual_payment_action": "bank_transfer",
         "financial_account_id": account_id,
         "financial_mutation_id": mutation_id,
     }
-
-    return payment_data
 
 
 def create_payment_for_invoice(invoice_id: int, payment_data: dict[str, Any]):
@@ -124,7 +103,6 @@ def create_payment_for_invoice(invoice_id: int, payment_data: dict[str, Any]):
 def create_financial_statement(
     date: str, amount: float, account_id: int, reference: str
 ):
-    # create a financial statement with the transaction
     return post_moneybird_request(
         "financial_statements",
         {

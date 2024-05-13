@@ -20,7 +20,7 @@ def get_custom_field_value(obj: JSONDict, field_id: int) -> str | None:
 
 def post_moneybird_request(
     path: str, data: dict[str, Any] | None = None, method: str = "post"
-) -> JSON:
+) -> JSONDict:
     md_admin_id = os.getenv("MB_ADMIN_ID")
     mb_token = os.getenv("MB_TOKEN")
     headers = {

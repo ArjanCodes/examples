@@ -11,7 +11,7 @@ from mb_invoice import (
     send_mb_invoice,
 )
 from processing import construct_invoice_data_from_stripe
-from settings import PAYMENT_PROCESSING_FEE_LEDGER_ACCOUNT_ID, STRIPE_MB_ACCOUNT_ID
+from settings import PAYMENT_PROCESSING_FEE_LEDGER_ID, STRIPE_MB_ACCOUNT_ID
 
 
 def get_successful_payment_intents(hours_ago: int) -> stripe.ListObject:
@@ -56,16 +56,16 @@ def create_and_send_invoice(
     )
 
     # book the payment for the application fee
-    mutation_id = financial_statement["financial_mutations"][0]["id"]
+    mutation_id = int(financial_statement["financial_mutations"][0]["id"])
     book_payment(
         mutation_id,
         application_fee,
-        PAYMENT_PROCESSING_FEE_LEDGER_ACCOUNT_ID,
+        PAYMENT_PROCESSING_FEE_LEDGER_ID,
     )
 
     # create payment for the invoice
     payment_data = create_transaction_for_invoice(
-        invoice, STRIPE_MB_ACCOUNT_ID, payment_intent["id"]
+        invoice, STRIPE_MB_ACCOUNT_ID, str(payment_intent["id"])
     )
 
     # send the invoice to the customer

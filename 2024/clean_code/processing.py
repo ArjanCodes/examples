@@ -1,12 +1,12 @@
 from datetime import datetime
 
 import stripe
-from mb_invoice import CreateInvoiceData
+from mb_invoice import InvoiceData
 
 
 def construct_invoice_data_from_stripe(
     payment_intent: stripe.PaymentIntent,
-) -> CreateInvoiceData:
+) -> InvoiceData:
     # retrieve the customer from stripe
     customer = stripe.Customer.retrieve(payment_intent["customer"])
 
@@ -18,7 +18,7 @@ def construct_invoice_data_from_stripe(
         if description:
             payment_intent["description"] = description
 
-    invoice_data = CreateInvoiceData(
+    invoice_data = InvoiceData(
         {
             "contact_id": customer["metadata"]["mb_contact_id"],
             "invoice_date": datetime.utcfromtimestamp(payment_intent["created"]),
