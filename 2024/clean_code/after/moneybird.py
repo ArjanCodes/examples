@@ -3,24 +3,20 @@ from typing import Any
 
 import requests
 
-JSONDict = dict[str, Any]
-JSONList = list[Any]
-JSON = JSONDict | JSONList
-
 MB_URL = "https://moneybird.com/api/v2"
 MB_REQUEST_TIMEOUT = 20
 
 
-def get_custom_field_value(obj: JSONDict, field_id: int) -> str | None:
+def get_custom_field_value(obj: dict[str, Any], field_id: int) -> str:
     for field in obj["custom_fields"]:
-        if field["id"] == str(field_id):
+        if field["id"] == field_id:
             return field["value"]
-    return None
+    raise ValueError(f"Field with id {field_id} not found.")
 
 
 def post_moneybird_request(
     path: str, data: dict[str, Any] | None = None, method: str = "post"
-) -> JSONDict:
+) -> dict[str, Any]:
     md_admin_id = os.getenv("MB_ADMIN_ID")
     mb_token = os.getenv("MB_TOKEN")
     headers = {

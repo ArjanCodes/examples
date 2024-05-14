@@ -2,7 +2,9 @@ from datetime import datetime
 from enum import StrEnum
 from typing import Any
 
-from moneybird import get_custom_field_value, post_moneybird_request
+import stripe
+from moneybird import post_moneybird_request
+from processing import construct_invoice_data_from_stripe
 from pydantic import BaseModel
 
 # Base currency
@@ -39,55 +41,6 @@ class InvoiceData(BaseModel):
     application_fee: float
 
 
-def create_and_send_invoice(
-    invoice_data: InvoiceData,
-    delivery_method: InvoiceDelivery,
-) -> dict[str, Any]:
-    print(
-        f"Creating invoice for payment intent {invoice_data.stripe_payment_intent_id}."
-    )
-
-    # create an invoice in Moneybird
-    invoice = create_mb_invoice(invoice_data)
-
-    # send the invoice to the customer
-    print(f"Sending invoice {invoice['id']}.")
-    print(send_mb_invoice(invoice["id"], delivery_method))
-
-    return invoice
-
-
-def book_invoice(invoice: dict[str, Any]):
-    application_fee = float(get_custom_field_value(invoice, APPLICATION_FEE_FIELD))
-    payment_intent_id = get_custom_field_value(invoice, STRIPE_PAYMENT_INTENT_ID_FIELD)
-
-    # create a financial statement for the application fee
-    mutation_id = create_financial_statement(
-        invoice["invoice_date"],
-        -application_fee,
-        STRIPE_MB_ACCOUNT_ID,
-        f"{payment_intent_id}/application_fee",
-    )
-
-    # book the payment for the application fee
-    book_payment(
-        mutation_id,
-        -application_fee,
-        PAYMENT_PROCESSING_FEE_LEDGER_ID,
-    )
-
-    # create a financial statement for the invoice amount
-    mutation_id = create_financial_statement(
-        invoice["invoice_date"],
-        invoice["total_price_incl_tax"],
-        STRIPE_MB_ACCOUNT_ID,
-        payment_intent_id,
-    )
-
-    # create payment for the invoice
-    book_invoice_payment(invoice, STRIPE_MB_ACCOUNT_ID, mutation_id)
-
-
 def create_mb_invoice(data: InvoiceData):
     invoice_data = {
         "contact_id": data.contact_id,
@@ -106,11 +59,7 @@ def create_mb_invoice(data: InvoiceData):
             "0": {
                 "id": STRIPE_PAYMENT_INTENT_ID_FIELD,
                 "value": data.stripe_payment_intent_id,
-            },
-            "1": {
-                "id": APPLICATION_FEE_FIELD,
-                "value": data.application_fee,
-            },
+            }
         },
     }
 
@@ -125,6 +74,73 @@ def send_mb_invoice(
         {"sales_invoice_sending": {"delivery_method": delivery_method.value}},
         method="PATCH",
     )
+
+
+def create_financial_statement(
+    date: str, amount: float, account_id: int, reference: str
+):
+    return post_moneybird_request(
+        "financial_statements",
+        {
+            "financial_statement": {
+                "financial_account_id": account_id,
+                "reference": reference,
+                "financial_mutations_attributes": {
+                    "1": {
+                        "date": date,
+                        "amount": amount,
+                        "message": reference,
+                    }
+                },
+            }
+        },
+        method="POST",
+    )
+
+
+def create_and_send_invoice(
+    payment_intent: stripe.PaymentIntent,
+    delivery_method: InvoiceDelivery,
+):
+    print(f"Creating invoice for payment intent {payment_intent['id']}.")
+
+    # construct the invoice data
+    invoice_data = construct_invoice_data_from_stripe(payment_intent)
+
+    # create an invoice in Moneybird
+    invoice = create_mb_invoice(invoice_data)
+
+    # create a financial statement for the application fee
+    financial_statement = create_financial_statement(
+        datetime.now().strftime("%Y-%m-%d"),
+        -invoice_data.application_fee,
+        STRIPE_MB_ACCOUNT_ID,
+        f"{payment_intent['id']}/application_fee",
+    )
+
+    # book the payment for the application fee
+    mutation_id = int(financial_statement["financial_mutations"][0]["id"])
+    book_payment(
+        mutation_id,
+        -invoice_data.application_fee,
+        PAYMENT_PROCESSING_FEE_LEDGER_ID,
+    )
+
+    # create a financial statement for the invoice amount
+    financial_statement = create_financial_statement(
+        invoice["invoice_date"],
+        invoice["total_price_incl_tax"],
+        STRIPE_MB_ACCOUNT_ID,
+        f"{payment_intent['id']}",
+    )
+
+    # send the invoice to the customer
+    print(f"Sending invoice {invoice['id']}.")
+    print(send_mb_invoice(invoice["id"], delivery_method))
+
+    # create payment for the invoice
+    mutation_id = int(financial_statement["financial_mutations"][0]["id"])
+    book_invoice_payment(invoice, STRIPE_MB_ACCOUNT_ID, mutation_id)
 
 
 def book_invoice_payment(
@@ -144,31 +160,6 @@ def book_invoice_payment(
             }
         },
     )
-
-
-def create_financial_statement(
-    date: str, amount: float, account_id: int, reference: str
-) -> int:
-    financial_statement = post_moneybird_request(
-        "financial_statements",
-        {
-            "financial_statement": {
-                "financial_account_id": account_id,
-                "reference": reference,
-                "financial_mutations_attributes": {
-                    "1": {
-                        "date": date,
-                        "amount": amount,
-                        "message": reference,
-                    }
-                },
-            }
-        },
-        method="POST",
-    )
-
-    # return the mutation id
-    return int(financial_statement["financial_mutations"][0]["id"])
 
 
 def book_payment(mutation_id: int, amount: float, booking_id: int):
