@@ -106,6 +106,11 @@ def create_and_send_invoice(
 
     # construct the invoice data
     invoice_data = construct_invoice_data_from_stripe(payment_intent)
+    if not invoice_data:
+        print(
+            f"Could not construct invoice data for payment intent {payment_intent['id']}."
+        )
+        return
 
     # create an invoice in Moneybird
     invoice = create_mb_invoice(invoice_data)
