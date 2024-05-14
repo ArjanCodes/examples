@@ -25,24 +25,29 @@ def get_successful_payment_intents(hours_ago: int) -> list[stripe.PaymentIntent]
     return [pi for pi in payment_intents if pi["status"] == "succeeded"]
 
 
+def get_application_fee(charge_id: str) -> int:
+    charge = stripe.Charge.retrieve(charge_id)
+    if not charge:
+        raise ValueError(f"Charge with id {charge_id} not found.")
+
+    balance_transaction = stripe.BalanceTransaction.retrieve(
+        charge["balance_transaction"]
+    )
+    if not balance_transaction:
+        raise ValueError("Balance transaction not found.")
+
+    return balance_transaction["fee"]
+
+
 def construct_invoice_data_from_stripe(
     payment_intent: stripe.PaymentIntent,
 ) -> InvoiceData:
     # retrieve the customer from stripe
     customer = stripe.Customer.retrieve(payment_intent["customer"])
 
-    # get the latest charge
+    # determine the application fee
     charge_id = str(payment_intent["latest_charge"])
-    charge = stripe.Charge.retrieve(charge_id)
-    if not charge:
-        raise ValueError(f"Charge with id {charge_id} not found.")
-
-    # retrieve the balance transaction
-    balance_transaction = stripe.BalanceTransaction.retrieve(
-        charge["balance_transaction"]
-    )
-    if not balance_transaction:
-        raise ValueError("Balance transaction not found.")
+    application_fee = get_application_fee(charge_id)
 
     return InvoiceData(
         contact_id=customer["metadata"]["mb_contact_id"],
@@ -51,6 +56,6 @@ def construct_invoice_data_from_stripe(
         description=payment_intent["description"],
         amount=payment_intent["amount"] / 100,
         stripe_payment_intent_id=payment_intent["id"],
-        application_fee=balance_transaction["fee"] / 100,
+        application_fee=application_fee / 100,
         prices_are_incl_tax=True,
     )

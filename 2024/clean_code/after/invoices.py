@@ -72,7 +72,7 @@ def book_invoice(invoice: dict[str, Any]):
     # book the payment for the application fee
     book_payment(
         mutation_id,
-        -application_fee,
+        application_fee,
         PAYMENT_PROCESSING_FEE_LEDGER_ID,
     )
 

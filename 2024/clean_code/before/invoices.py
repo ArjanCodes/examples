@@ -112,7 +112,7 @@ def create_and_send_invoice(
 
     # create a financial statement for the application fee
     financial_statement = create_financial_statement(
-        datetime.now().strftime("%Y-%m-%d"),
+        invoice["invoice_date"],
         -invoice_data.application_fee,
         STRIPE_MB_ACCOUNT_ID,
         f"{payment_intent['id']}/application_fee",
@@ -122,14 +122,14 @@ def create_and_send_invoice(
     mutation_id = int(financial_statement["financial_mutations"][0]["id"])
     book_payment(
         mutation_id,
-        -invoice_data.application_fee,
+        invoice_data.application_fee,
         PAYMENT_PROCESSING_FEE_LEDGER_ID,
     )
 
     # create a financial statement for the invoice amount
     financial_statement = create_financial_statement(
         invoice["invoice_date"],
-        invoice["total_price_incl_tax"],
+        invoice_data.amount,
         STRIPE_MB_ACCOUNT_ID,
         f"{payment_intent['id']}",
     )
