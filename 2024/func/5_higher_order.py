@@ -41,12 +41,9 @@ def do_operations(
     data: list[int], sort_fn: Callable[[list[int]], list[int]]
 ) -> list[int]:
     multiply_by_2 = partial(multiply_by_x, x=2)
-    transformed_data = multiply_by_2(data)
-
     add_10 = partial(add_x, x=10)
-    transformed_data = add_10(transformed_data)
 
-    return sort_fn(transformed_data)
+    return sort_fn(add_10(multiply_by_2(data)))
 
 
 def main() -> None:
