@@ -5,7 +5,7 @@ from invoices import (
     book_invoice,
     create_and_send_invoice,
 )
-from processing import (
+from stripe_api_helpers import (
     construct_invoice_data_from_stripe,
     get_successful_payment_intents,
     init_stripe_api,

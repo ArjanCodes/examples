@@ -115,6 +115,10 @@ def create_and_send_invoice(
     # create an invoice in Moneybird
     invoice = create_mb_invoice(invoice_data)
 
+    # send the invoice to the customer
+    print(f"Sending invoice {invoice['id']}.")
+    print(send_mb_invoice(invoice["id"], delivery_method))
+
     # create a financial statement for the application fee
     financial_statement = create_financial_statement(
         invoice["invoice_date"],
@@ -138,10 +142,6 @@ def create_and_send_invoice(
         STRIPE_MB_ACCOUNT_ID,
         f"{payment_intent['id']}",
     )
-
-    # send the invoice to the customer
-    print(f"Sending invoice {invoice['id']}.")
-    print(send_mb_invoice(invoice["id"], delivery_method))
 
     # create payment for the invoice
     mutation_id = int(financial_statement["financial_mutations"][0]["id"])
