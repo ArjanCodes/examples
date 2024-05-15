@@ -31,6 +31,8 @@ def quick_sort(data: list[int]) -> list[int]:
 
 def multiply_by_x(data: list[int], x: int) -> list[int]:
     return [item * x for item in data]
+    # or using map:
+    # return list(map(lambda item: item * x, data))
 
 
 def add_x(data: list[int], x: int) -> list[int]:
