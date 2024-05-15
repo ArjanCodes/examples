@@ -1,9 +1,3 @@
-import random
-from typing import Callable
-
-type SortFn = Callable[[list[int]], list[int]]
-
-
 def bubble_sort(data: list[int]) -> list[int]:
     print(f"Data before sorting: {data}")
     n = len(data)
@@ -11,16 +5,15 @@ def bubble_sort(data: list[int]) -> list[int]:
         for j in range(0, n - i - 1):
             if data[j] > data[j + 1]:
                 data[j], data[j + 1] = data[j + 1], data[j]
-    print(f"Data after sorting: {data}")
     return data
 
 
-def do_operations(data: list[int]):
+def do_operations(data: list[int]) -> None:
     # multiply each element by 2
     data = [item * 2 for item in data]
 
-    # add a random number to each element
-    data = [item + random.randint(-10, 10) for item in data]
+    # add 10 to each element
+    data = [item + 10 for item in data]
 
     result = bubble_sort(data)
 
@@ -28,7 +21,8 @@ def do_operations(data: list[int]):
 
 
 def main() -> None:
-    do_operations([1, 5, 3, 4, 2])
+    data = [1, 5, 3, 4, 2]
+    do_operations(data)
 
 
 if __name__ == "__main__":

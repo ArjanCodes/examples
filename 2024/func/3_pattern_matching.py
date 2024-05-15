@@ -10,13 +10,16 @@ def bubble_sort(data: list[int]) -> list[int]:
 
 
 def quick_sort(data: list[int]) -> list[int]:
-    if len(data) <= 1:
-        return data.copy()  # Return a copy to ensure immutability
-
-    pivot = data[-1]
-    greater: list[int] = [item for item in data[:-1] if item > pivot]
-    lesser: list[int] = [item for item in data[:-1] if item <= pivot]
-    return quick_sort(lesser) + [pivot] + quick_sort(greater)
+    match data:
+        case []:
+            return []
+        case [x]:
+            return [x]
+        case _:
+            pivot = data[-1]
+            greater = [item for item in data[:-1] if item > pivot]
+            lesser = [item for item in data[:-1] if item <= pivot]
+            return quick_sort(lesser) + [pivot] + quick_sort(greater)
 
 
 def do_operations(data: list[int]) -> None:
