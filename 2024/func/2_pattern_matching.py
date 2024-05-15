@@ -1,20 +1,23 @@
 def bubble_sort(data: list[int]) -> list[int]:
     print(f"Data before sorting: {data}")
-    sorted_data = data.copy()  # copy the data to ensure immutability
-    n = len(sorted_data)
+    n = len(data)
     for i in range(n):
-        for j in range(0, n - i - 1):
-            if sorted_data[j] > sorted_data[j + 1]:
-                sorted_data[j], sorted_data[j + 1] = sorted_data[j + 1], sorted_data[j]
-    return sorted_data
+        swapped = False
+        for j in range(i, n - i - 1):
+            if data[j] > data[j + 1]:
+                data[j], data[j + 1] = data[j + 1], data[j]
+                swapped = True
+        if not swapped:
+            break
+    return data
 
 
 def quick_sort(data: list[int]) -> list[int]:
     match data:
         case []:
-            return []
-        case [x]:
-            return [x]
+            return data
+        case [_]:
+            return data
         case _:
             pivot = data[-1]
             greater = [item for item in data[:-1] if item > pivot]
@@ -23,11 +26,9 @@ def quick_sort(data: list[int]) -> list[int]:
 
 
 def do_operations(data: list[int]) -> None:
-    # multiply each element by 2
-    data = [item * 2 for item in data]
-
-    # add 10 to each element
-    data = [item + 10 for item in data]
+    # multiply each element by 2 and add 10
+    for i in range(len(data)):
+        data[i] = data[i] * 2 + 10
 
     result = bubble_sort(data)
 

@@ -2,27 +2,30 @@ from functools import partial, reduce
 from typing import Callable, Iterator
 
 
-# Lazy evaluation function: Multiply each element by n
-def multiply_by_n(data: Iterator[int], n: int) -> Iterator[int]:
+def multiply_by_x(data: Iterator[int], x: int) -> Iterator[int]:
     for item in data:
-        yield item * n
+        yield item * x
 
 
-# Lazy evaluation function: Add n to each element
-def add_n(data: Iterator[int], n: int) -> Iterator[int]:
+def add_x(data: Iterator[int], x: int) -> Iterator[int]:
     for item in data:
-        yield item + n
+        yield item + x
 
 
-# Function to compose other functions
-def compose[T](*functions: Callable[[T], T]) -> Callable[[T], T]:
-    return lambda data: reduce(lambda acc, fn: fn(acc), functions, data)
+type Composable[T] = Callable[[T], T]
+
+
+def compose[T](*functions: Composable[T]) -> Composable[T]:
+    def apply(value: T, fn: Composable[T]) -> T:
+        return fn(value)
+
+    return lambda data: reduce(apply, functions, data)
 
 
 def main() -> None:
     # Compose the lazy operations
-    multiply_by_2 = partial(multiply_by_n, n=2)
-    add_10 = partial(add_n, n=10)
+    multiply_by_2 = partial(multiply_by_x, x=2)
+    add_10 = partial(add_x, x=10)
     composed_operations = compose(multiply_by_2, add_10)
 
     # Original data
