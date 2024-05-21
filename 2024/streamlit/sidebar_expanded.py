@@ -3,7 +3,13 @@ from matplotlib.figure import Figure
 from py_wanderer import ALGORITHMS, HEURISTICS
 from py_wanderer.plotter import plot_maze_with_paths
 
-from utils import generate_maze, solve_maze, MazeConfig, SolvingStrategy, SolvingStrategies
+from utils import (
+    generate_maze,
+    solve_maze,
+    MazeConfig,
+    SolvingStrategy,
+    SolvingStrategies,
+)
 
 
 def configure_page() -> None:
@@ -12,8 +18,12 @@ def configure_page() -> None:
 
 def configure_overview() -> None:
     st.markdown("## Overview")
-    st.markdown("This app generates a maze and visualizes the pathfinding algorithms solving it.")
-    st.markdown("The aim is to compare the performance of different algorithms and heuristics.")
+    st.markdown(
+        "This app generates a maze and visualizes the pathfinding algorithms solving it."
+    )
+    st.markdown(
+        "The aim is to compare the performance of different algorithms and heuristics."
+    )
 
 
 def configure_available_algo_heuristics() -> None:
@@ -36,22 +46,41 @@ def configure_sidebar() -> MazeConfig:
     width = st.sidebar.slider("Width", 5, 101, 11)
     height = st.sidebar.slider("Height", 5, 101, 11)
     num_rooms = st.sidebar.slider("Number of rooms", 0, 5, 0)
-    room_size_range = st.sidebar.slider("Room size range", 1, min(width, height) // 4, (3, 6))
-
-    algorithms_multiselect = st.sidebar.multiselect(
-        "Select algorithms", ALGORITHMS, [ALGORITHMS[0]], format_func=lambda x: x.__name__)
-    heuristics_multiselect = st.sidebar.multiselect(
-        "Select heuristics", HEURISTICS, [HEURISTICS[0]], format_func=lambda x: x.__name__.title())
-    solving_strategies: SolvingStrategies = tuple(
-        (algorithm, heuristic) for algorithm in algorithms_multiselect for heuristic in heuristics_multiselect
+    room_size_range = st.sidebar.slider(
+        "Room size range", 1, min(width, height) // 4, (3, 6)
     )
 
-    return MazeConfig(seed, width, height, num_rooms, room_size_range, solving_strategies)
+    algorithms_multiselect = st.sidebar.multiselect(
+        "Select algorithms",
+        ALGORITHMS,
+        [ALGORITHMS[0]],
+        format_func=lambda x: x.__name__,
+    )
+    heuristics_multiselect = st.sidebar.multiselect(
+        "Select heuristics",
+        HEURISTICS,
+        [HEURISTICS[0]],
+        format_func=lambda x: x.__name__.title(),
+    )
+    solving_strategies: SolvingStrategies = tuple(
+        (algorithm, heuristic)
+        for algorithm in algorithms_multiselect
+        for heuristic in heuristics_multiselect
+    )
+
+    return MazeConfig(
+        seed, width, height, num_rooms, room_size_range, solving_strategies
+    )
 
 
 def create_plot(maze_config: MazeConfig) -> Figure:
-    maze = generate_maze(maze_config.seed, maze_config.width, maze_config.height, maze_config.num_rooms,
-                         maze_config.room_size_range)
+    maze = generate_maze(
+        maze_config.seed,
+        maze_config.width,
+        maze_config.height,
+        maze_config.num_rooms,
+        maze_config.room_size_range,
+    )
     paths = solve_maze(maze, maze_config.solving_strategies)
     fig = plot_maze_with_paths(maze, paths)
     return fig

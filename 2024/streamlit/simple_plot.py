@@ -12,8 +12,12 @@ def configure_page() -> None:
 
 def configure_overview() -> None:
     st.markdown("## Overview")
-    st.markdown("This app generates a maze and visualizes the pathfinding algorithms solving it.")
-    st.markdown("The aim is to compare the performance of different algorithms and heuristics.")
+    st.markdown(
+        "This app generates a maze and visualizes the pathfinding algorithms solving it."
+    )
+    st.markdown(
+        "The aim is to compare the performance of different algorithms and heuristics."
+    )
 
 
 def configure_available_algo_heuristics() -> None:
@@ -32,14 +36,22 @@ def configure_available_algo_heuristics() -> None:
 
 
 def create_plot(maze_config: MazeConfig) -> Figure:
-    maze = generate_maze(maze_config.seed, maze_config.width, maze_config.height, maze_config.num_rooms, maze_config.room_size_range)
+    maze = generate_maze(
+        maze_config.seed,
+        maze_config.width,
+        maze_config.height,
+        maze_config.num_rooms,
+        maze_config.room_size_range,
+    )
     paths = solve_maze(maze, ((ALGORITHMS[0], HEURISTICS[0]),))
     fig = plot_maze_with_paths(maze, paths)
     return fig
 
 
 def main() -> None:
-    maze_config = MazeConfig(seed=0, width=11, height=11, num_rooms=0, room_size_range=(3, 6))
+    maze_config = MazeConfig(
+        seed=0, width=11, height=11, num_rooms=0, room_size_range=(3, 6)
+    )
     configure_page()
     configure_overview()
     configure_available_algo_heuristics()
