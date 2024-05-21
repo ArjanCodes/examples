@@ -8,8 +8,12 @@ def configure_page() -> None:
 
 def configure_overview() -> None:
     st.markdown("## Overview")
-    st.markdown("This app generates a maze and visualizes the pathfinding algorithms solving it.")
-    st.markdown("The aim is to compare the performance of different algorithms and heuristics.")
+    st.markdown(
+        "This app generates a maze and visualizes the pathfinding algorithms solving it."
+    )
+    st.markdown(
+        "The aim is to compare the performance of different algorithms and heuristics."
+    )
 
 
 def configure_available_algo_heuristics() -> None:
