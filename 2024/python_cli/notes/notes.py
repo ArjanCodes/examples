@@ -1,31 +1,26 @@
 import os
 from pathlib import Path
 import click
-from config import load_config, DEFAULT_NOTES_DIR, save_config
+from config import DEFAULT_NOTES_DIR, load_config, save_config
 import crud
 import bulk_crud
 
 
 @click.group()
+@click.version_option()
 @click.pass_context
 def cli(ctx: click.Context):
     """A simple note-taking application."""
     config = load_config()
 
-    config_path = config.get("notes_dir", DEFAULT_NOTES_DIR)
+    notes_directory = config.get("notes_directory", DEFAULT_NOTES_DIR)
 
-    if config_path is None:
-        click.echo(f"Notes directory '{config_path}' does not exist.")
-        click.echo("Please run 'notes setup' to configure the notes directory.")
-        exit(1)
-
-    if not os.path.exists(config_path):
-        os.makedirs(config_path)
+    if not os.path.exists(notes_directory):
+        os.makedirs(notes_directory)
 
     ctx.ensure_object(dict)
     ctx.obj["config"] = config
-    ctx.obj["notes_dir"] = Path(config_path)
-    ctx.obj["remote_url"] = config.get("remote_url")
+    ctx.obj["notes_directory"] = Path(notes_directory)
 
 
 @cli.group()
@@ -41,11 +36,11 @@ def config():
 
 
 @config.command()
-@click.argument("notes_dir")
+@click.argument("notes_directory")
 def update(notes_dir: str):
     """Setup the notes directory."""
     config = load_config()
-    config["notes_dir"] = notes_dir
+    config["notes_directory"] = notes_dir
 
     save_config(config)
     click.echo(f"Notes directory set to '{notes_dir}'.")

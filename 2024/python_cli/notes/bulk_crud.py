@@ -19,7 +19,7 @@ def create(
     ctx: click.Context, pattern: str, start: int, end: int, content: str, tags: str
 ):
     """Create multiple notes with a pattern."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
 
     files = create_files(pattern=pattern, start=start, end=end)
 
@@ -33,7 +33,7 @@ def create(
             "tags": tags.split(",") if tags else [],
             "created_at": datetime.now().isoformat(),
         }
-        with open(notes_dir / note_name, "w") as file:
+        with open(notes_directory / note_name, "w") as file:
             json.dump(note_data, file)
         click.echo(f"Note '{file_name}' created.")
 
@@ -43,17 +43,17 @@ def create(
 @click.pass_context
 def delete(ctx: click.Context, pattern: str):
     """Delete notes that follows a pattern."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
     files = glob.glob(pattern)
 
     for file_path in files:
         file_name = Path(file_path).stem
         note_name = f"{file_name}.txt"
-        if not (notes_dir / note_name).exists():
+        if not (notes_directory / note_name).exists():
             click.echo(f"Note with title '{file_name}' does not exist. Skipping.")
             continue
 
-        (notes_dir / note_name).unlink()
+        (notes_directory / note_name).unlink()
         click.echo(f"Note '{file_name}' deleted.")
 
 
@@ -63,18 +63,18 @@ def delete(ctx: click.Context, pattern: str):
 @click.pass_context
 def update(ctx: click.Context, pattern: str, content: str):
     """Update notes that follows a pattern."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
     files = glob.glob(pattern)
 
     for file_path in files:
         file_name = Path(file_path).stem
         note_name = f"{file_name}.txt"
 
-        note_data = json.loads((notes_dir / note_name).read_text())
+        note_data = json.loads((notes_directory / note_name).read_text())
         note_data["content"] = content
         note_data["updated_at"] = datetime.now().isoformat()
 
-        with open(notes_dir / note_name, "w") as file:
+        with open(notes_directory / note_name, "w") as file:
             json.dump(note_data, file)
         click.echo(f"Note '{file_name}' updated.")
 
@@ -118,9 +118,9 @@ NAMING_CONVENTIONS = {
 @click.pass_context
 def rename(ctx: click.Context, from_pattern: str, naming_convention: str):
     """Rename notes to a naming convention."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
 
-    path = os.path.join(notes_dir, from_pattern)
+    path = os.path.join(notes_directory, from_pattern)
     files = glob.glob(path)
 
     print(files)
@@ -132,5 +132,5 @@ def rename(ctx: click.Context, from_pattern: str, naming_convention: str):
 
         new_name = naming_convetion_func(file_name) + ".txt"
 
-        os.rename(notes_dir / note_name, notes_dir / new_name)
+        os.rename(notes_directory / note_name, notes_directory / new_name)
         click.echo(f"Note '{file_name}' renamed to '{new_name}'.")

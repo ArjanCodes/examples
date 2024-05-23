@@ -12,18 +12,18 @@ from file import load, save, exists
 @click.pass_context
 def create(ctx: click.Context, title: str, content: str, tags: str):
     """Create a new note."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
     note_name = f"{title}.txt"
-    if (notes_dir / note_name).exists():
+    if (notes_directory / note_name).exists():
         click.echo(f"Note with title '{title}' already exists.")
-        return
+        exit(1)
 
     note_data = {
         "content": content,
         "tags": tags.split(",") if tags else [],
         "created_at": datetime.now().isoformat(),
     }
-    with open(notes_dir / note_name, "a+") as file:
+    with open(notes_directory / note_name, "a+") as file:
         json.dump(note_data, file)
     click.echo(f"Note '{title}' created.")
 
@@ -33,13 +33,13 @@ def create(ctx: click.Context, title: str, content: str, tags: str):
 @click.pass_context
 def read(ctx: click.Context, title: str):
     """Read the note."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
     note_name = f"{title}.txt"
-    if not (notes_dir / note_name).exists():
+    if not (notes_directory / note_name).exists():
         click.echo(f"Note with title '{title}' does not exist.")
         exit(1)
 
-    with open(notes_dir / note_name, "r") as file:
+    with open(notes_directory / note_name, "r") as file:
         note_data = json.load(file)
     click.echo(f"Title: {title}")
     click.echo(f"Tags: {', '.join(note_data['tags'])}")
@@ -73,13 +73,13 @@ def update(title: str, content: str, tags: str):
 @click.pass_context
 def delete(ctx: click.Context, title: str):
     """Delete the note."""
-    notes_dir = ctx.obj["notes_dir"]
+    notes_directory = ctx.obj["notes_directory"]
     note_name = f"{title}.txt"
-    if not (notes_dir / note_name).exists():
+    if not (notes_directory / note_name).exists():
         click.echo(f"Note with title '{title}' does not exist.")
         return
 
-    os.remove(notes_dir / note_name)
+    os.remove(notes_directory / note_name)
     click.echo(f"Note '{title}' deleted.")
 
 

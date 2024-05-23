@@ -16,6 +16,7 @@ def load_config(config_path: Path = CONFIG_FILE):
 
 
 def save_config(config: dict[str, Any]):
-    CONFIG_DIR.mkdir(parents=True, exist_ok=True)
+    if not CONFIG_DIR.exists():
+        CONFIG_DIR.mkdir(parents=True, exist_ok=True)
     with open(CONFIG_FILE, "w") as file:
         json.dump(config, file, indent=4)
