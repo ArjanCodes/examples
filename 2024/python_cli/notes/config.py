@@ -3,9 +3,9 @@ from pathlib import Path
 from typing import Any
 
 
-CONFIG_DIR = Path.home() / ".notes"
+CONFIG_DIR = Path.home() / ".config" / "notes"
 CONFIG_FILE = CONFIG_DIR / "config.json"
-DEFAULT_NOTES_DIR = CONFIG_DIR / "notes"
+DEFAULT_NOTES_DIR = Path.home() / ".notes"
 
 
 def load_config(config_path: Path = CONFIG_FILE):
