@@ -46,7 +46,7 @@ class User(BaseModel):
 
     @model_validator(mode="before")
     @classmethod
-    def check_card_number_omitted(cls, data: dict[str, Any]) -> dict[str, Any]:
+    def convert_custom_data(cls, data: dict[str, Any]) -> dict[str, Any]:
         if "custom_data" in data:
             data["custom_data"] = json.loads(data["custom_data"])
         return data
@@ -103,17 +103,20 @@ def update_user(user_id: int, user: UserUpdate, db: Session = Depends(get_db)) -
     if db_user is None:
         raise HTTPException(status_code=404, detail="User not found")
     for key, value in user.model_dump().items():
-        if key == "custom_data" and value is not None:
+        if value is None:
+            continue
+        if key == "custom_data":
             # create JSON of current custom_data
             custom_data_json = json.loads(db_user.custom_data or "{}")
+            # unset keys with value None and update the rest
             for k, v in value.items():
                 if v is None:
                     del custom_data_json[k]
                 else:
                     custom_data_json[k] = v
-            # store back as string
+            # convert back to string
             value = json.dumps(custom_data_json)
-        if value is not None:
+        if value:
             setattr(db_user, key, value)
     db.commit()
     db.refresh(db_user)
