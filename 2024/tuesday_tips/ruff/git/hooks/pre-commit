@@ -1,0 +1,9 @@
+#!/bin/sh
+
+echo "Running Ruff format..."
+ruff format
+
+# Add changes to staging area
+git add $(git diff --name-only --cached)
+
+echo "Formatted and re-staged files."
