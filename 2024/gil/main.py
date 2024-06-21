@@ -1,15 +1,15 @@
+import math
+import multiprocessing
+import sys
 import sysconfig
 import threading
-import multiprocessing
 import time
-import sys
-import math
 
 PYTHON_GIL = 1
 
 
 # A CPU-bound task: computing a large number of prime numbers
-def is_prime(n):
+def is_prime(n: int) -> bool:
     if n <= 1:
         return False
     for i in range(2, int(math.sqrt(n)) + 1):
@@ -18,7 +18,7 @@ def is_prime(n):
     return True
 
 
-def count_primes(start, end):
+def count_primes(start: int, end: int) -> int:
     count = 0
     for i in range(start, end):
         if is_prime(i):
@@ -26,11 +26,11 @@ def count_primes(start, end):
     return count
 
 
-def threaded_count_primes(n, num_threads):
+def threaded_count_primes(n: int, num_threads: int) -> int:
     threads = []
     results = [0] * num_threads
 
-    def worker(start, end, index):
+    def worker(start: int, end: int, index: int) -> None:
         results[index] = count_primes(start, end)
 
     step = n // num_threads
@@ -47,7 +47,7 @@ def threaded_count_primes(n, num_threads):
     return sum(results)
 
 
-def multiprocess_count_primes(n, num_processes):
+def multiprocess_count_primes(n: int, num_processes: int) -> int:
     with multiprocessing.Pool(processes=num_processes) as pool:
         step = n // num_processes
         tasks = [
@@ -58,7 +58,7 @@ def multiprocess_count_primes(n, num_processes):
         return sum([result.get() for result in results])
 
 
-if __name__ == "__main__":
+def main() -> None:
     # print(f"The GIL active: {sys._is_gil_enabled()}")
     print(f"Version of python: {sys.version}")
 
@@ -93,3 +93,7 @@ if __name__ == "__main__":
     print(
         f"Multiprocessed: {multiprocess_result} primes in {multiprocess_time:.2f} seconds"
     )
+
+
+if __name__ == "__main__":
+    main()
