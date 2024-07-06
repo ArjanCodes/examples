@@ -89,7 +89,7 @@ def delete(ctx: click.Context, title: str):
 @click.pass_context
 def show(ctx: click.Context, tag: str, keyword: str):
     """Show notes."""
-    notes_dir: str = ctx.obj["notes_dir"]
+    notes_dir: str = ctx.obj["notes_directory"]
     notes = [note for note in os.listdir(notes_dir) if note.endswith(".txt")]
     results: list[str] = []
 
