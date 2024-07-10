@@ -1,0 +1,19 @@
+[tool.poetry]
+name = "apidesign"
+version = "0.0.1"
+description = ""
+authors = ["ArjanCodes"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+fastapi = "^0.111.0"
+uvicorn = "^0.30.1"
+pytest = "^8.2.1"
+sqlalchemy = "^2.0.30"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
+
