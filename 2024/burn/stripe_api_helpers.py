@@ -19,7 +19,7 @@ def get_successful_payment_intents(hours_ago: int) -> list[stripe.PaymentIntent]
     timestamp = compute_timestamp(hours_ago)
 
     # retrieve payment intents created since 'timestamp'
-    payment_intents = stripe.PaymentIntent.list(created={"gte": timestamp})
+    payment_intents = stripe.PaymentIntent.list(created={"gte": int(timestamp)})
 
     # return filtered payment intents by succeeded status
     return [pi for pi in payment_intents if pi["status"] == "succeeded"]
