@@ -46,6 +46,10 @@ def construct_invoice_data_from_stripe(
     # retrieve the customer from stripe
     customer = stripe.Customer.retrieve(payment_intent["customer"])
 
+    # check if customer has metadata
+    if "mb_contact_id" not in customer.get("metadata", {}):
+        raise ValueError("Customer does not have a Moneybird contact ID.")
+
     # determine the application fee
     application_fee = get_application_fee(payment_intent)
 
@@ -59,3 +63,36 @@ def construct_invoice_data_from_stripe(
         application_fee=application_fee / 100,
         prices_are_incl_tax=True,
     )
+
+
+def construct_invoice_data_from_stripe_with_errors(
+    payment_intent: stripe.PaymentIntent,
+) -> InvoiceData:
+    # retrieve the customer from stripe
+    customer = stripe.Customer.retrieve(payment_intent["customer"])
+
+    # determine the application fee
+    try:
+        try:
+            application_fee = get_application_fee(payment_intent)
+        except ValueError as e:
+            print(f"Failed to retrieve application fee: {e}")
+            raise
+
+        try:
+            return InvoiceData(
+                contact_id=customer["metadata"]["mb_contact_id"],
+                invoice_date=datetime.fromtimestamp(payment_intent["created"]),
+                currency=payment_intent["currency"],
+                description=payment_intent["description"],
+                amount=payment_intent["amount"] / 100,
+                stripe_payment_intent_id=payment_intent["id"],
+                application_fee=application_fee / 100,
+                prices_are_incl_tax=True,
+            )
+        except KeyError as e:
+            print(f"Failed to construct invoice data: {e}")
+            raise
+    except Exception as e:
+        print(f"Failed to construct invoice data: {e}")
+        raise
