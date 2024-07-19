@@ -2,7 +2,18 @@ import os
 from datetime import datetime, timedelta
 
 import stripe
-from invoices import InvoiceData
+from pydantic import BaseModel
+
+
+class InvoiceData(BaseModel):
+    contact_id: int
+    invoice_date: datetime
+    prices_are_incl_tax: bool
+    currency: str
+    stripe_payment_intent_id: str
+    description: str
+    amount: float
+    application_fee: float
 
 
 def compute_timestamp(hours_ago: int) -> float:
