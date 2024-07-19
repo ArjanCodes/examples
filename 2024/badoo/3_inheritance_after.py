@@ -12,7 +12,7 @@ class Employee:
     def __init__(self, role: Role) -> None:
         self.role = role
 
-    def get_details(self):
+    def get_details(self) -> Role:
         return self.role
 
 
