@@ -1,39 +1,17 @@
 import os
-from datetime import datetime, timedelta
+from datetime import datetime
+from typing import Any
 
 import stripe
-from pydantic import BaseModel
 
 
-class InvoiceData(BaseModel):
-    contact_id: int
-    invoice_date: datetime
-    prices_are_incl_tax: bool
-    currency: str
-    stripe_payment_intent_id: str
-    description: str
-    amount: float
-    application_fee: float
-
-
-def compute_timestamp(hours_ago: int) -> float:
-    return (datetime.now() - timedelta(hours=hours_ago)).timestamp()
+def compute_gross_profit(invoice: dict[str, Any]) -> float:
+    return invoice["amount"] - invoice["application_fee"]
 
 
 def init_stripe_api() -> None:
     # initialize the Stripe API
     stripe.api_key = os.getenv("STRIPE_KEY")
-
-
-def get_successful_payment_intents(hours_ago: int) -> list[stripe.PaymentIntent]:
-    # compute the cutoff timestamp after which payment intents are retrieved
-    timestamp = compute_timestamp(hours_ago)
-
-    # retrieve payment intents created since 'timestamp'
-    payment_intents = stripe.PaymentIntent.list(created={"gte": int(timestamp)})
-
-    # return filtered payment intents by succeeded status
-    return [pi for pi in payment_intents if pi["status"] == "succeeded"]
 
 
 def get_application_fee(payment_intent: stripe.PaymentIntent) -> int:
@@ -53,7 +31,7 @@ def get_application_fee(payment_intent: stripe.PaymentIntent) -> int:
 
 def construct_invoice_data_from_stripe(
     payment_intent: stripe.PaymentIntent,
-) -> InvoiceData:
+) -> dict[str, Any]:
     # retrieve the customer from stripe
     customer = stripe.Customer.retrieve(payment_intent["customer"])
 
@@ -64,21 +42,21 @@ def construct_invoice_data_from_stripe(
     # determine the application fee
     application_fee = get_application_fee(payment_intent)
 
-    return InvoiceData(
-        contact_id=customer["metadata"]["mb_contact_id"],
-        invoice_date=datetime.fromtimestamp(payment_intent["created"]),
-        currency=payment_intent["currency"],
-        description=payment_intent["description"],
-        amount=payment_intent["amount"] / 100,
-        stripe_payment_intent_id=payment_intent["id"],
-        application_fee=application_fee / 100,
-        prices_are_incl_tax=True,
-    )
+    return {
+        "contact_id": customer["metadata"]["mb_contact_id"],
+        "invoice_date": datetime.fromtimestamp(payment_intent["created"]),
+        "currency": payment_intent["currency"],
+        "description": payment_intent["description"],
+        "amount": payment_intent["amount"] / 100,
+        "stripe_payment_intent_id": payment_intent["id"],
+        "application_fee": application_fee / 100,
+        "prices_are_incl_tax": True,
+    }
 
 
 def construct_invoice_data_from_stripe_with_errors(
     payment_intent: stripe.PaymentIntent,
-) -> InvoiceData:
+) -> dict[str, Any]:
     # retrieve the customer from stripe
     customer = stripe.Customer.retrieve(payment_intent["customer"])
 
@@ -91,16 +69,16 @@ def construct_invoice_data_from_stripe_with_errors(
             raise
 
         try:
-            return InvoiceData(
-                contact_id=customer["metadata"]["mb_contact_id"],
-                invoice_date=datetime.fromtimestamp(payment_intent["created"]),
-                currency=payment_intent["currency"],
-                description=payment_intent["description"],
-                amount=payment_intent["amount"] / 100,
-                stripe_payment_intent_id=payment_intent["id"],
-                application_fee=application_fee / 100,
-                prices_are_incl_tax=True,
-            )
+            return {
+                "contact_id": customer["metadata"]["mb_contact_id"],
+                "invoice_date": datetime.fromtimestamp(payment_intent["created"]),
+                "currency": payment_intent["currency"],
+                "description": payment_intent["description"],
+                "amount": payment_intent["amount"] / 100,
+                "stripe_payment_intent_id": payment_intent["id"],
+                "application_fee": application_fee / 100,
+                "prices_are_incl_tax": True,
+            }
         except KeyError as e:
             print(f"Failed to construct invoice data: {e}")
             raise
