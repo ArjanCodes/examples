@@ -16,7 +16,7 @@ class SmtpEmailService:
         print(f"Sending email to {recipient}: {message}")
 
 
-def process_order(order: Order):
+def process_order(order: Order) -> None:
     email_service = SmtpEmailService()
     email_service.connect_to_smtp_server()
     email_service.send_email(order.customer_email, "Your order has been processed")
