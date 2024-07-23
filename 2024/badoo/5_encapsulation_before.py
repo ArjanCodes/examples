@@ -6,6 +6,7 @@ class BankAccount:
 def main() -> None:
     account = BankAccount(100)
     account.balance -= 50  # Direct modification
+    account.balance += 100  # Direct modification
     print(account.balance)
 
 

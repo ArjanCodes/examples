@@ -10,10 +10,16 @@ class BankAccount:
             raise ValueError("Insufficient funds")
         self._balance -= amount
 
+    def deposit(self, amount: int) -> None:
+        if amount < 0:
+            raise ValueError("Amount must be positive")
+        self._balance += amount
+
 
 def main() -> None:
     account = BankAccount(100)
     account.withdraw(50)
+    account.deposit(100)
     print(account.get_balance())
 
 
