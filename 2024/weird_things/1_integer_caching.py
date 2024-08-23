@@ -1,10 +1,10 @@
 def main() -> None:
-    a = 256
-    b = 256
+    a = int("256")
+    b = int("256")
     print(a is b)  # Output: True
 
-    c = 257
-    d = 257
+    c = int("257")
+    d = int("257")
     print(c is d)  # Output: False
 
 
