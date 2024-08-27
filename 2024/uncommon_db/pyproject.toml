@@ -14,6 +14,7 @@ openai = "^1.42.0"
 duckdb = "^1.0.0"
 python-dotenv = "^1.0.1"
 fastapi = "^0.112.2"
+neo4j = "^5.23.1"
 
 [build-system]
 requires = ["poetry-core"]
