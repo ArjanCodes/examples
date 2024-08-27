@@ -9,6 +9,11 @@ package-mode = false
 python = "^3.12"
 influxdb-client = "^1.45.0"
 redis = "^5.0.8"
+pandas = "^2.2.2"
+openai = "^1.42.0"
+duckdb = "^1.0.0"
+python-dotenv = "^1.0.1"
+fastapi = "^0.112.2"
 
 [build-system]
 requires = ["poetry-core"]
