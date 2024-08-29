@@ -1,6 +1,6 @@
 from typing import Any
-from requests import Response, request
 
+from requests import Response, request
 
 # The order matters
 # Args are positional arguments stored in a tuple are denoted by *
@@ -15,9 +15,7 @@ DEFAULT_HEADERS = {"Content-Type": "application/json"}
 # An example to add default functionaltiy to the request function
 # And still having the ability to pass custom headers
 # Making it more flexible and easier to use
-def api_request(
-    method: str, url: str, *args: Any, **kwargs: dict[str, Any]
-) -> Response:
+def api_request(method: str, url: str, *args: Any, **kwargs: Any) -> Response:
     headers = kwargs.pop("headers", {})
     headers.update(DEFAULT_HEADERS)
     return request(method, url, *args, headers=headers, **kwargs)
@@ -34,9 +32,7 @@ def summarize(*floats: float) -> float:
 
 # Same goes for kwargs, typically it would be kwargs, but in reality you can name these anything
 # As long as you use the ** operator
-def load_config(
-    defaults: dict[str, Any], **overrides: dict[str, Any]
-) -> dict[str, Any]:
+def load_config(defaults: dict[str, Any], **overrides: Any) -> dict[str, Any]:
     config = defaults.copy()
     config.update(overrides)
     return config
