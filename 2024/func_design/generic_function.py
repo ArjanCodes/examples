@@ -1,20 +1,14 @@
 from collections import deque
-from typing import Callable, Sequence
 from decimal import Decimal
-from typing import TypeVar
-
-# Using a custom defined type variable to represent a numeric type
-
-Numeric = TypeVar("Numeric", bound=int | float | Decimal)
+from typing import Callable, Sequence
 
 
-# Makes the function generic
-# It can handle a certain type and then return a list of the same type
+# The function can handle a certain type and then return a list of the same type
 # Try using generics to the smallest parts as possible
 # For example, do not use a generic type for list[int | float | Decimal]
 # Instead, use a generic type for int, float, and Decimal separately
 # This way, the function is more readable and easier to understand
-def merge_sort(arr: list[Numeric]) -> list[Numeric]:
+def merge_sort[Numeric: (int, float, Decimal)](arr: list[Numeric]) -> list[Numeric]:
     if len(arr) <= 1:
         return arr
 
@@ -25,7 +19,9 @@ def merge_sort(arr: list[Numeric]) -> list[Numeric]:
     return merge(left_half, right_half)
 
 
-def merge(left: list[Numeric], right: list[Numeric]) -> list[Numeric]:
+def merge[Numeric: (int, float, Decimal)](
+    left: list[Numeric], right: list[Numeric]
+) -> list[Numeric]:
     sorted_arr: list[Numeric] = []
     i = j = 0
 
@@ -59,3 +55,32 @@ def transform_matrix[T, R](
     matrix: Sequence[Sequence[T]], transform: Callable[[T], R]
 ) -> list[list[R]]:
     return [[transform(element) for element in row] for row in matrix]
+
+
+def main() -> None:
+    # Integers
+    print(merge_sort([3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5]))
+
+    # Floats
+    print(merge_sort([3.1, 4.1, 5.9, 2.6, 5.3, 5.0]))
+
+    # Decimals
+    print(merge_sort([Decimal("3.14"), Decimal("2.71"), Decimal("1.61")]))
+
+    # Strings (gives a type error, but still runs since the type is not enforced)
+    print(merge_sort(["3", "1", "4", "1", "5", "9", "2", "6", "5", "3", "5"]))
+
+    # Real numbers
+    print(reverse_real_queue(deque([3.14, 2.71, 1.61])))
+
+    # Strings
+    print(
+        transform_matrix(
+            [["1", "2", "3"], ["4", "5", "6"], ["7", "8", "9"]],
+            lambda x: int(x) ** 2,
+        )
+    )
+
+
+if __name__ == "__main__":
+    main()

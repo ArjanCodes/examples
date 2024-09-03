@@ -1,3 +1,4 @@
+import logging
 import time
 from datetime import datetime
 from typing import Any
@@ -28,30 +29,24 @@ def add_timestamp(
     return data
 
 
-# Needs timestamp argment needs to be passed either way
-# While level does not need to be passed
-
-# def log_message(message: str, timestamp: str | None, level: str = "INFO") -> str:
-#     # If no timestamp is provided, use the current time
-#     if timestamp is None:
-#         timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-#     # Create the log message with the level and timestamp
-#     log_entry = f"[{timestamp}] [{level}] {message}"
-#     return log_entry
-
-
-def log_message(message: str, timestamp: str | None = None, level: str = "INFO") -> str:
+def log_message(
+    message: str, timestamp: float | None = None, level: str = "INFO"
+) -> None:
+    # use current time if no timestamp is provided
     if timestamp is None:
-        timestamp = datetime.now().strftime("%Y-%m-%d %H:%M:%S")
-    log_entry = f"[{timestamp}] [{level}] {message}"
-    return log_entry
+        timestamp = time.time()
+
+    # create a string representation of the timestamp
+    formatted_ts = datetime.fromtimestamp(timestamp).strftime("%Y-%m-%d %H:%M:%S")
+
+    print(f"[{formatted_ts}] [{level}] {message}")
 
 
 def main() -> None:
-	_log1 = log_message("System started.")
-	_log2 = log_message("User logged in", "2024-08-27 12:00:00", "WARNING")
-	_log3 = log_message("File not found", level="ERROR")
-     
+    log_message("System started.")
+    log_message("User logged in", timestamp=time.time() - 86400)
+    log_message("File not found", level="ERROR")
+
 
 if __name__ == "__main__":
     main()
