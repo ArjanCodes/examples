@@ -24,7 +24,7 @@ class Boss:
     first_name: str  # Not this
     last_name: str  # Not this
 
-    def give_raise(self, amount):
+    def give_raise(self, amount: int) -> int:
         self.bonus += amount  # This will be logged as an static attribute
         return self.bonus
 

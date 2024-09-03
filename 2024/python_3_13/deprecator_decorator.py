@@ -32,8 +32,12 @@ def levenshtein_distance(s1: str, s2: str) -> int:
 
 
 def main() -> None:
-    d1 = hamming_distance("kitten", "sitting")  # Depcrecated warning
+    d1 = hamming_distance("kittens", "sitting")  # Deprecation warning
 
-    d2 = levenshtein_distance("kitten", "sitting")
+    d2 = levenshtein_distance("kittens", "sitting")
 
     print(d1, d2)
+
+
+if __name__ == "__main__":
+    main()
