@@ -1,0 +1,32 @@
+{
+    "version": 1,
+    "disable_existing_loggers": false,
+    "formatters": {
+        "simple": {
+            "format": "[%(levelname)s]: %(asctime)s - %(message)s"
+        },
+        "verbose": {
+            "format": "[%(levelname)s]: %(asctime)s - %(name)s - %(message)s"
+        }
+    },
+    "handlers": {
+        "console": {
+            "class": "logging.StreamHandler",
+            "level": "DEBUG",
+            "formatter": "simple",
+            "stream": "ext://sys.stdout"
+        },
+        "file": {
+            "class": "logging.FileHandler",
+            "level": "DEBUG",
+            "formatter": "verbose",
+            "filename": "./logs/debug.log"
+        }
+    },
+    "loggers": {
+        "root": {
+            "level": "DEBUG",
+            "handlers": ["console", "file"]
+        }
+    }
+}
