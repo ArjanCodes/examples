@@ -6,7 +6,7 @@ class Node:
     value: int
     next: "Node | None" = None
     prev: "Node | None" = None
-    
+
 
 def main() -> None:
     # Create two nodes
