@@ -1,0 +1,17 @@
+[tool.poetry]
+name = "func-design"
+version = "0.1.0"
+description = ""
+authors = ["Andreas Bergman <andreas@arjancodes.com>"]
+readme = "README.md"
+
+[tool.poetry.dependencies]
+python = "^3.12"
+typing-extensions = "^4.12.2"
+pydantic = "^2.8.2"
+requests = "^2.32.3"
+
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
