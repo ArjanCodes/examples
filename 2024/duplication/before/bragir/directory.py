@@ -4,16 +4,7 @@ from bragir.constants import BLACKLISTED_FILES
 from bragir.tracing.logger import logger
 
 
-class NotAFileOrDirectoryError(Exception):
-    pass
-
-
-def get_files(path: str) -> list[str]:
-    if os.path.isfile(path):
-        return [path]
-    if not os.path.isdir(path):
-        raise NotAFileOrDirectoryError(f"{path} is not a file or directory")
-
+def get_files_in_directory(path: str) -> list[str]:
     paths: list[str] = []
 
     for root, _dirs, nested_files in os.walk(path):
