@@ -1,0 +1,22 @@
+[tool.poetry]
+name = "uncommon_db"
+version = "0.1.0"
+description = ""
+authors = ["ArjanCodes"]
+package-mode = false
+
+[tool.poetry.dependencies]
+python = "^3.12"
+influxdb-client = "^1.45.0"
+redis = "^5.0.8"
+pandas = "^2.2.2"
+openai = "^1.42.0"
+duckdb = "^1.0.0"
+python-dotenv = "^1.0.1"
+fastapi = "^0.112.2"
+neo4j = "^5.23.1"
+pymilvus = "^2.4.5"
+
+[build-system]
+requires = ["poetry-core"]
+build-backend = "poetry.core.masonry.api"
