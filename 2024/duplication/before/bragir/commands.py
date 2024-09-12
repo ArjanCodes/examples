@@ -2,7 +2,7 @@ import os
 
 import click
 
-from bragir.directory import get_files
+from bragir.directory import get_files_in_directory
 from bragir.file import (
     chunk_content,
     chunk_content_into_srt_parts,
@@ -51,7 +51,7 @@ def transcribe(context: click.Context, path: str, output: str) -> None:
     file_paths: list[str] = []
 
     if path_is_directory:
-        directory_file_paths = get_files(path)
+        directory_file_paths = get_files_in_directory(path)
         file_paths = [*file_paths, *directory_file_paths]
 
     if path_is_file:
@@ -145,7 +145,7 @@ def translate(context: click.Context, path: str, language: str) -> None:
             )
 
     if path_is_directory:
-        directory_file_paths = get_files(path)
+        directory_file_paths = get_files_in_directory(path)
 
         num_of_file_paths = len(directory_file_paths)
 
