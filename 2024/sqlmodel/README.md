@@ -16,9 +16,6 @@ curl -X POST "http://127.0.0.1:8000/heroes/" \
 curl -X PUT "http://127.0.0.1:8000/heroes/1" \
 -H "Content-Type: application/json" \
 -d '{
-  "id": 1,
-  "name": "Captain Strong",
-  "secret_name": "John Power",
   "age": 36
 }'
 
