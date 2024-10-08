@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package encoding;
+
+option go_package = "./pbEncoding";
+
+service EncodingService {
+    rpc UploadVideo (UploadVideoRequest) returns (UploadVideoResponse);
+}
+
+message UploadVideoRequest {
+    string video_name = 1;
+}
+
+message UploadVideoResponse {
+    string video_url = 1;
+}

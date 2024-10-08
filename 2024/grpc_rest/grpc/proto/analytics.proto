@@ -1,0 +1,17 @@
+syntax = "proto3";
+
+package analytics;
+
+option go_package = "./pbAnalytics";
+
+service AnalyticsService {
+    rpc LogView(LogViewRequest) returns (LogViewResponse);
+}
+
+message LogViewRequest {
+    string video_name = 1;
+}
+
+message LogViewResponse {
+    bool success = 1;
+}
