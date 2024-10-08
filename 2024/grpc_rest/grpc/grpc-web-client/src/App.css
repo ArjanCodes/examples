@@ -1,0 +1,91 @@
+/* Reset default styles */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  color: #142D45;
+}
+
+body {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f9f9f9;
+  color: #142D45;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100vh;
+  background-color: #f4f4f9;
+}
+
+/* Container for the entire app */
+.app-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+/* Card styling for the upload section */
+.upload-card {
+  background-color: white;
+  border-radius: 16px;
+  padding: 40px;
+  width: 400px;
+  box-shadow: 0 10px 15px rgba(0, 0, 0, 0.1);
+  text-align: center;
+}
+
+/* Heading styling */
+.upload-card h3 {
+  font-size: 24px;
+  margin-bottom: 20px;
+  color: #142D45;
+}
+
+/* Logo styling */
+.logo {
+  width: 50px;
+  margin-bottom: 20px;
+}
+
+/* Input field for video name */
+.input-field {
+  width: 100%;
+  padding: 14px;
+  margin-bottom: 20px;
+  border: 1px solid #ccc;
+  border-radius: 10px;
+  font-size: 16px;
+  outline: none;
+  transition: border-color 0.2s;
+}
+
+.input-field:focus {
+  border-color: #00D396;
+}
+
+/* Button styling */
+.upload-button {
+  background-color: #142D45;
+  color: white;
+  border: none;
+  padding: 12px;
+  font-size: 16px;
+  border-radius: 10px;
+  cursor: pointer;
+  transition: background-color 0.3s;
+  width: 100%;
+}
+
+.upload-button:hover {
+  background-color: #00D396;
+  color: #142D45;
+}
+
+/* Display the uploaded video URL */
+.video-url {
+  margin-top: 20px;
+  color: #142D45;
+  font-size: 16px;
+  word-break: break-all;
+}
