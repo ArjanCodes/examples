@@ -1,0 +1,14 @@
+syntax = "proto3";
+
+package authentication;
+
+service Authenticator {
+  rpc Authenticate(AuthenticationRequest) returns (AuthenticationResponse);
+}
+
+message AuthenticationRequest { string uuid = 1; }
+
+message AuthenticationResponse {
+  string message = 1;
+  bool valid = 2;
+}
