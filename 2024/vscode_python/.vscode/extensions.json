@@ -1,0 +1,17 @@
+{
+    "recommendations": [
+        "ms-python.python",
+        "ms-python.vscode-pylance",
+        "charliermarsh.ruff",
+        "ms-toolsai.jupyter",
+        "ms-python.black-formatter",
+        "github.copilot",
+        "tamasfe.even-better-toml",
+        "aaron-bond.better-comments",
+        "github.vscode-github-actions",
+        "bierner.markdown-mermaid",
+        "postman.postman-for-vscode",
+        "alexcvzz.vscode-sqlite",
+        "ms-vscode-remote.remote-containers",
+    ]
+}
