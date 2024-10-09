@@ -1,0 +1,12 @@
+{
+    "recommendations": [
+        "ms-python.python",  // Python extension
+        "ms-python.vscode-pylance",  // Pylance for improved Python IntelliSense
+        "charliermarsh.ruff",  // Ruff for linting and formatting
+        "ms-toolsai.jupyter",  // Jupyter Notebook support
+        "ms-python.black-formatter",  // Black formatter (optional if needed)
+        "lextudio.restructuredtext",  // reStructuredText (for documentation, if relevant)
+        "github.copilot", // LLM plugin (Optional, requires payment)
+        "tamasfe.even-better-toml" // TOML linting and formatting
+    ]
+}
