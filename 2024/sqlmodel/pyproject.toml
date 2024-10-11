@@ -1,17 +1,12 @@
-[tool.poetry]
+[project]
 name = "sqlmodel-example"
 version = "0.1.0"
-description = ""
-authors = ["ArjanCodes"]
-package-mode = false
-
-[tool.poetry.dependencies]
-python = "^3.12"
-fastapi = "^0.115.0"
-uvicorn = "^0.31.0"
-sqlmodel = "^0.0.22"
-sqlalchemy = "^2.0.35"
-
-[build-system]
-requires = ["poetry-core"]
-build-backend = "poetry.core.masonry.api"
+description = "Example of how to use SQLModel"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.0",
+    "sqlalchemy>=2.0.35",
+    "sqlmodel>=0.0.22",
+    "uvicorn>=0.31.1",
+]
