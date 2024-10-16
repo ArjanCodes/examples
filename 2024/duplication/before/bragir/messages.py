@@ -6,7 +6,7 @@ PROMPT_HELP = {
     "directory": "Enter one directory that contains the files that is going to be translated",
     "language": f"Enter one or more languages {to_output(Languages)}",
     "file_path": "Path to a .srt file in your system",
-    "output_path": "Path to where the file should be stored in your system"
+    "output_path": "Path to where the file should be stored in your system",
 }
 
 
