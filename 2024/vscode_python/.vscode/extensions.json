@@ -4,7 +4,6 @@
         "ms-python.vscode-pylance",
         "charliermarsh.ruff",
         "ms-toolsai.jupyter",
-        "ms-python.black-formatter",
         "github.copilot",
         "tamasfe.even-better-toml",
         "aaron-bond.better-comments",
