@@ -29,7 +29,7 @@ async def get_resources(resource_type: ResourceType) -> list[CoreModel] | None:
     # Dynamically fetch all resources of a specific type from the "FAKE_DB"
     resources = FAKE_DB.get(resource_type)
 
-    if not resources:
+    if resources is None:
         raise ValueError(f"Resource type {resource_type} does not exist")
 
     return resources.values()
