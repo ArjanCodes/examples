@@ -1,6 +1,6 @@
 {
     // General settings
-    "security.workspace.trust.untrustedFiles": "open",
+    "security.workspace.trust.untrustedFiles": "newWindow",
     "window.zoomLevel": 4,
     "window.commandCenter": false,
     "files.exclude": {
@@ -21,7 +21,7 @@
         "*": true,
         "plaintext": false,
         "scminput": false,
-        "yaml": false,
+        "yaml": false
     },
     // Explorer settings
     "explorer.excludeGitIgnore": true,
@@ -58,5 +58,5 @@
     "terminal.integrated.tabs.location": "right",
     // Markdown settings
     "markdown.preview.scrollEditorWithPreview": true,
-    "markdown.preview.scrollPreviewWithEditor": true,
+    "markdown.preview.scrollPreviewWithEditor": true
 }
