@@ -1,11 +1,12 @@
-from returns.io import IO, IOResult
-from returns.result import safe
+from returns.io import IOFailure, IOResult, IOSuccess
 
 
-@safe
 def read_file(file_path: str) -> IOResult[str, Exception]:
-    with open(file_path, "r") as file:
-        return IO(file.read())
+    try:
+        with open(file_path, "r") as file:
+            return IOSuccess(file.read())
+    except IOError as e:
+        return IOFailure(e)
 
 
 def process_data(data: str) -> str:
