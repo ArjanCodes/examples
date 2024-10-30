@@ -1,0 +1,8 @@
+[project]
+name = "returns-example"
+version = "0.1.0"
+description = "Code example of the returns package"
+requires-python = ">=3.13"
+dependencies = [
+    "returns>=0.23.0",
+]
