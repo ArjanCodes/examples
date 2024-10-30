@@ -1,9 +1,9 @@
-from returns.io import IO
+from returns.io import IO, Result
 from returns.result import safe
 
 
 @safe
-def read_file(file_path: str) -> IO[str]:
+def read_file(file_path: str) -> IO[Result[str, Exception]]:
     with open(file_path, "r") as file:
         return IO(file.read())
 
