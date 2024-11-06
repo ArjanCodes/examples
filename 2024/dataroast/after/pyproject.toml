@@ -1,0 +1,14 @@
+[project]
+name = "dataroast"
+version = "0.1.0"
+description = "Refactor of data validator"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "pandas>=2.2.3",
+    "pydantic>=2.9.2",
+    "pytest>=8.3.3",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
