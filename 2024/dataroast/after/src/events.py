@@ -1,10 +1,11 @@
 from typing import Callable
 
+events: dict[str, list[Callable]] = {}
 
-events: dict[str,list[Callable]] = {}
 
 def clear_events():
     events.clear()
+
 
 def register_event(event: str, listener: Callable):
     if event not in events:
@@ -14,9 +15,15 @@ def register_event(event: str, listener: Callable):
     else:
         print(f"Could not add listener {listener} to {event}")
 
-def raise_event(event:str,event_args):
+
+def raise_event(event: str, event_args) -> None:
+    # collect the listeners from * and the event
+    listeners = set()
+    if "*" in events:
+        listeners.update(events["*"])
     if event in events:
-        for listener in events[event]:
-            listener(event_args)
-    else:
-        print(f"No event {event}")
+        listeners.update(events[event])
+
+    # call the listeners
+    for listener in listeners:
+        listener(event_args)

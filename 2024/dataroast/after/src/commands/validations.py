@@ -1,33 +1,20 @@
 from os.path import exists
 
-from model.model import Model
+from .model import Model
 
 
-def values_are_strings(*args: str) -> bool:
-    for value in args:
-        if not isinstance(value, str):
-            return False
-    return True
+def validate_alias_exists(model: Model, alias: str) -> None:
+    if alias not in model.get_table_names():
+        raise ValueError(f"File {alias} not in dataframes")
 
 
-def value_exists_in_dataframes(model: Model, arg: str) -> bool:
-    return arg in model.get_table_names()
+def validate_cols_exist(model: Model, alias: str, cols: list[str]) -> None:
+    file_cols = set(model.read(alias).columns)
+    for col in cols:
+        if col not in file_cols:
+            raise ValueError(f"Column {col} not in dataframe {alias}")
 
 
-def cols_exists_in_dataframe(model: Model, *args: str) -> bool:
-    cols = model.read(str(args[0])).columns.values.tolist()
-    for arg in args[1:]:
-        if arg not in cols:
-            return False
-    return True
-
-
-def values_are_numereic(*args) -> bool:
-    for value in args:
-        if not value.isnumeric():
-            return False
-    return True
-
-
-def path_exists(path: str) -> bool:
-    return exists(path)
+def validate_path_exists(path: str) -> None:
+    if not exists(path):
+        raise ValueError(f"File not found at path: {path}")

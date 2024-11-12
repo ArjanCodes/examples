@@ -1,17 +1,12 @@
 from time import sleep
 
-from commands.command_base import Command, CommandArgs
-from controller.events import raise_event
-from pydantic.dataclasses import dataclass
+from events import raise_event
+
+from .model import Model
 
 
-@dataclass
-class ExitCommandArgs(CommandArgs): ...
-
-
-class ExitCommand(Command):
-    def execute(self, _: ExitCommandArgs):  # type: ignore
-        for mark in [".", "..", "..."]:
-            raise_event("exit", mark)
-            sleep(0.5)
-        quit()
+def exit_app(_: Model) -> None:
+    for mark in [".", "..", "..."]:
+        raise_event("exit", mark)
+        sleep(0.5)
+    quit()
