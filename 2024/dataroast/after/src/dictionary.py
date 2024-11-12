@@ -7,7 +7,7 @@ from pydantic.dataclasses import dataclass
 
 @dataclass
 class DataDictionary:
-    dataframes: dict = field(default_factory=dict)
+    dataframes: dict[str, DataFrame] = field(default_factory=dict)
 
     def create(self, alias: str, df: DataFrame) -> None:
         self.dataframes[alias] = df

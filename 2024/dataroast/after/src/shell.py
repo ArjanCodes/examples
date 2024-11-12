@@ -14,7 +14,10 @@ class Shell:
                 command.execute(self.model)
             except TypeError as e:
                 self.display_message("Incorrect args provided for command")
-                self.display_message(e)
+                self.display_log(e)
 
-    def display_message(self, message):
+    def display_message(self, message: str) -> None:
         print(message)
+
+    def display_log(self, exception: Exception) -> None:
+        print(exception)

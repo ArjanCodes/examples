@@ -1,4 +1,4 @@
-from typing import Callable
+from typing import Any, Callable
 
 from .drop_file import drop_file
 from .exit import exit_app
@@ -25,5 +25,5 @@ def cmd_exists(cmd: str) -> bool:
     return cmd in COMMANDS
 
 
-def execute_cmd(cmd: str, *args) -> None:
+def execute_cmd(cmd: str, *args: Any) -> None:
     COMMANDS[cmd](*args)
