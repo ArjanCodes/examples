@@ -1,0 +1,16 @@
+from sys import maxsize
+from typing import Protocol
+
+from pandas import DataFrame
+
+
+class Model(Protocol):
+    def create(self, alias: str, df: DataFrame) -> None: ...
+
+    def read(self, alias: str, head: int = maxsize) -> DataFrame: ...
+
+    def update(self, alias: str, df: DataFrame) -> None: ...
+
+    def delete(self, alias: str) -> None: ...
+
+    def get_table_names(self) -> list[str]: ...

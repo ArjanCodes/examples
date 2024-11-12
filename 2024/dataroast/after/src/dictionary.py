@@ -1,13 +1,12 @@
 from dataclasses import field
 from sys import maxsize
 
-from model.model import Model
 from pandas import DataFrame
 from pydantic.dataclasses import dataclass
 
 
 @dataclass
-class DataDictionary(Model):
+class DataDictionary:
     dataframes: dict = field(default_factory=dict)
 
     def create(self, alias: str, df: DataFrame) -> None:
