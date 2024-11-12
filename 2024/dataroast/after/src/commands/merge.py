@@ -22,12 +22,13 @@ def merge(
     if len(cols) > 0:
         cols.append(right_on)
     else:
+        
         cols = model.read(file2).columns.values.tolist()
 
     validate_cols_exist(model, file1, [left_on])
     validate_cols_exist(model, file2, [right_on, *cols])
 
-    file = pd.merge(
+    file: pd.DataFrame = pd.merge(
         model.read(file1),
         model.read(file2)[cols],
         how="left",
