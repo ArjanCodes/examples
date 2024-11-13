@@ -3,11 +3,11 @@ from typing import Any, Callable
 events: dict[str, list[Callable[..., None]]] = {}
 
 
-def clear_events():
+def clear_event_listeners() -> None:
     events.clear()
 
 
-def register_event(event: str, listener: Callable[..., None]):
+def register_event(event: str, listener: Callable[..., None]) -> None:
     if event not in events:
         events[event] = [listener]
     elif listener not in events[event]:
