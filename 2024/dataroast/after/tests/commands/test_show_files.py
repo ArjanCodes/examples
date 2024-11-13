@@ -1,6 +1,6 @@
 from commands.show_files import show_files
 from dictionary import DataDictionary
-from events import clear_events, register_event
+from events import clear_event_listeners, register_event
 from pandas import DataFrame
 
 
@@ -20,4 +20,4 @@ def test_show_files(capsys):
     # Alias: test
     # Alias: test2
     assert out == "Files presently stored:\nAlias: test\nAlias: test2\n"
-    clear_events()
+    clear_event_listeners()
