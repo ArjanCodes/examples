@@ -6,6 +6,7 @@ from sqlmodel import Field, Relationship, Session, SQLModel, create_engine
 
 # Define the models
 
+
 class HeroMissionLink(SQLModel, table=True):
     hero_id: Optional[int] = Field(
         default=None, foreign_key="hero.id", primary_key=True
