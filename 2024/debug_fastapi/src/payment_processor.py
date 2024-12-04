@@ -1,4 +1,4 @@
-def process_payment(amount: int, discount_percent: int) -> int:
+def process_payment(amount: int | float, discount_percent: int) -> int | float:
     discounted_price = calculate_discounted_price(amount, discount_percent)
     print(f"Original Amount: ${amount:.2f}")
     print(f"Discount: {discount_percent}%")
@@ -6,9 +6,11 @@ def process_payment(amount: int, discount_percent: int) -> int:
     return discounted_price
 
 
-def calculate_discounted_price(amount: int, discount_percent: int) -> int:
+def calculate_discounted_price(
+    amount: int | float, discount_percent: int
+) -> int | float:
     discount = amount * (discount_percent / 100)
 
-    final_amount = amount - discount  # final_amount = round(amount - discount, 2)
+    final_amount = round(amount - discount, 2)  # final_amount = amount - discount
 
     return final_amount
