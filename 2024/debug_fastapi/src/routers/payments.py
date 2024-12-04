@@ -4,18 +4,17 @@ from fastapi.exceptions import HTTPException
 from src.models import Payment
 from src.payment_processor import process_payment
 
-payment_route = APIRouter()
+payments_route = APIRouter(prefix="/api")
 
 
-@payment_route.post("/payment")
+@payments_route.post("/payments")
 async def make_payment(params: Payment) -> JSONResponse:
+    print(params)
     if params.customer_id is None:
         return HTTPException(
             status_code=400, content={"message": "Customer ID is required"}
         )
-    
 
-    payment_amount = process_payment(amount=params.amount, discount_percent=21)
+    payment_amount = process_payment(amount=params.amount, discount_percent=15)
 
-
-    return {"message": f"Payment has been made: ${payment_amount:.2f}"}
+    return {"message": f"Payment has been made: ${payment_amount}"}
