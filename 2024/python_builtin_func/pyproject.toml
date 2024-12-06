@@ -1,0 +1,9 @@
+[project]
+name = "python-builtin-func"
+version = "0.1.0"
+description = "Examples of Python built-in functions"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "notebook>=7.3.1",
+]
