@@ -22,7 +22,6 @@ def merge(
     if len(cols) > 0:
         cols.append(right_on)
     else:
-        
         cols = model.read(file2).columns.values.tolist()
 
     validate_cols_exist(model, file1, [left_on])

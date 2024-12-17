@@ -8,16 +8,15 @@ from pydantic import model_validator
 
 @dataclass
 class ShowColsCommandArgs(CommandArgs):
-
     alias: str
 
-    @model_validator(mode='after')
+    @model_validator(mode="after")
     def validate_data_exists(self):
-        if not value_exists_in_dataframes(self.model,self.alias):
+        if not value_exists_in_dataframes(self.model, self.alias):
             raise Exception(f"File {self.alias} not in dataframes")
         return self
 
-class ShowColsCommand(Command):
 
+class ShowColsCommand(Command):
     def execute(self, args: ShowColsCommandArgs):  # type: ignore
-        raise_event('cols',args.model.read(args.alias).columns.values)
+        raise_event("cols", args.model.read(args.alias).columns.values)
