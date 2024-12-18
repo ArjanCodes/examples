@@ -1,0 +1,45 @@
+@page {
+  size: A4;
+  margin: 1cm;
+}
+
+body {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  line-height: 1.42857143;
+  color: #333;
+  background-color: #fff;
+}
+
+h1 {
+  font-size: 36px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+h2 {
+  font-size: 30px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+h3 {
+  font-size: 24px;
+  margin-top: 20px;
+  margin-bottom: 10px;
+}
+
+.company_logo_container {
+  width: 100%;
+  display: flex;
+  justify-content: center;
+}
+
+.company_logo_container img {
+  width: 100px;
+  height: 100px;
+  border-radius: 8px;
+  margin-top: 20px;
+  margin-left: auto;
+  margin-right: auto;
+}
