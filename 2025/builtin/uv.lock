@@ -743,6 +743,34 @@ wheels = [
 ]
 
 [[package]]
+name = "numpy"
+version = "2.2.0"
+source = { registry = "https://pypi.org/simple" }
+sdist = { url = "https://files.pythonhosted.org/packages/47/1b/1d565e0f6e156e1522ab564176b8b29d71e13d8caf003a08768df3d5cec5/numpy-2.2.0.tar.gz", hash = "sha256:140dd80ff8981a583a60980be1a655068f8adebf7a45a06a6858c873fcdcd4a0", size = 20225497 }
+wheels = [
+    { url = "https://files.pythonhosted.org/packages/bd/4c/0d1eef206545c994289e7a9de21b642880a11e0ed47a2b0c407c688c4f69/numpy-2.2.0-cp313-cp313-macosx_10_13_x86_64.whl", hash = "sha256:f8c8b141ef9699ae777c6278b52c706b653bf15d135d302754f6b2e90eb30367", size = 20895707 },
+    { url = "https://files.pythonhosted.org/packages/16/cb/88f6c1e6df83002c421d5f854ccf134aa088aa997af786a5dac3f32ec99b/numpy-2.2.0-cp313-cp313-macosx_11_0_arm64.whl", hash = "sha256:0f0986e917aca18f7a567b812ef7ca9391288e2acb7a4308aa9d265bd724bdae", size = 14110592 },
+    { url = "https://files.pythonhosted.org/packages/b4/54/817e6894168a43f33dca74199ba0dd0f1acd99aa6323ed6d323d63d640a2/numpy-2.2.0-cp313-cp313-macosx_14_0_arm64.whl", hash = "sha256:1c92113619f7b272838b8d6702a7f8ebe5edea0df48166c47929611d0b4dea69", size = 5110858 },
+    { url = "https://files.pythonhosted.org/packages/c7/99/00d8a1a8eb70425bba7880257ed73fed08d3e8d05da4202fb6b9a81d5ee4/numpy-2.2.0-cp313-cp313-macosx_14_0_x86_64.whl", hash = "sha256:5a145e956b374e72ad1dff82779177d4a3c62bc8248f41b80cb5122e68f22d13", size = 6645143 },
+    { url = "https://files.pythonhosted.org/packages/34/86/5b9c2b7c56e7a9d9297a0a4be0b8433f498eba52a8f5892d9132b0f64627/numpy-2.2.0-cp313-cp313-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:18142b497d70a34b01642b9feabb70156311b326fdddd875a9981f34a369b671", size = 14042812 },
+    { url = "https://files.pythonhosted.org/packages/df/54/13535f74391dbe5f479ceed96f1403267be302c840040700d4fd66688089/numpy-2.2.0-cp313-cp313-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:a7d41d1612c1a82b64697e894b75db6758d4f21c3ec069d841e60ebe54b5b571", size = 16093419 },
+    { url = "https://files.pythonhosted.org/packages/dd/37/dfb2056842ac61315f225aa56f455da369f5223e4c5a38b91d20da1b628b/numpy-2.2.0-cp313-cp313-musllinux_1_2_aarch64.whl", hash = "sha256:a98f6f20465e7618c83252c02041517bd2f7ea29be5378f09667a8f654a5918d", size = 15238969 },
+    { url = "https://files.pythonhosted.org/packages/5a/3d/d20d24ee313992f0b7e7b9d9eef642d9b545d39d5b91c4a2cc8c98776328/numpy-2.2.0-cp313-cp313-musllinux_1_2_x86_64.whl", hash = "sha256:e09d40edfdb4e260cb1567d8ae770ccf3b8b7e9f0d9b5c2a9992696b30ce2742", size = 17855705 },
+    { url = "https://files.pythonhosted.org/packages/5b/40/944c9ee264f875a2db6f79380944fd2b5bb9d712bb4a134d11f45ad5b693/numpy-2.2.0-cp313-cp313-win32.whl", hash = "sha256:3905a5fffcc23e597ee4d9fb3fcd209bd658c352657548db7316e810ca80458e", size = 6270078 },
+    { url = "https://files.pythonhosted.org/packages/30/04/e1ee6f8b22034302d4c5c24e15782bdedf76d90b90f3874ed0b48525def0/numpy-2.2.0-cp313-cp313-win_amd64.whl", hash = "sha256:a184288538e6ad699cbe6b24859206e38ce5fba28f3bcfa51c90d0502c1582b2", size = 12605791 },
+    { url = "https://files.pythonhosted.org/packages/ef/fb/51d458625cd6134d60ac15180ae50995d7d21b0f2f92a6286ae7b0792d19/numpy-2.2.0-cp313-cp313t-macosx_10_13_x86_64.whl", hash = "sha256:7832f9e8eb00be32f15fdfb9a981d6955ea9adc8574c521d48710171b6c55e95", size = 20920160 },
+    { url = "https://files.pythonhosted.org/packages/b4/34/162ae0c5d2536ea4be98c813b5161c980f0443cd5765fde16ddfe3450140/numpy-2.2.0-cp313-cp313t-macosx_11_0_arm64.whl", hash = "sha256:f0dd071b95bbca244f4cb7f70b77d2ff3aaaba7fa16dc41f58d14854a6204e6c", size = 14119064 },
+    { url = "https://files.pythonhosted.org/packages/17/6c/4195dd0e1c41c55f466d516e17e9e28510f32af76d23061ea3da67438e3c/numpy-2.2.0-cp313-cp313t-macosx_14_0_arm64.whl", hash = "sha256:b0b227dcff8cdc3efbce66d4e50891f04d0a387cce282fe1e66199146a6a8fca", size = 5152778 },
+    { url = "https://files.pythonhosted.org/packages/2f/47/ea804ae525832c8d05ed85b560dfd242d34e4bb0962bc269ccaa720fb934/numpy-2.2.0-cp313-cp313t-macosx_14_0_x86_64.whl", hash = "sha256:6ab153263a7c5ccaf6dfe7e53447b74f77789f28ecb278c3b5d49db7ece10d6d", size = 6667605 },
+    { url = "https://files.pythonhosted.org/packages/76/99/34d20e50b3d894bb16b5374bfbee399ab8ff3a33bf1e1f0b8acfe7bbd70d/numpy-2.2.0-cp313-cp313t-manylinux_2_17_aarch64.manylinux2014_aarch64.whl", hash = "sha256:e500aba968a48e9019e42c0c199b7ec0696a97fa69037bea163b55398e390529", size = 14013275 },
+    { url = "https://files.pythonhosted.org/packages/69/8f/a1df7bd02d434ab82539517d1b98028985700cfc4300bc5496fb140ca648/numpy-2.2.0-cp313-cp313t-manylinux_2_17_x86_64.manylinux2014_x86_64.whl", hash = "sha256:440cfb3db4c5029775803794f8638fbdbf71ec702caf32735f53b008e1eaece3", size = 16074900 },
+    { url = "https://files.pythonhosted.org/packages/04/94/b419e7a76bf21a00fcb03c613583f10e389fdc8dfe420412ff5710c8ad3d/numpy-2.2.0-cp313-cp313t-musllinux_1_2_aarch64.whl", hash = "sha256:a55dc7a7f0b6198b07ec0cd445fbb98b05234e8b00c5ac4874a63372ba98d4ab", size = 15219122 },
+    { url = "https://files.pythonhosted.org/packages/65/d9/dddf398b2b6c5d750892a207a469c2854a8db0f033edaf72103af8cf05aa/numpy-2.2.0-cp313-cp313t-musllinux_1_2_x86_64.whl", hash = "sha256:4bddbaa30d78c86329b26bd6aaaea06b1e47444da99eddac7bf1e2fab717bd72", size = 17851668 },
+    { url = "https://files.pythonhosted.org/packages/d4/dc/09a4e5819a9782a213c0eb4eecacdc1cd75ad8dac99279b04cfccb7eeb0a/numpy-2.2.0-cp313-cp313t-win32.whl", hash = "sha256:30bf971c12e4365153afb31fc73f441d4da157153f3400b82db32d04de1e4066", size = 6325288 },
+    { url = "https://files.pythonhosted.org/packages/ce/e1/e0d06ec34036c92b43aef206efe99a5f5f04e12c776eab82a36e00c40afc/numpy-2.2.0-cp313-cp313t-win_amd64.whl", hash = "sha256:d35717333b39d1b6bb8433fa758a55f1081543de527171543a2b710551d40881", size = 12692303 },
+]
+
+[[package]]
 name = "overrides"
 version = "7.7.0"
 source = { registry = "https://pypi.org/simple" }
@@ -877,10 +905,14 @@ version = "0.1.0"
 source = { virtual = "." }
 dependencies = [
     { name = "notebook" },
+    { name = "numpy" },
 ]
 
 [package.metadata]
-requires-dist = [{ name = "notebook", specifier = ">=7.3.1" }]
+requires-dist = [
+    { name = "notebook", specifier = ">=7.3.1" },
+    { name = "numpy", specifier = ">=2.2.0" },
+]
 
 [[package]]
 name = "python-dateutil"
