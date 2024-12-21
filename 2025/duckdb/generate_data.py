@@ -1,8 +1,8 @@
 import csv
-from faker import Faker
 import random
 from pathlib import Path
-import argparse
+
+from faker import Faker
 
 
 def generate_employee_csv(file_name: str, num_employees: int) -> None:
@@ -15,13 +15,13 @@ def generate_employee_csv(file_name: str, num_employees: int) -> None:
         "Data Scientist",
         "Product Manager",
         "HR Specialist",
-        "Marketing Coordinator",
+        "Marketing Manager",
     ]
 
     # Open the file for writing
     output_file = Path(file_name)
     with output_file.open(mode="w", newline="") as csvfile:
-        fieldnames = ["Employee Name", "Job Position", "Salary"]
+        fieldnames = ["name", "job_title", "salary"]
         writer = csv.DictWriter(csvfile, fieldnames=fieldnames)
 
         # Write header
@@ -32,9 +32,9 @@ def generate_employee_csv(file_name: str, num_employees: int) -> None:
             writer.writerow(
                 {
                     "name": fake.name(),
-                    "position": random.choice(job_positions),
-                    "salary": round(
-                        random.uniform(50_000, 150_000), 2
+                    "job_title": random.choice(job_positions),
+                    "salary": int(
+                        random.uniform(50_000, 150_000)
                     ),  # Salary range between 50,000 and 150,000
                 }
             )
@@ -43,22 +43,10 @@ def generate_employee_csv(file_name: str, num_employees: int) -> None:
 
 
 def main() -> None:
-    parser = argparse.ArgumentParser(
-        description="Generate a CSV file with employee data."
-    )
-    parser.add_argument(
-        "file_name",
-        type=str,
-        help="The name of the output CSV file.",
-        default="employees.csv",
-    )
-    parser.add_argument(
-        "num_employees", type=int, help="The number of employee records to generate."
-    )
+    num_employees = 20
+    file_name = "employees.csv"
 
-    args = parser.parse_args()
-
-    generate_employee_csv("./data" + args.file_name, args.num_employees)
+    generate_employee_csv("./data/" + file_name, num_employees)
 
 
 if __name__ == "__main__":
