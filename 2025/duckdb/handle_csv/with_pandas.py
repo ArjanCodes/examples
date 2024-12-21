@@ -8,9 +8,9 @@ def main() -> None:
     df = pd.read_csv("data/employees.csv")
 
     # Filter the DataFrame
-    filtered_df = df[df["salary"] > 2000][["name", "position", "salary"]].head(3)
+    filtered_df = df[df["salary"] > 125000][["name", "job_title", "salary"]].head(3)
 
-    print("Top 3 records with the highest salary per year:")
+    print("3 records with a high salary per year:")
     print(filtered_df)
 
 

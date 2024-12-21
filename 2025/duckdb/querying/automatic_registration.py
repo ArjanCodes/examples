@@ -8,17 +8,15 @@ def main() -> None:
             job_title,
             salary,
         FROM employees
-        WHERE salary > 2000
+        WHERE salary > 12500
         LIMIT 3
     """
-    
+
     with duckdb.connect() as conn:
-        employees = conn.read_csv(
-            "data/employees.csv"
-        )
+        employees = conn.read_csv("data/employees.csv")
         result_df = conn.execute(query).fetchdf()
 
-    print("Top 3 records with the highest salary per year:")
+    print("3 records with a high salary per year:")
     print(result_df)
 
 

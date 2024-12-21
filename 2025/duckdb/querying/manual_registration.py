@@ -8,7 +8,7 @@ def main() -> None:
             job_title,
             salary,
         FROM employees
-        WHERE salary > 2000
+        WHERE salary > 125000
         LIMIT 3
     """
 
@@ -18,7 +18,7 @@ def main() -> None:
         result_df = conn.execute(query).fetchdf()
 
     # Display the result
-    print("Top 3 records with the highest salary per year:")
+    print("3 records with a high salary per year:")
     print(result_df)
 
 
