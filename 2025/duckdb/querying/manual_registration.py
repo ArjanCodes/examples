@@ -1,16 +1,14 @@
 import duckdb
 
 
-# Create a sample DataFrame
 def main() -> None:
-    # Query the DataFrame using DuckDB SQL
     query = """
         SELECT
             name,
-            position,
+            job_title,
             salary,
         FROM employees
-        WHERE salary > 1000000
+        WHERE salary > 2000
         LIMIT 3
     """
 

@@ -1,24 +1,21 @@
 import duckdb
 
 
-# Create a sample DataFrame
 def main() -> None:
-    # Read data from CSV file
+    query = """
+        SELECT
+            name,
+            job_title,
+            salary,
+        FROM employees
+        WHERE salary > 2000
+        LIMIT 3
+    """
+    
     with duckdb.connect() as conn:
-        # Query the DataFrame using DuckDB SQL
-        query = """
-            SELECT
-                name,
-                position,
-                salary,
-            FROM employees
-            WHERE salary > 2000
-            LIMIT 3
-        """
-
         employees = conn.read_csv(
             "data/employees.csv"
-        )  # Give this not nice variable not accessed from pylance and ruff
+        )
         result_df = conn.execute(query).fetchdf()
 
     print("Top 3 records with the highest salary per year:")

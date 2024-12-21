@@ -12,8 +12,6 @@ DATA: dict[str, list[int | str]] = {
 
 
 def main() -> None:
-    # Register the DataFrame as a DuckDB table
-
     # Create a sample DataFrame
     df = pd.DataFrame(DATA)
 
