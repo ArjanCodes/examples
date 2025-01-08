@@ -1,0 +1,11 @@
+[project]
+name = "duckdb-example"
+version = "0.1.0"
+description = "DuckDB code examples"
+requires-python = ">=3.13"
+dependencies = [
+    "duckdb>=1.1.3",
+    "faker>=33.1.0",
+    "notebook>=7.2.2",
+    "pandas>=2.2.3",
+]
