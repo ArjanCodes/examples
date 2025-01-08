@@ -1,5 +1,5 @@
 [project]
-name = "duckdb"
+name = "duckdb-example"
 version = "0.1.0"
 description = "DuckDB code examples"
 requires-python = ">=3.13"
