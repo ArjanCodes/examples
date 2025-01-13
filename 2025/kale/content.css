@@ -1,0 +1,130 @@
+/* General Styling */
+
+/* Popup Styling */
+#popup {
+  max-width: 550px;
+  max-height: 300px;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid #142d45;
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #142d45;
+  color: #fff;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .logo {
+  font-size: 20px;
+}
+
+.header .close-btn {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+/* 
+.content #icon {
+  width: 200px;
+} */
+
+.content-left-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.content-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.content-body h1 {
+  font-size: 20px;
+  color: #333;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.apply-btn {
+  background-image: linear-gradient(-180deg, #2a5677, #142d45);
+  border: none;
+  border-radius: 5px;
+  color: #fff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  height: 44px;
+  width: 100%;
+  padding: 0;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+  background-color: #142d45;
+}
+
+.try-later-btn {
+  color: #333;
+  background: none;
+  border: none;
+}
+
+/* Footer */
+.footer {
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.footer h2 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #777;
+  margin: 5px 0 0;
+}
+
+/* Discount Popup */
+#discount-popup {
+  position: fixed;
+  top: 10px;
+  right: 10px;
+  z-index: 9999;
+  border: 5px solid #142d45;
+  min-width: 600px;
+  background-color: #f1f1f1;
+}

@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Kale Extension</title>
+    <link rel="stylesheet" href="./popup.css" />
+  </head>
+  <body>
+    <div id="popup">
+      <div class="header">
+        <div class="logo">&#x1D4A6;</div>
+        <div id="close-btn">X</div>
+      </div>
+      <div class="content">
+        <div class="content-left-body">
+          <img id="icon" src="../images/mascot_128.png" alt="Kale Icon" />
+        </div>
+        <div class="content-body">
+          <h1>
+            <p id="number-of-discount"></p>
+            &nbsp
+            <p>Discounts Available!</p>
+          </h1>
+          <div class="buttons">
+            <button id="apply-discounts" class="apply-btn">
+              Apply Discount
+            </button>
+            <button class="try-later-btn">Try Later</button>
+          </div>
+        </div>
+      </div>
+      <div class="footer">
+        <h2>This is a Kale Extension</h2>
+        <p>Save and support the creator!</p>
+      </div>
+    </div>
+    <script src="./popup.js" type="module"></script>
+  </body>
+</html>

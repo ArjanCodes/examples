@@ -1,0 +1,127 @@
+/* General Styling */
+body {
+  margin: 0;
+  font-family: "Inter", -apple-system, system-ui, Roboto, "Helvetica Neue",
+    Arial, sans-serif;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+  background-color: #f4f5f7;
+}
+
+/* Popup Styling */
+#popup {
+  width: 400px;
+  display: flex;
+  flex-direction: column;
+  border: 5px solid #142d45;
+  /* border-radius: 10px; */
+  background-color: #fff;
+  overflow: hidden;
+  box-shadow: 0px 4px 8px rgba(0, 0, 0, 0.1);
+}
+
+/* Header */
+.header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 15px;
+  background-color: #142d45;
+  color: white;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+.header .logo {
+  font-size: 20px;
+}
+
+.header .close-btn {
+  cursor: pointer;
+  font-size: 18px;
+  font-weight: bold;
+}
+
+/* Content */
+.content {
+  display: flex;
+  flex-direction: row;
+  padding: 20px;
+}
+
+.content-left-body {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-right: 20px;
+}
+
+.content-body {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 15px;
+}
+
+.content-body h1 {
+  font-size: 20px;
+  color: #333;
+  text-align: center;
+  display: flex;
+}
+
+/* Buttons */
+.buttons {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  width: 100%;
+}
+
+.apply-btn {
+  background-image: linear-gradient(-180deg, #2a5677, #142d45);
+  border: none;
+  border-radius: 5px;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 16px;
+  font-weight: bold;
+  height: 44px;
+  padding: 0;
+  text-align: center;
+  text-transform: uppercase;
+  transition: background 0.3s ease;
+}
+
+.apply-btn:hover {
+  background-color: #142d45;
+}
+
+.try-later-btn {
+  color: #333;
+  background: none;
+  border: none;
+}
+
+/* Footer */
+.footer {
+  padding: 15px;
+  background-color: #f8f8f8;
+  border-top: 1px solid #ddd;
+  text-align: center;
+}
+
+.footer h2 {
+  font-size: 16px;
+  color: #333;
+  margin: 0;
+}
+
+.footer p {
+  font-size: 12px;
+  color: #777;
+  margin: 5px 0 0;
+}
