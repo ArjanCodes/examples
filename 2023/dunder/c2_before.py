@@ -11,12 +11,12 @@ class Payment:
 
 class PaypalPayment(Payment):
     def pay(self, amount: int) -> None:
-        print(f"Paying ${amount/100:.2f} using Paypal")
+        print(f"Paying ${amount / 100:.2f} using Paypal")
 
 
 class StripePayment(Payment):
     def pay(self, amount: int) -> None:
-        print(f"Paying ${amount/100:.2f} using Stripe")
+        print(f"Paying ${amount / 100:.2f} using Stripe")
 
 
 def main() -> None:

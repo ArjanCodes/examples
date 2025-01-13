@@ -62,9 +62,9 @@ def main() -> None:
                 json={"name": f"User {i}", "email": f"example{i}@arjancodes.com"},
             )
             assert response.status_code == 200
-            assert (
-                response.json()["name"] == f"User {i}"
-            ), "The name of the user should be User {i}"
+            assert response.json()["name"] == f"User {i}", (
+                "The name of the user should be User {i}"
+            )
             assert response.json()["id"], "The user should have an id"
 
             user = User.model_validate(response.json())
@@ -81,9 +81,9 @@ def main() -> None:
             "/users", json={"name": "User 5", "email": "example5@arjancodes.com"}
         )
         assert response.status_code == 200
-        assert (
-            response.json()["name"] == "User 5"
-        ), "The name of the user should be User 5"
+        assert response.json()["name"] == "User 5", (
+            "The name of the user should be User 5"
+        )
         assert response.json()["id"], "The user should have an id"
 
         user = User.model_validate(response.json())
@@ -94,15 +94,15 @@ def main() -> None:
 
         response = client.get(f"/users/{response.json()['id']}")
         assert response.status_code == 200
-        assert (
-            response.json()["name"] == "User 5"
-        ), "This should be the newly created user"
+        assert response.json()["name"] == "User 5", (
+            "This should be the newly created user"
+        )
 
         response = client.get(f"/users/{uuid4()}")
         assert response.status_code == 404
-        assert (
-            response.json()["message"] == "User not found"
-        ), "We technically should not find this user"
+        assert response.json()["message"] == "User not found", (
+            "We technically should not find this user"
+        )
 
         response = client.post("/users", json={"name": "User 6", "email": "wrong"})
         assert response.status_code == 422, "The email address is should be invalid"

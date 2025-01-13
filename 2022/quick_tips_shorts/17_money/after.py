@@ -13,7 +13,7 @@ def order_food(items: list[str]) -> None:
     total = sum(PRICES[item] for item in items)
     vat = int(total * VAT)
     total += vat
-    print(f"Your order is ${total/100:.2f} (VAT: ${vat/100:.2f}).")
+    print(f"Your order is ${total / 100:.2f} (VAT: ${vat / 100:.2f}).")
     print("Thanks for your business!")
 
 

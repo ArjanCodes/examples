@@ -85,9 +85,9 @@ def main() -> None:
         order.add_product(product)
 
     print(f"Comparison between mango and expensive mango: {mango == expensive_mango}")
-    print(f"Total order price: ${order.total_price/100:.2f}")
-    print(f"Subtotal order price: ${order.sub_total/100:.2f}")
-    print(f"Value paid in taxes: ${order.tax/100:.2f}")
+    print(f"Total order price: ${order.total_price / 100:.2f}")
+    print(f"Subtotal order price: ${order.sub_total / 100:.2f}")
+    print(f"Value paid in taxes: ${order.tax / 100:.2f}")
     print(f"Total weight order: {order.total_shipping_weight} kg")
 
 

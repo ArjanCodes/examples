@@ -29,7 +29,7 @@ def show_frequencies(counter: Counter[str]) -> None:
     for possibility, freq in counter.most_common():
         print(
             f"{possibility: <36} -> {freq: <5} |",
-            f"{round(freq /  counter.total() * 100, 2)}%",
+            f"{round(freq / counter.total() * 100, 2)}%",
         )
     print("\n")
 

@@ -53,7 +53,7 @@ class PDFScraper(Scraper):
                     x_tolerance=3, y_tolerance=3
                 )
                 print(
-                    f"[sciscraper]: Processing Page {page_number} of {n-1} | {search_text}...",
+                    f"[sciscraper]: Processing Page {page_number} of {n - 1} | {search_text}...",
                     end="\r",
                 )
                 preprints.append(

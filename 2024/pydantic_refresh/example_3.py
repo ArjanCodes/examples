@@ -58,7 +58,7 @@ class User(BaseModel):
             return op[type(v)](v)
         except (KeyError, ValueError):
             raise ValueError(
-                f'Role is invalid, please use one of the following: {", ".join([x.name for x in Role])}'
+                f"Role is invalid, please use one of the following: {', '.join([x.name for x in Role])}"
             )
 
     @model_validator(mode="before")

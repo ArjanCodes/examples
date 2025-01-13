@@ -4,7 +4,7 @@ from typing import Callable
 
 
 def handle_payment_stripe(amount: int) -> None:
-    logging.info(f"Charging ${amount/100:.2f} using Stripe")
+    logging.info(f"Charging ${amount / 100:.2f} using Stripe")
 
 
 PRICES = {
@@ -20,7 +20,7 @@ HandlePaymentFn = Callable[[int], None]
 
 def order_food(items: list[str], payment_handler: HandlePaymentFn) -> None:
     total = sum(PRICES[item] for item in items)
-    logging.info(f"Order total is ${total/100:.2f}.")
+    logging.info(f"Order total is ${total / 100:.2f}.")
     payment_handler(total)
     logging.info("Order completed.")
 

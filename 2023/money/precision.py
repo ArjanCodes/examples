@@ -25,7 +25,7 @@ def main() -> None:
     int_deposit = 10
 
     int_result = int_balance - int_withdrawal + int_deposit
-    print(f"Using integers: {int_result/100:.2f}")
+    print(f"Using integers: {int_result / 100:.2f}")
 
 
 if __name__ == "__main__":
