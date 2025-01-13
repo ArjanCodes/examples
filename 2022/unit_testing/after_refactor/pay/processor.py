@@ -15,7 +15,7 @@ class PaymentProcessor:
             raise ValueError("Invalid card")
         if not self._check_api_key():
             raise ValueError(f"Invalid API key: {self.api_key}")
-        print(f"Charging card number {card.number} for ${amount/100:.2f}")
+        print(f"Charging card number {card.number} for ${amount / 100:.2f}")
 
     def validate_card(self, card: CreditCard) -> bool:
         return (

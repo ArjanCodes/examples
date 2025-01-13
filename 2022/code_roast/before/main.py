@@ -169,7 +169,7 @@ class SciHubScrape(ScrapeRequest, slookup_code="sci"):
         """
         for link in self.links:
             paper_url = f"{link}=true"
-            paper_title = f'{date}_{search_text.replace("/","")}.pdf'
+            paper_title = f"{date}_{search_text.replace('/', '')}.pdf"
             time.sleep(1)
             paper_content = (
                 requests.get(paper_url, stream=True, allow_redirects=True)
@@ -282,7 +282,7 @@ class PDFScrape:
                     x_tolerance=3, y_tolerance=3
                 )
                 print(
-                    f"[sciscraper]: Processing Page {page_number} of {self.n-1} | {search_text}...",
+                    f"[sciscraper]: Processing Page {page_number} of {self.n - 1} | {search_text}...",
                     end="\r",
                 )
                 self.preprints.append(

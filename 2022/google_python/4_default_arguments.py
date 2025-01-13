@@ -12,7 +12,7 @@ def main():
     price = 340_00
     discount = 0.15
     print(
-        f"Total price minus discount: ${compute_total_price(unit_price=price, discount_perc=discount)/100:.2f}"
+        f"Total price minus discount: ${compute_total_price(unit_price=price, discount_perc=discount) / 100:.2f}"
     )
 
     print(oops())

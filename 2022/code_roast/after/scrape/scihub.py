@@ -60,7 +60,7 @@ class SciHubScraper:
         date = now.strftime("%y%m%d")
         for link in self.links:
             paper_url = f"{link}=true"
-            paper_title = f'{date}_{search_text.replace("/","")}.pdf'
+            paper_title = f"{date}_{search_text.replace('/', '')}.pdf"
             time.sleep(1)
             paper_content = (
                 requests.get(paper_url, stream=True, allow_redirects=True)

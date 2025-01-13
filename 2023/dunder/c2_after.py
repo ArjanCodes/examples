@@ -13,12 +13,12 @@ class Payment(Protocol):
 
 class PaypalPayment:
     def pay(self, amount: int) -> None:
-        print(f"Paying ${amount/100:.2f} using Paypal")
+        print(f"Paying ${amount / 100:.2f} using Paypal")
 
 
 class StripePayment:
     def pay(self, amount: int) -> None:
-        print(f"Paying ${amount/100:.2f} using Stripe")
+        print(f"Paying ${amount / 100:.2f} using Stripe")
 
 
 def create_payment(method: PaymentMethod) -> Payment:

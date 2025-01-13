@@ -38,7 +38,7 @@ def main():
     order.add_item(LineItem("powdered sugar", price=89))
     order.add_item(LineItem("cream cheese", price=219, quantity=2))
 
-    print(f"Total price: ${order.total_price/100:.2f}")
+    print(f"Total price: ${order.total_price / 100:.2f}")
 
 
 if __name__ == "__main__":

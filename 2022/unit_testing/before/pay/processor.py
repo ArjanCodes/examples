@@ -8,7 +8,7 @@ class PaymentProcessor:
     def charge(self, card: str, month: int, year: int, amount: int) -> None:
         if not self.validate_card(card, month, year):
             raise ValueError("Invalid card")
-        print(f"Charging card number {card} for ${amount/100:.2f}")
+        print(f"Charging card number {card} for ${amount / 100:.2f}")
 
     def validate_card(self, card: str, month: int, year: int) -> bool:
         return self.luhn_checksum(card) and datetime(year, month, 1) > datetime.now()

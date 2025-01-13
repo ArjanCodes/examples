@@ -154,7 +154,7 @@ def book_invoice_payment(
     mutation_id: int,
 ) -> dict[str, Any]:
     return post_moneybird_request(
-        f"sales_invoices/{invoice["id"]}/payments",
+        f"sales_invoices/{invoice['id']}/payments",
         {
             "payment": {
                 "price": invoice["total_price_incl_tax"],

@@ -13,7 +13,7 @@ def fn_order_food(rgs_items: list[str]) -> None:
     i_total = sum(PRICES[item] for item in rgs_items)
     i_vat = int(i_total * VAT)
     i_total += i_vat
-    print(f"Your order is ${i_total/100:.2f} (VAT: ${i_vat/100:.2f}).")
+    print(f"Your order is ${i_total / 100:.2f} (VAT: ${i_vat / 100:.2f}).")
     print("Thanks for your business!")
 
 

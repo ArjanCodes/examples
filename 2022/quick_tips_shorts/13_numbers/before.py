@@ -7,7 +7,7 @@ class PaymentHandler(Protocol):
 
 class StripePaymentHandler:
     def handle_payment(self, amount: int) -> None:
-        print(f"Charging ${amount/100:.2f} using Stripe")
+        print(f"Charging ${amount / 100:.2f} using Stripe")
 
 
 PRICES = {"burger": 1000, "fries": 500, "drink": 200, "salad": 1500}
@@ -15,7 +15,7 @@ PRICES = {"burger": 1000, "fries": 500, "drink": 200, "salad": 1500}
 
 def order_food(items: list[str], payment_handler: PaymentHandler) -> None:
     total = sum(PRICES[item] for item in items)
-    print(f"Your order is ${total/100:.2f}.")
+    print(f"Your order is ${total / 100:.2f}.")
     payment_handler.handle_payment(total)
     print("Thanks for your business!")
 
