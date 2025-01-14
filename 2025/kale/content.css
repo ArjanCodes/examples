@@ -11,7 +11,7 @@
 }
 
 /* Header */
-.header {
+.discount-header {
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -22,35 +22,31 @@
   font-weight: bold;
 }
 
-.header .logo {
+.discount-header .logo {
   font-size: 20px;
 }
 
-.header .close-btn {
+.discount-header .close-btn {
   cursor: pointer;
   font-size: 18px;
   font-weight: bold;
 }
 
 /* Content */
-.content {
+.discount-content {
   display: flex;
   flex-direction: row;
   padding: 20px;
 }
-/* 
-.content #icon {
-  width: 200px;
-} */
 
-.content-left-body {
+.discount-content-left-body {
   display: flex;
   align-items: center;
   justify-content: center;
   margin-right: 20px;
 }
 
-.content-body {
+.discount-content-body {
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -58,7 +54,7 @@
   gap: 15px;
 }
 
-.content-body h1 {
+.discount-content-body h1 {
   font-size: 20px;
   color: #333;
 }

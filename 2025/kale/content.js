@@ -20,15 +20,15 @@ const createPopup = (isAffiliated, onApplyClick) => {
   const popup = document.createElement("div");
   popup.id = "discount-popup";
   popup.innerHTML = `
-    <div class="header">
+    <div class="discount-header">
       <div class="logo">&#x1D4A6;</div>
       <div id="close-btn">X</div>
     </div>
-    <div class="content">
-      <div class="content-left-body">
+    <div class="discount-content">
+      <div class="discount-content-left-body">
         <img id="icon" src="https://889r7vs5ma.ufs.sh/f/lB9nBfMEwa3m2tA7F1odSn4gaWt3YBr1UjzcQvIeNXuy7C8l" alt="Kale Icon" />
       </div>
-      <div class="content-body">
+      <div class="discount-content-body">
         <h1>
           ${!isAffiliated ? "<p>We found a coupon!</p>" : ""}
           ${isAffiliated ? "<p>Your purchase is Supporting a creator</p>" : ""}
