@@ -34,8 +34,9 @@ const createPopup = (isAffiliated, onApplyClick) => {
           ${isAffiliated ? "<p>Your purchase is Supporting a creator</p>" : ""}
         </h1>
         ${
-          !isAffiliated &&
-          "<p>Select whether you'd like to support Kale or a creator.</p>"
+          !isAffiliated
+            ? "<p>Select whether you'd like to support Kale or a creator.</p>"
+            : ""
         }
         <div class="buttons">
           ${
