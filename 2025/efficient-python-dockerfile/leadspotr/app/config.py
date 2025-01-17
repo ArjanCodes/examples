@@ -1,7 +1,7 @@
 import os
 from enum import Enum
 
-from pydantic import BaseSettings
+from pydantic_settings import BaseSettings
 
 
 class Environment(Enum):
@@ -42,7 +42,7 @@ auth_providers = {
 }
 
 features = {
-    "upload_file" : environment == Environment.PRODUCTION.value,
+    "upload_file": environment == Environment.PRODUCTION.value,
 }
 
 
@@ -63,26 +63,26 @@ class Settings(BaseSettings):
     INVITE_TOKEN_SECRET_KEY: str = "IRCBwaEXG4zsyPdJw7YHB6dV5BE5HdVmfH5eJO3cdDk="
     INVITE_TOKEN_EXPIRE_MINUTES: int = 5
     # Sendgrid
-    SENDGRID_API_KEY: str = None
-    NO_REPLY_EMAIL: str = None
-    SENDGRID_SIGNUP_TEMPLATE_ID: str = None
-    SENDGRID_LOGIN_TEMPLATE_ID: str = None
-    SENDGRID_INVITE_TEMPLATE_ID: str = None
-    SENDGRID_TIER_PDF_TEMPLATE_ID: str = None
+    SENDGRID_API_KEY: str | None = None
+    NO_REPLY_EMAIL: str | None = None
+    SENDGRID_SIGNUP_TEMPLATE_ID: str | None = None
+    SENDGRID_LOGIN_TEMPLATE_ID: str | None = None
+    SENDGRID_INVITE_TEMPLATE_ID: str | None = None
+    SENDGRID_TIER_PDF_TEMPLATE_ID: str | None = None
     # Database
     DB_USER: str = "postgres"
     DB_PASSWORD: str = "postgres"
     DB_HOST: str = "db"
     DB_PORT: int = 5432
     DB_NAME: str = "postgres"
-    DB_PRIVATE_IP: str = None
+    DB_PRIVATE_IP: str | None = None
     # Google Cloud Storage
-    GOOGLE_STORAGE_BUCKET: str = None
-    GOOGLE_CLOUD_PROJECT: str = None
+    GOOGLE_STORAGE_BUCKET: str | None = None
+    GOOGLE_CLOUD_PROJECT: str | None = None
     MAX_FILE_SIZE: int = 4000000
     # Github OAuth
-    GITHUB_CLIENT_ID: str = None
-    GITHUB_CLIENT_SECRET: str = None
+    GITHUB_CLIENT_ID: str | None = None
+    GITHUB_CLIENT_SECRET: str | None = None
 
     FEATURES: dict[str, bool] = features
 

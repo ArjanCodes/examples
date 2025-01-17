@@ -22,7 +22,7 @@ class CompanyCreate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class CompanyUpdate(BaseModel):
@@ -36,7 +36,7 @@ class CompanyUpdate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class Company(CompanyBase):
@@ -45,6 +45,6 @@ class Company(CompanyBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
