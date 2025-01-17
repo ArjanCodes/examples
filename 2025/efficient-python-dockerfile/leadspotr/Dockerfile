@@ -48,9 +48,25 @@ EXPOSE $PORT
 # Start the application with Uvicorn in production mode, using environment variable references
 CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
 
-FROM python:3.13-bookworm AS development
+## ------------------------------- Development Stage ------------------------------ ##
+FROM python:3.13-slim-bookworm AS development
+COPY --from=builder /.venv /.venv
+
+ENV PATH="/.venv/bin:{$PATH}"
+# To not store everything in the root directory
+WORKDIR /leadspotr
+
+# The COPY target location is NOT relative to the WORKDIR, if you are using the full path
+COPY /app /leadspotr/app
+
+# This is relative to the WORKDIR
+COPY main.py main.py
+
+# Expose the specified port for FastAPI
+EXPOSE $PORT
 
 CMD ["uvicorn", "main:app", "--reload", "--host", "0.0.0.0", "--port", "80"]
+
 
 
 
