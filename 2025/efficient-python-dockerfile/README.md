@@ -12,6 +12,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 01_Dockerfile.Original . -t 01_original
 ```
 
@@ -22,6 +23,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 02_Dockerfile.RightBaseImage . -t 02_rightbaseimage
 ```
 
@@ -32,6 +34,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 03_Dockerfile.SpecificTag . -t 03_specifictag
 ```
 
@@ -43,6 +46,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 04_Dockerfile.UnnecessaryDependencies . -t 04_unnecessarydependencies
 ```
 
@@ -53,6 +57,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 05_Dockerfile.CleanUpDependencies . -t 05_cleanupdependencies
 ```
 
@@ -67,6 +72,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f 06_Dockerfile.UseUV . -t 06_useuv
 ```
 
@@ -80,6 +86,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
+             --no-cache \
              -f 07_Dockerfile.UseMultiStage . -t 07_usemultistage
 ```
 
@@ -91,17 +98,51 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
+             --no-cache \
              -f 08_Dockerfile.NoWildcardCopy . -t 08_nowildcardcopy
 ```
 
 
 ### Build `09_Dockerfile.MountSecrets`
+If you run into problems here, run the following commands before in your terminal:
+
+```
+export DB_PASSWORD="mydbpassword"
+export DB_USER="mydbuser"
+export DB_NAME="mydbname"
+export DB_HOST="mydbhost"
+export ACCESS_TOKEN_SECRET_KEY="mysecretkey"
+```
+
 ```
 docker build --secret id=DB_PASSWORD \
-            --secret id=DB_USER \
-            --secret id=DB_NAME \
-            --secret id=DB_HOST \
-            --secret id=ACCESS_TOKEN_SECRET_KEY \
-            --target=production \
-            -f 09_Dockerfile.MountSecrets . -t 09_mountsecrets
+             --secret id=DB_USER \
+             --secret id=DB_NAME \
+             --secret id=DB_HOST \
+             --secret id=ACCESS_TOKEN_SECRET_KEY \
+             --target=production \
+             --no-cache \
+             -f 09_Dockerfile.MountSecrets . -t 09_mountsecrets
+```
+
+
+### Build `10_Dockerfile.Final`
+If you run into problems here, run the following commands before in your terminal:
+```
+export DB_PASSWORD="mydbpassword"
+export DB_USER="mydbuser"
+export DB_NAME="mydbname"
+export DB_HOST="mydbhost"
+export ACCESS_TOKEN_SECRET_KEY="mysecretkey"
+```
+
+```
+docker build --secret id=DB_PASSWORD \
+             --secret id=DB_USER \
+             --secret id=DB_NAME \
+             --secret id=DB_HOST \
+             --secret id=ACCESS_TOKEN_SECRET_KEY \
+             --target=production \
+             --no-cache \
+             -f 10_Dockerfile.Final . -t 10_final
 ```
