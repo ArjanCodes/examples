@@ -1,0 +1,41 @@
+version: "3.9"
+
+services:
+  leadespotr:
+    build:
+      context: .
+      target: production
+      secrets:
+        - DB_PASSWORD
+        - DB_USER
+        - DB_NAME
+        - DB_HOST
+        - ACCESS_TOKEN_SECRET_KEY
+    image: leadspotr:1.0.0
+    ports:
+      - "80:80"
+    secrets:
+      - DB_PASSWORD
+      - DB_USER
+      - DB_NAME
+      - DB_HOST
+      - ACCESS_TOKEN_SECRET_KEY
+    environment:
+      # Pass secrets as environment variables
+      DB_PASSWORD: /run/secrets/DB_PASSWORD
+      DB_USER: /run/secrets/DB_USER
+      DB_NAME: /run/secrets/DB_NAME
+      DB_HOST: /run/secrets/DB_HOST
+      ACCESS_TOKEN_SECRET_KEY: /run/secrets/ACCESS_TOKEN_SECRET_KEY
+
+secrets:
+  DB_PASSWORD:
+    environment: "DB_PASSWORD"
+  DB_USER:
+    environment: "DB_USER"
+  DB_NAME:
+    environment: "DB_NAME"
+  DB_HOST:
+    environment: "DB_HOST"
+  ACCESS_TOKEN_SECRET_KEY:
+    environment: "ACCESS_TOKEN_SECRET_KEY"
