@@ -1,0 +1,48 @@
+## ------------------------------- Production and Build Stage ------------------------------ ## 
+FROM python:3.13-slim-bookworm
+
+RUN apt-get update && apt-get install -y \
+        build-essential \
+        curl \
+        ca-certificates && \
+    apt-get clean
+
+RUN curl -sSL https://install.python-poetry.org | python3 -
+
+# Copy the application files into the container
+COPY . .
+
+# Create a symlink to make sure `python3` points to `python`
+RUN ln -s /usr/bin/python3 /usr/bin/python
+
+# Set up the Poetry environment path correctly
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Install dependencies with Poetry
+RUN poetry install --no-interaction
+
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_USER=${DB_USER}
+ENV DB_NAME=${DB_NAME}
+ENV DB_HOST=${DB_HOST}
+ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
+
+# Run the application as a non-root user
+RUN useradd -m appuser
+USER appuser
+
+ENV PATH="/.venv/bin:{$PATH}"
+# To not store everything in the root directory
+WORKDIR /leadspotr
+
+# The COPY target location is NOT relative to the WORKDIR, if you are using the full path
+COPY . .
+
+# Expose the specified port for FastAPI
+EXPOSE $PORT
+
+# Start the application with Uvicorn in production mode, using environment variable references
+CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
+
+
+

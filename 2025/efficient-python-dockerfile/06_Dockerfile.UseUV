@@ -1,0 +1,39 @@
+## ------------------------------- Production and Build Stage ------------------------------ ## 
+FROM python:3.13-bookworm AS builder
+
+RUN apt-get update && apt-get install --no-install-recommends -y \
+        build-essential \
+        curl \
+        ca-certificates && \
+    apt-get clean && rm -rf /var/lib/apt/lists/*
+
+# Download the latest installer, install it and then remove it
+ADD https://astral.sh/uv/install.sh /install.sh
+RUN chmod -R 655 /install.sh && /install.sh && rm /install.sh
+
+COPY . . 
+
+RUN /root/.local/bin/uv sync
+
+ENV DB_PASSWORD=${DB_PASSWORD}
+ENV DB_USER=${DB_USER}
+ENV DB_NAME=${DB_NAME}
+ENV DB_HOST=${DB_HOST}
+ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
+
+# Run the application as a non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /.venv
+USER appuser
+
+ENV PATH="/.venv/bin:{$PATH}"
+# To not store everything in the root directory
+WORKDIR /leadspotr
+
+# The COPY target location is NOT relative to the WORKDIR, if you are using the full path
+COPY . .
+
+# Expose the specified port for FastAPI
+EXPOSE $PORT
+
+# Start the application with Uvicorn in production mode, using environment variable references
+CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
