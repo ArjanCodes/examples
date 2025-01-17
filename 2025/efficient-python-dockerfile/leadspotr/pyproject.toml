@@ -17,7 +17,6 @@ dependencies = [
     "python-dotenv>=1.0.0",
     "google-cloud-storage>=2.9.0",
     "python-multipart>=0.0.6",
-    "weasyprint>=58.1",
     "pyhumps>=3.8.0",
     "alembic>=1.11.1",
     "passlib>=1.7.4",
