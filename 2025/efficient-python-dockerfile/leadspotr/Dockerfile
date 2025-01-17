@@ -1,9 +1,8 @@
-# Use an official Python runtime as a parent image
+## ------------------------------- Builder Stage ------------------------------ ## 
 FROM python:3.13-bookworm AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        build-essential \
-        alembic && \
+        build-essential && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
 # Download the latest installer, install it and then remove it
@@ -14,9 +13,25 @@ COPY ./pyproject.toml .
 
 RUN /root/.local/bin/uv sync
 
+## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.13-slim-bookworm AS production
-# COPY --from=builder /usr/local/lib/python3.13/site-packages /usr/local/lib/python3.13/site-packages
 COPY --from=builder /.venv /.venv
+
+RUN --mount=type=secret,id=DB_PASSWORD \
+--mount=type=secret,id=DB_USER \
+--mount=type=secret,id=DB_NAME \
+--mount=type=secret,id=DB_HOST \
+--mount=type=secret,id=ACCESS_TOKEN_SECRET_KEY \
+DB_PASSWORD=$(cat /run/secrets/DB_PASSWORD) \
+DB_USER=$(cat /run/secrets/DB_USER) \
+DB_NAME=$(cat /run/secrets/DB_NAME) \
+DB_HOST=$(cat /run/secrets/DB_HOST) \
+ACCESS_TOKEN_SECRET_KEY=$(cat /run/secrets/ACCESS_TOKEN_SECRET_KEY)
+
+# Run the application as a non-root user
+RUN useradd -m appuser && chown -R appuser:appuser /.venv
+USER appuser
+
 ENV PATH="/.venv/bin:{$PATH}"
 # To not store everything in the root directory
 WORKDIR /leadspotr
@@ -29,8 +44,6 @@ COPY main.py main.py
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
-
-RUN ls -la
 
 # Start the application with Uvicorn in production mode, using environment variable references
 CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
