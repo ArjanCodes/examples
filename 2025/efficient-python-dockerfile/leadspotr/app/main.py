@@ -1,9 +1,10 @@
 from fastapi import FastAPI
 from fastapi.middleware.cors import CORSMiddleware
 
-from .config import AuthProviders, settings
-from .db import database, models
-from .routers import (
+from app.config import AuthProviders, settings
+
+# from app.db import database, models
+from app.routers import (
     answers,
     auth_github,
     auth_passwordless,
@@ -15,9 +16,9 @@ from .routers import (
     submissions,
     users,
 )
-from .utils.logger import setup_logger
+from app.utils.logger import setup_logger
 
-models.Base.metadata.create_all(bind=database.engine)
+# models.Base.metadata.create_all(bind=database.engine)
 
 app = FastAPI(docs_url=settings.DOCS_URL, redoc_url=settings.REDOC_URL)
 

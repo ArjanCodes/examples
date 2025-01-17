@@ -22,7 +22,7 @@ class UserCreate(UserBase):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class UserUpdate(BaseModel):
@@ -32,7 +32,7 @@ class UserUpdate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class UserLogin(BaseModel):
@@ -41,7 +41,7 @@ class UserLogin(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class UserInviteInput(BaseModel):
@@ -49,7 +49,7 @@ class UserInviteInput(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class UserRegister(UserBase):
@@ -58,7 +58,7 @@ class UserRegister(UserBase):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class User(UserBase):
@@ -70,6 +70,6 @@ class User(UserBase):
     role: RoleEnum = RoleEnum.user
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True

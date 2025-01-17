@@ -15,7 +15,7 @@ class AnswerCreate(AnswerBase):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class AnswerUpdate(AnswerBase):
@@ -23,7 +23,7 @@ class AnswerUpdate(AnswerBase):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class Answer(AnswerBase):
@@ -34,6 +34,6 @@ class Answer(AnswerBase):
     updated_at: datetime
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True

@@ -25,13 +25,13 @@ class QuestionOptionCreate(QuestionOptionBase):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class QuestionOptionUpdate(QuestionOptionBase):
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class QuestionOptionPositionUpdate(BaseModel):
@@ -39,7 +39,7 @@ class QuestionOptionPositionUpdate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class QuestionOption(QuestionOptionBase):
@@ -50,6 +50,6 @@ class QuestionOption(QuestionOptionBase):
     position: int
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True

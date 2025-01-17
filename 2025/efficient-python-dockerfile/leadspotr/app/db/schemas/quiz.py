@@ -26,7 +26,7 @@ class QuizCreate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class QuizUpdate(BaseModel):
@@ -44,7 +44,7 @@ class QuizUpdate(BaseModel):
 
     class Config:
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
 
 
 class Quiz(QuizBase):
@@ -55,6 +55,6 @@ class Quiz(QuizBase):
     company_logo_url: str | None | None = None
 
     class Config:
-        orm_mode = True
+        from_attributes = True
         alias_generator = camelize
-        allow_population_by_field_name = True
+        populate_by_name = True
