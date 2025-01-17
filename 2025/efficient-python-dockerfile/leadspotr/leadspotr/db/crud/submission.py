@@ -34,7 +34,9 @@ def get_all_submissions_by_quiz_slug(db: Session, quiz_slug: str) -> list[Submis
     )
 
 
-def create_submission(db: Session, create_submission_input: SubmissionCreate) -> Submission:
+def create_submission(
+    db: Session, create_submission_input: SubmissionCreate
+) -> Submission:
     db_submission = models.Submission(quiz_slug=create_submission_input.quiz_slug)
     db.add(db_submission)
     db.commit()
