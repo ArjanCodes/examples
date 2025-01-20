@@ -1,0 +1,9 @@
+[project]
+name = "pymetric-example"
+version = "0.1.0"
+description = "Sending a metric to Convex"
+requires-python = ">=3.13"
+dependencies = [
+    "convex>=0.7.0",
+    "python-dotenv>=1.0.1",
+]
