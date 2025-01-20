@@ -4,7 +4,6 @@ import { mutation, query } from "./_generated/server";
 export const retrieve = query({
   args: {},
   handler: async (ctx) => {
-    // Get the 50 latest metrics
     return ctx.db.query("metrics").order("desc").take(50);
   },
 });
