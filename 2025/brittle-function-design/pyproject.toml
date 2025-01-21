@@ -1,0 +1,12 @@
+[project]
+name = "brittle-function-design"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = ">=3.13"
+dependencies = [
+    "openai>=1.59.9",
+    "pydantic>=2.10.5",
+    "pymongo>=4.10.1",
+    "python-dotenv>=1.0.1",
+]
