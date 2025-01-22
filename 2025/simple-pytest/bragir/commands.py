@@ -27,7 +27,7 @@ from bragir.path import get_files, get_target_path
 from bragir.post_processing import process_text
 from bragir.spinner import spinner
 from bragir.srt.srt_part import SRTPart
-from bragir.time import update_timestamps
+from timestamp_utils import update_timestamps
 from bragir.tracing.logger import logger
 from bragir.transcription import async_transcribe_file
 from bragir.translation import async_translate_srt_parts
@@ -143,7 +143,6 @@ def translate(context: click.Context, path: str, language: str) -> None:
                 translator=translator, srt_parts=srt_parts, language=language
             )
         )
-
 
         for translated_part in translated_parts:
             translated_part.translation = process_text(translated_part.translation)
