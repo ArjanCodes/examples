@@ -1,7 +1,7 @@
 ## ------------------------------- Production and Build Stage ------------------------------ ## 
 FROM python:3.13-slim-bookworm
 
-RUN apt-get update && apt-get install -y \
+RUN apt-get update && apt-get install --no-install-recommends -y \
         build-essential \
         curl \
         ca-certificates && \
@@ -9,16 +9,18 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# Copy the application files into the container
-COPY . .
-
-# Create a symlink to make sure `python3` points to `python`
-RUN ln -s /usr/bin/python3 /usr/bin/python
 
 # Set up the Poetry environment path correctly
 ENV PATH="/root/.local/bin:${PATH}"
 
+WORKDIR /app
+
+# Copy the application files into the container
+COPY . .
+
+
 # Install dependencies with Poetry
+RUN poetry config virtualenvs.in-project true
 RUN poetry install --no-interaction
 
 ENV DB_PASSWORD=${DB_PASSWORD}
@@ -28,21 +30,15 @@ ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
 # Run the application as a non-root user
-RUN useradd -m appuser
+RUN useradd -m appuser 
 USER appuser
 
-ENV PATH="/.venv/bin:{$PATH}"
-# To not store everything in the root directory
-WORKDIR /leadspotr
-
-# The COPY target location is NOT relative to the WORKDIR, if you are using the full path
-COPY . .
+ENV PATH="/app/.venv/bin:{$PATH}"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
 
 # Start the application with Uvicorn in production mode, using environment variable references
-CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
-
+CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]
 
 
