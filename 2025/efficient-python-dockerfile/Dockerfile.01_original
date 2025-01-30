@@ -2,18 +2,20 @@ FROM ubuntu:latest AS builder-image
 
 RUN apt-get update && apt-get install -y \
         build-essential \
+        python3 \
         curl \
         ca-certificates && \
     apt-get clean
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-COPY . .
+WORKDIR /app
 
-RUN ln -s /usr/bin/python3 /usr/bin/python
+COPY . .
 
 ENV PATH="/root/.local/bin:${PATH}"
 
+RUN poetry config virtualenvs.in-project true
 RUN poetry install --no-interaction
 
 ENV DB_PASSWORD=${DB_PASSWORD}
@@ -22,19 +24,11 @@ ENV DB_NAME=${DB_NAME}
 ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
-
-# Run the application as a non-root user
-RUN useradd -m appuser
-USER appuser
-        
-ENV PATH="/.venv/bin:{$PATH}"
-# To not store everything in the root directory
-WORKDIR /leadspotr
+# Set up the virtual environment path correctly for the appuser
+ENV PATH="/app/.venv/bin:${PATH}"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
 
 # Start the application with Uvicorn in production mode, using environment variable references
-CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
-
-
+CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]

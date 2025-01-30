@@ -9,16 +9,16 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-# Copy the application files into the container
-COPY . .
-
-# Create a symlink to make sure `python3` points to `python`
-RUN ln -s /usr/bin/python3 /usr/bin/python
-
 # Set up the Poetry environment path correctly
 ENV PATH="/root/.local/bin:${PATH}"
 
+WORKDIR /app
+
+# Copy the application files into the container
+COPY . .
+
 # Install dependencies with Poetry
+RUN poetry config virtualenvs.in-project true
 RUN poetry install --no-interaction
 
 # Set environment variables for database and secrets
@@ -33,13 +33,10 @@ RUN useradd -m appuser
 USER appuser
 
 # Set up the virtual environment path correctly for the appuser
-ENV PATH="/.venv/bin:${PATH}"
-
-# Set the working directory to the application folder
-WORKDIR /leadspotr
+ENV PATH="/app/.venv/bin:${PATH}"
 
 # Expose the application port
 EXPOSE $PORT
 
 # Start the FastAPI application using Uvicorn
-CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
+CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]

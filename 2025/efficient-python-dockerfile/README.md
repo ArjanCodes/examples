@@ -4,7 +4,7 @@
 
 ## Build commands
 
-### Build `01_Dockerfile.Original`
+### Build `Dockerfile.01`
 
 ```
 docker build --build-arg DB_HOST=mydbhost \
@@ -12,11 +12,10 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
-             --no-cache \
-             -f 01_Dockerfile.Original . -t 01_original
+             -f Dockerfile.01_original . -t 01_original
 ```
 
-### Build `02_Dockerfile.RightBaseImage`
+### Build `Dockerfile.02_betterimg`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
@@ -24,10 +23,21 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --no-cache \
-             -f 02_Dockerfile.RightBaseImage . -t 02_rightbaseimage
+             -f Dockerfile.02_betterimg . -t 02_betterimg
 ```
 
-### Build `03_Dockerfile.SpecificTag`
+### Build `Dockerfile.03_imgtag`
+```
+docker build --build-arg DB_HOST=mydbhost \
+             --build-arg DB_USER=mydbuser \
+             --build-arg DB_PASSWORD=mydbpassword \
+             --build-arg DB_NAME=mydbname \
+             --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             -f Dockerfile.03_imgtag . -t 03_imgtag
+```
+
+
+### Build `Dockerfile.04_limitdeps`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
@@ -35,22 +45,10 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --no-cache \
-             -f 03_Dockerfile.SpecificTag . -t 03_specifictag
+             -f Dockerfile.04_limitdeps . -t 04_limitdeps
 ```
 
-
-### Build `04_Dockerfile.UnnecessaryDependencies`
-```
-docker build --build-arg DB_HOST=mydbhost \
-             --build-arg DB_USER=mydbuser \
-             --build-arg DB_PASSWORD=mydbpassword \
-             --build-arg DB_NAME=mydbname \
-             --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
-             --no-cache \
-             -f 04_Dockerfile.UnnecessaryDependencies . -t 04_unnecessarydependencies
-```
-
-### Build `05_Dockerfile.CleanUpDependencies`
+### Build `Dockerfile.05_cleandeps`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
@@ -58,12 +56,12 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --no-cache \
-             -f 05_Dockerfile.CleanUpDependencies . -t 05_cleanupdependencies
+             -f Dockerfile.05_cleandeps . -t 05_cleandeps
 ```
 
 
 
-### Build `06_Dockerfile.UseUV`
+### Build `Dockerfile.06_uv`
 * Remember to restructure the `pyproject.toml` file, so it matches with what UV expects
 * Solution is the `uv_pyproject.toml`
 ```
@@ -73,10 +71,10 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --no-cache \
-             -f 06_Dockerfile.UseUV . -t 06_useuv
+             -f Dockerfile.06_uv . -t 06_uv
 ```
 
-### Build `07_Dockerfile.UseMultiStage`
+### Build `Dockerfile.07_multi`
 * Remember to restructure the `pyproject.toml` file, so it matches with what UV expects
 * Solution is the `uv_pyproject.toml`
 ```
@@ -87,10 +85,10 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
              --no-cache \
-             -f 07_Dockerfile.UseMultiStage . -t 07_usemultistage
+             -f Dockerfile.07_multi . -t 07_multi
 ```
 
-### Build `08_Dockerfile.NoWildcardCopy`
+### Build `Dockerfile.08_bettercopy`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
@@ -99,7 +97,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
              --no-cache \
-             -f 08_Dockerfile.NoWildcardCopy . -t 08_nowildcardcopy
+             -f Dockerfile.08_bettercopy . -t 08_bettercopy
 ```
 
 
@@ -145,4 +143,9 @@ docker build --secret id=DB_PASSWORD \
              --target=production \
              --no-cache \
              -f 10_Dockerfile.Final . -t 10_final
+```
+
+### Running the docker images
+```
+docker run -p 8080:8080 01_original
 ```

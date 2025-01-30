@@ -11,11 +11,13 @@ RUN chmod -R 655 /install.sh && /install.sh && rm /install.sh
 
 COPY . . 
 
+WORKDIR /leadspotr
+
 RUN /root/.local/bin/uv sync
 
 ## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.13-slim-bookworm AS production
-COPY --from=builder /.venv /.venv
+COPY --from=builder /leadspotr/.venv /leadspotr/.venv
 
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_USER=${DB_USER}
@@ -24,15 +26,10 @@ ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
 # Run the application as a non-root user
-RUN useradd -m appuser && chown -R appuser:appuser /.venv
+RUN useradd -m appuser && chown -R appuser:appuser /leadspotr/.venv
 USER appuser
 
-ENV PATH="/.venv/bin:{$PATH}"
-# To not store everything in the root directory
-WORKDIR /leadspotr
-
-# The COPY target location is NOT relative to the WORKDIR, if you are using the full path
-COPY . .
+ENV PATH="/leadspotr/.venv/bin:{$PATH}"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
