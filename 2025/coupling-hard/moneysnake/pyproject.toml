@@ -1,0 +1,24 @@
+[project]
+name = "moneysnake"
+version = "0.1.0"
+description = "Moneybird SDK for Python"
+license = "MIT"
+readme = "README.md"
+dependencies = [
+    "httpx>=0.27.2,<0.28.0",
+    "pydantic>=2.10.6,<3.0.0",
+]
+
+[build-system]
+requires = ["hatchling"]
+build-backend = "hatchling.build"
+
+[tool.hatch.build]
+include = [
+    "bragir/logging_configs/*.json",    # Include JSON files in the 'data' folder
+    "*.py",                             # Include all Python files
+    "py.typed",                         # Include the 'py.typed' file
+    "README.md",                        # Include the README file
+    "LICENSE",                          # Include the LICENSE file
+    "pyproject.toml",                   # Include the pyproject.toml file
+]
