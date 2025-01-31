@@ -1,3 +1,4 @@
+## ------------------------------- Production and Build Stage ------------------------------ ## 
 FROM ubuntu:latest AS builder-image
 
 RUN apt-get update && apt-get install -y \
