@@ -40,6 +40,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
+             --no-cache \
              -f Dockerfile.03_imgtag . -t 03_imgtag
 ```
 **Running the image**
@@ -75,8 +76,6 @@ docker build --build-arg DB_HOST=mydbhost \
 docker run -p 8080:8080 05_cleandeps
 ```
 ### Build `Dockerfile.06_uv`
-* Remember to restructure the `pyproject.toml` file, so it matches with what UV expects
-* Solution is the `uv_pyproject.toml`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
@@ -91,8 +90,6 @@ docker build --build-arg DB_HOST=mydbhost \
 docker run -p 8080:8080 06_uv
 ```
 ### Build `Dockerfile.07_multi`
-* Remember to restructure the `pyproject.toml` file, so it matches with what UV expects
-* Solution is the `uv_pyproject.toml`
 ```
 docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
