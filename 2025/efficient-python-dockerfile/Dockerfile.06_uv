@@ -7,8 +7,6 @@ RUN apt-get update && apt-get install --no-install-recommends -y \
         ca-certificates && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-RUN useradd -m appuser
-
 # Download the latest installer, install it and then remove it
 ADD https://astral.sh/uv/install.sh /install.sh
 RUN chmod -R 755 /install.sh && /install.sh && rm /install.sh
@@ -20,6 +18,9 @@ WORKDIR /app
 
 COPY . .
 
+# Localtion for the python virtual environment
+ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
+
 RUN uv sync
 
 ENV DB_PASSWORD=${DB_PASSWORD}
@@ -29,11 +30,10 @@ ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
 # Run the application as a non-root user
-RUN useradd -m appuser
-RUN chown -R appuser:appuser /app/.venv
-RUN chown -R appuser:appuser /app/.venv/bin/python
-RUN chown -R appuser:appuser /root/.local/share/uv/python
+RUN useradd --create-home appuser
+RUN chown -R appuser:appuser /opt/uv/python
 USER appuser
+
 
 ENV PATH="/app/.venv/bin:{$PATH}"
 
