@@ -11,6 +11,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_USER=mydbuser \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
+             --no-cache \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              -f Dockerfile.01_original . -t 01_original
 ```
