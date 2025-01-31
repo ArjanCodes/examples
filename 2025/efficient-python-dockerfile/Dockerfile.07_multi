@@ -1,38 +1,53 @@
-## ------------------------------- Builder Stage ------------------------------ ## 
+## ------------------------------- Build Stage ------------------------------ ##
 FROM python:3.13-bookworm AS builder
 
 RUN apt-get update && apt-get install --no-install-recommends -y \
-        build-essential && \
+        build-essential \
+        curl \
+        ca-certificates && \
     apt-get clean && rm -rf /var/lib/apt/lists/*
 
-# Download the latest installer, install it and then remove it
+# Download the latest installer, install it, then remove it
 ADD https://astral.sh/uv/install.sh /install.sh
-RUN chmod -R 655 /install.sh && /install.sh && rm /install.sh
+RUN chmod -R 755 /install.sh && /install.sh && rm /install.sh
 
-COPY . . 
+# Set up the UV environment path correctly
+ENV PATH="/root/.local/bin:${PATH}"
 
-WORKDIR /leadspotr
+WORKDIR /app
 
-RUN /root/.local/bin/uv sync
+COPY . .
+
+# Location for the python virtual environment
+ENV UV_PYTHON_INSTALL_DIR=/.venv
+
+RUN uv sync
 
 ## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.13-slim-bookworm AS production
-COPY --from=builder /leadspotr/.venv /leadspotr/.venv
 
+RUN useradd --create-home appuser
+
+# Copy the built app and virtual environment from the build stage
+COPY --chown=appuser:appuser --from=builder /app /app
+COPY --chown=appuser:appuser --from=builder /.venv /.venv
+
+USER appuser
+
+WORKDIR /app
+
+# Set environment variables for DB and access token
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_USER=${DB_USER}
 ENV DB_NAME=${DB_NAME}
 ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
-# Run the application as a non-root user
-RUN useradd -m appuser && chown -R appuser:appuser /leadspotr/.venv
-USER appuser
-
-ENV PATH="/leadspotr/.venv/bin:{$PATH}"
+# Set up environment variables for production
+ENV PATH="/app/.venv/bin:{$PATH}"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
 
-# Start the application with Uvicorn in production mode, using environment variable references
-CMD ["uvicorn", "main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "80"]
+# Start the application with Uvicorn in production mode
+CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0", "--port", "8080"]
