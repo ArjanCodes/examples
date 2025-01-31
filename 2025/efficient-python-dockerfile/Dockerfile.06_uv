@@ -18,7 +18,7 @@ WORKDIR /app
 
 COPY . .
 
-# Localtion for the python virtual environment
+# Location for the python virtual environment
 ENV UV_PYTHON_INSTALL_DIR=/opt/uv/python
 
 RUN uv sync
@@ -33,7 +33,6 @@ ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 RUN useradd --create-home appuser
 RUN chown -R appuser:appuser /opt/uv/python
 USER appuser
-
 
 ENV PATH="/app/.venv/bin:{$PATH}"
 
