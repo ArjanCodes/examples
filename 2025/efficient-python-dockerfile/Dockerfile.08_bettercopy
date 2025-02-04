@@ -14,25 +14,12 @@ ENV PATH="/root/.local/bin:${PATH}"
 
 WORKDIR /app
 
-COPY ./pyproject.toml . 
-
-# Location for the python virtual environment
-ENV UV_PYTHON_INSTALL_DIR=/.venv
+COPY ./pyproject.toml .
 
 RUN uv sync
 
 ## ------------------------------- Production Stage ------------------------------ ##
 FROM python:3.13-slim-bookworm AS production
-
-RUN useradd --create-home appuser
-
-# Copy the built app and virtual environment from the build stage
-COPY --chown=appuser:appuser /app /app/app
-COPY --chown=appuser:appuser --from=builder /app/.venv /app/.venv
-
-USER appuser
-
-WORKDIR /app
 
 # Set environment variables for DB and access token
 ENV DB_PASSWORD=${DB_PASSWORD}
@@ -41,6 +28,11 @@ ENV DB_NAME=${DB_NAME}
 ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
+WORKDIR /app
+
+COPY /src src
+COPY --from=builder /app/.venv .venv
+
 # Set up environment variables for production
 ENV PATH="/app/.venv/bin:{$PATH}"
 
@@ -48,4 +40,4 @@ ENV PATH="/app/.venv/bin:{$PATH}"
 EXPOSE $PORT
 
 # Start the application with Uvicorn in production mode, using environment variable references
-CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]
+CMD ["uvicorn", "src.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]

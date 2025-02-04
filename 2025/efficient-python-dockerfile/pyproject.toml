@@ -1,5 +1,5 @@
 [project]
-name = "app"
+name = "fastapi-example"
 version = "0.1.0"
 description = "A very simple FastAPI application"
 readme = "README.md"
