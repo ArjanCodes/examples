@@ -68,7 +68,6 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_PASSWORD=mydbpassword \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
-             --no-cache \
              -f Dockerfile.05_cleandeps . -t 05_cleandeps
 ```
 **Running the image**
@@ -97,13 +96,13 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
-             --no-cache \
              -f Dockerfile.07_multi . -t 07_multi
 ```
 **Running the image**
 ```
 docker run -p 8080:8080 07_multi
 ```
+
 ### Build `Dockerfile.08_bettercopy`
 ```
 docker build --build-arg DB_HOST=mydbhost \
@@ -112,7 +111,6 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
-             --no-cache \
              -f Dockerfile.08_bettercopy . -t 08_bettercopy
 ```
 **Running the image**
@@ -120,7 +118,7 @@ docker build --build-arg DB_HOST=mydbhost \
 docker run -p 8080:8080 08_bettercopy
 ```
 
-### Build `Dockerfile.09_mountsecrets`
+### Build `Dockerfile.08_mountsecrets`
 If you run into problems here, run the following commands before in your terminal:
 
 ```
@@ -139,16 +137,16 @@ docker build --secret id=DB_PASSWORD,env=DB_PASSWORD \
              --secret id=ACCESS_TOKEN_SECRET_KEY,env=ACCESS_TOKEN_SECRET_KEY \
              --target=production \
              --no-cache \
-             -f Dockerfile.09_mountsecrets . -t 09_mountsecrets
+             -f Dockerfile.08_mountsecrets . -t 08_mountsecrets
 ```
 **Running the image**
 ```
-docker run -p 8080:8080 09_mountsecrets 
+docker run -p 8080:8080 08_mountsecrets 
 
 ```
 
 
-### Build `Dockerfile.10_final`
+### Build `Dockerfile.09_final`
 If you run into problems here, run the following commands before in your terminal:
 ```
 export DB_PASSWORD="mydbpassword"
@@ -165,10 +163,9 @@ docker build --secret id=DB_PASSWORD \
              --secret id=DB_HOST \
              --secret id=ACCESS_TOKEN_SECRET_KEY \
              --target=production \
-             --no-cache \
-             -f Dockerfile.10_final . -t 10_final
+             -f Dockerfile.09_final . -t 09_final
 ```
 **Running the image**
 ```
-docker run -p 8080:8080 10_final
+docker run -p 8080:8080 09_final
 ```

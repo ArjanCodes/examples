@@ -1,5 +1,4 @@
-## ------------------------------- Production and Build Stage ------------------------------ ## 
-FROM ubuntu:latest AS builder-image
+FROM ubuntu
 
 RUN apt-get update && apt-get install -y \
         build-essential \
@@ -10,26 +9,30 @@ RUN apt-get update && apt-get install -y \
 
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
-WORKDIR /app
-
-COPY . .
-
+# Set up the Poetry environment path correctly
 ENV PATH="/root/.local/bin:${PATH}"
 
-RUN poetry config virtualenvs.in-project true
-RUN poetry install --no-interaction
-
+# Set environment variables for database and secrets
 ENV DB_PASSWORD=${DB_PASSWORD}
 ENV DB_USER=${DB_USER}
 ENV DB_NAME=${DB_NAME}
 ENV DB_HOST=${DB_HOST}
 ENV ACCESS_TOKEN_SECRET_KEY=${ACCESS_TOKEN_SECRET_KEY}
 
+WORKDIR /app
+
+# Copy the application files into the container
+COPY . .
+
+# Install dependencies with Poetry
+RUN poetry config virtualenvs.in-project true
+RUN poetry install --no-interaction --no-root
+
 # Set up the virtual environment path correctly for the appuser
 ENV PATH="/app/.venv/bin:${PATH}"
 
-# Expose the specified port for FastAPI
+# Expose the application port
 EXPOSE $PORT
 
-# Start the application with Uvicorn in production mode, using environment variable references
-CMD ["uvicorn", "app.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]
+# Start the FastAPI application using Uvicorn
+CMD ["uvicorn", "src.main:app", "--log-level", "info", "--host", "0.0.0.0" , "--port", "8080"]
