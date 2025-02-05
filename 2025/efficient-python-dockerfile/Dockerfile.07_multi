@@ -10,7 +10,7 @@ ADD https://astral.sh/uv/install.sh /install.sh
 RUN chmod -R 655 /install.sh && /install.sh && rm /install.sh
 
 # Set up the UV environment path correctly
-ENV PATH="/root/.local/bin:${PATH}"
+ENV PATH="/root/.local/bin:$PATH"
 
 WORKDIR /app
 
@@ -34,7 +34,7 @@ COPY . .
 COPY --from=builder /app/.venv .venv
 
 # Set up environment variables for production
-ENV PATH="/app/.venv/bin:{$PATH}"
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT

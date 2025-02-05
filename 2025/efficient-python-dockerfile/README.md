@@ -96,6 +96,7 @@ docker build --build-arg DB_HOST=mydbhost \
              --build-arg DB_NAME=mydbname \
              --build-arg ACCESS_TOKEN_SECRET_KEY=mysecretkey \
              --target=production \
+             --no-cache \
              -f Dockerfile.07_multi . -t 07_multi
 ```
 **Running the image**

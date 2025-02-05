@@ -33,6 +33,8 @@ DB_NAME=$(cat /run/secrets/DB_NAME) \
 DB_HOST=$(cat /run/secrets/DB_HOST) \
 ACCESS_TOKEN_SECRET_KEY=$(cat /run/secrets/ACCESS_TOKEN_SECRET_KEY)
 
+RUN --mount=type=secret,id=secret-key,target=secrets.json
+
 RUN useradd --create-home appuser
 USER appuser
 
@@ -42,7 +44,7 @@ COPY /src src
 COPY --from=builder /app/.venv .venv
 
 # Set up environment variables for production
-ENV PATH="/app/.venv/bin:{$PATH}"
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
