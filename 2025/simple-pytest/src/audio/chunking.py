@@ -1,10 +1,10 @@
 from pydub import AudioSegment  # type:ignore
 from pydub.silence import split_on_silence  # type:ignore
 
-from bragir.audio.grouping import group_audio_segments
-from bragir.config import get_config
-from bragir.constants import DURATION_SECONDS_25MB
-from bragir.tracing.logger import logger
+from src.audio.grouping import group_audio_segments
+from src.config import get_config
+from src.constants import DURATION_SECONDS_25MB
+from src.tracing.logger import logger
 
 
 def chunk_audio(

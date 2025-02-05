@@ -1,6 +1,6 @@
 from pydub import AudioSegment
 
-from bragir.tracing.logger import logger
+from src.tracing.logger import logger
 
 
 def combine(audio_segments: list[AudioSegment]) -> AudioSegment | None:

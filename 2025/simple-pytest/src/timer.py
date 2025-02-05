@@ -1,7 +1,7 @@
 import time
 from typing import Any, Callable
 
-from bragir.tracing.logger import logger
+from src.tracing.logger import logger
 
 
 def timing_decorator(func: Callable[..., Any]) -> Callable[..., Any]:

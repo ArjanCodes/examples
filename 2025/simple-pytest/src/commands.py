@@ -4,7 +4,7 @@ from pathlib import Path
 import click
 from openai import AsyncOpenAI
 
-from bragir.config import (
+from src.config import (
     CONFIG_FILE_PATH,
     Config,
     create_config_file,
@@ -14,23 +14,23 @@ from bragir.config import (
     set_config,
     update_dict,
 )
-from bragir.constants.ai import POSSIBLE_MODELS, get_model_limit
-from bragir.file import (
+from src.constants.ai import POSSIBLE_MODELS, get_model_limit
+from src.file import (
     get_new_file_path,
     get_srt_parts,
     read_file,
 )
-from bragir.files import create_file
-from bragir.languages import Languages, parse_languages
-from bragir.messages import PROMPT_HELP
-from bragir.path import get_files, get_target_path
-from bragir.post_processing import process_text
-from bragir.spinner import spinner
-from bragir.srt.srt_part import SRTPart
+from src.files import create_file
+from src.languages import Languages, parse_languages
+from src.messages import PROMPT_HELP
+from src.path import get_files, get_target_path
+from src.post_processing import process_text
+from src.spinner import spinner
+from src.srt.srt_part import SRTPart
+from src.tracing.logger import logger
+from src.transcription import async_transcribe_file
+from src.translation import async_translate_srt_parts
 from timestamp_utils import update_timestamps
-from bragir.tracing.logger import logger
-from bragir.transcription import async_transcribe_file
-from bragir.translation import async_translate_srt_parts
 
 
 @click.command(options_metavar="<options>")

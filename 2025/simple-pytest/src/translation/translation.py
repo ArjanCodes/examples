@@ -4,10 +4,10 @@ from typing import Any
 from openai import AsyncOpenAI, OpenAI
 from pydantic import BaseModel
 
-from bragir.config import get_config
-from bragir.srt.srt_part import SRTPart
-from bragir.timer import timing_decorator
-from bragir.tracing.logger import logger
+from src.config import get_config
+from src.srt.srt_part import SRTPart
+from src.timer import timing_decorator
+from src.tracing.logger import logger
 
 
 def split_by_breakpoints(
@@ -34,13 +34,6 @@ def split_by_breakpoints(
 
 
 def translate(translator: OpenAI, part: SRTPart, language: str) -> str:
-    config = get_config()
-
-    if config is None:
-        raise Exception("Config not found")
-
-    #    model = config.client.model
-
     completion = translator.beta.chat.completions.parse(
         model="gpt-4o-2024-08-06",
         messages=[
@@ -121,7 +114,7 @@ def translate_srt_parts(
 ) -> list[SRTPart]:
     for i, part in enumerate(parts):
         part.translation = translate(translator, part, language)
-        logger.info(f"Translated {i+1}/{len(parts)}")
+        logger.info(f"Translated {i + 1}/{len(parts)}")
 
     return parts
 

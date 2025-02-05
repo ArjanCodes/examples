@@ -3,11 +3,11 @@ from typing import Callable
 
 import click
 
-from bragir.audio.chunking import chunk_audio
-from bragir.files import File
-from bragir.languages import Languages
-from bragir.srt.srt_part import SRTPart, get_number_of_tokens
-from bragir.tracing.logger import logger
+from src.audio.chunking import chunk_audio
+from src.files import File
+from src.languages import Languages
+from src.srt.srt_part import SRTPart, get_number_of_tokens
+from src.tracing.logger import logger
 
 
 def calculate_duration_ms(file_size_mb: int, bitrate_kbps: int) -> float:

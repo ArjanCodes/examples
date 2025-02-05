@@ -7,8 +7,8 @@ from typing import Any
 import click
 from pydantic import BaseModel
 
-from bragir.constants.ai import POSSIBLE_MODELS
-from bragir.tracing.logger import logger
+from src.constants.ai import POSSIBLE_MODELS
+from src.tracing.logger import logger
 
 CONFIG_NAME = "config.ini"
 HOME_USER_PATH = Path.home()
@@ -160,7 +160,7 @@ def read_config(
         for key, value in section_value.items():
             if key == "openai_api_key":
                 click.echo(
-                    f"  {click.style(key, fg='yellow')} = {click.style("*************", fg='green')}"
+                    f"  {click.style(key, fg='yellow')} = {click.style('*************', fg='green')}"
                 )
             else:
                 click.echo(

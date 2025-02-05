@@ -1,8 +1,8 @@
 import re
 from dataclasses import dataclass, field
 
-from bragir.languages import Languages
-from bragir.srt.srt_part import SRTPart
+from src.languages import Languages
+from src.srt.srt_part import SRTPart
 
 
 @dataclass

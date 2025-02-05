@@ -7,7 +7,7 @@ from datetime import timedelta
 from itertools import cycle
 from time import sleep, time
 
-from bragir.tracing.logger import logger
+from src.tracing.logger import logger
 
 
 def spin(msg: str, start: float, frames, stop_spin: threading.Event):

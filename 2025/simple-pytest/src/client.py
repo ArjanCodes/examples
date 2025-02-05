@@ -1,8 +1,7 @@
 import openai
-from openai import AuthenticationError, OpenAI
+from openai import AsyncOpenAI, AuthenticationError, OpenAI
 
-from openai import AsyncOpenAI
-from bragir.tracing.logger import logger
+from src.tracing.logger import logger
 
 
 def initiate_client(api_key: str) -> OpenAI:

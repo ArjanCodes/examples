@@ -1,4 +1,4 @@
-from bragir.languages import Languages, to_output
+from src.languages import Languages, to_output
 
 PROMPT_HELP = {
     "file": "Path to file",

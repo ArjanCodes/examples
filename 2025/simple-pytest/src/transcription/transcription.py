@@ -3,9 +3,9 @@ import asyncio
 from anyio import Path
 from openai import AsyncOpenAI, OpenAI
 
-from bragir.file import calculate_file_size, process_file, remove_files
-from bragir.timer import timing_decorator
-from bragir.tracing.logger import logger
+from src.file import calculate_file_size, process_file, remove_files
+from src.timer import timing_decorator
+from src.tracing.logger import logger
 
 
 async def async_transcribe_audio(client: AsyncOpenAI, audio_path: str) -> str:

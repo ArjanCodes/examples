@@ -1,6 +1,6 @@
 import os
 
-from bragir.constants.files import BLACKLISTED_FILES
+from src.constants.files import BLACKLISTED_FILES
 
 
 def get_target_path(path: str, output: str) -> str:

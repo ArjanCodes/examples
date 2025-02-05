@@ -2,11 +2,15 @@ import re
 from datetime import timedelta
 from typing import Tuple
 
-from bragir.srt.srt_part import SRTPart
-from bragir.tracing.logger import logger
+from src.srt.srt_part import SRTPart
+from src.tracing.logger import logger
 
 
 def to_timestamp(td: timedelta) -> str:
+    # if td is negative return 0 timestamp
+    if td.total_seconds() < 0:
+        return "00:00:00.000"
+
     total_seconds = int(td.total_seconds())
     hours = total_seconds // 3600
     minutes = (total_seconds % 3600) // 60

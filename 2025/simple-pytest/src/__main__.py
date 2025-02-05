@@ -1,10 +1,10 @@
 import click
 
-from bragir import commands
-from bragir.client import initate_async_client
-from bragir.config import create_config_file, get_config
-from bragir.tracing.logger import setup_logging, logger
-from bragir.tracing.stratergies import InfoLoggerStrategy
+from src import commands
+from src.client import initate_async_client
+from src.config import create_config_file, get_config
+from src.tracing.logger import logger, setup_logging
+from src.tracing.stratergies import InfoLoggerStrategy
 
 CONTEXT_SETTINGS = dict(help_option_names=["-h", "--help"])
 

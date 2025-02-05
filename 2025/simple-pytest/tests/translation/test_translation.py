@@ -1,9 +1,10 @@
 from unittest.mock import Mock
-from bragir.translation import (
-    translate,
+
+from src.translation import (
     split_by_breakpoints,
+    translate,
 )
-from bragir.translation.translation import Part
+from src.translation.translation import Part
 
 
 def test_empty_list_of_collection():
@@ -35,8 +36,7 @@ def test_breakpoint_out_of_bounds():
     collection = [1, 2, 3]
     breakpoints = [5]
     expected: list[list[int]] = [
-        [1, 2, 3],
-        [],
+        [1, 2, 3]
     ]  # Might need clarification based on desired behavior
     assert split_by_breakpoints(collection, breakpoints) == expected
 

@@ -20,9 +20,5 @@ dev = [
     "pytest>=8.3.3,<9.0.0",
 ]
 
-[build-system]
-requires = ["poetry-core>=1.0.0"]
-build-backend = "poetry.core.masonry.api"
-
 [tool.pytest.ini_options]
-pythonpath = "bragir"
+pythonpath = "src"
