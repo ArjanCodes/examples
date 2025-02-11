@@ -14,32 +14,36 @@ LOKALISE_API_KEY = os.getenv("LOKALISE_API_KEY")
 LOKALISE_PROJECT_ID = os.getenv("LOKALISE_PROJECT_ID")
 LANGUAGE = "nl"
 
-client = lokalise.Client(LOKALISE_API_KEY)
+class LokaliseTranslator:
+    def __init__(self, api_key: str, project_id: str, language: str) -> None:
+        self.client = lokalise.Client(api_key)
+        self.project_id = project_id
+        self.language = language
+        self.translations = self.get_translations()
 
-def get_translations():
-    response = client.download_files(LOKALISE_PROJECT_ID, {
-        "format": "json",
-        "original_filenames": True,
-        "replace_breaks": False
-    })
-    translations_url = response["bundle_url"]
+    def get_translations(self) -> dict[str, str]:
+        response = self.client.download_files(self.project_id, {
+            "format": "json",
+            "original_filenames": True,
+            "replace_breaks": False
+        })
+        translations_url = response["bundle_url"]
+        
+        # Download and extract the ZIP file
+        zip_response = requests.get(translations_url)
+        zip_file = zipfile.ZipFile(io.BytesIO(zip_response.content))
+        
+        # Find the JSON file corresponding to the selected language
+        json_filename = f"{self.language}/no_filename.json"
+        with zip_file.open(json_filename) as json_file:
+            return json.load(json_file)
     
-    # Download and extract the ZIP file
-    zip_response = requests.get(translations_url)
-    zip_file = zipfile.ZipFile(io.BytesIO(zip_response.content))
-    
-    # Find the JSON file corresponding to the selected language
-    json_filename = f"{LANGUAGE}/no_filename.json"
-    with zip_file.open(json_filename) as json_file:
-        translations = json.load(json_file)
-        return translations
+    def __call__(self, key: str) -> str:
+        return self.translations.get(key, key)
 
-TRANSLATIONS = get_translations()
+translator = LokaliseTranslator(LOKALISE_API_KEY, LOKALISE_PROJECT_ID, LANGUAGE)
 
-def translate(key: str) -> str:
-    return TRANSLATIONS.get(key, key)
-
-st.title(translate("dashboard_title"))
+st.title(translator("dashboard_title"))
 
 DATE_COLUMN = "date/time"
 DATA_URL = (
@@ -53,15 +57,15 @@ def load_data(nrows):
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
 
-data_load_state = st.text(translate("loading_data"))
+data_load_state = st.text(translator("loading_data"))
 data = load_data(10000)
-data_load_state.text(translate("done"))
+data_load_state.text(translator("done"))
 
-if st.checkbox(translate("show_raw_data")):
-    st.subheader(translate("raw_data"))
+if st.checkbox(translator("show_raw_data")):
+    st.subheader(translator("raw_data"))
     st.write(data)
 
-st.subheader(translate("nb_pickups_hour"))
+st.subheader(translator("nb_pickups_hour"))
 hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0, 24))[0]
 st.bar_chart(hist_values)
 
@@ -69,5 +73,5 @@ st.bar_chart(hist_values)
 hour_to_filter = st.slider("hour", 0, 23, 17)
 filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
 
-st.subheader(translate("map_all_pickups") % hour_to_filter)
+st.subheader(translator("map_all_pickups") % hour_to_filter)
 st.map(filtered_data)
