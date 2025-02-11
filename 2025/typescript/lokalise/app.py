@@ -1,18 +1,20 @@
+import io
+import json
 import os
+import zipfile
+
 import lokalise
 import numpy as np
 import pandas as pd
+import requests
 import streamlit as st
 from dotenv import load_dotenv
-import json
-import requests
-import zipfile
-import io
 
 load_dotenv()
 LOKALISE_API_KEY = os.getenv("LOKALISE_API_KEY")
 LOKALISE_PROJECT_ID = os.getenv("LOKALISE_PROJECT_ID")
-LANGUAGE = "en"
+LANGUAGE = "nl"
+
 
 class LokaliseTranslator:
     def __init__(self, api_key: str, project_id: str, language: str) -> None:
@@ -22,24 +24,24 @@ class LokaliseTranslator:
         self.translations = self.get_translations()
 
     def get_translations(self) -> dict[str, str]:
-        response = self.client.download_files(self.project_id, {
-            "format": "json",
-            "original_filenames": True,
-            "replace_breaks": False
-        })
+        response = self.client.download_files(
+            self.project_id,
+            {"format": "json", "original_filenames": True, "replace_breaks": False},
+        )
         translations_url = response["bundle_url"]
-        
+
         # Download and extract the ZIP file
         zip_response = requests.get(translations_url)
         zip_file = zipfile.ZipFile(io.BytesIO(zip_response.content))
-        
+
         # Find the JSON file corresponding to the selected language
         json_filename = f"{self.language}/no_filename.json"
         with zip_file.open(json_filename) as json_file:
             return json.load(json_file)
-    
+
     def __call__(self, key: str) -> str:
         return self.translations.get(key, key)
+
 
 translator = LokaliseTranslator(LOKALISE_API_KEY, LOKALISE_PROJECT_ID, LANGUAGE)
 
@@ -50,12 +52,14 @@ DATA_URL = (
     "https://s3-us-west-2.amazonaws.com/streamlit-demo-data/uber-raw-data-sep14.csv.gz"
 )
 
+
 @st.cache_data
 def load_data(nrows):
     data = pd.read_csv(DATA_URL, nrows=nrows)
     data.rename(lambda x: str(x).lower(), axis="columns", inplace=True)
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
+
 
 data_load_state = st.text(translator("loading_data"))
 data = load_data(10000)

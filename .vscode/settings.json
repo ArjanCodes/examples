@@ -1,12 +1,9 @@
 {
-    "editor.defaultFormatter": "esbenp.prettier-vscode",
-    "[python]": {
-        "editor.defaultFormatter": null
-    },
-    "editor.formatOnSaveMode": "file",
-    "editor.formatOnSave": true,
-    "editor.codeActionsOnSave": {
-        "source.organizeImports": "always"
-    },
-    "python.languageServer": "Pylance"
+    // Python settings
+    // "python.envFile": "${workspaceFolder}/.env",,
+    // Test settings
+    "python.testing.pytestEnabled": true,
+    // "python.testing.unittestEnabled": false,
+    "python.testing.cwd": "${workspaceFolder}/tests",
+    "python.defaultInterpreterPath": "${workspaceFolder}/2025/typescript/lokalise/.venv/bin/python"
 }
