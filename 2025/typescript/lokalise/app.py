@@ -1,47 +1,50 @@
 import os
-
 import lokalise
 import numpy as np
 import pandas as pd
 import streamlit as st
 from dotenv import load_dotenv
+import json
+import requests
+import zipfile
+import io
 
 load_dotenv()
 LOKALISE_API_KEY = os.getenv("LOKALISE_API_KEY")
 LOKALISE_PROJECT_ID = os.getenv("LOKALISE_PROJECT_ID")
 LANGUAGE = "nl"
 
-DASHBOARD_TITLE = 601816468
-LOADING_DATA = 601820456
-SHOW_RAW_DATA = 601821173
-RAW_DATA = 601822270
-DONE = 601822553
-NB_PICKUPS_HOUR = 601828483
-MAP_ALL_PICKUPS = 601828555
-
-
 client = lokalise.Client(LOKALISE_API_KEY)
 
+def get_translations():
+    response = client.download_files(LOKALISE_PROJECT_ID, {
+        "format": "json",
+        "original_filenames": True,
+        "replace_breaks": False
+    })
+    translations_url = response["bundle_url"]
+    
+    # Download and extract the ZIP file
+    zip_response = requests.get(translations_url)
+    zip_file = zipfile.ZipFile(io.BytesIO(zip_response.content))
+    
+    # Find the JSON file corresponding to the selected language
+    json_filename = f"{LANGUAGE}/no_filename.json"
+    with zip_file.open(json_filename) as json_file:
+        translations = json.load(json_file)
+        return translations
 
-def translate(key_id: int) -> str:
-    key = client.key(LOKALISE_PROJECT_ID, key_id)
-    if not key.translations:
-        return key.key_name["web"]
+TRANSLATIONS = get_translations()
 
-    for translation in key.translations:
-        if translation["language_iso"] == LANGUAGE:
-            return translation["translation"]
-    # If no translation found, return the first one
-    return key.translations[0]["translation"]
+def translate(key: str) -> str:
+    return TRANSLATIONS.get(key, key)
 
-
-st.title(translate(DASHBOARD_TITLE))
+st.title(translate("dashboard_title"))
 
 DATE_COLUMN = "date/time"
 DATA_URL = (
     "https://s3-us-west-2.amazonaws.com/streamlit-demo-data/uber-raw-data-sep14.csv.gz"
 )
-
 
 @st.cache_data
 def load_data(nrows):
@@ -50,16 +53,15 @@ def load_data(nrows):
     data[DATE_COLUMN] = pd.to_datetime(data[DATE_COLUMN])
     return data
 
-
-data_load_state = st.text(translate(LOADING_DATA))
+data_load_state = st.text(translate("loading_data"))
 data = load_data(10000)
-data_load_state.text(translate(DONE))
+data_load_state.text(translate("done"))
 
-if st.checkbox(translate(SHOW_RAW_DATA)):
-    st.subheader(translate(RAW_DATA))
+if st.checkbox(translate("show_raw_data")):
+    st.subheader(translate("raw_data"))
     st.write(data)
 
-st.subheader(translate(NB_PICKUPS_HOUR))
+st.subheader(translate("nb_pickups_hour"))
 hist_values = np.histogram(data[DATE_COLUMN].dt.hour, bins=24, range=(0, 24))[0]
 st.bar_chart(hist_values)
 
@@ -67,5 +69,5 @@ st.bar_chart(hist_values)
 hour_to_filter = st.slider("hour", 0, 23, 17)
 filtered_data = data[data[DATE_COLUMN].dt.hour == hour_to_filter]
 
-st.subheader(translate(MAP_ALL_PICKUPS) % hour_to_filter)
+st.subheader(translate("map_all_pickups") % hour_to_filter)
 st.map(filtered_data)
