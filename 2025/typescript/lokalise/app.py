@@ -12,7 +12,7 @@ import io
 load_dotenv()
 LOKALISE_API_KEY = os.getenv("LOKALISE_API_KEY")
 LOKALISE_PROJECT_ID = os.getenv("LOKALISE_PROJECT_ID")
-LANGUAGE = "nl"
+LANGUAGE = "en"
 
 class LokaliseTranslator:
     def __init__(self, api_key: str, project_id: str, language: str) -> None:
