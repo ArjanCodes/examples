@@ -10,7 +10,7 @@ RUN apt-get update && apt-get install -y \
 RUN curl -sSL https://install.python-poetry.org | python3 -
 
 # Set up the Poetry environment path correctly
-ENV PATH="/root/.local/bin:${PATH}"
+ENV PATH="/root/.local/bin:$PATH"
 
 # Set environment variables for database and secrets
 ENV DB_PASSWORD=${DB_PASSWORD}
@@ -29,7 +29,7 @@ RUN poetry config virtualenvs.in-project true
 RUN poetry install --no-interaction --no-root
 
 # Set up the virtual environment path correctly for the appuser
-ENV PATH="/app/.venv/bin:${PATH}"
+ENV PATH="/app/.venv/bin:$PATH"
 
 # Expose the application port
 EXPOSE $PORT
