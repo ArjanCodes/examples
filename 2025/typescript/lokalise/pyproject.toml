@@ -1,0 +1,12 @@
+[project]
+name = "lokalise_dashboard"
+version = "0.1.0"
+description = "Example of dashboard with translation"
+requires-python = ">=3.13"
+dependencies = [
+    "numpy>=2.2.2",
+    "pandas>=2.2.3",
+    "python-dotenv>=1.0.1",
+    "python-lokalise-api>=3.1.1",
+    "streamlit>=1.41.1",
+]
