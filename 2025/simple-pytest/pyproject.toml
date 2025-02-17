@@ -1,0 +1,24 @@
+[project]
+name = "bragir"
+version = "1.4.3"
+description = "Add your description here"
+authors = [{name = "ArjanCodes"}]
+license = {text = "MIT"}
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "click>=8.1.7",
+    "openai>=1.54.4",
+    "pydantic>=2.9.2",
+    "pydub>=0.25.1",
+    "ruff>=0.7.3",
+]
+
+[dependency-groups]
+dev = [
+    "pytest-mock>=3.14.0",
+    "pytest>=8.3.3,<9.0.0",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
