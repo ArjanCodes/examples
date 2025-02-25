@@ -1,7 +1,8 @@
 [project]
 name = "coupling-hard"
 version = "0.1.0"
-description = "Add your description here"
-readme = "README.md"
+description = "Examples of coupling trade-offs"
 requires-python = ">=3.13"
-dependencies = []
+dependencies = [
+    "httpx>=0.28.1",
+]

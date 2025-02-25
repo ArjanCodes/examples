@@ -18,13 +18,13 @@ class Transaction:
     customer_id: int
 
 
-def log_transaction(transaction: Transaction):
+def log_transaction(transaction: Transaction) -> None:
     print(
         f"Logging {transaction.transaction_type} transaction ID {transaction.transaction_id} at {transaction.timestamp}"
     )
 
 
-def process_transaction(transaction: Transaction):
+def process_transaction(transaction: Transaction) -> None:
     if transaction.transaction_type == TransactionType.DEPOSIT:
         print(f"Processing deposit of {transaction.amount}")
     elif transaction.transaction_type == TransactionType.WITHDRAWAL:
