@@ -1,0 +1,19 @@
+[project]
+name = "fastapi-example"
+version = "0.1.0"
+description = "A very simple FastAPI application"
+readme = "README.md"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi>=0.95.0",
+    "httpx>=0.28.1",
+    "uvicorn>=0.21.1",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
+
+[tool.pytest.ini_options]
+pythonpath = "src"
