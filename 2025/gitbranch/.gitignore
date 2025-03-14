@@ -1,0 +1,17 @@
+**/*.pyc
+.coverage
+htmlcov
+**/.DS_Store
+**/node_modules
+.hydra
+**/*.log
+configs/runs
+.hypothesis
+venv
+.env
+*/.venv/*
+.idea
+.pytest_cache
+*.egg-info
+build
+dist
