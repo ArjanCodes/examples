@@ -5,4 +5,7 @@ requires-python = ">=3.13"
 dependencies = [
     "numpy>=2.2.4",
     "pandas>=2.2.3",
+    "python-dotenv>=1.1.0",
+    "python-lokalise-api>=3.2.0",
+    "streamlit>=1.44.1",
 ]
