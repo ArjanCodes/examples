@@ -1,0 +1,3 @@
+[2023-10-01 12:00] INFO: System started
+[2023-10-01 12:05] WARNING: Low disk space
+[2023-10-01 12:10] ERROR: Disk failure
