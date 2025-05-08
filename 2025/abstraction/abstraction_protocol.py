@@ -1,3 +1,4 @@
+from dataclasses import dataclass
 from typing import Any, Protocol
 
 from PIL import Image
@@ -11,13 +12,10 @@ class ImageFilter(Protocol):
     def configure(self, config: dict[str, Any]) -> None: ...
 
 
+@dataclass
 class SepiaFilter:
-    def __init__(self) -> None:
-        self._depth: int = 20
-
-    @property
-    def name(self) -> str:
-        return "Sepia"
+    name: str = "Sepia"
+    _depth: int = 20
 
     def apply(self, image: Image.Image) -> Image.Image:
         print(f"Applying {self.name} filter with depth {self._depth}")
