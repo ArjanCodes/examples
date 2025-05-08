@@ -5,7 +5,9 @@ from PIL import Image, ImageOps
 
 
 class FilterBase(ABC):
-    name: str
+    @property
+    @abstractmethod
+    def name(self) -> str: ...
 
     @abstractmethod
     def apply(self, image: Image.Image) -> Image.Image: ...
