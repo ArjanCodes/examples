@@ -1,0 +1,7 @@
+[project]
+name = "abstraction"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "pillow>=11.2.1",
+]
