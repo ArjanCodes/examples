@@ -1,5 +1,15 @@
-from filters.base import FilterBase
+from typing import Any, Protocol
+
 from PIL import Image
+
+
+class FilterBase(Protocol):
+    @property
+    def name(self) -> str: ...
+
+    def apply(self, image: Image.Image) -> Image.Image: ...
+
+    def configure(self, config: dict[str, Any]) -> None: ...
 
 
 def process_img(image_path: str, output_path: str, filter_obj: FilterBase) -> None:

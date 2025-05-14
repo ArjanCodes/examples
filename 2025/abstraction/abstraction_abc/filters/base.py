@@ -1,6 +1,8 @@
 from abc import ABC, abstractmethod
-from PIL import Image
 from typing import Any
+
+from PIL import Image
+
 
 class FilterBase(ABC):
     @property
