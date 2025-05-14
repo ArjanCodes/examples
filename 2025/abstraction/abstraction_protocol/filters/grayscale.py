@@ -2,10 +2,8 @@ from typing import Any
 
 from PIL import Image, ImageOps
 
-from .base import FilterBase
 
-
-class GrayscaleFilter(FilterBase):
+class GrayscaleFilter:
     def __init__(self) -> None:
         self._intensity: float = 1.0
 
