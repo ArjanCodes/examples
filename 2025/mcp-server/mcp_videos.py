@@ -1,5 +1,5 @@
 from mcp.server.fastmcp import FastMCP
-from video_repository import search_youtube
+from yt_helper import search_youtube
 
 # Initialize FastMCP server
 mcp = FastMCP("videos")
