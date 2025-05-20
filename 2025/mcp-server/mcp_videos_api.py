@@ -1,3 +1,5 @@
+from typing import Any
+
 import httpx
 from mcp.server.fastmcp import FastMCP
 
@@ -7,17 +9,17 @@ mcp = FastMCP("videos")
 API_URL = "http://localhost:8000/videos"  # Adjust if hosted elsewhere
 
 
-def format_video(video: dict[str, str]) -> str:
+def format_video(video: dict[str, Any]) -> str:
     """Format a video feature into a readable string."""
     return f"""
-Title: {video.get("title", "Unknown")}
-Channel: {video.get("channel", "Unknown")}
-Duration: {video.get("duration", "Unknown")}
-Description: {video.get("description", "No description available")}
-Views: {video.get("views", "Unknown")}
-URL: {video.get("url", "Unknown")}
-Published: {video.get("publish_time", "Unknown")}
-""".strip()
+        Title: {video.get("title", "Unknown")}
+        Channel: {video.get("channel", "Unknown")}
+        Duration: {video.get("duration", "Unknown")}
+        Description: {video.get("description", "No description available")}
+        Views: {video.get("views", "Unknown")}
+        URL: {video.get("url", "Unknown")}
+        Published: {video.get("publish_time", "Unknown")}
+       """
 
 
 @mcp.tool()
