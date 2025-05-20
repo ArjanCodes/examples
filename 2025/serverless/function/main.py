@@ -25,7 +25,7 @@ def name(channel_id: str):
 
 
 @functions_framework.http
-def hello(request: flask.Request) -> flask.Response:
+def channels_handler(request: flask.Request) -> flask.Response:
     # Create a new app context for the internal app
     ctx = app.test_request_context(
         path=request.full_path,

@@ -1,6 +1,7 @@
-name: channels
+name: serverless-py
 runtime:
   name: python
   options:
-    virtualenv: venv
-description: A minimal Google Cloud Python Pulumi program
+    toolchain: uv
+    virtualenv: .venv
+description: Basic example of a serverless Python and Go GCP functions (in Python)
