@@ -1,11 +1,13 @@
+from typing import Any
+
 from mcp.server.fastmcp import FastMCP
-from yt_helper import search_youtube
+from yt_helper import construct_video_url, search_youtube
 
 # Initialize FastMCP server
 mcp = FastMCP("videos")
 
 
-def format_video(video: dict[str, str]) -> str:
+def format_video(video: dict[str, Any]) -> str:
     """Format a video feature into a readable string."""
     return f"""
         Title: {video.get("title", "Unknown")}
@@ -13,7 +15,7 @@ def format_video(video: dict[str, str]) -> str:
         Duration: {video.get("duration", "Unknown")}
         Description: {video.get("description", "No description available")}
         Views: {video.get("views", "Unknown")}
-        URL: https://www.youtube.com/watch?v={video.get("id", "Unknown")}
+        URL: {construct_video_url(video.get("id", "dQw4w9WgXcQ"))}
         Published: {video.get("publish_time", "Unknown")}
        """
 

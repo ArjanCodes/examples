@@ -3,7 +3,7 @@ from typing import Optional
 import uvicorn
 from fastapi import FastAPI, Query
 from pydantic import BaseModel
-from yt_helper import search_youtube
+from yt_helper import construct_video_url, search_youtube
 
 app = FastAPI(title="YouTube Video Search API")
 
@@ -35,7 +35,7 @@ async def get_videos(
             duration=video.get("duration", "Unknown"),
             description=video.get("description", None),
             views=video.get("views", None),
-            url=f"https://www.youtube.com/watch?v={video.get('id', '')}",
+            url=construct_video_url(video.get("id", "dQw4w9WgXcQ")),
             publish_time=video.get("publish_time", None),
         )
         for video in results
