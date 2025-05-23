@@ -1,0 +1,10 @@
+[project]
+name = "dataclasses_vs_pydantic"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+    "pydantic>=2.11.4",
+    "sqlalchemy>=2.0.41",
+    "uvicorn>=0.34.2",
+]
