@@ -1,5 +1,5 @@
 from pulumi import asset, export
-from pulumi_gcp import cloudfunctionsv2, storage
+from pulumi_gcp import cloudfunctionsv2, cloudrunv2, storage
 
 bucket = storage.Bucket("bucket", location="europe-west1")
 
@@ -10,8 +10,8 @@ py_bucket_object = storage.BucketObject(
 )
 
 py_function = cloudfunctionsv2.Function(
-    "python-func",
-    name="python-func",
+    "channels-api",
+    name="channels-api",
     location="europe-west1",
     build_config={
         "runtime": "python313",
@@ -30,14 +30,13 @@ py_function = cloudfunctionsv2.Function(
     },
 )
 
-
-py_invoker = cloudfunctionsv2.FunctionIamMember(
+py_invoker = cloudrunv2.ServiceIamMember(
     "py-invoker",
     project=py_function.project,
     location=py_function.location,
-    cloud_function=py_function.name,
-    role="roles/cloudfunctions.invoker",
-    # role="roles/run.invoker",
+    name=py_function.name,
+    # role="roles/cloudfunctions.invoker",
+    role="roles/run.invoker",
     member="allUsers",
 )
 
