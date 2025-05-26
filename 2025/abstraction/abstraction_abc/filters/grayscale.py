@@ -15,7 +15,7 @@ class GrayscaleFilter(FilterBase):
 
     def apply(self, image: Image.Image) -> Image.Image:
         print(f"Applying {self.name} filter with intensity {self._intensity}")
-        grayscale_image = ImageOps.grayscale(image)
+        grayscale_image = ImageOps.grayscale(image).convert("RGB")
         if self._intensity < 1.0:
             return Image.blend(image, grayscale_image, self._intensity)
         return grayscale_image
