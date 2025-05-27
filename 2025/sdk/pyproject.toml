@@ -1,0 +1,16 @@
+[project]
+name = "sdk"
+version = "0.1.0"
+description = "SDK design"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi>=0.115.12",
+    "httpx>=0.28.1",
+    "pydantic[email]>=2.11.5",
+    "uvicorn>=0.34.2",
+]
+
+[dependency-groups]
+dev = [
+    "pytest>=8.3.5",
+]
