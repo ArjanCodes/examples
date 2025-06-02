@@ -1,0 +1,9 @@
+[project]
+name = "serverless"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "functions-framework>=3.8.3",
+    "pulumi>=3.170.0",
+    "pulumi-gcp>=8.31.0",
+]

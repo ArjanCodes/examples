@@ -1,0 +1,7 @@
+name: serverless-py
+runtime:
+  name: python
+  options:
+    toolchain: uv
+    virtualenv: .venv
+description: Basic example of a serverless Python and Go GCP functions (in Python)
