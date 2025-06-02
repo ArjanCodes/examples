@@ -1,0 +1,11 @@
+[project]
+name = "mcp-example"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "fastapi[standard]>=0.115.12",
+    "httpx>=0.28.1",
+    "mcp[cli]>=1.8.1",
+    "uvicorn>=0.34.2",
+    "youtube-search>=2.1.2",
+]
