@@ -2,16 +2,24 @@ from dataclasses import dataclass
 from typing import Self
 
 
-@dataclass
+@dataclass(frozen=True)
 class HTMLPage:
     title: str
+    metadata: dict[str, str]
     body_elements: list[str]
 
     def render(self) -> str:
         body = "\n".join(self.body_elements)
+        meta_tags = "\n".join(
+            f'<meta name="{name}" content="{value}">'
+            for name, value in self.metadata.items()
+        )
         return f"""<!DOCTYPE html>
                     <html>
-                    <head><title>{self.title}</title></head>
+                    <head>
+                    <title>{self.title}</title>
+                    {meta_tags}
+                    </head>
                     <body>
                     {body}
                     </body>
@@ -22,6 +30,7 @@ class HTMLBuilder:
     def __init__(self) -> None:
         self._title: str = "Untitled"
         self._body: list[str] = []
+        self._metadata: dict[str, str] = {}
 
     def set_title(self, title: str) -> Self:
         self._title = title
@@ -41,5 +50,9 @@ class HTMLBuilder:
         )
         return self
 
+    def add_metadata(self, name: str, content: str) -> Self:
+        self._metadata[name] = content
+        return self
+
     def build(self) -> HTMLPage:
-        return HTMLPage(self._title, self._body)
+        return HTMLPage(self._title, self._metadata, self._body)
