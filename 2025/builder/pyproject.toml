@@ -3,4 +3,7 @@ name = "builder"
 version = "0.1.0"
 requires-python = ">=3.13"
 dependencies = [
+    "jinja2>=3.1.6",
+    "matplotlib>=3.10.3",
+    "pandas>=2.3.0",
 ]
