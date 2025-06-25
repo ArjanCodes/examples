@@ -5,7 +5,7 @@ from pydantic import BaseModel
 from sdk_v3 import client
 
 
-class BaseAPIModel[T](BaseModel):
+class BaseAPIModel[T: BaseAPIModel](BaseModel):
     id: str | None = None
     _resource_path: ClassVar[str] = ""
 
