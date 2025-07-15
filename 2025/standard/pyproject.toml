@@ -1,0 +1,7 @@
+[project]
+name = "standard"
+version = "0.1.0"
+description = "Nice Python standard library tips"
+requires-python = ">=3.13"
+dependencies = [
+]
