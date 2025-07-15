@@ -1,0 +1,10 @@
+[project]
+name = "pydanticai"
+version = "0.1.0"
+description = "Pydantic AI tutorial"
+requires-python = ">=3.13"
+dependencies = [
+    "pydantic>=2.11.7",
+    "pydantic-ai>=0.4.2",
+    "python-dotenv>=1.1.1",
+]
