@@ -8,7 +8,7 @@ class Product:
     in_stock: bool = True
 
 
-def main():
+def main() -> None:
     product = Product(name="Widget", price=19.99)
     print(product)
 
