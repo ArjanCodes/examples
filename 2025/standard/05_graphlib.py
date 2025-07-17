@@ -2,7 +2,8 @@ from graphlib import TopologicalSorter
 
 ts = TopologicalSorter[str]()
 
-def main():
+
+def main() -> None:
     # Tasks and their dependencies
     ts.add("compile", "fetch_sources")
     ts.add("test", "compile")
@@ -12,6 +13,7 @@ def main():
 
     order = list(ts.static_order())
     print("Execution order:", order)
+
 
 if __name__ == "__main__":
     main()

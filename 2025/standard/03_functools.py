@@ -1,9 +1,11 @@
 from functools import cache, partial
 
+
 @cache
 def power(base: int, exponent: int) -> int:
     print(f"Computing {base}^{exponent}")
-    return base ** exponent
+    return base**exponent
+
 
 def main() -> None:
     # cached power function
@@ -18,6 +20,7 @@ def main() -> None:
     print("Square of 5:", square(5))
     print("Cube of 2:", cube(2))
     print("Square of 5 again (cached):", square(5))
+
 
 if __name__ == "__main__":
     main()

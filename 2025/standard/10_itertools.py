@@ -1,5 +1,5 @@
 import itertools
-from collections.abc import Iterable
+
 
 def main() -> None:
     items = ["a", "b", "c"]
@@ -27,6 +27,7 @@ def main() -> None:
     for key, group in itertools.groupby(data):
         group_list = list(group)
         print(f"{key}: {group_list}")
+
 
 if __name__ == "__main__":
     main()
