@@ -1,73 +1,62 @@
-# tests/test_weather.py
-
 import sys
+from typing import Any
 
 import pytest
+
 from weather import WeatherService
 
-# from hypothesis import given
-# from hypothesis.strategies import floats
 
-
-# ✅ Parametrization
 @pytest.mark.parametrize(
-    "city,expected_temp", [("London", 15), ("Berlin", 20), ("Paris", 17)]
+    "city,expected_temp",
+    [
+        ("London", 15),
+        ("Berlin", 20),
+        ("Rome", 18),
+    ],
 )
-def test_get_temperature_multiple_cities(monkeypatch, city, expected_temp):
-    def fake_get(url, params):
+def test_parametrized_temperatures(
+    monkeypatch: pytest.MonkeyPatch, city: str, expected_temp: float
+) -> None:
+    def fake_get(url: str, params: dict[str, Any]) -> Any:
         class FakeResponse:
-            def raise_for_status(self):
+            def raise_for_status(self) -> None:
                 pass
 
-            def json(self):
+            def json(self) -> dict[str, Any]:
                 return {"current": {"temp_c": expected_temp}}
 
         return FakeResponse()
 
-    monkeypatch.setattr("weather.httpx.get", fake_get)
-
+    monkeypatch.setattr("httpx.get", fake_get)
     service = WeatherService(api_key="fake-key")
-    temp = service.get_temperature(city)
-
-    assert temp == expected_temp
+    assert service.get_temperature(city) == expected_temp
 
 
-# ✅ pytest.raises
-def test_get_temperature_raises_http_error(monkeypatch):
-    def fake_get(url, params):
+def test_temperature_raises_error(monkeypatch: pytest.MonkeyPatch) -> None:
+    def fake_get(url: str, params: dict[str, Any]) -> Any:
         class FakeResponse:
-            def raise_for_status(self):
+            def raise_for_status(self) -> None:
                 raise Exception("API error")
 
         return FakeResponse()
 
-    monkeypatch.setattr("weather.httpx.get", fake_get)
-
+    monkeypatch.setattr("httpx.get", fake_get)
     service = WeatherService(api_key="fake-key")
 
     with pytest.raises(Exception):
-        service.get_temperature("Tokyo")
+        service.get_temperature("Oslo")
 
 
-# ✅ pytest.mark.skip
-@pytest.mark.skip(reason="Skipping this test for demonstration purposes.")
-def test_skipped_example():
+@pytest.mark.skip(reason="Temporarily skipping for demo purposes")
+def test_skipped() -> None:
     assert False
 
 
-# ✅ pytest.mark.skipif
-@pytest.mark.skipif(sys.platform == "win32", reason="Does not run on Windows")
-def test_only_runs_on_non_windows():
+@pytest.mark.skipif(sys.platform == "win32", reason="Fails on Windows")
+def test_non_windows_behavior() -> None:
     assert True
 
 
-# ✅ pytest.mark.xfail
-@pytest.mark.xfail(reason="Known bug: API sometimes returns wrong temperature")
-def test_expected_failure_example():
-    assert 2 + 2 == 5
-
-
-# ✅ Hypothesis property-based test
-# @given(floats(min_value=-50, max_value=50))
-# def test_temperature_range_property(temp):
-#     assert -50 <= temp <= 50
+@pytest.mark.xfail(reason="Intentional failure due to API bug")
+def test_expected_failure() -> None:
+    assert 1 + 1 == 3
