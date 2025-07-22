@@ -1,4 +1,3 @@
-# weather_service.py
 import os
 
 import httpx
@@ -8,7 +7,7 @@ load_dotenv()
 
 
 class WeatherService:
-    def __init__(self, client: httpx.Client, api_key: str):
+    def __init__(self, client: httpx.Client, api_key: str) -> None:
         self.client = client
         self.api_key = api_key
 
@@ -22,7 +21,7 @@ class WeatherService:
         return data["current"]["temp_c"]
 
 
-def main():
+def main() -> None:
     api_key = os.getenv("WEATHER_API_KEY", "")
     client = httpx.Client()
     weather_service = WeatherService(client, api_key)

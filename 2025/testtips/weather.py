@@ -1,4 +1,3 @@
-# weather_service.py
 import os
 
 import httpx
@@ -8,7 +7,7 @@ load_dotenv()
 
 
 class WeatherService:
-    def __init__(self, api_key: str):
+    def __init__(self, api_key: str) -> None:
         self.api_key = api_key
 
     def get_temperature(self, city: str) -> float:
@@ -21,8 +20,8 @@ class WeatherService:
         return data["current"]["temp_c"]
 
 
-def main():
-    api_key = os.getenv("WEATHER_API_KEY")
+def main() -> None:
+    api_key = os.getenv("WEATHER_API_KEY", "")
     weather_service = WeatherService(api_key)
     temperature = weather_service.get_temperature("Amsterdam")
     print(f"The current temperature in Amsterdam is {temperature}°C.")
