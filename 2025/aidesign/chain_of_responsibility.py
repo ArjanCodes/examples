@@ -19,6 +19,7 @@ os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 @dataclass
 class TravelDeps:
     user_name: str
+    origin_city: str
 
 
 # ----------------------------------
@@ -112,46 +113,63 @@ activity_agent = Agent(
 # Chain Execution Logic
 # ----------------------------------
 
-
-async def plan_trip(user_input: str, deps: TravelDeps):
-    print(f"\n👤 {deps.user_name} says: {user_input}")
-    ctx = TripContext()
-
-    # Step 1: Destination
-    dest_result = await destination_agent.run(prompt=user_input, deps=deps)
+async def handle_destination(
+    user_input: str, deps: TravelDeps, ctx: TripContext
+) -> None:
+    dest_result = await destination_agent.run(user_input, deps=deps)
     ctx.destination = dest_result.output.destination
     print(f"📍 Destination: {ctx.destination}")
 
-    # Step 2: Flight
-    flight_prompt = f"Plan a flight to {ctx.destination}."
-    flight_result = await flight_agent.run(prompt=flight_prompt, deps=deps)
+async def handle_flight(
+    user_input: str, deps: TravelDeps, ctx: TripContext
+) -> None:
+    flight_prompt = f"Plan a flight from {deps.origin_city} to {ctx.destination}."
+    flight_result = await flight_agent.run(flight_prompt, deps=deps)
     ctx.from_city = flight_result.output.from_city
     ctx.arrival_time = flight_result.output.arrival_time
     print(
         f"✈️ Flight: from {ctx.from_city} → {ctx.destination}, arriving at {ctx.arrival_time}"
     )
 
-    # Step 3: Hotel
+async def handle_hotel(
+    user_input: str, deps: TravelDeps, ctx: TripContext
+) -> None:
     hotel_prompt = (
         f"Recommend a hotel in {ctx.destination} for a traveler arriving at {ctx.arrival_time}. "
         f"Prefer locations near the airport or city center."
     )
-    hotel_result = await hotel_agent.run(prompt=hotel_prompt, deps=deps)
+    hotel_result = await hotel_agent.run(hotel_prompt, deps=deps)
     ctx.hotel_name = hotel_result.output.name
     ctx.hotel_location = hotel_result.output.location
     print(
         f"🏨 Hotel: {ctx.hotel_name}, {hotel_result.output.stars}★ at ${hotel_result.output.price_per_night_usd}/night"
     )
 
-    # Step 4: Activities
+async def handle_activities(
+    user_input: str, deps: TravelDeps, ctx: TripContext
+) -> None:
     activities_prompt = (
         f"Suggest activities in {ctx.destination} close to {ctx.hotel_location} "
         f"and suitable for a traveler arriving at {ctx.arrival_time}."
     )
-    activity_result = await activity_agent.run(prompt=activities_prompt, deps=deps)
+    activity_result = await activity_agent.run(activities_prompt, deps=deps)
     print(f"🎯 Activities for {activity_result.output.personalized_for}:")
     for a in activity_result.output.top_activities:
         print(f"  - {a}")
+
+async def plan_trip(user_input: str, deps: TravelDeps):
+    print(f"\n👤 {deps.user_name} says: {user_input}")
+    ctx = TripContext()
+
+    chain = [
+        handle_destination,
+        handle_flight,
+        handle_hotel,
+        handle_activities,
+    ]
+
+    for step in chain:
+        await step(user_input, deps, ctx)
 
 
 # ----------------------------------
@@ -160,8 +178,8 @@ async def plan_trip(user_input: str, deps: TravelDeps):
 
 
 async def main():
-    deps = TravelDeps(user_name="Maria")
-    await plan_trip("I want a quiet, sunny destination near the ocean.", deps)
+    deps = TravelDeps(user_name="Maria", origin_city="Berlin")
+    await plan_trip("I want a rainy city trip within Europe.", deps)
 
 
 if __name__ == "__main__":
