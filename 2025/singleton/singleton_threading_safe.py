@@ -1,6 +1,6 @@
 from threading import Thread
 
-from singleton import Singleton
+from singleton_safe import Singleton
 
 
 class Unsafe(metaclass=Singleton):

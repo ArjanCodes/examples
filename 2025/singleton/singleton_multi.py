@@ -1,11 +1,5 @@
-class Singleton(type):
-    _instances = {}
+from singleton import Singleton
 
-    def __call__(cls, *args, **kwargs):
-        if cls not in cls._instances:
-            print(f"Creating instance of {cls.__name__}")
-            cls._instances[cls] = super().__call__(*args, **kwargs)
-        return cls._instances[cls]
 
 class Config(metaclass=Singleton):
     def __init__(self):
@@ -14,7 +8,8 @@ class Config(metaclass=Singleton):
 
     def __str__(self) -> str:
         return f"Config(db_url={self.db_url}, debug={self.debug})"
-    
+
+
 def main() -> None:
     c1 = Config()
     c2 = Config.__new__(Config)
@@ -22,6 +17,6 @@ def main() -> None:
 
     print(c1 is c2)  # ❌ False
 
+
 if __name__ == "__main__":
     main()
-
