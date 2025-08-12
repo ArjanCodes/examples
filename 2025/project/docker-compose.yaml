@@ -1,0 +1,9 @@
+services:
+  web:
+    build: .
+    ports:
+      - "8000:80"
+    environment:
+      - DB_USER=admin
+      - DB_PASSWORD=secret
+      - DB_NAME=test.db
