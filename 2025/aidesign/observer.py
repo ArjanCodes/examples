@@ -1,5 +1,4 @@
 import asyncio
-import os
 import time
 from dataclasses import dataclass
 from typing import Protocol
@@ -9,7 +8,6 @@ from pydantic import BaseModel
 from pydantic_ai import Agent
 
 load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 
 
 # ----------------------------------

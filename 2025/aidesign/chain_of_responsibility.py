@@ -1,5 +1,4 @@
 import asyncio
-import os
 from dataclasses import dataclass
 from typing import Optional
 
@@ -9,7 +8,6 @@ from pydantic_ai import Agent
 
 # Load env vars
 load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 
 # ----------------------------------
 # Shared Dependencies
