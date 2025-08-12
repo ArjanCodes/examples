@@ -1,5 +1,4 @@
 import asyncio
-import os
 from dataclasses import dataclass
 from typing import Callable
 
@@ -9,7 +8,6 @@ from pydantic_ai import Agent
 
 # Load API key
 load_dotenv()
-os.environ["OPENAI_API_KEY"] = os.getenv("OPENAI_API_KEY", "")
 
 # ----------------------------------
 # Common Output Model
