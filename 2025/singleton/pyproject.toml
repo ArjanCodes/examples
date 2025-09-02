@@ -1,0 +1,7 @@
+[project]
+name = "singleton"
+version = "0.1.0"
+description = "Singleton code example"
+requires-python = ">=3.13"
+dependencies = [
+]
