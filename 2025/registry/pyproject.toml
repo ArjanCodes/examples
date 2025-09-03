@@ -1,0 +1,8 @@
+[project]
+name = "registry"
+version = "0.1.0"
+requires-python = ">=3.13"
+dependencies = [
+    "rich>=14.1.0",
+    "typer>=0.17.3",
+]
