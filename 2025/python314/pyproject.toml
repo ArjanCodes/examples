@@ -1,0 +1,7 @@
+[project]
+name = "python314"
+version = "0.1.0"
+description = "Python 3.14 code example"
+requires-python = ">=3.14"
+dependencies = [
+]
