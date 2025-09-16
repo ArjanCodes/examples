@@ -1,0 +1,8 @@
+[project]
+name = "marimo-example"
+version = "0.1.0"
+description = "Showcasing Marimo"
+requires-python = ">=3.13"
+dependencies = [
+    "marimo[recommended]>=0.15.2",
+]
