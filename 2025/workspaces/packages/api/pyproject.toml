@@ -1,0 +1,10 @@
+[project]
+name = "api_example"
+version = "0.1.0"
+description = "FastAPI app using uv workspaces"
+requires-python = ">=3.12"
+dependencies = [
+    "fastapi",
+    "uvicorn",
+    
+]

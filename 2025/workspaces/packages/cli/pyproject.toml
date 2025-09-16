@@ -1,0 +1,10 @@
+[project]
+name = "cli_example"
+version = "0.1.0"
+description = "CLI tool using uv workspaces"
+requires-python = ">=3.12"
+dependencies = [
+    "typer",
+    "rich",
+    
+]

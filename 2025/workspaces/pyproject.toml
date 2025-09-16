@@ -1,0 +1,17 @@
+[project]
+name = "uv_workspace"
+version = "0.1.0"
+description = "Example of how to use uv workspaces"
+requires-python = ">=3.12"
+dependencies = [
+    "python-dotenv",
+    "core",
+    "summarizer"
+]
+
+[tool.uv.sources]
+core = { workspace = true }
+summarizer = { workspace = true }
+
+[tool.uv.workspace]
+members = [ "packages/*" ]

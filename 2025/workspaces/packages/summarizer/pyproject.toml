@@ -1,0 +1,8 @@
+[project]
+name = "summarizer"
+version = "0.1.0"
+description = "Library for summarizing text using OpenAI"
+requires-python = ">=3.12"
+dependencies = [
+    "openai"
+]
