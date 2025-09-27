@@ -19,7 +19,7 @@ class SalesReader(Protocol):
 
 
 class CsvSalesReader:
-    def __ini__(self, file: str):
+    def __init__(self, file: str):
         self.file = file
 
     def read(self) -> pd.DataFrame:
