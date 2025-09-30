@@ -42,3 +42,6 @@ class EventStore:
             return start_items, remaining
         else:
             return [], self._events
+
+    def get_all_events(self) -> list[Event]:
+        return list(self._events)
