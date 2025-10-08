@@ -9,7 +9,7 @@ class EventType(StrEnum):
 
 
 @dataclass(frozen=True)
-class Event:
+class Event[T = str]:
     type: EventType
-    item: str
+    data: T
     timestamp: datetime = datetime.now()
