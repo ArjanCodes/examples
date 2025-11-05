@@ -15,3 +15,6 @@ dependencies = [
 
 [tool.pytest.ini_options]
 pythonpath = "."
+filterwarnings = [
+    "ignore:'asyncio.iscoroutinefunction' is deprecated:DeprecationWarning:slowapi.extension"
+]
