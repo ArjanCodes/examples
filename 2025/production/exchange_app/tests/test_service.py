@@ -1,5 +1,6 @@
-from exchange_app.models import ConversionRate
-from exchange_app.services import ExchangeRateService
+from models import ConversionRate
+from services import ExchangeRateService
+
 
 def test_service_convert_valid(db_session):
     db_session.add(ConversionRate(from_currency="USD", to_currency="JPY", rate=150))
