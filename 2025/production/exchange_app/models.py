@@ -1,7 +1,7 @@
-import datetime
+from datetime import datetime
 
-from sqlalchemy import DateTime, Float, Integer, String
-from sqlalchemy.orm import DeclarativeBase, mapped_column
+from sqlalchemy import Integer, String
+from sqlalchemy.orm import DeclarativeBase, Mapped, mapped_column
 
 
 class Base(DeclarativeBase):
@@ -11,19 +11,19 @@ class Base(DeclarativeBase):
 class Conversion(Base):
     __tablename__ = "conversions"
 
-    id = mapped_column(Integer, primary_key=True)
-    from_currency = mapped_column(String(3))
-    to_currency = mapped_column(String(3))
-    amount = mapped_column(Float)
-    result = mapped_column(Float)
-    timestamp = mapped_column(DateTime, default=datetime.datetime.now)
+    id: Mapped[int] = mapped_column(primary_key=True)
+    from_currency: Mapped[str] = mapped_column(String(3))
+    to_currency: Mapped[str] = mapped_column(String(3))
+    amount: Mapped[float] = mapped_column()
+    result: Mapped[float] = mapped_column()
+    timestamp: Mapped[datetime] = mapped_column(default=datetime.now)
 
 
 class ConversionRate(Base):
     __tablename__ = "conversion_rates"
 
-    id = mapped_column(Integer, primary_key=True)
-    from_currency = mapped_column(String(3))
-    to_currency = mapped_column(String(3))
-    rate = mapped_column(Float)
-    timestamp = mapped_column(DateTime, default=datetime.datetime.now)
+    id: Mapped[int] = mapped_column(Integer, primary_key=True)
+    from_currency: Mapped[str] = mapped_column(String(3))
+    to_currency: Mapped[str] = mapped_column(String(3))
+    rate: Mapped[float] = mapped_column()
+    timestamp: Mapped[datetime] = mapped_column(default=datetime.now)
