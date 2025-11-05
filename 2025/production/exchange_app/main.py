@@ -1,15 +1,14 @@
-from fastapi import FastAPI
-from .api import router, limiter
-from .models import Base
-from .database import engine
-from .config import settings
 import logging
-import sentry_sdk
+
+from api import limiter, router
+from config import get_settings
+from database import engine
+from fastapi import FastAPI
+from models import Base
 
 Base.metadata.create_all(bind=engine)
 
-sentry_sdk.init(dsn=settings.sentry_dsn)
-logging.basicConfig(level=settings.log_level)
+logging.basicConfig(level=get_settings().log_level)
 
 app = FastAPI()
 app.include_router(router)

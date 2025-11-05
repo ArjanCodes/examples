@@ -1,12 +1,9 @@
-from ..models import ConversionRate
+from models import ConversionRate
+
 
 def test_convert_success(client, db_session):
     # Arrange: Seed rate
-    db_session.add(ConversionRate(
-        from_currency="USD",
-        to_currency="EUR",
-        rate=0.9
-    ))
+    db_session.add(ConversionRate(from_currency="USD", to_currency="EUR", rate=0.9))
     db_session.commit()
 
     # Act

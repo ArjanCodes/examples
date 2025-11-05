@@ -1,6 +1,6 @@
+from database import SessionLocal
+from models import ConversionRate
 from sqlalchemy.orm import Session
-from .models import ConversionRate
-from .database import SessionLocal
 
 sample_rates = [
     {"from_currency": "USD", "to_currency": "EUR", "rate": 0.91},
@@ -10,6 +10,7 @@ sample_rates = [
     {"from_currency": "USD", "to_currency": "GBP", "rate": 0.78},
 ]
 
+
 def main():
     db: Session = SessionLocal()
     for entry in sample_rates:
@@ -18,6 +19,7 @@ def main():
     db.commit()
     db.close()
     print("Seeded exchange rates.")
+
 
 if __name__ == "__main__":
     main()

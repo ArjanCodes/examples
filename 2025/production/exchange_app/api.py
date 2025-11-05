@@ -1,13 +1,14 @@
+from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
 from pydantic import condecimal
-from sqlalchemy.orm import Session
-from .database import get_db
-from .services import ExchangeRateService
+from services import ExchangeRateService
 from slowapi import Limiter
 from slowapi.util import get_remote_address
+from sqlalchemy.orm import Session
 
 router = APIRouter()
 limiter = Limiter(key_func=get_remote_address)
+
 
 @router.get("/convert")
 @limiter.limit("5/minute")

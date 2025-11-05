@@ -6,6 +6,7 @@ dependencies = [
     "alembic>=1.17.1",
     "fastapi>=0.120.2",
     "httpx>=0.28.1",
+    "pytest>=8.4.2",
     "slowapi>=0.1.9",
     "sqlalchemy>=2.0.44",
     "uvicorn>=0.38.0",

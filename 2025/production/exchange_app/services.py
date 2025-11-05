@@ -1,7 +1,9 @@
-from sqlalchemy.orm import Session
-from .models import ConversionRate, Conversion
-from fastapi import HTTPException
 import datetime
+
+from fastapi import HTTPException
+from models import Conversion, ConversionRate
+from sqlalchemy.orm import Session
+
 
 class ExchangeRateService:
     def __init__(self, db: Session):
@@ -28,12 +30,9 @@ class ExchangeRateService:
             to_currency=to_currency,
             amount=amount,
             result=result,
-            timestamp=datetime.datetime.utcnow()
+            timestamp=datetime.datetime.now(),
         )
         self.db.add(conversion)
         self.db.commit()
 
-        return {
-            "rate": rate_entry.rate,
-            "result": result
-        }
+        return {"rate": rate_entry.rate, "result": result}
