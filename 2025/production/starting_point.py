@@ -3,7 +3,7 @@ from fastapi import FastAPI, HTTPException
 
 app = FastAPI()
 
-# Hardcoded exchange rates (not production-ready!)
+# Exchange rates
 RATES = {
     ("USD", "EUR"): 0.91,
     ("EUR", "USD"): 1.10,
@@ -19,6 +19,7 @@ def convert(from_currency: str, to_currency: str, amount: float):
     if rate is None:
         raise HTTPException(status_code=400, detail="Exchange rate not available")
 
+    print(f"Using rate {rate}")
     return {"result": amount * rate}
 
 
