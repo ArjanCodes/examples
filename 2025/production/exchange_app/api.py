@@ -1,6 +1,7 @@
+from decimal import Decimal
+
 from database import get_db
 from fastapi import APIRouter, Depends, HTTPException, Query, Request
-from pydantic import condecimal
 from services import ExchangeRateService
 from slowapi import Limiter
 from slowapi.util import get_remote_address
@@ -16,7 +17,7 @@ def convert(
     request: Request,
     from_currency: str = Query(..., min_length=3, max_length=3),
     to_currency: str = Query(..., min_length=3, max_length=3),
-    amount: condecimal(gt=0) = Query(...),
+    amount: Decimal = Query(..., gt=0),
     db: Session = Depends(get_db),
 ):
     try:
