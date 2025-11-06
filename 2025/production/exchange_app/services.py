@@ -1,4 +1,5 @@
 import datetime
+import logging
 
 from fastapi import HTTPException
 from models import Conversion, ConversionRate
@@ -19,11 +20,11 @@ class ExchangeRateService:
             .order_by(ConversionRate.timestamp.desc())
             .first()
         )
-        print(rate_entry)
 
         if not rate_entry or rate_entry.rate <= 0:
             raise HTTPException(status_code=404, detail="Exchange rate not found")
 
+        logging.info(f"Using rate: {rate_entry.rate}")
         result = amount * rate_entry.rate
 
         conversion = Conversion(
