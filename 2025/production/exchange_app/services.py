@@ -19,6 +19,7 @@ class ExchangeRateService:
             .order_by(ConversionRate.timestamp.desc())
             .first()
         )
+        print(rate_entry)
 
         if not rate_entry or rate_entry.rate <= 0:
             raise HTTPException(status_code=404, detail="Exchange rate not found")
