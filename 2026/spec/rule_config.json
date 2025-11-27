@@ -1,0 +1,29 @@
+{
+    "logic": "AND",
+    "conditions": [
+        {
+            "name": "is_active"
+        },
+        {
+            "name": "account_older_than",
+            "args": [
+                30
+            ]
+        },
+        {
+            "name": "from_country",
+            "args": [
+                [
+                    "NL",
+                    "BE"
+                ]
+            ]
+        },
+        {
+            "name": "credit_score_above",
+            "args": [
+                650
+            ]
+        }
+    ]
+}
