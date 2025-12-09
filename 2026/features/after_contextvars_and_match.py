@@ -23,9 +23,9 @@ def classify_amount(amount: float) -> str:
 
 
 async def process_user(user_id: int):
-    log(f"Processing user {user_id}")
+    print(f"[Request {request_id.get()}] Processing user {user_id}")
     amount = random.choice([-10, 0, 42, 50_000])
-    log(f"Amount {amount} → {classify_amount(amount)}")
+    print(f"[Request {request_id.get()}] Amount {amount} → {classify_amount(amount)}")
     await asyncio.sleep(0.2)
 
 
