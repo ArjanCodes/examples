@@ -1,6 +1,6 @@
 import math
 from dataclasses import dataclass, field
-from typing import Protocol, Self
+from typing import Protocol
 from graphics import ShapeData, Color, GraphicsRenderer
 import time
 
@@ -107,24 +107,6 @@ class Animation:
         default_factory=list[float]
     )
     start_time: float = 0.0
-
-    def add(self, step: AnimationStep, duration: float) -> Self:
-        self.steps.append(step)
-        self.durations.append(duration)
-        return self
-
-    # fluent API
-    def move(self, dx: float, dy: float, duration: float = 0.5) -> Self:
-        return self.add(Move(dx, dy), duration)
-
-    def rotate(self, angle: float, duration: float = 1.0) -> Self:
-        return self.add(Rotate(angle), duration)
-
-    def scale(self, factor: float, duration: float = 0.5) -> Self:
-        return self.add(Scale(factor), duration)
-
-    def fade_to(self, brightness: int, duration: float = 0.5) -> Self:
-        return self.add(Fade(brightness), duration)
 
     @property
     def duration(self) -> float:
