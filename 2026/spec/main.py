@@ -1,7 +1,7 @@
 from dataclasses import dataclass
 from typing import Iterable
 
-from rules import RuleFn, load_rule_from_config, rule
+from rules import load_rule_from_config, rule
 
 # ---------------------------------------------------------------------------
 # DOMAIN MODEL
@@ -25,45 +25,45 @@ class User:
 
 
 @rule
-def is_admin() -> RuleFn[User]:
-    return lambda u: u.is_admin
+def is_admin(u: User) -> bool:
+    return u.is_admin
 
 
 @rule
-def is_active() -> RuleFn[User]:
-    return lambda u: u.is_active
+def is_active(u: User) -> bool:
+    return u.is_active
 
 
 @rule
-def is_banned() -> RuleFn[User]:
-    return lambda u: u.is_banned
+def is_banned(u: User) -> bool:
+    return u.is_banned
 
 
 @rule
-def has_override() -> RuleFn[User]:
-    return lambda u: u.has_manual_override
+def has_override(u: User) -> bool:
+    return u.has_manual_override
 
 
 @rule
-def account_older_than(days: int) -> RuleFn[User]:
-    return lambda u: u.account_age > days
+def account_older_than(days: int, u: User) -> bool:
+    return u.account_age > days
 
 
 @rule
-def from_country(countries: Iterable[str]) -> RuleFn[User]:
-    return lambda u: u.country in countries
+def from_country(countries: Iterable[str], u: User) -> bool:
+    return u.country in countries
 
 
 @rule
-def credit_score_above(threshold: int) -> RuleFn[User]:
-    return lambda u: u.credit_score > threshold
+def credit_score_above(threshold: int, u: User) -> bool:
+    return u.credit_score > threshold
 
 
 # ---------------------------------------------------------------------------
 # BUILD RULE IN PYTHON DSL
 # ---------------------------------------------------------------------------
 
-AccessRule = is_admin() | (
+api_check = is_admin() | (
     is_active()
     & account_older_than(30)
     & ~is_banned()
@@ -76,16 +76,14 @@ AccessRule = is_admin() | (
 # ---------------------------------------------------------------------------
 
 
-def api_check(user: User):
-    return AccessRule(user)
 
 
 def reporting(users: list[User]) -> list[User]:
-    return [u for u in users if AccessRule(u)]
+    return [u for u in users if api_check(u)]
 
 
 def cli_export(users: list[User]) -> list[User]:
-    return [u for u in users if AccessRule(u)]
+    return [u for u in users if api_check(u)]
 
 
 # ---------------------------------------------------------------------------
@@ -108,10 +106,10 @@ def main() -> None:
 
     # If rule_config.json exists, load dynamic rule:
     try:
-        DynamicRule = load_rule_from_config("rule_config.json")
+        dynamic_rule = load_rule_from_config("rule_config.json")
         print("\n=== Access via Config Rule ===")
         for u in users:
-            print(u, "=>", DynamicRule(u))
+            print(u, "=>", dynamic_rule(u))
     except FileNotFoundError:
         print("\n(No rule_config.json found — skipping dynamic demo)")
 

@@ -7,7 +7,7 @@ from typing import Any, Callable
 # ------------------------------------------------------------
 
 type RuleFn[T] = Callable[[T], bool]
-type RuleFactory[T] = Callable[..., RuleFn[T]]
+type RuleFactory[T] = Callable[..., bool]
 type PredicateFactory[T] = Callable[..., Predicate[T]]
 
 
@@ -63,15 +63,29 @@ def predicate[T](fn: RuleFn[T]) -> Predicate[T]:
     return Predicate(wrapper)
 
 
-def rule[T](fn: RuleFactory[T]) -> PredicateFactory[T]:
+
+def rule[T](fn: RuleFactory[T]) -> PredicateFactory[Any]:
     """
     Decorator for rule factories.
+
+    A rule factory looks like:
+
+        @rule
+        def account_older_than(days, u):
+            return u.account_age > days
+
+    The function MAY take parameters, but must always
+    take the domain object 'u' as its final argument.
+
+    The decorator automatically:
+      - partially applies parameters
+      - wraps the result into a Predicate[T]
+      - registers the rule for config-based lookup
     """
 
     @wraps(fn)
     def wrapper(*args: Any, **kwargs: Any) -> Predicate[T]:
-        result = fn(*args, **kwargs)
-        return Predicate(result)
+        return Predicate(lambda obj: fn(*args, obj, **kwargs))
 
     RULES[fn.__name__] = wrapper
     return wrapper
