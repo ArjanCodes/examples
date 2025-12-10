@@ -7,7 +7,7 @@ from typing import Any, Callable
 # ------------------------------------------------------------
 
 type RuleFn[T] = Callable[[T], bool]
-type RuleFactory[T] = Callable[..., bool]
+type RuleFactory = Callable[..., bool]
 type PredicateFactory[T] = Callable[..., Predicate[T]]
 
 
@@ -64,7 +64,7 @@ def predicate[T](fn: RuleFn[T]) -> Predicate[T]:
 
 
 
-def rule[T](fn: RuleFactory[T]) -> PredicateFactory[Any]:
+def rule[T](fn: RuleFactory) -> PredicateFactory[Any]:
     """
     Decorator for rule factories.
 
