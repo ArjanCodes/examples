@@ -6,8 +6,8 @@ from typing import Any, Callable
 # Generic Types
 # ------------------------------------------------------------
 
-type RuleFn[T] = Callable[[T], bool]
-type RuleFactory = Callable[..., bool]
+type PredicateFn[T] = Callable[[T], bool]
+type RuleDef = Callable[..., bool]
 type PredicateFactory[T] = Callable[..., Predicate[T]]
 
 
@@ -29,7 +29,7 @@ class Predicate[T]:
     Wraps a function (T -> bool).
     """
 
-    def __init__(self, fn: RuleFn[T]):
+    def __init__(self, fn: PredicateFn[T]):
         self.fn = fn
 
     def __call__(self, obj: T) -> bool:
@@ -50,12 +50,7 @@ class Predicate[T]:
 # ------------------------------------------------------------
 
 
-def predicate[T](fn: RuleFn[T]) -> Predicate[T]:
-    """
-    Wrap a simple function(obj) -> bool into a Predicate[T].
-    This is used *inside* rule factories when building actual predicates.
-    """
-
+def predicate[T](fn: PredicateFn[T]) -> Predicate[T]:
     @wraps(fn)
     def wrapper(obj: T) -> bool:
         return fn(obj)
@@ -64,25 +59,7 @@ def predicate[T](fn: RuleFn[T]) -> Predicate[T]:
 
 
 
-def rule[T](fn: RuleFactory) -> PredicateFactory[Any]:
-    """
-    Decorator for rule factories.
-
-    A rule factory looks like:
-
-        @rule
-        def account_older_than(days, u):
-            return u.account_age > days
-
-    The function MAY take parameters, but must always
-    take the domain object 'u' as its final argument.
-
-    The decorator automatically:
-      - partially applies parameters
-      - wraps the result into a Predicate[T]
-      - registers the rule for config-based lookup
-    """
-
+def rule[T](fn: RuleDef) -> PredicateFactory[Any]:
     @wraps(fn)
     def wrapper(*args: Any, **kwargs: Any) -> Predicate[T]:
         return Predicate(lambda obj: fn(*args, obj, **kwargs))
