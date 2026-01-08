@@ -13,7 +13,7 @@ def main() -> None:
         {"name": "Carol", "age": 35},
     ]
 
-    adult_names: list[str] = [
+    adult_names: list[str] = []
 
     for user in users:
         if user["age"] >= 18:
