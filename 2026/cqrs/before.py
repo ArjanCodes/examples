@@ -3,29 +3,18 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-from bson import ObjectId
-from db import get_db, shutdown_db
+from db import get_db, oid_str, shutdown_db
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
 
 Status = Literal["open", "triaged", "closed"]
 
 PREVIEW_LEN = 80
+TICKETS_COLL = "tickets"
 
 
 def utcnow() -> datetime:
     return datetime.now(timezone.utc)
-
-
-def oid_str(oid: ObjectId) -> str:
-    return str(oid)
-
-
-def parse_object_id(ticket_id: str) -> ObjectId:
-    try:
-        return ObjectId(ticket_id)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail="Invalid ticket id") from e
 
 
 def make_preview(message: str) -> str:

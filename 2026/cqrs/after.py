@@ -3,11 +3,9 @@ from __future__ import annotations
 from datetime import datetime, timezone
 from typing import Any, Literal
 
-from bson import ObjectId
+from db import Database, get_db, oid_str, parse_object_id, shutdown_db
 from fastapi import FastAPI, HTTPException
 from pydantic import BaseModel
-from pymongo import AsyncMongoClient
-from pymongo.asynchronous.database import AsyncDatabase
 
 # ----------------------------
 # Types / helpers
@@ -22,17 +20,6 @@ def utcnow() -> datetime:
     return datetime.now(timezone.utc)
 
 
-def oid_str(oid: ObjectId) -> str:
-    return str(oid)
-
-
-def parse_object_id(ticket_id: str) -> ObjectId:
-    try:
-        return ObjectId(ticket_id)
-    except Exception as e:
-        raise HTTPException(status_code=400, detail="Invalid ticket id") from e
-
-
 def make_preview(message: str) -> str:
     msg = message.strip().replace("\n", " ")
     return msg if len(msg) <= PREVIEW_LEN else msg[: PREVIEW_LEN - 1] + "…"
@@ -42,8 +29,6 @@ def make_preview(message: str) -> str:
 # MongoDB configuration (local + auth)
 # ----------------------------
 
-MONGODB_URI = "mongodb://root:example@localhost:27017/?authSource=admin"
-DATABASE_NAME = "cqrs_demo"
 
 COMMANDS_COLL = "ticket_commands"  # source of truth
 READS_COLL = "ticket_reads"  # read projection for list/dashboard
@@ -54,16 +39,10 @@ READS_COLL = "ticket_reads"  # read projection for list/dashboard
 
 app = FastAPI()
 
-mongo_client: AsyncMongoClient | None = None
-db: AsyncDatabase | None = None
-
 
 @app.on_event("startup")
 async def startup() -> None:
-    global mongo_client, db
-
-    mongo_client = AsyncMongoClient(MONGODB_URI)
-    db = mongo_client[DATABASE_NAME]
+    db = get_db()
 
     # Write-side indexes (source of truth)
     await db[COMMANDS_COLL].create_index("status")
@@ -77,13 +56,7 @@ async def startup() -> None:
 
 @app.on_event("shutdown")
 async def shutdown() -> None:
-    if mongo_client is not None:
-        mongo_client.close()
-
-
-def get_db() -> AsyncDatabase:
-    assert db is not None
-    return db
+    await shutdown_db()
 
 
 # ----------------------------
@@ -135,7 +108,7 @@ class TicketDetails(BaseModel):
 # ----------------------------
 
 
-async def cmd_create_ticket(db: AsyncDatabase, cmd: CreateTicket) -> str:
+async def cmd_create_ticket(db: Database, cmd: CreateTicket) -> str:
     now = utcnow()
     doc: dict[str, Any] = {
         "customer_id": cmd.customer_id,
@@ -150,9 +123,7 @@ async def cmd_create_ticket(db: AsyncDatabase, cmd: CreateTicket) -> str:
     return oid_str(res.inserted_id)
 
 
-async def cmd_update_status(
-    db: AsyncDatabase, ticket_id: str, cmd: UpdateStatus
-) -> None:
+async def cmd_update_status(db: Database, ticket_id: str, cmd: UpdateStatus) -> None:
     _id = parse_object_id(ticket_id)
 
     existing = await db[COMMANDS_COLL].find_one({"_id": _id})
@@ -168,9 +139,7 @@ async def cmd_update_status(
     )
 
 
-async def cmd_add_agent_note(
-    db: AsyncDatabase, ticket_id: str, cmd: AddAgentNote
-) -> None:
+async def cmd_add_agent_note(db: Database, ticket_id: str, cmd: AddAgentNote) -> None:
     _id = parse_object_id(ticket_id)
 
     existing = await db[COMMANDS_COLL].find_one({"_id": _id})
@@ -188,7 +157,7 @@ async def cmd_add_agent_note(
 # ----------------------------
 
 
-async def project_ticket(db: AsyncDatabase, ticket_id: str) -> None:
+async def project_ticket(db: Database, ticket_id: str) -> None:
     """
     Read model goal:
     - store exactly what the list/dashboard needs
@@ -345,6 +314,8 @@ async def dashboard() -> dict[str, int]:
     pipeline = [{"$group": {"_id": "$status", "count": {"$sum": 1}}}]
 
     counts: dict[str, int] = {"open": 0, "triaged": 0, "closed": 0}
-    async for row in db[READS_COLL].aggregate(pipeline):
+
+    cursor = await db[READS_COLL].aggregate(pipeline)
+    async for row in cursor:
         counts[str(row["_id"])] = int(row["count"])
     return counts
