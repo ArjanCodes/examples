@@ -1,12 +1,12 @@
 from dataclasses import dataclass
-from typing import IO, Optional
+from typing import IO
 
 
 @dataclass
 class FileResource:
     path: str
     mode: str = "r"
-    file: Optional[IO[str]] = None
+    file: IO[str] | None = None
 
     def __enter__(self) -> FileResource:
         print(f"Opening {self.path}")
