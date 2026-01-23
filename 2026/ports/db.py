@@ -1,11 +1,12 @@
 from sqlalchemy import create_engine, text
 from sqlalchemy.engine import Engine
 
-DB_URL = "sqlite:///./after.db"
-engine: Engine = create_engine(DB_URL, future=True)
+engine: Engine
 
 
-def init_db() -> None:
+def init_db(db_url: str) -> None:
+    global engine
+    engine = create_engine(db_url, future=True)
     with engine.begin() as conn:
         conn.execute(
             text(

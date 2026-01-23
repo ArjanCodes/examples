@@ -1,57 +1,25 @@
 from typing import Any
 
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from pydantic import BaseModel, Field
-from sqlalchemy import create_engine, text
-from sqlalchemy.engine import Engine
 
-DB_URL = "sqlite:///./before.db"
-engine: Engine = create_engine(DB_URL, future=True)
+from .db import engine
 
-app = FastAPI(title="BEFORE - mixed concerns")
+router = APIRouter()
 
 
 class PlaceOrderIn(BaseModel):
-    user_id: int
     sku: str
     qty: int = Field(..., gt=0)
 
 
 class PlaceOrderOut(BaseModel):
-    status: str
     sku: str
     qty: int
     remaining_stock: int
 
 
-def init_db() -> None:
-    """Create table + seed data if needed."""
-    with engine.begin() as conn:
-        conn.execute(
-            text(
-                """
-                CREATE TABLE IF NOT EXISTS inventory (
-                    sku TEXT PRIMARY KEY,
-                    stock INTEGER NOT NULL
-                )
-                """
-            )
-        )
-        # Seed only if empty
-        count = conn.execute(text("SELECT COUNT(*) FROM inventory")).scalar_one()
-        if count == 0:
-            conn.execute(
-                text("INSERT INTO inventory(sku, stock) VALUES (:sku, :stock)"),
-                [{"sku": "ABC", "stock": 10}, {"sku": "XYZ", "stock": 2}],
-            )
-
-
-@app.on_event("startup")
-def on_startup() -> None:
-    init_db()
-
-
-def place_order(db_engine: Engine, user_id: int, sku: str, qty: int) -> dict[str, Any]:
+def place_order(db_engine: Engine, sku: str, qty: int) -> dict[str, Any]:
     """
     😬 MIXED: domain rules + DB access + HTTP errors + response shaping.
     """
@@ -88,7 +56,7 @@ def place_order(db_engine: Engine, user_id: int, sku: str, qty: int) -> dict[str
     return {"status": "ok", "sku": sku, "qty": qty, "remaining_stock": int(remaining)}
 
 
-@app.post("/orders", response_model=PlaceOrderOut)
+@router.post("/orders", response_model=PlaceOrderOut)
 def place_order_endpoint(payload: PlaceOrderIn) -> PlaceOrderOut:
-    result = place_order(engine, payload.user_id, payload.sku, payload.qty)
+    result = place_order(engine, payload.sku, payload.qty)
     return PlaceOrderOut(**result)

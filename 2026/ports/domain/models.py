@@ -1,18 +1,14 @@
 from dataclasses import dataclass
 
-type UserId = int
-type Sku = str
-
 
 @dataclass(frozen=True)
 class OrderRequest:
-    user_id: UserId
-    sku: Sku
+    sku: str
     qty: int
 
 
 @dataclass(frozen=True)
 class OrderPlaced:
-    sku: Sku
+    sku: str
     qty: int
     remaining_stock: int
