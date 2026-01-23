@@ -2,30 +2,31 @@ from dataclasses import dataclass
 from typing import ClassVar, Self
 
 
-class EnvSingleton:
-    _instances: ClassVar[dict[str, Self]] = {}
-
-    def __new__(cls, env: str, *args: object, **kwargs: object) -> Self:
-        if env not in cls._instances:
-            cls._instances[env] = super().__new__(cls)
-        return cls._instances[env]
-
-
-@dataclass
-class Config(EnvSingleton):
+@dataclass(frozen=True, slots=True)
+class Config:
     env: str
-    debug: bool
+    debug: bool = False
+
+    _cache: ClassVar[dict[str, Self]] = {}
+
+    @classmethod
+    def for_env(cls, env: str, debug: bool = False) -> Self:
+        # First call wins for a given env
+        if env not in cls._cache:
+            cls._cache[env] = cls(env=env, debug=debug)
+        return cls._cache[env]
 
 
 def main() -> None:
-    a = Config("prod", False)
-    b = Config("prod", True)
-    c = Config("dev", True)
+    a = Config.for_env("prod", debug=True)
+    b = Config.for_env("prod")  # does not reset debug
+    c = Config.for_env("dev", debug=True)
 
-    print(a is b)
-    print(a.debug)
-    print(a is c)
-    print(c.debug)
+    print(a is b)  # True
+    print(a.debug)  # True
+    print(b.debug)  # True
+    print(a is c)  # False
+    print(c.debug)  # True
 
 
 if __name__ == "__main__":
