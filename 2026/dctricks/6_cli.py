@@ -1,10 +1,6 @@
-from __future__ import annotations
-
 import argparse
 from dataclasses import dataclass, fields
-from typing import Self, Type, TypeVar
-
-T = TypeVar("T", bound="CLIArgs")
+from typing import Self, Type
 
 
 @dataclass
@@ -31,5 +27,10 @@ class Args(CLIArgs):
     retries: int = 3
 
 
-args = Args.from_command_line()
-print(args)
+def main() -> None:
+    args = Args.from_command_line()
+    print(args)
+
+
+if __name__ == "__main__":
+    main()
