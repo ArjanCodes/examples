@@ -2,7 +2,7 @@ from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
 
 from ..domain.errors import InvalidQuantity, OutOfStock, UnknownSku
-from ..domain.models import OrderRequest, Sku, UserId
+from ..domain.models import OrderRequest, Sku
 from ..domain.ports import InventoryPort
 from ..domain.use_cases import place_order
 
@@ -10,7 +10,6 @@ router = APIRouter()
 
 
 class PlaceOrderIn(BaseModel):
-    user_id: int
     sku: str
     qty: int = Field(..., gt=0)
 
@@ -35,9 +34,7 @@ def place_order_endpoint(
 ) -> PlaceOrderOut:
     try:
         result = place_order(
-            OrderRequest(
-                user_id=UserId(payload.user_id), sku=Sku(payload.sku), qty=payload.qty
-            ),
+            OrderRequest(sku=Sku(payload.sku), qty=payload.qty),
             inventory,
         )
     except InvalidQuantity as e:

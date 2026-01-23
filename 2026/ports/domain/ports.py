@@ -1,0 +1,6 @@
+from typing import Protocol
+
+
+class InventoryPort(Protocol):
+    def get_stock(self, sku: str) -> int: ...
+    def reserve(self, sku: str, qty: int) -> int: ...
