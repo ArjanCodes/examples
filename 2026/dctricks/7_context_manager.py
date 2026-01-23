@@ -1,5 +1,3 @@
-from __future__ import annotations
-
 from dataclasses import dataclass
 from typing import IO, Optional
 
@@ -21,7 +19,12 @@ class FileResource:
             self.file.close()
 
 
-with FileResource("example.txt", "w") as res:
-    assert res.file is not None
-    res.file.write("Hello world!")
-    print(res.path, res.mode)
+def main() -> None:
+    with FileResource("example.txt", "w") as res:
+        assert res.file is not None
+        res.file.write("Hello world!")
+        print(res.path, res.mode)
+
+
+if __name__ == "__main__":
+    main()
