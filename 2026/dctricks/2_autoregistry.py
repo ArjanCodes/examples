@@ -1,27 +1,30 @@
 from dataclasses import dataclass
-from typing import Self
+from typing import Any, dataclass_transform
+
+REGISTRY: dict[str, type[Any]] = {}
 
 
-class Event:
-    registry: dict[str, type[Self]] = {}
+@dataclass_transform()
+def event[T](cls: type[T]) -> type[T]:
+    dc_cls = dataclass(cls)
+    REGISTRY[cls.__name__] = dc_cls
+    return dc_cls
 
-    def __init_subclass__(cls, **kwargs: object) -> None:
-        super().__init_subclass__(**kwargs)
-        Event.registry[cls.__name__] = cls
 
-
-@dataclass
-class UserCreated(Event):
+@event
+class UserCreated:
     user_id: int
 
 
-@dataclass
-class UserDeleted(Event):
+@event
+class UserDeleted:
     user_id: int
 
 
 def main() -> None:
-    print(Event.registry)
+    print(REGISTRY)
+    e = UserCreated(123)
+    print(e)
 
 
 if __name__ == "__main__":
