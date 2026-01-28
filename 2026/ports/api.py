@@ -1,10 +1,11 @@
+from adapters.sqlalchemy_inventory import SqlAlchemyInventoryAdapter
+from db import get_db
+from domain.errors import InvalidQuantity, OutOfStock, UnknownSku
+from domain.models import OrderRequest
+from domain.use_cases import place_order
 from fastapi import APIRouter, Depends, HTTPException
 from pydantic import BaseModel, Field
-
-from ..domain.errors import InvalidQuantity, OutOfStock, UnknownSku
-from ..domain.models import OrderRequest, Sku
-from ..domain.ports import InventoryPort
-from ..domain.use_cases import place_order
+from sqlalchemy.engine import Connection
 
 router = APIRouter()
 
@@ -20,22 +21,15 @@ class PlaceOrderOut(BaseModel):
     remaining_stock: int
 
 
-def get_inventory() -> InventoryPort:
-    """
-    Stub for FastAPI DI. The real provider is wired in main.py.
-    """
-    raise NotImplementedError
-
-
 @router.post("/orders", response_model=PlaceOrderOut)
 def place_order_endpoint(
     payload: PlaceOrderIn,
-    inventory: InventoryPort = Depends(get_inventory),
+    connection: Connection = Depends(get_db),
 ) -> PlaceOrderOut:
     try:
         result = place_order(
-            OrderRequest(sku=Sku(payload.sku), qty=payload.qty),
-            inventory,
+            OrderRequest(**payload.model_dump()),
+            SqlAlchemyInventoryAdapter(conn=connection),
         )
     except InvalidQuantity as e:
         raise HTTPException(status_code=400, detail=str(e)) from e
@@ -45,7 +39,7 @@ def place_order_endpoint(
         raise HTTPException(status_code=409, detail=str(e)) from e
 
     return PlaceOrderOut(
-        sku=str(result.sku),
+        sku=result.sku,
         qty=result.qty,
         remaining_stock=result.remaining_stock,
     )
