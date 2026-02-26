@@ -3,7 +3,6 @@ from enum import Enum
 from typing import Callable, Iterable
 
 type Action[C] = Callable[[C], None]
-type Transition[S: Enum, C] = tuple[S, Action[C]]
 
 
 class InvalidTransition(Exception):
@@ -12,8 +11,8 @@ class InvalidTransition(Exception):
 
 @dataclass
 class StateMachine[S: Enum, E: Enum, C]:
-    transitions: dict[tuple[S, E], Transition[S, C]] = field(
-        default_factory=dict[tuple[S, E], Transition[S, C]]
+    transitions: dict[tuple[S, E], tuple[S, Action[C]]] = field(
+        default_factory=dict[tuple[S, E], tuple[S, Action[C]]]
     )
 
     def add_transition(
@@ -21,7 +20,7 @@ class StateMachine[S: Enum, E: Enum, C]:
     ) -> None:
         self.transitions[(from_state, event)] = (to_state, func)
 
-    def next_transition(self, state: S, event: E) -> Transition[S, C]:
+    def next_transition(self, state: S, event: E) -> tuple[S, Action[C]]:
         try:
             return self.transitions[(state, event)]
         except KeyError as e:
