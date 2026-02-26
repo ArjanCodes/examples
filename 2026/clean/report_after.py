@@ -1,6 +1,10 @@
 import csv
+import json
 from dataclasses import dataclass
 from pathlib import Path
+
+type Data = dict[str, str]
+type JSON = dict[str, str | int | float]
 
 
 @dataclass(frozen=True)
@@ -25,15 +29,15 @@ class Summary:
             f"Revenue={self.revenue_sum:.2f}"
         )
 
-    def export_stdout(self) -> None:
-        print(self.to_text())
+    def to_json(self) -> JSON:
+        return {
+            "country": self.country,
+            "count": self.count,
+            "revenue_sum": self.revenue_sum,
+        }
 
-    def export_file(self, path: Path) -> None:
-        path.write_text(self.to_text() + "\n")
-        print(f"Wrote report to {path.resolve()}")
 
-
-def load_data(source: Path, config: ReportConfig) -> list[dict[str, str]]:
+def load_data(source: Path, config: ReportConfig) -> list[Data]:
     if not source.exists():
         raise FileNotFoundError(source)
 
@@ -42,9 +46,9 @@ def load_data(source: Path, config: ReportConfig) -> list[dict[str, str]]:
         return [dict(r) for r in reader]
 
 
-def summarize(rows: list[dict[str, str]], config: ReportConfig) -> Summary:
+def summarize(rows: list[Data], config: ReportConfig) -> Summary:
 
-    def is_valid(r: dict[str, str]) -> bool:
+    def is_valid(r: Data) -> bool:
         if not r.get("country") or not r.get("revenue"):
             return False
 
@@ -70,16 +74,32 @@ def summarize(rows: list[dict[str, str]], config: ReportConfig) -> Summary:
     )
 
 
+def export_stdout(summary: Summary) -> None:
+    print(summary.to_text())
+
+
+def export_file(summary: Summary, path: Path) -> None:
+    path.write_text(summary.to_text() + "\n")
+    print(f"Wrote report to {path.resolve()}")
+
+
+def export_json(summary: Summary, path: Path) -> None:
+
+    data = summary.to_json()
+    path.write_text(json.dumps(data, indent=2))
+    print(f"Wrote report to {path.resolve()}")
+
+
 def main() -> None:
     config = ReportConfig(country="NL", min_revenue=10.0)
     rows = load_data(Path("sales.csv"), config)
     summary = summarize(rows, config)
 
     # Option 1: print to console
-    summary.export_stdout()
+    export_stdout(summary)
 
     # Option 2: write to file
-    summary.export_file(Path("report.txt"))
+    export_file(summary, Path("report.txt"))
 
 
 if __name__ == "__main__":
