@@ -84,7 +84,6 @@ def export_file(summary: Summary, path: Path) -> None:
 
 
 def export_json(summary: Summary, path: Path) -> None:
-
     data = summary.to_json()
     path.write_text(json.dumps(data, indent=2))
     print(f"Wrote report to {path.resolve()}")
@@ -100,6 +99,9 @@ def main() -> None:
 
     # Option 2: write to file
     export_file(summary, Path("report.txt"))
+
+    # Option 3: write to JSON file
+    export_json(summary, Path("report.json"))
 
 
 if __name__ == "__main__":
