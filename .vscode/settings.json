@@ -5,5 +5,6 @@
     "python.testing.pytestEnabled": true,
     // "python.testing.unittestEnabled": false,
     "python.testing.cwd": "${workspaceFolder}/tests",
-    "python.defaultInterpreterPath": "${workspaceFolder}/2025/typescript/lokalise/.venv/bin/python"
+    "python.defaultInterpreterPath": "${workspaceFolder}/2025/typescript/lokalise/.venv/bin/python",
+    // "python.analysis.typeCheckingMode": "off"
 }
