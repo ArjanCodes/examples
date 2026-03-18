@@ -1,0 +1,10 @@
+[project]
+name = "apidata"
+version = "0.1.0"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.135.1",
+    "pydantic[email]>=2.12.5",
+    "sqlalchemy>=2.0.48",
+    "uvicorn>=0.42.0",
+]
