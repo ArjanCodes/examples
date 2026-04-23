@@ -9,21 +9,6 @@ from sklearn.model_selection import train_test_split
 
 
 class ChurnExperiment:
-    """
-    Deliberately bloated "before" example.
-
-    This class is doing too much:
-    - input validation
-    - data loading
-    - cleaning
-    - feature engineering
-    - train/test split
-    - model training
-    - evaluation
-    - artifact saving
-    - reporting
-    """
-
     def __init__(
         self,
         data_path: str = "data/churn.csv",
@@ -41,18 +26,25 @@ class ChurnExperiment:
             random_state=random_state,
         )
 
-        self.output_dir.mkdir(parents=True, exist_ok=True)
-
     def run(self) -> None:
         print("Running churn experiment...\n")
 
-        self._validate_inputs()
+        if not self.data_path.exists():
+            raise FileNotFoundError(f"Dataset not found: {self.data_path}")
+        if self.data_path.suffix != ".csv":
+            raise ValueError("data_path must point to a CSV file")
+        if not self.output_dir.parent.exists():
+            raise FileNotFoundError(
+                f"Parent directory for output_dir does not exist: {self.output_dir.parent}"
+            )
+        if not 0 < self.test_size < 1:
+            raise ValueError("test_size must be between 0 and 1")
+        if self.random_state < 0:
+            raise ValueError("random_state must be >= 0")
+
+        self.output_dir.mkdir(parents=True, exist_ok=True)
 
         df = self._load_data()
-        print("Raw sample:")
-        print(df.head(), "\n")
-
-        df = self._clean_data(df)
         X, y = self._prepare_features(df)
         X_train, X_test, y_train, y_test = self._split_data(X, y)
 
@@ -61,18 +53,11 @@ class ChurnExperiment:
         self._save_artifacts(metrics, X.columns.tolist())
         self._print_summary(metrics, X.columns.tolist())
 
-    def _validate_inputs(self) -> None:
-        if not self.data_path.exists():
-            raise FileNotFoundError(f"Dataset not found: {self.data_path}")
-        if self.data_path.suffix != ".csv":
-            raise ValueError("data_path must point to a CSV file")
-        if not 0 < self.test_size < 1:
-            raise ValueError("test_size must be between 0 and 1")
-
     def _load_data(self) -> pd.DataFrame:
-        return pd.read_csv(self.data_path)
+        df = pd.read_csv(self.data_path)
+        print("Raw sample:")
+        print(df.head(), "\n")
 
-    def _clean_data(self, df: pd.DataFrame) -> pd.DataFrame:
         cleaned = df.copy()
 
         cleaned = cleaned.drop_duplicates(subset=["customer_id"])
@@ -82,7 +67,6 @@ class ChurnExperiment:
         cleaned["monthly_charges"] = cleaned["monthly_charges"].fillna(
             cleaned["monthly_charges"].median()
         )
-
         cleaned["support_tickets"] = cleaned["support_tickets"].clip(lower=0, upper=15)
 
         return cleaned
@@ -186,7 +170,7 @@ class ChurnExperiment:
         print(f"Artifacts saved in: {self.output_dir.resolve()}")
 
 
-if __name__ == "__main__":
+def main() -> None:
     experiment = ChurnExperiment(
         data_path="data/churn.csv",
         output_dir="artifacts",
@@ -194,3 +178,7 @@ if __name__ == "__main__":
         random_state=42,
     )
     experiment.run()
+
+
+if __name__ == "__main__":
+    main()
