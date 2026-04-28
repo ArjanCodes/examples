@@ -1,0 +1,9 @@
+[project]
+name = "webhook"
+version = "0.0.1"
+requires-python = ">=3.14"
+dependencies = [
+    "fastapi>=0.136.1",
+    "httpx>=0.28.1",
+    "uvicorn>=0.46.0",
+]
