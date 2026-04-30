@@ -1,15 +1,12 @@
 from datetime import UTC, datetime
 from uuid import UUID, uuid4
 
-import httpx
-from fastapi import FastAPI, HTTPException
+from fastapi import APIRouter, HTTPException
 from fastapi.responses import RedirectResponse
 from pydantic import BaseModel, HttpUrl
+from webhooks import send_webhooks
 
-app = FastAPI()
-
-links: dict[str, "ShortLink"] = {}
-webhooks: dict[UUID, "Webhook"] = {}
+router = APIRouter()
 
 
 class ShortLinkCreate(BaseModel):
@@ -23,16 +20,10 @@ class ShortLink(BaseModel):
     clicks: int = 0
 
 
-class WebhookCreate(BaseModel):
-    url: HttpUrl
+links: dict[str, ShortLink] = {}
 
 
-class Webhook(BaseModel):
-    id: UUID
-    url: HttpUrl
-
-
-@app.post("/links")
+@router.post("/links")
 def create_short_link(data: ShortLinkCreate) -> ShortLink:
     short_code = uuid4().hex[:6]
 
@@ -43,31 +34,25 @@ def create_short_link(data: ShortLinkCreate) -> ShortLink:
     )
 
     links[short_code] = link
+
+    payload = {
+        "type": "link.created",
+        "link_id": str(link.id),
+        "short_code": link.short_code,
+        "target_url": str(link.target_url),
+    }
+
+    send_webhooks(payload)
+
     return link
 
 
-@app.get("/links")
+@router.get("/links")
 def list_short_links() -> list[ShortLink]:
     return list(links.values())
 
 
-@app.post("/webhooks")
-def create_webhook(data: WebhookCreate) -> Webhook:
-    webhook = Webhook(
-        id=uuid4(),
-        url=data.url,
-    )
-
-    webhooks[webhook.id] = webhook
-    return webhook
-
-
-@app.get("/webhooks")
-def list_webhooks() -> list[Webhook]:
-    return list(webhooks.values())
-
-
-@app.get("/{short_code}")
+@router.get("/{short_code}")
 def redirect_to_target(short_code: str) -> RedirectResponse:
     link = links.get(short_code)
 
@@ -85,11 +70,6 @@ def redirect_to_target(short_code: str) -> RedirectResponse:
         "clicked_at": datetime.now(UTC).isoformat(),
     }
 
-    for webhook in webhooks.values():
-        httpx.post(
-            str(webhook.url),
-            json=payload,
-            timeout=5,
-        )
+    send_webhooks(payload)
 
     return RedirectResponse(str(link.target_url))
