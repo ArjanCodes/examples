@@ -2,7 +2,7 @@ macro_rules! impl_iot_device {
     ($type:ty) => {
         impl IOTDevice for $type {
             fn connect(&mut self) {
-                self.connection.connect("Arjan", "localhost", 8080);
+                self.connection.connect("Arjan".to_string(), "localhost".to_string(), 8080);
             }
 
             fn disconnect(&mut self) {
