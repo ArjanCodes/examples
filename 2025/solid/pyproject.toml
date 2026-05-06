@@ -5,4 +5,10 @@ description = "Code refactoring using the SOLID principles"
 requires-python = ">=3.13"
 dependencies = [
     "pandas>=2.3.1",
+    "ruff>=0.14.4",
+    "pandera[pandas]>=0.26.1",
+    "rx>=3.2.0",
+    "pyyaml>=6.0.3",
+    "minikanren>=1.0.5",
+    "aiofiles>=25.1.0",
 ]
