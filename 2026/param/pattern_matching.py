@@ -70,6 +70,18 @@ def get_cached_results(cache_key: str) -> list[Video] | None:
 
 
 def build_search_query(search: VideoSearchQuery) -> dict[str, object]:
+
+    # Example of structural pattern matching / object deconstruction
+    match search:
+        case VideoSearchQuery(sort_by="views", max_results=max_results):
+            print(f"Building trending query with limit {max_results}")
+
+        case VideoSearchQuery(sort_by="upload_date"):
+            print("Building recent uploads query")
+
+        case _:
+            print("Building default relevance query")
+
     return {
         "text": search.query,
         "category": search.category,
@@ -99,21 +111,31 @@ def execute_search(query: dict[str, object]) -> list[Video]:
 
 
 def track_search(search: VideoSearchQuery) -> None:
-    print(
-        "Tracking search:",
-        {
-            "query": search.query,
-            "category": search.category,
-            "region": search.region,
-            "include_shorts": search.include_shorts,
-        },
-    )
+
+    # Example of deconstructing the parameter object
+    match search:
+        case VideoSearchQuery(
+            query=query,
+            region="NL",
+            include_shorts=False,
+        ):
+            print(f"Tracking Dutch long-form search: {query}")
+
+        case VideoSearchQuery(query=query):
+            print(f"Tracking generic search: {query}")
 
 
 def filter_by_duration(
     videos: list[Video],
     duration: Duration | None,
 ) -> list[Video]:
+
+    if duration == "short":
+        return [video for video in videos if video.duration_seconds < 240]
+
+    if duration == "medium":
+        return [video for video in videos if 240 <= video.duration_seconds <= 1_200]
+
     if duration == "long":
         return [video for video in videos if video.duration_seconds > 1_200]
 
@@ -145,6 +167,8 @@ def main() -> None:
     )
 
     videos = search_videos(search)
+
+    print()
 
     for video in videos:
         print(f"- {video.title}")
