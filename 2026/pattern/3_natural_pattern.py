@@ -25,6 +25,22 @@ class LLMClient(Protocol):
     def max_context_window(self) -> int: ...
 
 
+class FakeLLMClient:
+    def generate(self, prompt: str) -> LLMResponse:
+        return LLMResponse(
+            text=f"Summary of: {prompt[:60]}...",
+            input_tokens=self.count_tokens(prompt),
+            output_tokens=40,
+            model="fake-model",
+        )
+
+    def count_tokens(self, text: str) -> int:
+        return len(text.split())
+
+    def max_context_window(self) -> int:
+        return 1_000
+
+
 PromptBuilder = Callable[[str], str]
 
 
@@ -97,22 +113,6 @@ def summarize_document(text: str, style: str, llm: LLMClient) -> Summary:
         model=final_response.model,
         tokens_used=tokens_used,
     )
-
-
-class FakeLLMClient:
-    def generate(self, prompt: str) -> LLMResponse:
-        return LLMResponse(
-            text=f"Summary of: {prompt[:60]}...",
-            input_tokens=self.count_tokens(prompt),
-            output_tokens=40,
-            model="fake-model",
-        )
-
-    def count_tokens(self, text: str) -> int:
-        return len(text.split())
-
-    def max_context_window(self) -> int:
-        return 1_000
 
 
 def main() -> None:
