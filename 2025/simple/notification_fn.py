@@ -32,17 +32,20 @@ class Employee:
 
 @dataclass
 class HourlyEmployee(Employee):
+    """Represents an hourly employee."""
     hourly_rate: float = 50
     amount: int = 10
 
 
 @dataclass
 class SalariedEmployee(Employee):
+    """Represents a salaried employee who receives a fixed monthly salary payment."""
     monthly_salary: float = 5000
 
 
 @dataclass
 class Freelancer(Employee):
+    """Represents a freelancer who receives a fixed hourly rate for a fixed amount of hours."""
     hourly_rate: float = 50
     amount: int = 10
     retainer: float = 1000
@@ -50,6 +53,7 @@ class Freelancer(Employee):
 
 @dataclass
 class Intern(Employee):
+    """Represents an intern who receives a fixed monthly salary payment."""
     monthly_salary: float = 1000
 
 
@@ -60,18 +64,23 @@ class Company:
         self.employees: list[Employee] = []
 
     def add_employee(self, employee: Employee) -> None:
+        """Add an employee to the company."""
         self.employees.append(employee)
 
     def find_managers(self) -> list[Employee]:
+        """Find all employees with the role of manager."""
         return [e for e in self.employees if e.role == "manager"]
 
     def find_vice_presidents(self) -> list[Employee]:
+        """Find all employees with the role of vice-president."""
         return [e for e in self.employees if e.role == "vice-president"]
 
     def find_support_staff(self) -> list[Employee]:
+        """Find all employees with the role of support."""
         return [e for e in self.employees if e.role == "support"]
 
     def pay_employee(self, employee: Employee) -> None:
+        """Pay an employee."""
         if isinstance(employee, SalariedEmployee):
             print(
                 f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}."
@@ -93,10 +102,12 @@ class Company:
 
 
 def send_email(employee: Employee, message: str) -> None:
+    """Send an email to an employee."""
     print(f"Sending email to {employee.name}: {message}")
 
 
 def send_sms(employee: Employee, message: str) -> None:
+    """Send an SMS to an employee."""
     print(f"Sending SMS to {employee.name}: {message}")
 
 

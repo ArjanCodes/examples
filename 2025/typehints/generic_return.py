@@ -9,7 +9,9 @@ def main() -> None:
     items = [100, 200, 300]
     discount = 0.2
     discounted_items = calculate_discounts(items, discount)
+    # type: ignore
     print(len(discounted_items))  # type issue here
+    # type: ignore
     print(discounted_items[0])  # type issue here
 
 

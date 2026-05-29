@@ -1,7 +1,7 @@
 import asyncio
 import random
 import string
-from typing import Any, Awaitable, Protocol
+from typing import Protocol
 
 from iot.message import Message, MessageType
 
