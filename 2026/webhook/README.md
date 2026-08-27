@@ -14,9 +14,11 @@ uvicorn webhook_receiver:app --reload --port 8001
 
 Create a short link
 
+```
 curl -X POST http://localhost:8000/links \
   -H "Content-Type: application/json" \
   -d '{"target_url": "https://www.arjancodes.com"}'
+```
 
 ### Webhook
 
