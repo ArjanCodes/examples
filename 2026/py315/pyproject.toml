@@ -1,0 +1,12 @@
+[project]
+name = "python-315-examples"
+version = "0.1.0"
+description = "Small, standalone examples for Python 3.15.0rc2"
+requires-python = ">=3.15, <3.16"
+dependencies = []
+
+[tool.uv]
+package = false
+
+[tool.ruff]
+target-version = "py315"
