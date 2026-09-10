@@ -1,0 +1,9 @@
+[project]
+name = "memento-pattern-examples"
+version = "0.1.0"
+description = "Progressive Memento pattern examples for Python 3.12+"
+requires-python = ">=3.12, <3.13"
+dependencies = []
+
+[tool.uv]
+package = false
