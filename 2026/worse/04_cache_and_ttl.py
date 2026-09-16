@@ -11,7 +11,7 @@ def exchange_rate(currency: str) -> float:
     return 1.08
 
 
-ttl_cache: TTLCache[str, float] = TTLCache(maxsize=100, ttl=60)
+ttl_cache = TTLCache(maxsize=100, ttl=60)
 
 
 @cached(ttl_cache)
