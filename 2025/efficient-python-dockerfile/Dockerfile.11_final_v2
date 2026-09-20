@@ -1,0 +1,162 @@
+# ---------------------------- Global Build Arguments ----------------------- #
+# Base Python version to use
+ARG PYTHON_VERSION=3.13.9
+
+# Immutable base image digests ensure reproducible builds.
+# You can override these on demand to pull in security‑patched images.
+ARG PYTHON_BASE_DIGEST=sha256:f6f069796f24b22e9b5986f34834e60b5aa6fc801094b072720dfd7c28747955
+ARG PYTHON_SLIM_DIGEST=sha256:e66df2153a7cc47b4438848efb65e2d9442db4330db9befaee5107fc75464959
+
+# ------------------------------ Builder Stage ------------------------------ #
+# This stage builds dependencies and the application environment.
+# It contains compilers and build tools that are excluded from the final image.
+FROM python:${PYTHON_VERSION}-bookworm@${PYTHON_BASE_DIGEST} AS builder
+
+# Use Bash with pipefail to ensure safer RUN command error handling in this stage
+SHELL ["/bin/bash", "-o", "pipefail", "-c"]
+
+# Build metadata (overridden in CI)
+ARG BUILD_DATE="unknown"
+ARG GIT_COMMIT="dev"
+
+# Pin critical library versions for determinism
+ARG LIBSSL_VER=3.0.17-1~deb12u3
+ARG LIBFFI_VER=3.4.4-1
+ARG BUILD_ESSENTIAL_VER=12.9
+ARG CURL_VER=7.88.1-10+deb12u14
+ARG CACERTS_VER=20230311+deb12u1
+ARG BASH_VER=5.2.15-2+b9
+
+# Cache mounts speed up rebuilds: apt packages and uv downloads
+RUN --mount=type=cache,target=/var/cache/apt-builder \
+    --mount=type=cache,target=/root/.cache \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        bash=${BASH_VER} \    
+        build-essential=${BUILD_ESSENTIAL_VER} \
+        libssl-dev=${LIBSSL_VER} \
+        libffi-dev=${LIBFFI_VER} \
+        curl=${CURL_VER} \
+        ca-certificates=${CACERTS_VER} \
+    && rm -rf /var/lib/apt/lists/*
+
+# Install UV package manager securely
+ADD https://astral.sh/uv/install.sh /install.sh
+RUN chmod 755 /install.sh && /install.sh && rm /install.sh
+ENV PATH="/root/.local/bin:${PATH}"
+
+# Application source directory
+WORKDIR /app
+
+# Copy dependency manifests first for cache optimization
+COPY pyproject.toml uv.lock* ./
+
+# Install dependencies into an in‑project virtual environment (.venv)
+# using uv; cached mount makes future installs much faster.
+RUN --mount=type=cache,target=/root/.cache/uv \
+    if [ -f uv.lock ]; then \
+        uv sync --frozen --no-dev; \
+    else \
+        uv sync --no-dev; \
+    fi
+
+# Export accurate dependency list (SBOM-like trace)
+RUN ( \
+  cd .venv/lib && \
+  find . -type f -path "*/METADATA" ! -path "*/__pycache__/*" | \
+  while IFS= read -r f; do \
+    awk \
+      '{ gsub(/\r/,""); gsub(/\n/,""); gsub(/[[:cntrl:]]/,""); } \
+       /^[[:space:]]*Name:[[:space:]]*/     {sub(/^[[:space:]]*Name:[[:space:]]*/,""); name=$0} \
+       /^[[:space:]]*Version:[[:space:]]*/  && $0 !~ /^Metadata-Version:/ {sub(/^[[:space:]]*Version:[[:space:]]*/,""); ver=$0} \
+       END {gsub(/[[:space:]]+$/,"",name); gsub(/[[:space:]]+$/,"",ver); \
+            if(length(name)>0 && length(ver)>0) printf "%s==%s\n", name, ver}' \
+      "$f"; \
+  done | sort -fu > /app/dependencies.txt \
+)
+
+# ---------------------------- Production Stage ----------------------------- #
+# The runtime image is minimal: only the app, dependencies, and tiny init.
+FROM python:${PYTHON_VERSION}-slim-bookworm@${PYTHON_SLIM_DIGEST} AS production
+
+# Switch back to default POSIX shell for minimal runtime footprint
+SHELL ["/bin/sh", "-c"]
+
+# Pin versions for runtime security + install tini for signal reaping
+ARG TINI_VER=0.19.0-1+b3
+ARG LIBSSL_VER=3.0.17-1~deb12u3
+ARG LIBFFI_VER=3.4.4-1
+
+# UID/GID can be overridden for environments that require specific IDs
+ARG APP_UID=10000
+ARG APP_GID=10000
+
+# Exposed port is also configurable via build args (default 8080)
+ARG APP_PORT=8080
+
+# Build metadata
+ARG BUILD_DATE="unknown"
+ARG GIT_COMMIT="dev"
+
+# Install tini (PID 1 handler) and minimal runtime libs.
+# Cache mount improves rebuild speed but isolates per‑stage to avoid lock errors.
+RUN --mount=type=cache,target=/var/cache/apt-prod \
+    apt-get update && \
+    apt-get install --no-install-recommends -y \
+        tini=${TINI_VER} \
+        libssl3=${LIBSSL_VER} \
+        libffi8=${LIBFFI_VER} \
+    && rm -rf /var/lib/apt/lists/*
+
+# Create a non‑root user with predictable UID/GID.
+# Many orchestrators (Kubernetes, OpenShift) require numeric IDs.
+RUN groupadd -g ${APP_GID} appuser && \
+    useradd --create-home --shell /usr/sbin/nologin -u ${APP_UID} -g ${APP_GID} appuser
+
+WORKDIR /app
+
+# Application Files
+COPY src/ ./src
+COPY --from=builder /app/.venv .venv
+COPY --from=builder /app/dependencies.txt /app/dependencies.txt
+
+# Copy entry script into image
+COPY docker-entrypoint.11_final_v2.sh /app/docker-entrypoint.sh
+RUN chmod 755 /app/docker-entrypoint.sh
+
+# Change ownership to non‑root user
+RUN chown -R ${APP_UID}:${APP_GID} /app
+USER ${APP_UID}:${APP_GID}
+
+# Environment
+ENV PATH="/app/.venv/bin:${PATH}" \
+    PYTHONUNBUFFERED=1 \
+    PYTHONOPTIMIZE=1 \
+    PYTHONHASHSEED=0 \
+    UVICORN_WORKERS=2 \
+    APP_PORT=${APP_PORT}
+
+# Expose application
+EXPOSE ${APP_PORT}
+
+# Remove any setuid/setgid binaries (least‑privilege policy)
+RUN chmod u-s,g-s $(find / -perm /6000 2>/dev/null || true) || true
+
+# Readonly best practices at runtime: support for `--read-only` & tmpfs mounts
+VOLUME ["/tmp"]
+
+# Metadata
+LABEL org.opencontainers.image.created=$BUILD_DATE \
+      org.opencontainers.image.revision=$GIT_COMMIT \
+      org.opencontainers.image.title="FastAPI Test App Container" \
+      org.opencontainers.image.description="Reproducible FastAPI container with UV, tini, caching, OCI metadata"
+
+# Add route to FastAPI for health check
+#HEALTHCHECK --interval=30s --timeout=5s --start-period=10s --retries=3 \
+#      CMD curl -f http://localhost:${APP_PORT}/health || exit 1
+
+# tini becomes PID 1 to reap zombie processes and forward signals correctly
+ENTRYPOINT ["/usr/bin/tini", "--"]
+
+# Run through entrypoint to support dynamic env configuration
+CMD ["/app/docker-entrypoint.sh"]
