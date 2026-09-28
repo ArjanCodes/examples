@@ -45,17 +45,17 @@ def has_override(u: User) -> bool:
 
 
 @rule
-def account_older_than(days: int, u: User) -> bool:
+def account_older_than(u: User, days: int) -> bool:
     return u.account_age > days
 
 
 @rule
-def from_country(countries: Iterable[str], u: User) -> bool:
+def from_country(u: User, countries: Iterable[str]) -> bool:
     return u.country in countries
 
 
 @rule
-def credit_score_above(threshold: int, u: User) -> bool:
+def credit_score_above(u: User, threshold: int) -> bool:
     return u.credit_score > threshold
 
 
