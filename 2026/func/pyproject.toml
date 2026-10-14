@@ -1,0 +1,6 @@
+[project]
+name = "func"
+version = "0.0.1"
+requires-python = ">=3.15"
+dependencies = [
+]
