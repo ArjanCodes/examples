@@ -16,7 +16,7 @@ COPY . .
 
 RUN uv sync
 
-ENV PATH="/app/.venv/bin:{$PATH}"
+ENV PATH="/app/.venv/bin:${PATH}"
 
 # Expose the specified port for FastAPI
 EXPOSE $PORT
