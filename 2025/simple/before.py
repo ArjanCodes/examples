@@ -33,12 +33,14 @@ class Employee:
 
 @dataclass
 class HourlyEmployee(Employee):
+    """Represents an hourly employee."""
     hourly_rate: float = 50
     amount: int = 10
 
 
 @dataclass
 class SalariedEmployee(Employee):
+    """Represents a salaried employee who receives a fixed monthly salary payment."""
     monthly_salary: float = 5000
 
 
@@ -61,18 +63,23 @@ class Company:
         self.employees: list[Employee] = []
 
     def add_employee(self, employee: Employee) -> None:
+        """Add an employee to the company."""
         self.employees.append(employee)
 
     def find_managers(self) -> list[Employee]:
+        """Find all employees with the role of manager."""
         return [e for e in self.employees if e.role == "manager"]
 
     def find_vice_presidents(self) -> list[Employee]:
+        """Find all employees with the role of vice-president."""
         return [e for e in self.employees if e.role == "vice-president"]
 
     def find_support_staff(self) -> list[Employee]:
+        """Find all employees with the role of support."""
         return [e for e in self.employees if e.role == "support"]
 
     def pay_employee(self, employee: Employee) -> None:
+        """Pay an employee."""
         if isinstance(employee, SalariedEmployee):
             print(
                 f"Paying employee {employee.name} a monthly salary of ${employee.monthly_salary}."
@@ -100,6 +107,10 @@ class Notification(ABC):
     def send(self, employee: Employee, message: str) -> None:
         pass
 
+    @abstractmethod
+    def is_enabled(self) -> bool:
+        """Check if notifications are enabled."""
+
 
 class EmailNotification(Notification):
     """Email notification implementation."""
@@ -107,12 +118,18 @@ class EmailNotification(Notification):
     def send(self, employee: Employee, message: str) -> None:
         print(f"Sending email to {employee.name}: {message}")
 
+    def is_enabled(self) -> bool:
+        return True
+
 
 class SMSNotification(Notification):
     """SMS notification implementation."""
 
     def send(self, employee: Employee, message: str) -> None:
         print(f"Sending SMS to {employee.name}: {message}")
+
+    def is_enabled(self) -> bool:
+        return True
 
 
 class NotificationFactory:
@@ -122,10 +139,9 @@ class NotificationFactory:
     def get_notification(method: str) -> Notification:
         if method == "email":
             return EmailNotification()
-        elif method == "sms":
+        if method == "sms":
             return SMSNotification()
-        else:
-            raise ValueError("Invalid notification method")
+        raise ValueError("Invalid notification method")
 
 
 def main() -> None:

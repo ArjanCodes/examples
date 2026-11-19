@@ -1,4 +1,4 @@
-import asyncio
+# import asyncio
 import random
 import string
 from typing import Protocol

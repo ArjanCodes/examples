@@ -1,20 +1,20 @@
 def read_and_sum_integers(file_path):
     try:
-        with open(file_path, "r") as file:
-            sum = 0
+        with open(file_path, "r", encoding="utf-8") as file:
+            total = 0
             for line in file:
                 try:
                     num = int(line.strip())
-                    sum += num
+                    total += num
                 except ValueError as e:
                     raise ValueError(
                         f"Invalid content in file: '{line.strip()}'"
                     ) from e
-            return sum
+            return total
     except FileNotFoundError as e:
         raise FileNotFoundError(f"File not found: {file_path}") from e
-    except Exception as e:
-        raise RuntimeError(f"An unexpected error occurred: {e}") from e
+    except OSError as e:
+        raise RuntimeError(f"An unexpected OS error occurred: {e}") from e
 
 
 def main():
@@ -23,13 +23,8 @@ def main():
     try:
         total = read_and_sum_integers(file_path)
         print(f"Sum of integers: {total}")
-    except FileNotFoundError as e:
+    except (FileNotFoundError, ValueError, RuntimeError) as e:
         print(f"Error: {e}")
-    except ValueError as e:
-        print(f"Error: {e}")
-    except Exception as e:
-        print(f"Unexpected error: {e}")
-
 
 if __name__ == "__main__":
     main()
