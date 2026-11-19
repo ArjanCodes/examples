@@ -1,21 +1,23 @@
+from __future__ import annotations
+
 import json
 from functools import wraps
-from typing import Any, Callable
+from typing import Any, Callable, Concatenate
 
 # ------------------------------------------------------------
 # Generic Types
 # ------------------------------------------------------------
 
 type PredicateFn[T] = Callable[[T], bool]
-type RuleDef = Callable[..., bool]
-type PredicateFactory[T] = Callable[..., Predicate[T]]
+type RuleDef[T, **P] = Callable[Concatenate[T, P], bool]
+type PredicateFactory[T, **P] = Callable[P, Predicate[T]]
 
 
 # ------------------------------------------------------------
 # Global Rule Registry
 # ------------------------------------------------------------
 
-RULES: dict[str, PredicateFactory[Any]] = {}
+RULES: dict[str, PredicateFactory[Any, ...]] = {}
 
 
 # ------------------------------------------------------------
@@ -59,10 +61,10 @@ def predicate[T](fn: PredicateFn[T]) -> Predicate[T]:
 
 
 
-def rule[T](fn: RuleDef) -> PredicateFactory[Any]:
+def rule[T, **P](fn: RuleDef[T, P]) -> PredicateFactory[T, P]:
     @wraps(fn)
-    def wrapper(*args: Any, **kwargs: Any) -> Predicate[T]:
-        return Predicate(lambda obj: fn(*args, obj, **kwargs))
+    def wrapper(*args: P.args, **kwargs: P.kwargs) -> Predicate[T]:
+        return Predicate(lambda obj: fn(obj, *args, **kwargs))
 
     RULES[fn.__name__] = wrapper
     return wrapper
