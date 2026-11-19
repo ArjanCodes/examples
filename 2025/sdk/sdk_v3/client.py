@@ -1,8 +1,8 @@
 import httpx
 
-_client = None
-_token = None
-_base_url = "http://localhost:8000"
+_client: httpx.Client | None = None
+_token: str | None = None
+_base_url: str = "http://localhost:8000"
 
 
 def set_credentials(token: str):
@@ -21,15 +21,15 @@ def request(method: str, endpoint: str, **kwargs) -> httpx.Response:
     return response
 
 
-def get(endpoint: str, params: dict = None) -> httpx.Response:
+def get(endpoint: str, params: dict | None  = None) -> httpx.Response:
     return request("GET", endpoint, params=params)
 
 
-def post(endpoint: str, json: dict = None) -> httpx.Response:
+def post(endpoint: str, json: dict | None = None) -> httpx.Response:
     return request("POST", endpoint, json=json)
 
 
-def put(endpoint: str, json: dict = None) -> httpx.Response:
+def put(endpoint: str, json: dict | None = None) -> httpx.Response:
     return request("PUT", endpoint, json=json)
 
 
